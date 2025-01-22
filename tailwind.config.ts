@@ -26,7 +26,7 @@ export default {
         96: "24rem", // Custom spacing value
       },
       screens: {
-        'xs': '475px', // Extra small screens for finer control
+        xs: "475px", // Extra small screens for finer control
       },
     },
   },
@@ -34,4 +34,8 @@ export default {
     require("@tailwindcss/typography"), // For blog styling
     require("@tailwindcss/forms"), // For better form styles
   ],
+  corePlugins: {
+    preflight: false, // Ensure Preflight is explicitly enabled
+  },
 } satisfies Config;
+
