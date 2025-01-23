@@ -5,7 +5,7 @@ import { useSearchParams } from "next/navigation";
 
 export default function Store() {
   const [searchTerm, setSearchTerm] = useState("");
-  const [selectedCategory, setSelectedCategory] = useState("all");
+  const [selectedCategory, setSelectedCategory] = useState("todas");
 
   const searchParams = useSearchParams();
 
@@ -29,13 +29,13 @@ export default function Store() {
   const categories = ["todas", "aire", "descanso", "agua", "repuestos"];
 
   useEffect(() => {
-    const category = searchParams.get("category") || "all";
+    const category = searchParams.get("category") || "todas";
     setSelectedCategory(category);
   }, [searchParams]);
 
   const filteredProducts = products.filter(
     (product) =>
-      (selectedCategory === "all" || product.category === selectedCategory) &&
+      (selectedCategory === "todas" || product.category === selectedCategory) &&
       product.name.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
