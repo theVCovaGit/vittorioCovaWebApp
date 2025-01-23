@@ -7,7 +7,7 @@ export default function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
-  const categories = ["All", "Air", "Water", "Repuestos"];
+  const categories = ["Todas", "Aire", "Agua", "Descanso", "Repuestos"];
 
   return (
     <header className="bg-primary text-white shadow-md">
