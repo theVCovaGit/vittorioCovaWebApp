@@ -23,7 +23,6 @@ export default function Store() {
     { id: 10, name: "Repuesto PiMag Waterfall", price: "$30.00", image: "/images/product3.jpg", category: "repuestos"},
     { id: 11, name: "Repuesto PiMag Piwater", price: "$30.00", image: "/images/product3.jpg", category: "repuestos"},
     { id: 12, name: "Repuesto PiMag", price: "$30.00", image: "/images/product3.jpg", category: "repuestos"},
-
   ];
 
   const categories = ["todas", "aire", "descanso", "agua", "repuestos"];
@@ -40,8 +39,9 @@ export default function Store() {
   );
 
   return (
-    <div className="container mx-auto py-8">
+    <div className="container mx-auto py-8 overflow-hidden">
       <div className="flex flex-col lg:flex-row gap-8">
+        {/* Sidebar */}
         <aside className="w-full lg:w-1/4">
           <h2 className="text-xl font-bold mb-4">Categorías</h2>
           <ul className="space-y-2">
@@ -62,11 +62,12 @@ export default function Store() {
           </ul>
         </aside>
 
+        {/* Product List */}
         <div className="flex-1">
           <input
             type="text"
             placeholder="Buscar productos..."
-            className="w-full border border-gray-300 rounded-lg px-4 py-1 focus:outline-none focus:ring-2 focus:ring-primary mb-4"
+            className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-primary mb-4"
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
           />
