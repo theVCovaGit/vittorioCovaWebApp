@@ -32,23 +32,31 @@ const AdminPage = () => {
     }))
   );
 
-  const handleDiscountChange = (id: number, value: string) => {
-    const updatedProducts = productData.map((product) => {
-      if (product.id === id) {
+  const handlePriceChange = (id: number, field: "originalPrice" | "discount", value: string) => {
+  const updatedProducts = productData.map((product) => {
+    if (product.id === id) {
+      const updatedProduct = { ...product };
+
+      if (field === "originalPrice") {
+        updatedProduct.originalPrice = parseFloat(value) || 0; // Update original price
+      } else if (field === "discount") {
         const discountValue = parseFloat(value.replace('%', '')) || 0;
         const isPercentage = value.endsWith('%');
         const discount = isPercentage
           ? (product.originalPrice * discountValue) / 100
           : discountValue;
-        const currentPrice = Math.max(product.originalPrice - discount, 0);
-
-        return { ...product, discount: value, currentPrice };
+        updatedProduct.discount = value; // Save discount as a string
+        updatedProduct.currentPrice = Math.max(product.originalPrice - discount, 0); // Calculate current price
       }
-      return product;
-    });
 
-    setProductData(updatedProducts);
-  };
+      return updatedProduct;
+    }
+    return product;
+  });
+
+  setProductData(updatedProducts);
+};
+
 
   if (!isAuthenticated) {
     return (
@@ -100,23 +108,29 @@ const AdminPage = () => {
                   <p className="text-sm text-gray-400">Category: {product.category}</p>
                   <p className="text-sm text-gray-400">ID: {product.id}</p>
                   <div className="mt-2">
-                    <label className="block text-sm">Original Price:</label>
-                    <p className="text-sm">${product.originalPrice.toFixed(2)}</p>
-                  </div>
-                  <div className="mt-2">
-                    <label className="block text-sm">Discount (amount or %):</label>
-                    <input
-                      type="text"
-                      value={product.discount}
-                      onChange={(e) => handleDiscountChange(product.id, e.target.value)}
-                      className="w-full p-2 bg-gray-700 text-white border border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                      placeholder="e.g., 10 or 10%"
-                    />
-                  </div>
-                  <div className="mt-2">
-                    <label className="block text-sm">Current Price:</label>
-                    <p className="text-sm">${product.currentPrice.toFixed(2)}</p>
-                  </div>
+  <label className="block text-sm">Original Price:</label>
+  <input
+    type="text"
+    value={product.originalPrice.toFixed(2)}
+    onChange={(e) => handlePriceChange(product.id, "originalPrice", e.target.value)}
+    className="w-full p-2 bg-gray-700 text-white border border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+    placeholder="e.g., 30.00"
+  />
+</div>
+<div className="mt-2">
+  <label className="block text-sm">Discount (amount or %):</label>
+  <input
+    type="text"
+    value={product.discount}
+    onChange={(e) => handlePriceChange(product.id, "discount", e.target.value)}
+    className="w-full p-2 bg-gray-700 text-white border border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+    placeholder="e.g., 10 or 10%"
+  />
+</div>
+<div className="mt-2">
+  <label className="block text-sm">Current Price:</label>
+  <p className="text-sm">${product.currentPrice.toFixed(2)}</p>
+</div>
                 </div>
               ))}
             </div>
