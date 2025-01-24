@@ -1,6 +1,17 @@
 "use client";
 
+import { useEffect, useState } from "react";
+import Link from "next/link";
+
 export default function Footer() {
+  const [isMounted, setIsMounted] = useState(false);
+
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
+
+  if (!isMounted) return null; // Render nothing until hydration is complete.
+
   return (
     <footer className="bg-gray-900 text-white py-4">
       <div className="container mx-auto flex flex-col md:flex-row justify-between items-center gap-2 md:gap-4">
@@ -11,14 +22,20 @@ export default function Footer() {
           <p className="text-xs md:text-sm">Correo: correo@placeholder.com</p>
         </div>
 
-        {/* Divider (Optional for subtlety) */}
+        {/* Divider */}
         <div className="hidden md:block h-px w-full bg-gray-700 md:hidden"></div>
 
-        {/* Seal */}
+        {/* Seal and Admin Link */}
         <div className="text-center mt-2 md:mt-0">
           <p className="text-xs md:text-sm">
             Made by <span className="font-semibold">JRF Technologies</span>
           </p>
+          <Link
+            href="/admin"
+            className="text-xs md:text-sm text-blue-400 hover:text-blue-300 mt-1 block"
+          >
+            Admin
+          </Link>
         </div>
       </div>
     </footer>
