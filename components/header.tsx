@@ -90,17 +90,16 @@ export default function Header() {
                 </Link>
               </div>
               {isDropdownOpen && (
-                <div className="absolute left-0 top-full bg-[#19333F] text-black rounded shadow-md w-40 z-10">
+                <div className="absolute left-0 top-full bg-[#19333F] rounded shadow-md w-40 z-10">
                   <ul className="py-2">
                     {categories.map((category) => (
                       <li key={category}>
                         <Link
-                          href={`/store?category=${category.toLowerCase()}`}
-                          className="block px-4 py-2 hover:bg-[#19333F] hover:text-white transition"
-                          onClick={() => setIsMenuOpen(false)}
-                        >
-                          {category}
-                        </Link>
+  href={`/store?category=${category.toLowerCase()}`}
+  className="block px-4 py-2 text-white transition no-underline"
+>
+  {category}
+</Link>
                       </li>
                     ))}
                   </ul>
