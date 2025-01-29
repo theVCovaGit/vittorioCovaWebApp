@@ -1,19 +1,37 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Link from "next/link";
+import Image from "next/image";
 
 export default function Header() {
+  const [isClient, setIsClient] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+
+  useEffect(() => {
+    setIsClient(true); // Ensures the component re-renders only on the client
+  }, []);
 
   const categories = ["Todas", "Aire", "Agua", "Descanso", "Repuestos"];
 
   return (
-    <header className="bg-primary text-white shadow-md">
+    <header className="bg-#4B6B70 text-white">
       <div className="container flex flex-wrap items-center justify-between py-4 relative">
-        {/* Logo */}
-        <h1 className="text-2xl font-bold">Rebeca Zaballa</h1>
+        {/* Logo (Fixing Hydration Issue) */}
+        <Link href="/" className="flex items-center">
+          {isClient ? (
+            <Image
+              src="/images/logo.png" /* Replace with actual path */
+              alt="Rebeca Zaballa Logo"
+              width={150} /* Adjust width */
+              height={50} /* Adjust height */
+              priority
+            />
+          ) : (
+            <span className="text-2xl font-bold">Rebeca Zaballa</span> // Placeholder to match SSR
+          )}
+        </Link>
 
         {/* Hamburger Menu (Mobile) */}
         <button
