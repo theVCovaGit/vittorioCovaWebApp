@@ -16,26 +16,26 @@ export default function Header() {
   const categories = ["Todas", "Aire", "Agua", "Descanso", "Repuestos"];
 
   return (
-    <header className="bg-#4B6B70 text-#19333F font-semibold tracking-wide">
+    <header className="bg-[#4B6B70] text-[#D4CDBB] font-semibold tracking-wide shadow-md">
       <div className="container flex flex-wrap items-center justify-between py-4 relative">
-        {/* Logo (Fixing Hydration Issue) */}
+        {/* Logo */}
         <Link href="/" className="flex items-center">
           {isClient ? (
             <Image
-              src="/images/logo.png" /* Replace with actual path */
+              src="/images/logo.png" 
               alt="Rebeca Zaballa Logo"
-              width={150} /* Adjust width */
-              height={50} /* Adjust height */
+              width={150}
+              height={50}
               priority
             />
           ) : (
-            <span className="text-2xl font-bold">Rebeca Zaballa</span> // Placeholder to match SSR
+            <span className="text-2xl font-bold">Rebeca Zaballa</span>
           )}
         </Link>
 
         {/* Hamburger Menu (Mobile) */}
         <button
-          className="md:hidden text-secondary focus:outline-none fixed top-4 right-4 z-50"
+          className="md:hidden text-[#D4CDBB] focus:outline-none fixed top-4 right-4 z-50"
           onClick={() => setIsMenuOpen(!isMenuOpen)}
         >
           <svg
@@ -58,7 +58,7 @@ export default function Header() {
         <nav
           className={`${
             isMenuOpen
-              ? "fixed inset-0 bg-primary text-white flex flex-col items-center justify-center z-40"
+              ? "fixed inset-0 bg-[#19333F] text-white flex flex-col items-center justify-center z-40"
               : "hidden"
           } md:block w-full md:w-auto`}
         >
@@ -66,8 +66,7 @@ export default function Header() {
             <li>
               <Link
                 href="/"
-                className="text-[#19333F] font-medium hover:text-accent transition no-underline"
-
+                className="text-[#D4CDBB] font-medium hover:text-[#84AAAF] transition no-underline"
                 onClick={() => setIsMenuOpen(false)}
               >
                 Home
@@ -79,24 +78,23 @@ export default function Header() {
               onMouseEnter={() => setIsDropdownOpen(true)}
               onMouseLeave={() => setIsDropdownOpen(false)}
             >
-              <div className="text-secondary font-medium hover:text-accent transition cursor-pointer">
+              <div className="cursor-pointer">
                 <Link
                   href="/store"
-                  className="text-[#19333F] font-medium hover:text-accent transition no-underline"
-
+                  className="text-[#D4CDBB] font-medium hover:text-[#84AAAF] transition no-underline"
                   onClick={() => setIsMenuOpen(false)}
                 >
                   Store
                 </Link>
               </div>
               {isDropdownOpen && (
-                <div className="absolute left-0 top-full bg-[#19333F] text-black rounded shadow-md w-40 z-10">
+                <div className="absolute left-0 top-full bg-[#19333F] text-white rounded shadow-md w-40 z-10">
                   <ul className="py-2">
                     {categories.map((category) => (
                       <li key={category}>
                         <Link
                           href={`/store?category=${category.toLowerCase()}`}
-                          className="block px-4 py-2 hover:bg-[#19333F] hover:text-white transition"
+                          className="block px-4 py-2 hover:bg-[#4B6B70] hover:text-[#D4CDBB] transition"
                           onClick={() => setIsMenuOpen(false)}
                         >
                           {category}
@@ -110,7 +108,7 @@ export default function Header() {
             <li>
               <Link
                 href="/join"
-                className="text-[#19333F] font-medium hover:text-accent transition no-underline"
+                className="text-[#D4CDBB] font-medium hover:text-[#84AAAF] transition no-underline"
                 onClick={() => setIsMenuOpen(false)}
               >
                 Join
@@ -119,7 +117,7 @@ export default function Header() {
             <li>
               <Link
                 href="/blog"
-                className="text-[#19333F] font-medium hover:text-accent transition no-underline"
+                className="text-[#D4CDBB] font-medium hover:text-[#84AAAF] transition no-underline"
                 onClick={() => setIsMenuOpen(false)}
               >
                 Blog
@@ -128,7 +126,7 @@ export default function Header() {
             <li>
               <Link
                 href="/testimonials"
-                className="text-[#19333F] font-medium hover:text-accent transition no-underline"
+                className="text-[#D4CDBB] font-medium hover:text-[#84AAAF] transition no-underline"
                 onClick={() => setIsMenuOpen(false)}
               >
                 Testimonials
