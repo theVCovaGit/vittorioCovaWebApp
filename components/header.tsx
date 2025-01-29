@@ -16,7 +16,7 @@ export default function Header() {
   const categories = ["Todas", "Aire", "Agua", "Descanso", "Repuestos"];
 
   return (
-    <header className="bg-#4B6B70 text-white">
+    <header className="bg-#4B6B70 text-#19333F font-semibold tracking-wide">
       <div className="container flex flex-wrap items-center justify-between py-4 relative">
         {/* Logo (Fixing Hydration Issue) */}
         <Link href="/" className="flex items-center">
@@ -66,7 +66,8 @@ export default function Header() {
             <li>
               <Link
                 href="/"
-                className="text-secondary font-medium hover:text-accent transition"
+                className="text-[#19333F] font-medium hover:text-accent transition no-underline"
+
                 onClick={() => setIsMenuOpen(false)}
               >
                 Home
@@ -81,20 +82,21 @@ export default function Header() {
               <div className="text-secondary font-medium hover:text-accent transition cursor-pointer">
                 <Link
                   href="/store"
-                  className="text-secondary font-medium hover:text-accent transition"
+                  className="text-[#19333F] font-medium hover:text-accent transition no-underline"
+
                   onClick={() => setIsMenuOpen(false)}
                 >
                   Store
                 </Link>
               </div>
               {isDropdownOpen && (
-                <div className="absolute left-0 top-full bg-white text-black rounded shadow-md w-40 z-10">
+                <div className="absolute left-0 top-full bg-[#19333F] text-black rounded shadow-md w-40 z-10">
                   <ul className="py-2">
                     {categories.map((category) => (
                       <li key={category}>
                         <Link
                           href={`/store?category=${category.toLowerCase()}`}
-                          className="block px-4 py-2 hover:bg-primary hover:text-white transition"
+                          className="block px-4 py-2 hover:bg-[#19333F] hover:text-white transition"
                           onClick={() => setIsMenuOpen(false)}
                         >
                           {category}
@@ -108,7 +110,7 @@ export default function Header() {
             <li>
               <Link
                 href="/join"
-                className="text-secondary font-medium hover:text-accent transition"
+                className="text-[#19333F] font-medium hover:text-accent transition no-underline"
                 onClick={() => setIsMenuOpen(false)}
               >
                 Join
@@ -117,7 +119,7 @@ export default function Header() {
             <li>
               <Link
                 href="/blog"
-                className="text-secondary font-medium hover:text-accent transition"
+                className="text-[#19333F] font-medium hover:text-accent transition no-underline"
                 onClick={() => setIsMenuOpen(false)}
               >
                 Blog
@@ -126,7 +128,7 @@ export default function Header() {
             <li>
               <Link
                 href="/testimonials"
-                className="text-secondary font-medium hover:text-accent transition"
+                className="text-[#19333F] font-medium hover:text-accent transition no-underline"
                 onClick={() => setIsMenuOpen(false)}
               >
                 Testimonials

@@ -11,8 +11,8 @@ export default {
       colors: {
         background: "var(--background)", // Custom CSS variables
         foreground: "var(--foreground)", // Custom CSS variables
-        primary: "#1a73e8", // Add primary color
-        secondary: "#fbbc05", // Add secondary color
+        primary: "#19333F", // Add primary color
+        secondary: "#4B6B70", // Add secondary color
         accent: "#34d399", // Accent color for buttons or highlights
       },
       fontFamily: {
