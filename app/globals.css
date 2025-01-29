@@ -2,178 +2,64 @@
 @tailwind components;
 @tailwind utilities;
 
-/* CSS Variables for Dark Mode */
+/* Custom Colors */
 :root {
   --background: #ffffff;
   --foreground: #171717;
-  --primary: #1a73e8; /* Primary color */
-  --secondary: #fbbc05; /* Secondary color */
-  --accent: #34d399; /* Accent color */
+  --primary: #19333F; /* Background */
+  --secondary: #84AAAF; /* Accent */
+  --accent: #D4CDBB; /* Highlight */
+  --text-light: #EDEDED; /* Light text for dark background */
 }
 
+/* Dark Mode */
 @media (prefers-color-scheme: dark) {
   :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-    --primary: #2563eb; /* Adjusted for dark mode */
-    --secondary: #facc15; /* Adjusted for dark mode */
-    --accent: #22c55e; /* Adjusted for dark mode */
+    --background: #19333F;
+    --foreground: #D4CDBB;
+    --primary: #4B6B70;
+    --secondary: #84AAAF;
+    --accent: #D4CDBB;
+    --text-light: #EDEDED;
   }
 }
 
-/* Global Styles */
+/* Apply Custom Styles Using Tailwind's `@layer` */
+@layer utilities {
+  .text-light {
+    color: var(--text-light);
+  }
+
+  .bg-primary {
+    background-color: var(--primary);
+  }
+
+  .text-primary {
+    color: var(--primary);
+  }
+
+  .bg-secondary {
+    background-color: var(--secondary);
+  }
+
+  .text-secondary {
+    color: var(--secondary);
+  }
+
+  .bg-accent {
+    background-color: var(--accent);
+  }
+
+  .text-accent {
+    color: var(--accent);
+  }
+}
+
+/* Apply Global Styles */
 body {
-  @apply font-sans text-foreground bg-background; /* Tailwind utilities for consistency */
+  @apply font-sans bg-primary text-light antialiased;
   margin: 0;
   padding: 0;
   line-height: 1.6;
-  overflow-x: hidden; /* Prevent horizontal scrolling issues */
-}
-
-/* Utility Classes for Headings */
-h1, h2, h3, h4, h5, h6 {
-  @apply font-bold text-foreground;
-  margin: 0;
-}
-
-/* Links */
-a {
-  @apply text-primary underline;
-  transition: color 0.3s ease-in-out;
-}
-
-a:hover {
-  @apply text-accent; /* Accent color on hover */
-}
-
-/* Container Utility */
-.container {
-  @apply max-w-7xl mx-auto px-4;
-}
-
-/* Buttons */
-button {
-  @apply bg-primary text-white font-medium py-2 px-4 rounded hover:bg-accent transition;
-}
-
-/* Default Reset for List Styles */
-ul, ol {
-  margin: 0;
-  padding: 0;
-  list-style: none;
-}
-
-/* Images */
-img {
-  max-width: 100%;
-  height: auto;
-  display: block;
-}
-
-/* Swiper Customization */
-.swiper-container {
-  @apply bg-transparent border-none p-0 m-0;
-}
-
-.swiper-slide {
-  @apply shadow-none border-none;
-}
-
-.swiper-pagination {
-  @apply p-0 m-0;
-}
-
-.swiper-pagination-bullet {
-  @apply bg-secondary opacity-75;
-}
-
-.swiper-pagination-bullet-active {
-  @apply bg-accent;
-}
-
-.swiper-button-next,
-.swiper-button-prev {
-  @apply text-primary hover:text-accent;
-}
-
-/* Fixes for Swiper Compatibility */
-@supports (-webkit-appearance: none) {
-  .swiper-container {
-    /* Ensures cross-browser consistency */
-    @apply w-full max-w-screen-lg mx-auto;
-  }
-
-  .swiper-slide img {
-    @apply w-full h-auto object-cover; /* Ensure images render correctly on Chrome/Safari */
-    transform: translate3d(0, 0, 0); /* Prevent flickering */
-    -webkit-transform: translate3d(0, 0, 0); /* Safari fix */
-    backface-visibility: hidden; /* Chrome/Safari rendering improvement */
-  }
-}
-
-/* Additional Swiper Fixes for Edge Cases */
-@media (max-width: 768px) {
-  .swiper-container {
-    @apply max-w-full;
-  }
-}
-
-/* Debugging Overflow Issues */
-html, body {
-  overflow-x: hidden; /* Prevent potential overflow issues on smaller viewports */
-}
-
-/* Forms */
-input, select, textarea {
-  @apply border border-gray-300 rounded px-3 py-2 w-full;
-}
-
-input:focus, select:focus, textarea:focus {
-  @apply outline-none border-primary ring-1 ring-primary;
-}
-
-/* Footer Customization for Mobile */
-footer {
-  @apply bg-gray-900 text-white py-6;
-}
-
-footer .container {
-  @apply flex flex-col md:flex-row justify-between items-center gap-4;
-}
-
-footer p, footer h3 {
-  @apply text-sm md:text-base;
-}
-
-@media (max-width: 768px) {
-  footer {
-    @apply py-4;
-  }
-
-  footer .container {
-    @apply flex-col text-center;
-  }
-
-  footer h3 {
-    @apply text-base font-medium;
-  }
-
-  footer p {
-    @apply text-sm;
-  }
-}
-
-/* Chrome-Specific Fixes for Carousel and Layout */
-@media screen and (-webkit-min-device-pixel-ratio: 0) and (min-resolution: 0.001dpcm) {
-  /* Specific to Chrome */
-  .swiper-container {
-    @apply w-full max-w-screen-lg mx-auto;
-  }
-
-  .swiper-slide img {
-    @apply w-full h-auto object-cover; /* Chrome-specific adjustments */
-    transform: translate3d(0, 0, 0);
-    -webkit-transform: translate3d(0, 0, 0);
-    backface-visibility: hidden; /* Smooth rendering */
-  }
+  overflow-x: hidden;
 }
