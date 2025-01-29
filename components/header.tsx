@@ -10,61 +10,14 @@ export default function Header() {
   const categories = ["Todas", "Aire", "Agua", "Descanso", "Repuestos"];
 
   return (
-    <header className="bg-primary text-text-light shadow-md fixed top-0 w-full z-50">
-      <div className="container flex items-center justify-between py-4">
+    <header className="bg-primary text-white shadow-md">
+      <div className="container flex flex-wrap items-center justify-between py-4 relative">
         {/* Logo */}
-        <h1 className="text-2xl font-bold tracking-wide text-accent">Rebeca Zaballa</h1>
+        <h1 className="text-2xl font-bold">Rebeca Zaballa</h1>
 
-        {/* Desktop Navigation */}
-        <nav className="hidden md:flex items-center space-x-8">
-          <Link href="/" className="text-secondary hover:text-accent transition font-medium">
-            Home
-          </Link>
-
-          {/* Store Dropdown */}
-          <div
-            className="relative group"
-            onMouseEnter={() => setIsDropdownOpen(true)}
-            onMouseLeave={() => setIsDropdownOpen(false)}
-          >
-            <Link
-              href="/store"
-              className="text-secondary font-medium hover:text-accent transition"
-            >
-              Store
-            </Link>
-            {isDropdownOpen && (
-              <div className="absolute left-0 top-full bg-white text-black rounded shadow-lg w-48 mt-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                <ul className="py-2">
-                  {categories.map((category) => (
-                    <li key={category}>
-                      <Link
-                        href={`/store?category=${category.toLowerCase()}`}
-                        className="block px-4 py-2 hover:bg-primary hover:text-white transition"
-                      >
-                        {category}
-                      </Link>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            )}
-          </div>
-
-          <Link href="/join" className="text-secondary hover:text-accent transition font-medium">
-            Join
-          </Link>
-          <Link href="/blog" className="text-secondary hover:text-accent transition font-medium">
-            Blog
-          </Link>
-          <Link href="/testimonials" className="text-secondary hover:text-accent transition font-medium">
-            Testimonials
-          </Link>
-        </nav>
-
-        {/* Mobile Menu Button */}
+        {/* Hamburger Menu (Mobile) */}
         <button
-          className="md:hidden text-secondary focus:outline-none"
+          className="md:hidden text-secondary focus:outline-none fixed top-4 right-4 z-50"
           onClick={() => setIsMenuOpen(!isMenuOpen)}
         >
           <svg
@@ -79,68 +32,89 @@ export default function Header() {
               strokeLinejoin="round"
               strokeWidth="2"
               d={isMenuOpen ? "M6 18L18 6M6 6l12 12" : "M4 6h16M4 12h16M4 18h16"}
-            />
+            ></path>
           </svg>
         </button>
-      </div>
 
-      {/* Mobile Menu */}
-      <div
-        className={`fixed inset-0 bg-primary text-white transform ${
-          isMenuOpen ? "translate-x-0" : "translate-x-full"
-        } transition-transform duration-300 ease-in-out z-40 md:hidden`}
-      >
-        <button
-          className="absolute top-4 right-6 text-secondary"
-          onClick={() => setIsMenuOpen(false)}
+        {/* Navigation */}
+        <nav
+          className={`${
+            isMenuOpen
+              ? "fixed inset-0 bg-primary text-white flex flex-col items-center justify-center z-40"
+              : "hidden"
+          } md:block w-full md:w-auto`}
         >
-          ✕
-        </button>
-        <nav className="flex flex-col items-center justify-center h-full space-y-6">
-          <Link href="/" className="text-secondary hover:text-accent text-xl" onClick={() => setIsMenuOpen(false)}>
-            Home
-          </Link>
-
-          {/* Store Dropdown (Mobile) */}
-          <div className="relative">
-            <button
-              className="text-secondary hover:text-accent text-xl"
-              onClick={() => setIsDropdownOpen(!isDropdownOpen)}
+          <ul className="flex flex-col md:flex-row items-center md:space-x-6 space-y-4 md:space-y-0">
+            <li>
+              <Link
+                href="/"
+                className="text-secondary font-medium hover:text-accent transition"
+                onClick={() => setIsMenuOpen(false)}
+              >
+                Home
+              </Link>
+            </li>
+            {/* Store Dropdown */}
+            <li
+              className="relative group"
+              onMouseEnter={() => setIsDropdownOpen(true)}
+              onMouseLeave={() => setIsDropdownOpen(false)}
             >
-              Store ▾
-            </button>
-            {isDropdownOpen && (
-              <div className="absolute left-1/2 transform -translate-x-1/2 bg-white text-black rounded shadow-lg w-48 mt-2">
-                <ul className="py-2">
-                  {categories.map((category) => (
-                    <li key={category}>
-                      <Link
-                        href={`/store?category=${category.toLowerCase()}`}
-                        className="block px-4 py-2 hover:bg-primary hover:text-white transition"
-                        onClick={() => setIsMenuOpen(false)}
-                      >
-                        {category}
-                      </Link>
-                    </li>
-                  ))}
-                </ul>
+              <div className="text-secondary font-medium hover:text-accent transition cursor-pointer">
+                <Link
+                  href="/store"
+                  className="text-secondary font-medium hover:text-accent transition"
+                  onClick={() => setIsMenuOpen(false)}
+                >
+                  Store
+                </Link>
               </div>
-            )}
-          </div>
-
-          <Link href="/join" className="text-secondary hover:text-accent text-xl" onClick={() => setIsMenuOpen(false)}>
-            Join
-          </Link>
-          <Link href="/blog" className="text-secondary hover:text-accent text-xl" onClick={() => setIsMenuOpen(false)}>
-            Blog
-          </Link>
-          <Link
-            href="/testimonials"
-            className="text-secondary hover:text-accent text-xl"
-            onClick={() => setIsMenuOpen(false)}
-          >
-            Testimonials
-          </Link>
+              {isDropdownOpen && (
+                <div className="absolute left-0 top-full bg-white text-black rounded shadow-md w-40 z-10">
+                  <ul className="py-2">
+                    {categories.map((category) => (
+                      <li key={category}>
+                        <Link
+                          href={`/store?category=${category.toLowerCase()}`}
+                          className="block px-4 py-2 hover:bg-primary hover:text-white transition"
+                          onClick={() => setIsMenuOpen(false)}
+                        >
+                          {category}
+                        </Link>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              )}
+            </li>
+            <li>
+              <Link
+                href="/join"
+                className="text-secondary font-medium hover:text-accent transition"
+                onClick={() => setIsMenuOpen(false)}
+              >
+                Join
+              </Link>
+            </li>
+            <li>
+              <Link
+                href="/blog"
+                className="text-secondary font-medium hover:text-accent transition"
+                onClick={() => setIsMenuOpen(false)}
+              >
+                Blog
+              </Link>
+            </li>
+            <li>
+              <Link
+                href="/testimonials"
+                className="text-secondary font-medium hover:text-accent transition"
+                onClick={() => setIsMenuOpen(false)}
+              >
+                Testimonials
+              </Link>
+            </li>
+          </ul>
         </nav>
       </div>
     </header>
