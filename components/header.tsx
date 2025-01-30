@@ -66,8 +66,10 @@ export default function Header() {
             <li>
               <Link
                 href="/"
-                className="text-[#19333F] font-medium hover:text-[#4B6B70] transition no-underline"
-
+                className={`font-medium transition no-underline ${
+                  isMenuOpen ? "text-[#84AAAF] hover:text-white" : "text-[#19333F] hover:text-[#4B6B70]"
+                }`}
+                
                 onClick={() => setIsMenuOpen(false)}
               >
                 Home
@@ -82,8 +84,10 @@ export default function Header() {
               <div className="text-secondary font-medium hover:text-[#4B6B70] transition cursor-pointer">
                 <Link
                   href="/store"
-                  className="text-[#19333F] font-medium hover:text-[#4B6B70] transition no-underline"
-
+                  className={`font-medium transition no-underline ${
+                    isMenuOpen ? "text-[#84AAAF] hover:text-white" : "text-[#19333F] hover:text-[#4B6B70]"
+                  }`}
+                  
                   onClick={() => setIsMenuOpen(false)}
                 >
                   Store
@@ -109,8 +113,10 @@ export default function Header() {
             <li>
               <Link
                 href="/join"
-                className="text-[#19333F] font-medium hover:text-[#4B6B70] transition no-underline"
-                onClick={() => setIsMenuOpen(false)}
+                className={`font-medium transition no-underline ${
+                  isMenuOpen ? "text-[#84AAAF] hover:text-white" : "text-[#19333F] hover:text-[#4B6B70]"
+                }`}
+                                onClick={() => setIsMenuOpen(false)}
               >
                 Join
               </Link>
@@ -118,8 +124,10 @@ export default function Header() {
             <li>
               <Link
                 href="/blog"
-                className="text-[#19333F] font-medium hover:text-[#4B6B70] transition no-underline"
-                onClick={() => setIsMenuOpen(false)}
+                className={`font-medium transition no-underline ${
+                  isMenuOpen ? "text-[#84AAAF] hover:text-white" : "text-[#19333F] hover:text-[#4B6B70]"
+                }`}
+                                onClick={() => setIsMenuOpen(false)}
               >
                 Blog
               </Link>
@@ -127,8 +135,10 @@ export default function Header() {
             <li>
               <Link
                 href="/testimonials"
-                className="text-[#19333F] font-medium hover:text-[#4B6B70] transition no-underline"
-                onClick={() => setIsMenuOpen(false)}
+                className={`font-medium transition no-underline ${
+                  isMenuOpen ? "text-[#84AAAF] hover:text-white" : "text-[#19333F] hover:text-[#4B6B70]"
+                }`}
+                                onClick={() => setIsMenuOpen(false)}
               >
                 Testimonials
               </Link>
