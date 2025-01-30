@@ -66,7 +66,7 @@ export default function Header() {
             <li>
               <Link
                 href="/"
-                className="text-[#19333F] font-medium hover:text-accent transition no-underline"
+                className="text-[#19333F] font-medium hover:text-[#4B6B70] transition no-underline"
 
                 onClick={() => setIsMenuOpen(false)}
               >
@@ -79,10 +79,10 @@ export default function Header() {
               onMouseEnter={() => setIsDropdownOpen(true)}
               onMouseLeave={() => setIsDropdownOpen(false)}
             >
-              <div className="text-secondary font-medium hover:text-accent transition cursor-pointer">
+              <div className="text-secondary font-medium hover:text-[#4B6B70] transition cursor-pointer">
                 <Link
                   href="/store"
-                  className="text-[#19333F] font-medium hover:text-accent transition no-underline"
+                  className="text-[#19333F] font-medium hover:text-[#4B6B70] transition no-underline"
 
                   onClick={() => setIsMenuOpen(false)}
                 >
@@ -96,7 +96,7 @@ export default function Header() {
                       <li key={category}>
                         <Link
   href={`/store?category=${category.toLowerCase()}`}
-  className="block px-4 py-2 text-white transition no-underline"
+  className="block px-4 py-2 text-white hover:text-[#4B6B70] transition no-underline"
 >
   {category}
 </Link>
@@ -109,7 +109,7 @@ export default function Header() {
             <li>
               <Link
                 href="/join"
-                className="text-[#19333F] font-medium hover:text-accent transition no-underline"
+                className="text-[#19333F] font-medium hover:text-[#4B6B70] transition no-underline"
                 onClick={() => setIsMenuOpen(false)}
               >
                 Join
@@ -118,7 +118,7 @@ export default function Header() {
             <li>
               <Link
                 href="/blog"
-                className="text-[#19333F] font-medium hover:text-accent transition no-underline"
+                className="text-[#19333F] font-medium hover:text-[#4B6B70] transition no-underline"
                 onClick={() => setIsMenuOpen(false)}
               >
                 Blog
@@ -127,7 +127,7 @@ export default function Header() {
             <li>
               <Link
                 href="/testimonials"
-                className="text-[#19333F] font-medium hover:text-accent transition no-underline"
+                className="text-[#19333F] font-medium hover:text-[#4B6B70] transition no-underline"
                 onClick={() => setIsMenuOpen(false)}
               >
                 Testimonials

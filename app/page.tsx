@@ -52,11 +52,12 @@ export default function Home() {
                   className="w-full h-full object-cover"
                   loading="lazy"
                 />
-                <div className="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center">
-                  <h2 className="text-white text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold">
-                    {slide.text}
-                  </h2>
-                </div>
+                <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 text-center">
+  <h2 className="text-white text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold drop-shadow-lg">
+    {slide.text}
+  </h2>
+</div>
+
               </div>
             </SwiperSlide>
           ))}
