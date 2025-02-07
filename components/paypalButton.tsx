@@ -4,7 +4,15 @@ import { useEffect, useState } from "react";
 
 declare global {
   interface Window {
-    paypal?: any;
+    paypal?: {
+      Buttons: (options: {
+        createOrder: () => Promise<string>;
+        onApprove: (data: { orderID: string }) => Promise<void>;
+        onError: (err: Error) => void;
+      }) => {
+        render: (selector: string) => void;
+      };
+    };
   }
 }
 
@@ -27,7 +35,7 @@ export default function PayPalButton() {
     if (loaded && window.paypal) {
       window.paypal
         .Buttons({
-          createOrder: async () => {
+          createOrder: async (): Promise<string> => {
             const res = await fetch("/api/paypal", {
               method: "POST",
               headers: { "Content-Type": "application/json" },
@@ -36,7 +44,7 @@ export default function PayPalButton() {
             const data = await res.json();
             return data.id;
           },
-          onApprove: async (data: { orderID: any; }) => {
+          onApprove: async (data: { orderID: string }): Promise<void> => {
             const res = await fetch(`/api/paypal`, {
               method: "PUT",
               headers: { "Content-Type": "application/json" },
@@ -47,7 +55,7 @@ export default function PayPalButton() {
               alert("Payment successful!");
             }
           },
-          onError: (err: any) => {
+          onError: (err: Error) => {
             console.error("PayPal Button Error:", err);
           },
         })

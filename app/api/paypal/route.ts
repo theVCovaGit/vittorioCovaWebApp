@@ -2,12 +2,11 @@ import { NextResponse } from "next/server";
 import paypal from "@paypal/checkout-server-sdk";
 
 const isLive = process.env.PAYPAL_MODE === "live";
-const PAYPAL_API = isLive
-  ? "https://api-m.paypal.com" // Live API
-  : "https://api-m.sandbox.paypal.com"; // Sandbox API
 
 const PAYPAL_CLIENT_ID = process.env.PAYPAL_CLIENT_ID || "";
 const PAYPAL_CLIENT_SECRET = process.env.PAYPAL_CLIENT_SECRET || "";
+
+// Removed unused PAYPAL_API variable
 
 const environment = isLive
   ? new paypal.core.LiveEnvironment(PAYPAL_CLIENT_ID, PAYPAL_CLIENT_SECRET)
@@ -38,9 +37,12 @@ export async function POST(req: Request) {
     const order = await client.execute(request);
 
     return NextResponse.json({ id: order.result.id });
-  } catch (error: any) {
-    console.error("Error creating order:", error.message);
-    return NextResponse.json({ error: error.message }, { status: 500 });
+  } catch (error: unknown) {
+    if (error instanceof Error) {
+      console.error("Error creating order:", error.message);
+      return NextResponse.json({ error: error.message }, { status: 500 });
+    }
+    return NextResponse.json({ error: "An unknown error occurred" }, { status: 500 });
   }
 }
 
@@ -57,8 +59,11 @@ export async function PUT(req: Request) {
     const capture = await client.execute(request);
 
     return NextResponse.json({ status: capture.result.status, details: capture.result });
-  } catch (error: any) {
-    console.error("Error capturing order:", error.message);
-    return NextResponse.json({ error: error.message }, { status: 500 });
+  } catch (error: unknown) {
+    if (error instanceof Error) {
+      console.error("Error capturing order:", error.message);
+      return NextResponse.json({ error: error.message }, { status: 500 });
+    }
+    return NextResponse.json({ error: "An unknown error occurred" }, { status: 500 });
   }
 }
