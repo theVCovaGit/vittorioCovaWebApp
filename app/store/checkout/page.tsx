@@ -128,7 +128,7 @@ export default function Checkout() {
                 className="rounded-md"
               />
               <div>
-                <p className="text-white">Calzado para hombre Nike Air Force 1 '07</p>
+                <p className="text-white">Calzado para hombre Nike Air Force 07</p>
                 <p className="text-gray-400 text-sm">Cant. 1 - Talla CM 30</p>
                 <p className="text-white font-bold">$2,599</p>
               </div>
