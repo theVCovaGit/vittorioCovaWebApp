@@ -28,9 +28,11 @@ export default function Footer() {
 
         {/* Seal and Admin Link */}
         <div className="text-center mt-2 md:mt-0">
-          <p className="text-xs md:text-sm">
-            Made by <span className="font-semibold">JRF Technologies</span>
-          </p>
+        
+  <span className="ml-2">
+    <img src="/images/icon.png" alt="JRF Technologies" className="h-4 md:h-5" />
+  </span>
+
           <Link
             href="/admin"
             className="text-xs md:text-sm text-blue-400 hover:text-blue-300 mt-1 block"

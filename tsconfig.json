@@ -1,6 +1,8 @@
 {
   "compilerOptions": {
     "target": "ES2017",
+    "typeRoots": ["./", "./node_modules/@types"],
+    "types": ["node", "paypal__checkout-server-sdk"],
     "lib": ["dom", "dom.iterable", "esnext"],
     "allowJs": true,
     "skipLibCheck": true,
