@@ -3,6 +3,9 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import Header from "@/components/header";
 import Footer from "@/components/footer";
+import { CartProvider } from "../context/CartContext";
+import CartDrawer from "@/components/cartDrawer";
+
 
 
 const geistSans = Geist({
@@ -30,7 +33,8 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased text-foreground bg-background flex flex-col min-h-screen`}
       >
-        
+        <CartProvider>
+        <CartDrawer />
         {/* Header for Navigation */}
         <Header />
 
@@ -41,7 +45,7 @@ export default function RootLayout({
 
         {/* Footer at the bottom */}
         <Footer />
-        
+        </CartProvider>
       </body>
     </html>
   );

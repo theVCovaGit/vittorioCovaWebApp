@@ -3,11 +3,14 @@
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
+import { useCart } from "../context/CartContext"; // Import Cart Context
+
 
 export default function Header() {
   const [isClient, setIsClient] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const { cart, toggleCart } = useCart();
 
   useEffect(() => {
     setIsClient(true); // Ensures the component re-renders only on the client
@@ -145,6 +148,21 @@ export default function Header() {
             </li>
           </ul>
         </nav>
+        {/* Cart Icon */}
+        <button className="relative flex items-center" onClick={toggleCart}>
+          <Image
+            src="/icons/cart.svg" // Add cart icon in public/icons/cart.svg
+            alt="Cart"
+            width={30}
+            height={30}
+            className="hover:opacity-80"
+          />
+          {cart.length > 0 && (
+            <span className="absolute -top-2 -right-2 bg-red-500 text-white text-xs font-bold rounded-full w-5 h-5 flex items-center justify-center">
+              {cart.length}
+            </span>
+          )}
+        </button>
       </div>
     </header>
   );
