@@ -11,11 +11,15 @@ export default function Cart() {
     <div
       className={`fixed top-0 right-0 w-80 h-full bg-white text-black shadow-lg transition-transform transform ${
         isCartOpen ? "translate-x-0" : "translate-x-full"
-      }`}
+      } z-[50]`}
     >
-      <div className="p-4">
+      <div className="p-4 relative">
         <h2 className="text-xl font-bold mb-4">Carrito</h2>
-        <button className="absolute top-2 right-2 text-lg" onClick={toggleCart}>✖</button>
+        
+        {/* ❌ Close Button */}
+        <button className="absolute top-2 right-2 text-lg" onClick={toggleCart}>
+          ✖
+        </button>
 
         {cart.length === 0 ? (
           <p className="text-gray-500">Tu carrito está vacío</p>
@@ -30,8 +34,9 @@ export default function Cart() {
           </ul>
         )}
 
+        {/* 🛒 Go to Checkout */}
         <button
-          className="w-full bg-primary text-white py-2 mt-4"
+          className="w-full bg-blue-600 text-white py-2 mt-4"
           onClick={() => {
             toggleCart();
             router.push("/store/checkout");

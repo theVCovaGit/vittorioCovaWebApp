@@ -4,6 +4,8 @@ import { useState, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { useCart } from "../context/CartContext"; // Import Cart Context
+import { ShoppingCartIcon } from "@heroicons/react/24/outline";
+
 
 
 export default function Header() {
@@ -148,21 +150,28 @@ export default function Header() {
             </li>
           </ul>
         </nav>
-        {/* Cart Icon */}
-        <button className="relative flex items-center" onClick={toggleCart}>
-          <Image
-            src="/icons/cart.svg" // Add cart icon in public/icons/cart.svg
-            alt="Cart"
-            width={30}
-            height={30}
-            className="hover:opacity-80"
-          />
-          {cart.length > 0 && (
-            <span className="absolute -top-2 -right-2 bg-red-500 text-white text-xs font-bold rounded-full w-5 h-5 flex items-center justify-center">
-              {cart.length}
-            </span>
-          )}
-        </button>
+        
+       {/* Cart Icon */}
+      <button className="relative flex items-center bg-[#D4CDBB]" onClick={toggleCart} >
+        <ShoppingCartIcon className="w-6 h-6 text-white hover:opacity-80" />
+        {cart.length > 0 && (
+          <span className="absolute -top-2 -right-2 bg-red-500 text-white text-xs font-bold rounded-full w-5 h-5 flex items-center justify-center">
+            {cart.length}
+          </span>
+        )}
+      </button>
+      
+        {/*
+        <button className="relative flex items-center bg-[#19333F] p-2 rounded-full hover:bg-[#4B6B70]" onClick={toggleCart}>
+  <ShoppingCartIcon className="w-6 h-6 text-white hover:text-[#84AAAF]" />
+  {cart.length > 0 && (
+    <span className="absolute -top-2 -right-2 bg-[#19333F] text-white text-xs font-bold rounded-full w-5 h-5 flex items-center justify-center">
+      {cart.length}
+    </span>
+  )}
+</button>
+  */}
+
       </div>
     </header>
   );
