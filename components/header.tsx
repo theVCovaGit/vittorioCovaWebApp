@@ -26,7 +26,7 @@ export default function Header() {
         <Link href="/" className="flex items-center">
           {isClient ? (
             <Image
-              src="/images/logo.png" /* Replace with actual path */
+              src="/images/logo3.png" /* Replace with actual path */
               alt="Rebeca Zaballa Logo"
               width={150}
               height={50}
