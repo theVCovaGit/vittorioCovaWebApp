@@ -47,7 +47,7 @@ export default function CartDrawer() {
       {/* Checkout Button */}
       {cart.length > 0 && (
         <div className="p-4">
-          <Link href="/checkout">
+          <Link href="/store/checkout">
             <button className="w-full bg-[#84AAAF] text-white font-bold py-2 rounded hover:bg-[#4B6B70] transition">
               Ir a Pagar
             </button>

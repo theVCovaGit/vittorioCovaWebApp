@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { Product } from "@/context/CartContext"; // ✅ Import Product Type
 
 declare global {
   interface Window {
@@ -16,7 +17,13 @@ declare global {
   }
 }
 
-export default function PayPalButton() {
+// ✅ Define props for PayPalButton with proper types
+interface PayPalButtonProps {
+  total: number;
+  cartItems: Product[];
+}
+
+export default function PayPalButton({ total, cartItems }: PayPalButtonProps) {
   const [loaded, setLoaded] = useState(false);
 
   useEffect(() => {
@@ -39,7 +46,7 @@ export default function PayPalButton() {
             const res = await fetch("/api/paypal", {
               method: "POST",
               headers: { "Content-Type": "application/json" },
-              body: JSON.stringify({ amount: "100.00" }),
+              body: JSON.stringify({ amount: total.toFixed(2), cartItems }), // 💰 Send actual total price
             });
             const data = await res.json();
             return data.id;
@@ -61,7 +68,7 @@ export default function PayPalButton() {
         })
         .render("#paypal-button-container");
     }
-  }, [loaded]);
+  }, [loaded, total, cartItems]); // Re-render when `total` or `cartItems` change
 
   return <div id="paypal-button-container" />;
 }

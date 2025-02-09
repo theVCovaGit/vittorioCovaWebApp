@@ -2,16 +2,17 @@
 
 import { createContext, useContext, useState, ReactNode } from "react";
 
-// Product type
-interface Product {
+// ✅ Define Product Type Explicitly
+export interface Product {
   id: number;
   name: string;
-  price: string;
+  price: number; // 💰 Ensure price is a number
   image: string;
-  quantity: number;
+  category: string;
+  quantity: number; // ✅ Ensure quantity exists
 }
 
-// Cart context type
+// ✅ Define Cart Context Type
 interface CartContextType {
   cart: Product[];
   addToCart: (product: Product) => void;
@@ -20,15 +21,14 @@ interface CartContextType {
   isCartOpen: boolean;
 }
 
-// Create context
+// ✅ Create Context
 const CartContext = createContext<CartContextType | undefined>(undefined);
 
-// Cart Provider
 export const CartProvider = ({ children }: { children: ReactNode }) => {
   const [cart, setCart] = useState<Product[]>([]);
   const [isCartOpen, setIsCartOpen] = useState(false);
 
-  // Add product to cart
+  // ✅ Add product to cart
   const addToCart = (product: Product) => {
     setCart((prevCart) => {
       const existingProduct = prevCart.find((p) => p.id === product.id);
@@ -39,15 +39,15 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
       }
       return [...prevCart, { ...product, quantity: 1 }];
     });
-    setIsCartOpen(true); // Show cart when item is added
+    setIsCartOpen(true);
   };
 
-  // Remove product from cart
+  // ✅ Remove product from cart
   const removeFromCart = (id: number) => {
     setCart((prevCart) => prevCart.filter((product) => product.id !== id));
   };
 
-  // Toggle cart drawer
+  // ✅ Toggle Cart Drawer
   const toggleCart = () => {
     setIsCartOpen(!isCartOpen);
   };
@@ -59,7 +59,7 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
   );
 };
 
-// Hook to use cart context
+// ✅ Hook to use cart context
 export const useCart = () => {
   const context = useContext(CartContext);
   if (!context) {

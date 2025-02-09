@@ -82,7 +82,7 @@ export default function Store() {
                     {/* ✅ Add to Cart Button */}
                     <button
   className="mt-4 w-full bg-primary text-white py-2 px-4 rounded hover:bg-accent transition"
-  onClick={() => addToCart({ ...product, price: product.price.toString(), quantity: 1 })} // ✅ Convert price to string
+  onClick={() => addToCart({ ...product, price: Number(product.price), quantity: 1 })} // ✅ Ensure price is a number
 >
   Add to Cart
 </button>
