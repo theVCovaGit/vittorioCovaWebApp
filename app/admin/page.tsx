@@ -60,7 +60,7 @@ const AdminPage = () => {
 
   if (!isAuthenticated) {
     return (
-      <div className="flex items-center justify-center h-screen bg-black text-white">
+      <div className="flex items-center justify-center h-screen text-white">
         <div className="w-96 p-6 bg-gray-800 rounded-lg shadow-lg">
           <h1 className="text-2xl font-bold mb-4 text-center">Admin Login</h1>
           <input
@@ -82,9 +82,9 @@ const AdminPage = () => {
   }
 
   return (
-    <div className="min-h-screen bg-black text-white">
-      <header className="bg-gray-900 py-4 px-6 shadow-md">
-        <h1 className="text-2xl font-bold">Admin Dashboard</h1>
+<div className="min-h-screen bg-[#D4CDBB] text-[#19333F]">
+      <header className="bg-[#D4CDBB] py-4 px-6">
+        <h1 className="text-2xl text-[#19333F] font-bold">Admin Dashboard</h1>
       </header>
       <main className="p-6">
         {!showPrices && (
