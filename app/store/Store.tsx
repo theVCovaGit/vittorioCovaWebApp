@@ -3,8 +3,10 @@
 import { useState, useEffect, useMemo } from "react";
 import { useSearchParams } from "next/navigation";
 import { products } from "./products"; 
+import { useCart } from "@/context/CartContext"; // Import Cart Context
 
 export default function Store() {
+  const { addToCart } = useCart(); // Get addToCart function from context
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("todas");
   const searchParams = useSearchParams();
@@ -77,9 +79,14 @@ export default function Store() {
                   <div className="p-4">
                     <h2 className="text-xl font-bold">{product.name}</h2>
                     <p className="text-gray-700">{product.price}</p>
-                    <button className="mt-4 w-full bg-primary text-white py-2 px-4 rounded hover:bg-accent transition">
-                      Add to Cart
-                    </button>
+                    {/* ✅ Add to Cart Button */}
+                    <button
+  className="mt-4 w-full bg-primary text-white py-2 px-4 rounded hover:bg-accent transition"
+  onClick={() => addToCart({ ...product, price: product.price.toString(), quantity: 1 })} // ✅ Convert price to string
+>
+  Add to Cart
+</button>
+
                   </div>
                 </div>
               ))

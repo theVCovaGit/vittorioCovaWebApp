@@ -8,7 +8,12 @@ export default function CartDrawer() {
   const { cart, removeFromCart, isCartOpen, toggleCart } = useCart();
 
   return (
-    <div className={`fixed top-0 right-0 h-full w-80 bg-white shadow-lg transition-transform transform ${isCartOpen ? "translate-x-0" : "translate-x-full"}`}>
+<div
+  className={`fixed top-0 right-0 h-full w-80 bg-white shadow-lg transition-transform transform ${
+    isCartOpen ? "translate-x-0" : "translate-x-full"
+  }`}
+  style={{ zIndex: 9999 }} // ✅ Highest possible z-index
+>
       {/* Header */}
       <div className="flex items-center justify-between p-4 border-b">
         <h2 className="text-lg font-bold">Tu Carrito</h2>
