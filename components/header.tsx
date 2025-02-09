@@ -39,7 +39,7 @@ export default function Header() {
 
         {/* Navigation (Desktop only) */}
         <nav className="hidden md:flex items-center space-x-6">
-          <Link href="/" className="hover:text-[#84AAAF] transition no-underline">Home</Link>
+          <Link href="/" className="hover:text-[#84AAAF] transition no-underline">Menu principal</Link>
 
           {/* Store Dropdown (Desktop only) */}
           <div
@@ -47,7 +47,7 @@ export default function Header() {
             onMouseEnter={() => setIsDropdownOpen(true)}
             onMouseLeave={() => setIsDropdownOpen(false)}
           >
-            <Link href="/store" className="hover:text-[#84AAAF] transition no-underline">Store</Link>
+            <Link href="/store" className="hover:text-[#84AAAF] transition no-underline">Tienda</Link>
             {isDropdownOpen && (
               <div className="absolute left-0 top-full bg-[#19333F] rounded shadow-md w-40 z-50">
                 <ul className="py-2">
@@ -55,7 +55,7 @@ export default function Header() {
                     <li key={category}>
                       <Link
                         href={`/store?category=${category.toLowerCase()}`}
-                        className="block px-4 py-2 hover:text-[#84AAAF] transition"
+                        className="block px-4 py-2 text-[#d4cdbb] hover:text-[#84AAAF] transition no-underline"
                       >
                         {category}
                       </Link>
@@ -66,9 +66,9 @@ export default function Header() {
             )}
           </div>
 
-          <Link href="/join" className="hover:text-[#84AAAF] transition no-underline">Join</Link>
+          <Link href="/join" className="hover:text-[#84AAAF] transition no-underline">Únete</Link>
           <Link href="/blog" className="hover:text-[#84AAAF] transition no-underline">Blog</Link>
-          <Link href="/testimonials" className="hover:text-[#84AAAF] transition no-underline">Testimonials</Link>
+          <Link href="/testimonials" className="hover:text-[#84AAAF] transition no-underline">Testimonios</Link>
         </nav>
 
         {/* Right Section (Cart & Hamburger for Mobile) */}
@@ -111,11 +111,11 @@ export default function Header() {
           <div className="fixed inset-0 bg-[#19333F] bg-opacity-95 text-white flex flex-col items-center justify-center z-[100]">
             <button className="absolute top-4 right-6 text-2xl" onClick={() => setIsMenuOpen(false)}>✖</button>
             <ul className="text-lg space-y-6">
-              <li><Link href="/" className="hover:text-[#84AAAF] transition no-underline" onClick={() => setIsMenuOpen(false)}>Home</Link></li>
-              <li><Link href="/store" className="hover:text-[#84AAAF] transition no-underline" onClick={() => setIsMenuOpen(false)}>Store</Link></li>
-              <li><Link href="/join" className="hover:text-[#84AAAF] transition no-underline" onClick={() => setIsMenuOpen(false)}>Join</Link></li>
-              <li><Link href="/blog" className="hover:text-[#84AAAF] transition no-underline" onClick={() => setIsMenuOpen(false)}>Blog</Link></li>
-              <li><Link href="/testimonials" className="hover:text-[#84AAAF] transition no-underline" onClick={() => setIsMenuOpen(false)}>Testimonials</Link></li>
+              <li><Link href="/" className="text-[#4B6B70] hover:text-[#84AAAF] transition no-underline" onClick={() => setIsMenuOpen(false)}>Menu principal</Link></li>
+              <li><Link href="/store" className="text-[#4B6B70] hover:text-[#84AAAF] transition no-underline" onClick={() => setIsMenuOpen(false)}>Tienda</Link></li>
+              <li><Link href="/join" className="text-[#4B6B70] hover:text-[#84AAAF] transition no-underline" onClick={() => setIsMenuOpen(false)}>Únete</Link></li>
+              <li><Link href="/blog" className="text-[#4B6B70] hover:text-[#84AAAF] transition no-underline" onClick={() => setIsMenuOpen(false)}>Blog</Link></li>
+              <li><Link href="/testimonials" className="text-[#4B6B70] hover:text-[#84AAAF] transition no-underline" onClick={() => setIsMenuOpen(false)}>Testimonios</Link></li>
             </ul>
           </div>
         )}
