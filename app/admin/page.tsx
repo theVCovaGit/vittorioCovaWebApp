@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { products } from "../store/products"; // Adjust the path based on your project structure
 
 const AdminPage = () => {
@@ -54,32 +54,39 @@ const AdminPage = () => {
     }
   };
 
-  // ✅ Handle Price Changes
+  // Handle Price Changes
   const handlePriceChange = (id: number, field: "originalPrice" | "discount", value: string) => {
     const updatedProducts = productData.map((product) => {
       if (product.id === id) {
         const updatedProduct = { ...product };
-
+  
         if (field === "originalPrice") {
           updatedProduct.originalPrice = parseFloat(value) || 0;
         } else if (field === "discount") {
           const discountValue = parseFloat(value.replace('%', '')) || 0;
           const isPercentage = value.endsWith('%');
-          const discount = isPercentage
-            ? (product.originalPrice * discountValue) / 100
-            : discountValue;
-          updatedProduct.discount = value;
+  
+          updatedProduct.discount = value; // Save discount as entered
+  
+          // ✅ Calculate new price and store it
+          updatedProduct.price = Math.max(
+            updatedProduct.originalPrice - (isPercentage 
+              ? (updatedProduct.originalPrice * discountValue / 100) 
+              : discountValue), 
+            0
+          );
         }
-
+  
         return updatedProduct;
       }
       return product;
     });
-
+  
     setProductData(updatedProducts);
   };
+  
 
-  // ✅ Save Updated Prices to Redis
+  // Save Updated Prices to Redis
   const handleSaveChanges = async () => {
     try {
       const response = await fetch("/api/products", {
