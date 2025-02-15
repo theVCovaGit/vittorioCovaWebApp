@@ -15,7 +15,16 @@ export async function GET() {
         return NextResponse.json({ products: [] }, { status: 200 }); // Return an empty array if it's not properly stored
       }
   
-      const updatedProducts = products.map((p: any) => ({
+      interface Product {
+        id: number;
+        name: string;
+        originalPrice: number;
+        discount: string;
+        price?: number; // Price will be calculated dynamically
+      }
+      
+      const updatedProducts = products.map((p: Product) => ({
+      
         ...p,
         price: Math.max(
           p.originalPrice - 
