@@ -21,7 +21,13 @@ export default function Store() {
         
         if (data.products && Array.isArray(data.products)) {
           // Ensure price is calculated from originalPrice - discount
-          const updatedPrices = data.products.map((p: any) => ({
+          interface ProductPrice {
+            id: number;
+            originalPrice: number;
+            discount: string;
+          }
+          
+          const updatedPrices = data.products.map((p: ProductPrice) => ({          
             id: p.id,
             price: Math.max(
               p.originalPrice - 
