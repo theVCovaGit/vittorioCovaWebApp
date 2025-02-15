@@ -10,6 +10,38 @@ export default function Store() {
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("todas");
   const searchParams = useSearchParams();
+  const [productPrices, setProductPrices] = useState<{ id: number; price: number }[]>([]);
+
+  // Fetch Prices from Redis
+  useEffect(() => {
+    async function fetchPrices() {
+      try {
+        const response = await fetch("/api/products");
+        const data = await response.json();
+        
+        if (data.products && Array.isArray(data.products)) {
+          // Ensure price is calculated from originalPrice - discount
+          const updatedPrices = data.products.map((p: any) => ({
+            id: p.id,
+            price: Math.max(
+              p.originalPrice - 
+              (p.discount.endsWith('%') ? (p.originalPrice * parseFloat(p.discount) / 100) : parseFloat(p.discount)), 
+              0 // Ensure price is not negative
+            )
+          }));
+          
+          setProductPrices(updatedPrices);
+        } else {
+          setProductPrices([]); // Ensure it's an array
+        }
+      } catch (error) {
+        console.error("Failed to fetch product prices", error);
+        setProductPrices([]); // Handle error gracefully
+      }
+    }
+
+    fetchPrices();
+  }, []);
 
   const categories = ["todas", "aire", "descanso", "agua", "repuestos"];
 
@@ -19,15 +51,21 @@ export default function Store() {
     setSelectedCategory(category);
   }, [searchParams]);
 
+  // Merge hardcoded products with fetched prices
+  const productsWithPrices = products.map((product) => ({
+    ...product,
+    price: productPrices.find((p) => p.id === product.id)?.price || product.price, // Use updated price if available
+  }));
+
   // Filtered products (memoized to avoid recalculating unnecessarily)
   const filteredProducts = useMemo(
     () =>
-      products.filter(
+      productsWithPrices.filter(
         (product) =>
           (selectedCategory === "todas" || product.category === selectedCategory) &&
           product.name.toLowerCase().includes(searchTerm.toLowerCase())
       ),
-    [searchTerm, selectedCategory]
+    [searchTerm, selectedCategory, productsWithPrices] // Depend on fetched products
   );
 
   return (
@@ -78,14 +116,15 @@ export default function Store() {
                   />
                   <div className="p-4">
                     <h2 className="text-xl font-bold">{product.name}</h2>
-                    <p className="text-gray-700">{product.price}</p>
+                    <p className="text-gray-700">${product.price.toFixed(2)}</p>
+
                     {/* ✅ Add to Cart Button */}
                     <button
-  className="mt-4 w-full bg-primary text-white py-2 px-4 rounded hover:bg-accent transition"
-  onClick={() => addToCart({ ...product, price: Number(product.price), quantity: 1 })} // ✅ Ensure price is a number
->
-  Add to Cart
-</button>
+                      className="mt-4 w-full bg-primary text-white py-2 px-4 rounded hover:bg-accent transition"
+                      onClick={() => addToCart({ ...product, price: Number(product.price), quantity: 1 })}
+                    >
+                      Add to Cart
+                    </button>
 
                   </div>
                 </div>
