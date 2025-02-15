@@ -18,36 +18,34 @@ export default function Store() {
       try {
         const response = await fetch("/api/products");
         const data = await response.json();
-        
+  
         if (data.products && Array.isArray(data.products)) {
-          // Ensure price is calculated from originalPrice - discount
-          interface ProductPrice {
-            id: number;
-            originalPrice: number;
-            discount: string;
-          }
-          
-          const updatedPrices = data.products.map((p: ProductPrice) => ({          
-            id: p.id,
-            price: Math.max(
-              p.originalPrice - 
-              (p.discount.endsWith('%') ? (p.originalPrice * parseFloat(p.discount) / 100) : parseFloat(p.discount)), 
-              0 // Ensure price is not negative
-            )
-          }));
-          
-          setProductPrices(updatedPrices);
+          setProductPrices(
+            data.products.map((p: { id: number; originalPrice: number; discount: string }) => ({
+              id: p.id,
+              price: Math.max(
+                p.originalPrice - 
+                (p.discount.endsWith('%') ? (p.originalPrice * parseFloat(p.discount) / 100) : parseFloat(p.discount)), 
+                0
+              )
+            }))
+          );
         } else {
-          setProductPrices([]); // Ensure it's an array
+          setProductPrices([]);
         }
       } catch (error) {
         console.error("Failed to fetch product prices", error);
-        setProductPrices([]); // Handle error gracefully
+        setProductPrices([]);
       }
     }
-
+  
     fetchPrices();
+  
+    // Re-fetch prices every 30 seconds in case they update
+    const interval = setInterval(fetchPrices, 30000);
+    return () => clearInterval(interval);
   }, []);
+  
 
   const categories = ["todas", "aire", "descanso", "agua", "repuestos"];
 

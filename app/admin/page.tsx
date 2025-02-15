@@ -1,7 +1,7 @@
 "use client";
 
-import { useState } from "react";
-import { products } from "../store/products"; // Adjust the path based on your project structure
+import { useState, useEffect } from "react";
+import { products } from "../store/products"; // Adjust path if needed
 
 const AdminPage = () => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -12,15 +12,22 @@ const AdminPage = () => {
       ...product,
       originalPrice: product.price,
       discount: "0", // Default discount
+      price: product.price, // Initialize price
     }))
   );
 
   const hardcodedPassword = "123";
 
+  // ✅ Fetch Prices from Redis on Login or when Prices are Opened
+  useEffect(() => {
+    if (isAuthenticated && showPrices) {
+      fetchPrices();
+    }
+  }, [isAuthenticated, showPrices]);
+
   const handleLogin = () => {
     if (password === hardcodedPassword) {
       setIsAuthenticated(true);
-      fetchPrices(); // Fetch prices upon successful login
     } else {
       alert("Incorrect password");
     }
@@ -35,15 +42,21 @@ const AdminPage = () => {
     try {
       const response = await fetch("/api/products");
       const data = await response.json();
-      
+
       if (data.products && Array.isArray(data.products)) {
-        // Merge with hardcoded products
         const updatedProducts = products.map((product) => {
           const redisProduct = data.products.find((p: { id: number }) => p.id === product.id);
           return {
             ...product,
-            originalPrice: redisProduct?.originalPrice || product.price, // Keep originalPrice updated
-            discount: redisProduct?.discount || "0", // Keep discount updated
+            originalPrice: redisProduct?.originalPrice ?? product.price,
+            discount: redisProduct?.discount ?? "0",
+            price: Math.max(
+              (redisProduct?.originalPrice ?? product.price) -
+                (redisProduct?.discount.endsWith('%')
+                  ? (parseFloat(redisProduct?.discount) / 100) * (redisProduct?.originalPrice ?? product.price)
+                  : parseFloat(redisProduct?.discount ?? "0")),
+              0
+            ),
           };
         });
 
@@ -54,39 +67,28 @@ const AdminPage = () => {
     }
   };
 
-  // Handle Price Changes
+  // ✅ Handle Price Changes
   const handlePriceChange = (id: number, field: "originalPrice" | "discount", value: string) => {
-    const updatedProducts = productData.map((product) => {
-      if (product.id === id) {
-        const updatedProduct = { ...product };
-  
-        if (field === "originalPrice") {
-          updatedProduct.originalPrice = parseFloat(value) || 0;
-        } else if (field === "discount") {
-          const discountValue = parseFloat(value.replace('%', '')) || 0;
-          const isPercentage = value.endsWith('%');
-  
-          updatedProduct.discount = value; // Save discount as entered
-  
-          // ✅ Calculate new price and store it
-          updatedProduct.price = Math.max(
-            updatedProduct.originalPrice - (isPercentage 
-              ? (updatedProduct.originalPrice * discountValue / 100) 
-              : discountValue), 
-            0
-          );
-        }
-  
-        return updatedProduct;
-      }
-      return product;
-    });
-  
-    setProductData(updatedProducts);
+    setProductData((prevData) =>
+      prevData.map((product) =>
+        product.id === id
+          ? {
+              ...product,
+              [field]: field === "originalPrice" ? parseFloat(value) || 0 : value,
+              price: Math.max(
+                (field === "originalPrice" ? parseFloat(value) || 0 : product.originalPrice) -
+                  (value.endsWith('%')
+                    ? ((field === "originalPrice" ? parseFloat(value) || 0 : product.originalPrice) * parseFloat(value.replace('%', '')) / 100)
+                    : parseFloat(value.replace('%', '')) || 0),
+                0
+              ),
+            }
+          : product
+      )
+    );
   };
-  
 
-  // Save Updated Prices to Redis
+  // ✅ Save Updated Prices to Redis
   const handleSaveChanges = async () => {
     try {
       const response = await fetch("/api/products", {
@@ -177,11 +179,7 @@ const AdminPage = () => {
                   </div>
                   <div className="mt-2">
                     <label className="block text-sm">Final Price:</label>
-                    <p className="text-sm font-bold">
-                      ${Math.max(product.originalPrice - (product.discount.endsWith('%') 
-                        ? (product.originalPrice * parseFloat(product.discount) / 100) 
-                        : parseFloat(product.discount)), 0).toFixed(2)}
-                    </p>
+                    <p className="text-sm font-bold">${product.price.toFixed(2)}</p>
                   </div>
                 </div>
               ))}
