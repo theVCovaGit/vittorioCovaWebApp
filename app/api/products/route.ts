@@ -11,7 +11,7 @@ interface Product {
   discount: string;
 }
 
-// ✅ GET Request: Fetch all products from Redis
+// GET Request: Fetch all products from Redis
 export async function GET() {
   try {
     // Fetch products from Redis
