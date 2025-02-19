@@ -1,44 +1,92 @@
+"use client";
+
+import { useState, useEffect } from "react";
+
+interface Article {
+  id: number;
+  title: string;
+  description: string;
+  date: string;
+}
+
 export default function Blog() {
-    const featuredPost = {
-      title: "Porque nikken me cambio la vida",
-      description: "Descubre como nikken me cambio la vida",
-      image: "/placeholder-featured.jpg", // Replace with blob image URL later
-      link: "#",
-    };
-  
-    const recentPosts = [
-      { id: 1, date: "January 10, 2025", title: "Ejemplo 4", link: "#" },
-      { id: 2, date: "January 10, 2025", title: "Ejemplo 3", link: "#" },
-      { id: 3, date: "January 9, 2025", title: "Ejemplo 2", link: "#" },
-      { id: 4, date: "January 4, 2025", title: "Ejemplo 1", link: "#" },
-    ];
-  
-    return (
-      <div className="container mx-auto p-6">
+  const [articles, setArticles] = useState<Article[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  // ✅ Fetch Articles from Redis
+  useEffect(() => {
+    async function fetchArticles() {
+      try {
+        const response = await fetch("/api/blog");
+        const data = await response.json();
+
+        if (data.articles && Array.isArray(data.articles)) {
+          setArticles(data.articles);
+        } else {
+          setArticles([]);
+        }
+      } catch (error) {
+        console.error("Error fetching blog articles:", error);
+        setArticles([]);
+      } finally {
+        setLoading(false);
+      }
+    }
+
+    fetchArticles();
+  }, []);
+
+  // ✅ Sort Articles (newest first)
+  const sortedArticles = [...articles].sort(
+    (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()
+  );
+
+  // ✅ Set Featured Post (Latest Article)
+  const featuredPost = sortedArticles.length > 0
+    ? {
+        title: sortedArticles[0].title,
+        description: sortedArticles[0].description,
+        id: sortedArticles[0].id,
+      }
+    : {
+        title: "Sin artículos aún",
+        description: "Pronto se publicarán artículos aquí",
+        id: "#",
+      };
+
+  // ✅ Filter Recent Posts (Exclude Featured)
+  const recentPosts = sortedArticles.slice(1, 5);
+
+  return (
+    <div className="container mx-auto p-6">
+      {loading ? (
+        <p className="text-center text-gray-500">Cargando artículos...</p>
+      ) : (
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
           {/* Featured Post */}
           <div className="lg:col-span-2">
-            <a href={featuredPost.link} className="block group">
-              <img
-                src={featuredPost.image}
-                alt={featuredPost.title}
-                className="w-full h-64 object-cover rounded-lg mb-4 group-hover:opacity-90 transition"
-              />
+            <a href={`/blog/${featuredPost.id}`} className="block group">
               <h2 className="text-2xl font-bold mb-2 group-hover:text-primary transition">
                 {featuredPost.title}
               </h2>
               <p className="text-gray-700">{featuredPost.description}</p>
             </a>
           </div>
-  
+
           {/* Recent Posts */}
           <div>
             <h3 className="text-xl font-bold mb-4">Nuevos posts</h3>
             <ul className="space-y-4">
               {recentPosts.map((post) => (
                 <li key={post.id}>
-                  <a href={post.link} className="block group">
-                    <p className="text-sm text-gray-500 mb-1">{post.date}</p>
+                  <a href={`/blog/${post.id}`} className="block group">
+                    <p className="text-sm text-gray-500 mb-1">
+                      {new Date(post.date).toLocaleDateString("es-MX", {
+                        year: "numeric",
+                        month: "long",
+                        day: "numeric",
+                      })}
+                    </p>
                     <h4 className="text-lg font-medium group-hover:text-primary transition">
                       {post.title}
                     </h4>
@@ -48,7 +96,7 @@ export default function Blog() {
             </ul>
           </div>
         </div>
-      </div>
-    );
-  }
-  
+      )}
+    </div>
+  );
+}
