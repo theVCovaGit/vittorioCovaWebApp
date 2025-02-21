@@ -19,8 +19,8 @@ export default function Header() {
   const categories = ["Todas", "Aire", "Agua", "Descanso", "Repuestos"];
 
   return (
-    <header className="bg-[#516a6f] text-white font-semibold tracking-wide">
-      <div className="container flex items-center justify-between py-4 relative">
+    <header className="bg-[#066EA8] text-black font-semibold tracking-wide h-28 flex items-center">
+    <div className="container flex items-center justify-between py-4 relative">
 
         {/* Logo (Left-aligned) */}
         <Link href="/" className="flex items-center">

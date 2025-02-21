@@ -16,9 +16,8 @@ export default {
         accent: "#34d399", // Accent color for buttons or highlights
       },
       fontFamily: {
-        sans: ['Arial', 'Helvetica', 'sans-serif'], // Default sans-serif stack
-        serif: ['Georgia', 'serif'], // Default serif stack
-        mono: ['Courier New', 'monospace'], // Default monospace stack
+        ripple: ["Ripple", "sans-serif"], // Add Ripple to Tailwind classes
+
       },
       spacing: {
         72: "18rem", // Custom spacing value

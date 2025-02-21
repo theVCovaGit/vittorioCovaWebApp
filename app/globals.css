@@ -4,7 +4,7 @@
 
 /* CSS Variables for Dark Mode */
 :root {
-  --background: #ffffff;
+  --background: white;
   --foreground: #171717;
   --primary: #1a73e8; /* Primary color */
   --secondary: #fbbc05; /* Secondary color */
@@ -13,7 +13,7 @@
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --background: #D4CDBB;
+    --background: white;
     --foreground: #ededed;
     --primary: #2563eb; /* Adjusted for dark mode */
     --secondary: #facc15; /* Adjusted for dark mode */
@@ -23,7 +23,8 @@
 
 /* Global Styles */
 body {
-  @apply font-sans text-foreground bg-background; /* Tailwind utilities for consistency */
+  font-family: var(--font-poppins), sans-serif;
+  @apply text-foreground bg-background;
   margin: 0;
   padding: 0;
   line-height: 1.6;
