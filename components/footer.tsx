@@ -13,7 +13,7 @@ export default function Footer() {
   if (!isMounted) return null; // Render nothing until hydration is complete.
 
   return (
-    <footer className="bg-[#19333F] text-white py-4">
+    <footer className="bg-[#2c72a6] text-white py-8">
 
       <div className="container mx-auto flex flex-col md:flex-row justify-between items-center gap-2 md:gap-4">
         {/* Contact Info */}
@@ -28,11 +28,11 @@ export default function Footer() {
 
         {/* Seal and Admin Link */}
         <div className="text-center mt-2 md:mt-0">
-        
+ {/*   
   <span className="ml-2">
     <img src="/images/icon.png" alt="JRF Technologies" className="h-4 md:h-5" />
   </span>
-
+*/}
           <Link
             href="/admin"
             className="text-xs md:text-sm text-blue-400 hover:text-blue-300 mt-1 block"
