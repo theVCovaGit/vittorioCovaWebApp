@@ -1,5 +1,5 @@
-import { Redis } from '@upstash/redis';
-import { NextRequest, NextResponse } from 'next/server';
+import { Redis } from "@upstash/redis";
+import { NextRequest, NextResponse } from "next/server";
 
 // Initialize Redis
 const redis = Redis.fromEnv();
@@ -7,23 +7,22 @@ const redis = Redis.fromEnv();
 interface Product {
   id: number;
   name: string;
+  description?: string; // ✅ Optional description added
+  image?: string; // ✅ Optional image added
   originalPrice: number;
   discount: string;
 }
 
-// GET Request: Fetch all products from Redis
+// ✅ GET: Fetch All Products
 export async function GET() {
   try {
-    // Fetch products from Redis
     const productsData = await redis.get("products");
 
     let products: Product[] = [];
 
     if (typeof productsData === "string") {
-      // ✅ Only parse if it's a valid JSON string
       products = JSON.parse(productsData);
     } else if (Array.isArray(productsData)) {
-      // ✅ Handle case where data is directly an array
       products = productsData as Product[];
     }
 
@@ -34,12 +33,15 @@ export async function GET() {
   }
 }
 
-// ✅ PUT Request: Update and store products in Redis
+// ✅ PUT: Update Products in Redis
 export async function PUT(req: NextRequest) {
   try {
-    const { products } = await req.json(); // Extract updated product data
+    const { products } = await req.json();
 
-    // ✅ Store as JSON string in Redis
+    if (!Array.isArray(products)) {
+      return NextResponse.json({ error: "Invalid products format" }, { status: 400 });
+    }
+
     await redis.set("products", JSON.stringify(products));
 
     return NextResponse.json({ message: "Products updated successfully" }, { status: 200 });

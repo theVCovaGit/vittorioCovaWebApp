@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect, useMemo } from "react";
-import { useSearchParams } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { products } from "./products"; 
 import { useCart } from "@/context/CartContext"; // Import Cart Context
 
@@ -9,8 +9,10 @@ export default function Store() {
   const { addToCart } = useCart(); // Get addToCart function from context
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("todas");
+  const [selectedProduct, setSelectedProduct] = useState<number | null>(null);
   const searchParams = useSearchParams();
   const [productPrices, setProductPrices] = useState<{ id: number; price: number }[]>([]);
+  const router = useRouter(); // Inside the component
 
   // Fetch Prices from Redis
   useEffect(() => {
@@ -41,27 +43,22 @@ export default function Store() {
   
     fetchPrices();
   
-    // Re-fetch prices every 30 seconds in case they update
     const interval = setInterval(fetchPrices, 30000);
     return () => clearInterval(interval);
   }, []);
   
-
   const categories = ["todas", "aire", "descanso", "agua", "repuestos"];
 
-  // Update selectedCategory based on URL search params
   useEffect(() => {
     const category = searchParams.get("category") || "todas";
     setSelectedCategory(category);
   }, [searchParams]);
 
-  // Merge hardcoded products with fetched prices
   const productsWithPrices = products.map((product) => ({
     ...product,
-    price: productPrices.find((p) => p.id === product.id)?.price || product.price, // Use updated price if available
+    price: productPrices.find((p) => p.id === product.id)?.price || product.price, 
   }));
 
-  // Filtered products (memoized to avoid recalculating unnecessarily)
   const filteredProducts = useMemo(
     () =>
       productsWithPrices.filter(
@@ -69,7 +66,7 @@ export default function Store() {
           (selectedCategory === "todas" || product.category === selectedCategory) &&
           product.name.toLowerCase().includes(searchTerm.toLowerCase())
       ),
-    [searchTerm, selectedCategory, productsWithPrices] // Depend on fetched products
+    [searchTerm, selectedCategory, productsWithPrices]
   );
 
   return (
@@ -111,7 +108,14 @@ export default function Store() {
               filteredProducts.map((product) => (
                 <div
                   key={product.id}
-                  className="border rounded-lg overflow-hidden shadow hover:shadow-lg transition"
+                  className={`border rounded-lg overflow-hidden shadow hover:shadow-lg transition cursor-pointer ${
+                    selectedProduct === product.id ? "p-6 bg-gray-100" : ""
+                  }`}
+                  onClick={(e) => {
+                    if (!(e.target as HTMLElement).closest("button")) {
+                      router.push(`/store/${product.id}`); // ✅ Navigate to the product page
+                    }
+                  }}
                 >
                   <img
                     src={product.image}
@@ -119,17 +123,33 @@ export default function Store() {
                     className="w-full h-36 object-contain"
                   />
                   <div className="p-4">
-                    <h2 className="text-xl font-bold text-black">{product.name}</h2>
+                  <h2
+  className="text-xl font-bold text-black group-hover:text-primary transition cursor-pointer"
+  onClick={(e) => {
+    e.stopPropagation(); // Prevent parent click from toggling expansion
+    router.push(`/store/${product.id}`); // Client-side navigation
+  }}
+>
+  {product.name}
+</h2>
                     <p className="text-gray-700">${product.price.toFixed(2)}</p>
+                    {/* Expand Details If Selected */}
+                    {selectedProduct === product.id && (
+                      <div className="mt-4 text-black">
+                        <p>{product.description ? product.description : "Descripción no disponible"}</p>
+                      </div>
+                    )}
 
                     {/* ✅ Add to Cart Button */}
                     <button
                       className="mt-4 w-full bg-primary text-white py-2 px-4 rounded hover:bg-accent transition"
-                      onClick={() => addToCart({ ...product, price: Number(product.price), quantity: 1 })}
+                      onClick={(e) => {
+                        e.stopPropagation(); // Prevent parent click from triggering
+                        addToCart({ ...product, price: Number(product.price), quantity: 1 });
+                      }}
                     >
                       Add to Cart
                     </button>
-
                   </div>
                 </div>
               ))
