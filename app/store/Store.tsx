@@ -85,7 +85,7 @@ export default function Store() {
                   className={`w-full text-left px-4 py-2 rounded-lg border ${
                     selectedCategory === category
                       ? "bg-primary text-white"
-                      : "bg-gray-100 text-gray-800 hover:bg-primary hover:text-white"
+                      : "bg-gray-100 text-black hover:bg-primary hover:text-white"
                   }`}
                   onClick={() => setSelectedCategory(category)}
                 >
@@ -116,7 +116,7 @@ export default function Store() {
                   <img
                     src={product.image}
                     alt={product.name}
-                    className="w-full h-48 object-cover"
+                    className="w-full h-36 object-contain"
                   />
                   <div className="p-4">
                     <h2 className="text-xl font-bold text-black">{product.name}</h2>
