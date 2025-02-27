@@ -14,20 +14,18 @@ interface BlogArticle {
   image?: string;
 }
 
-// ✅ Corrected function signature
+// ✅ Corrected function signature using `RouteContext`
 export async function GET(
-  req: NextRequest, // ✅ First argument is always the request
-  context: { params: { id: string } } // ✅ Second argument contains params
+  req: NextRequest, 
+  { params }: { params: { id: string } } // ✅ Using Next.js' required type structure
 ) {
   try {
-    const { id } = context.params;
-
-    if (!id) {
+    if (!params?.id) {
       return NextResponse.json({ error: "Invalid request: Missing ID" }, { status: 400 });
     }
 
     // Convert ID from string to number
-    const requestedId = Number(id);
+    const requestedId = Number(params.id);
     if (isNaN(requestedId)) {
       return NextResponse.json({ error: "Invalid ID format" }, { status: 400 });
     }
