@@ -77,7 +77,7 @@ export default function Store() {
       <div className="flex flex-col lg:flex-row gap-8">
         {/* Sidebar */}
         <aside className="w-full lg:w-1/4">
-          <h2 className="text-xl font-bold mb-4">Categorías</h2>
+          <h2 className="text-xl font-bold mb-4 text-black">Categorías</h2>
           <ul className="space-y-2">
             {categories.map((category) => (
               <li key={category}>
@@ -119,7 +119,7 @@ export default function Store() {
                     className="w-full h-48 object-cover"
                   />
                   <div className="p-4">
-                    <h2 className="text-xl font-bold">{product.name}</h2>
+                    <h2 className="text-xl font-bold text-black">{product.name}</h2>
                     <p className="text-gray-700">${product.price.toFixed(2)}</p>
 
                     {/* ✅ Add to Cart Button */}

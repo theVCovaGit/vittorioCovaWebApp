@@ -16,7 +16,7 @@ export default function CartDrawer() {
 >
       {/* Header */}
       <div className="flex items-center justify-between p-4 border-b">
-        <h2 className="text-lg font-bold">Tu Carrito</h2>
+        <h2 className="text-lg font-bold text-black">Tu Carrito</h2>
         <button onClick={toggleCart} className="text-gray-600">&times;</button>
       </div>
 

@@ -66,7 +66,7 @@ export default function Blog() {
           {/* Featured Post */}
           <div className="lg:col-span-2">
             <a href={`/blog/${featuredPost.id}`} className="block group">
-              <h2 className="text-2xl font-bold mb-2 group-hover:text-primary transition">
+              <h2 className="text-2xl font-bold mb-2 group-hover:text-primary transition text-black">
                 {featuredPost.title}
               </h2>
               <p className="text-gray-700">{featuredPost.description}</p>
@@ -75,7 +75,7 @@ export default function Blog() {
 
           {/* Recent Posts */}
           <div>
-            <h3 className="text-xl font-bold mb-4">Nuevos posts</h3>
+            <h3 className="text-xl font-bold mb-4 text-black">Nuevos posts</h3>
             <ul className="space-y-4">
               {recentPosts.map((post) => (
                 <li key={post.id}>
@@ -87,7 +87,7 @@ export default function Blog() {
                         day: "numeric",
                       })}
                     </p>
-                    <h4 className="text-lg font-medium group-hover:text-primary transition">
+                    <h4 className="text-lg font-medium group-hover:text-primary transition text-black">
                       {post.title}
                     </h4>
                   </a>
