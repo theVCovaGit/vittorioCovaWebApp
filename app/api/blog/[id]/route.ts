@@ -14,18 +14,19 @@ interface BlogArticle {
   image?: string;
 }
 
-// ✅ Corrected function signature using `RouteContext`
-export async function GET(
-  req: NextRequest, 
-  { params }: { params: { id: string } } // ✅ Using Next.js' required type structure
-) {
+// ✅ Workaround: Extract ID manually from URL
+export async function GET(req: NextRequest) {
   try {
-    if (!params?.id) {
+    // Extract pathname and get the ID manually
+    const url = new URL(req.url);
+    const id = url.pathname.split("/").pop(); // Extracts the last part of the URL
+
+    if (!id) {
       return NextResponse.json({ error: "Invalid request: Missing ID" }, { status: 400 });
     }
 
     // Convert ID from string to number
-    const requestedId = Number(params.id);
+    const requestedId = Number(id);
     if (isNaN(requestedId)) {
       return NextResponse.json({ error: "Invalid ID format" }, { status: 400 });
     }
