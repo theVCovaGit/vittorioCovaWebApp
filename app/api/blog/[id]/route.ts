@@ -17,14 +17,14 @@ interface BlogArticle {
 // ✅ GET a single blog post by ID
 export async function GET(
   req: NextRequest,
-  { params }: { params: { id?: string } }
+  { params }: { params: { id: string } } // ✅ No "?"
 ) {
   try {
     if (!params.id) {
       return NextResponse.json({ error: "Invalid request: Missing ID" }, { status: 400 });
     }
 
-    // Convert ID from string to number to match Redis data
+    // Convert ID from string to number
     const requestedId = Number(params.id);
     if (isNaN(requestedId)) {
       return NextResponse.json({ error: "Invalid ID format" }, { status: 400 });
@@ -63,3 +63,4 @@ export async function GET(
     return NextResponse.json({ error: "Failed to fetch blog post" }, { status: 500 });
   }
 }
+
