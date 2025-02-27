@@ -5,19 +5,18 @@ import { NextRequest, NextResponse } from "next/server";
 const redis = Redis.fromEnv();
 
 interface BlogArticle {
-  id: number; // 🔥 Fix: Ensure ID is a number to match Redis
+  id: number;
   title: string;
   content: string;
   excerpt?: string;
   author?: string;
   date: string;
-  image?: string; // Optional thumbnail
+  image?: string;
 }
 
 // ✅ GET a single blog post by ID
 export async function GET(
-  req: NextRequest,
-  { params }: { params: { id: string } } // ✅ No "?"
+  { params }: { params: Record<string, string> } // ✅ Fix applied here
 ) {
   try {
     if (!params.id) {
