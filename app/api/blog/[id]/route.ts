@@ -1,5 +1,5 @@
 import { Redis } from "@upstash/redis";
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 
 // Initialize Redis
 const redis = Redis.fromEnv();
@@ -14,17 +14,20 @@ interface BlogArticle {
   image?: string;
 }
 
-// ✅ GET a single blog post by ID
+// ✅ Corrected function signature
 export async function GET(
-  { params }: { params: Record<string, string> } // ✅ Fix applied here
+  req: NextRequest, // ✅ First argument is always the request
+  context: { params: { id: string } } // ✅ Second argument contains params
 ) {
   try {
-    if (!params.id) {
+    const { id } = context.params;
+
+    if (!id) {
       return NextResponse.json({ error: "Invalid request: Missing ID" }, { status: 400 });
     }
 
     // Convert ID from string to number
-    const requestedId = Number(params.id);
+    const requestedId = Number(id);
     if (isNaN(requestedId)) {
       return NextResponse.json({ error: "Invalid ID format" }, { status: 400 });
     }
@@ -45,7 +48,7 @@ export async function GET(
     }
 
     console.log("🔍 Searching for post with ID:", requestedId);
-    console.log("📝 Available IDs in Redis:", articles.map(a => a.id));
+    console.log("📝 Available IDs in Redis:", articles.map((a) => a.id));
 
     // ✅ Find the specific blog post by ID
     const post = articles.find((article) => article.id === requestedId);
