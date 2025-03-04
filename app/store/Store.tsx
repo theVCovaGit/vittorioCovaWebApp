@@ -1,73 +1,36 @@
 "use client";
 
-import { useState, useEffect, useMemo } from "react";
+import { useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
-import { products } from "./products"; 
-import { useCart } from "@/context/CartContext"; // Import Cart Context
+import { useProducts } from "./products"; // ✅ Centralized product fetching
+import { useCart } from "@/context/CartContext"; // ✅ Import Cart Context
 
 export default function Store() {
-  const { addToCart } = useCart(); // Get addToCart function from context
+  const { addToCart } = useCart();
+  const { products, loading } = useProducts(); // ✅ Fetch dynamic products
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("todas");
-  const [selectedProduct, setSelectedProduct] = useState<number | null>(null);
   const searchParams = useSearchParams();
-  const [productPrices, setProductPrices] = useState<{ id: number; price: number }[]>([]);
-  const router = useRouter(); // Inside the component
+  const router = useRouter();
 
-  // Fetch Prices from Redis
-  useEffect(() => {
-    async function fetchPrices() {
-      try {
-        const response = await fetch("/api/products");
-        const data = await response.json();
-  
-        if (data.products && Array.isArray(data.products)) {
-          setProductPrices(
-            data.products.map((p: { id: number; originalPrice: number; discount: string }) => ({
-              id: p.id,
-              price: Math.max(
-                p.originalPrice - 
-                (p.discount.endsWith('%') ? (p.originalPrice * parseFloat(p.discount) / 100) : parseFloat(p.discount)), 
-                0
-              )
-            }))
-          );
-        } else {
-          setProductPrices([]);
-        }
-      } catch (error) {
-        console.error("Failed to fetch product prices", error);
-        setProductPrices([]);
-      }
-    }
-  
-    fetchPrices();
-  
-    const interval = setInterval(fetchPrices, 30000);
-    return () => clearInterval(interval);
-  }, []);
-  
   const categories = ["todas", "aire", "descanso", "agua", "repuestos"];
 
-  useEffect(() => {
+  // Update selectedCategory based on URL search params
+  useState(() => {
     const category = searchParams.get("category") || "todas";
     setSelectedCategory(category);
-  }, [searchParams]);
+  });
 
-  const productsWithPrices = products.map((product) => ({
-    ...product,
-    price: productPrices.find((p) => p.id === product.id)?.price || product.price, 
-  }));
-
-  const filteredProducts = useMemo(
-    () =>
-      productsWithPrices.filter(
-        (product) =>
-          (selectedCategory === "todas" || product.category === selectedCategory) &&
-          product.name.toLowerCase().includes(searchTerm.toLowerCase())
-      ),
-    [searchTerm, selectedCategory, productsWithPrices]
+  // Filtered products based on category and search term
+  const filteredProducts = products.filter(
+    (product) =>
+      (selectedCategory === "todas" || product.category === selectedCategory) &&
+      product.name.toLowerCase().includes(searchTerm.toLowerCase())
   );
+
+  if (loading) {
+    return <p className="text-center text-gray-500">Cargando productos...</p>;
+  }
 
   return (
     <div className="container mx-auto py-8 overflow-hidden">
@@ -108,14 +71,8 @@ export default function Store() {
               filteredProducts.map((product) => (
                 <div
                   key={product.id}
-                  className={`border rounded-lg overflow-hidden shadow hover:shadow-lg transition cursor-pointer ${
-                    selectedProduct === product.id ? "p-6 bg-gray-100" : ""
-                  }`}
-                  onClick={(e) => {
-                    if (!(e.target as HTMLElement).closest("button")) {
-                      router.push(`/store/${product.id}`); // ✅ Navigate to the product page
-                    }
-                  }}
+                  className="border rounded-lg overflow-hidden shadow hover:shadow-lg transition cursor-pointer"
+                  onClick={() => router.push(`/store/${product.id}`)} // ✅ Navigate to product page
                 >
                   <img
                     src={product.image}
@@ -123,38 +80,26 @@ export default function Store() {
                     className="w-full h-36 object-contain"
                   />
                   <div className="p-4">
-                  <h2
-  className="text-xl font-bold text-black group-hover:text-primary transition cursor-pointer"
-  onClick={(e) => {
-    e.stopPropagation(); // Prevent parent click from toggling expansion
-    router.push(`/store/${product.id}`); // Client-side navigation
-  }}
->
-  {product.name}
-</h2>
-                    <p className="text-gray-700">${product.price.toFixed(2)}</p>
-                    {/* Expand Details If Selected */}
-                    {selectedProduct === product.id && (
-                      <div className="mt-4 text-black">
-                        <p>{product.description ? product.description : "Descripción no disponible"}</p>
-                      </div>
-                    )}
+                    <h2 className="text-xl font-bold text-black group-hover:text-primary transition">
+                      {product.name}
+                    </h2>
+                    <p className="text-gray-700">{product.price ? `$${product.price.toFixed(2)}` : "Precio no disponible"}</p>
 
                     {/* ✅ Add to Cart Button */}
                     <button
                       className="mt-4 w-full bg-primary text-white py-2 px-4 rounded hover:bg-accent transition"
                       onClick={(e) => {
-                        e.stopPropagation(); // Prevent parent click from triggering
+                        e.stopPropagation(); // Prevent navigation trigger
                         addToCart({ ...product, price: Number(product.price), quantity: 1 });
                       }}
                     >
-                      Add to Cart
+                      Añadir al carrito
                     </button>
                   </div>
                 </div>
               ))
             ) : (
-              <p className="text-center text-gray-500 col-span-full">No products found</p>
+              <p className="text-center text-gray-500 col-span-full">No se encontraron productos</p>
             )}
           </div>
         </div>
