@@ -25,7 +25,7 @@ export async function GET(
       return NextResponse.json({ error: "No products found" }, { status: 404 });
     }
 
-    let products: Product[] = typeof productsData === "string" ? JSON.parse(productsData) : productsData;
+    const products: Product[] = typeof productsData === "string" ? JSON.parse(productsData) : productsData;
 
     const requestedId = Number(params.id);
     if (isNaN(requestedId)) {

@@ -28,9 +28,9 @@ const AdminPage = () => {
   // ✅ Stable useEffect dependencies (track length, not entire array)
   useEffect(() => {
     if (isAuthenticated && showPrices && !loading) {
-      setProductData(products); // ✅ Ensure products are loaded properly
+      setProductData([...products]); // ✅ Ensures new state reference
     }
-  }, [isAuthenticated, showPrices, loading, products.length]);
+  }, [isAuthenticated, showPrices, loading, products]);  
   
   useEffect(() => {
     if (isAuthenticated && showBlog) {
