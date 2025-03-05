@@ -29,7 +29,7 @@ const productDetails: Product[] = [
   { id: 12, name: "Repuesto PiMag", description: "whatever", image: "/images/product3.jpg", category: "repuestos" },
 ];
 
-// ✅ Hook to Fetch Prices from Redis & Merge with Products
+// Hook to Fetch Prices from Redis & Merge with Products
 export function useProducts() {
   const [products, setProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState(true);
@@ -41,7 +41,7 @@ export function useProducts() {
         const data = await response.json();
 
         if (data.products && Array.isArray(data.products)) {
-          // ✅ Merge Static Product Details with Fetched Prices
+          // Merge Static Product Details with Fetched Prices
           const updatedProducts = productDetails.map((product) => {
             const matchingProduct = data.products.find((p: { id: number }) => p.id === product.id);
 
@@ -62,7 +62,7 @@ export function useProducts() {
             };
           });
 
-          setProducts(updatedProducts);
+    setProducts(updatedProducts);
         } else {
           console.error("Invalid product data received:", data);
           setProducts(productDetails); // Default to static data if API fails

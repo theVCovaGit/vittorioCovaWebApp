@@ -2,8 +2,10 @@
 
 import { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
+import { useCart } from "@/context/CartContext";
 
 interface Product {
+  category: string;
   id: number;
   name: string;
   description: string;
@@ -18,6 +20,7 @@ export default function ProductPage() {
   const [product, setProduct] = useState<Product | null>(null);
   const [loading, setLoading] = useState(true);
   const [quantity, setQuantity] = useState(1);
+  const { addToCart } = useCart();
 
   useEffect(() => {
     if (!id) return;
@@ -30,6 +33,8 @@ export default function ProductPage() {
         if (!data.error) {
           setProduct({
             ...data,
+            category: data.category || "uncategorized", // ✅ Ensure category is always set
+            image: data.image ?? "/images/placeholder.png", // ✅ Ensure image is always a string
             price: Math.max(
               data.originalPrice -
                 (data.discount.endsWith('%') 
@@ -38,7 +43,7 @@ export default function ProductPage() {
                 ), 
               0
             ),
-          });
+          });       
         }
       } catch (error) {
         console.error("Error fetching product:", error);
@@ -52,20 +57,14 @@ export default function ProductPage() {
 
   const handleAddToCart = () => {
     if (!product) return;
-
-    const cart = JSON.parse(localStorage.getItem("cart") || "[]");
-    const existingItem = cart.find((item: Product) => item.id === product.id);
-
-    if (existingItem) {
-      existingItem.quantity += quantity;
-    } else {
-      cart.push({ ...product, quantity });
-    }
-
-    localStorage.setItem("cart", JSON.stringify(cart));
-    alert(`${quantity} ${product.name} añadido(s) al carrito`);
-  };
-
+  
+    addToCart({
+      ...product,
+      image: product.image ?? "/images/placeholder.png", // ✅ Ensure image is always a string
+      quantity, // ✅ Ensure quantity is included
+    });
+  };  
+    
   if (loading) {
     return <p className="text-center text-gray-500">Cargando producto...</p>;
   }
@@ -104,19 +103,19 @@ export default function ProductPage() {
 
           {/* Quantity Selector */}
           <div className="mt-4 flex items-center gap-4">
-            <label className="text-lg font-medium">Cantidad:</label>
+            <label className="text-black text-lg font-medium">Cantidad:</label>
             <input
               type="number"
               min="1"
               value={quantity}
               onChange={(e) => setQuantity(Math.max(1, parseInt(e.target.value) || 1))}
-              className="w-16 text-center p-2 border rounded-lg"
+              className="text-black w-16 text-center p-2 border rounded-lg"
             />
           </div>
 
           {/* Add to Cart Button */}
           <button
-            onClick={handleAddToCart}
+            onClick={handleAddToCart} // ✅ Use cart function directly
             className="mt-6 bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 transition w-full"
           >
             Añadir al carrito
