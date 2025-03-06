@@ -65,10 +65,10 @@ const AdminPage = () => {
   };
 
   // ✅ Toggle Sections
-  const handlePreciosClick = () => {
+  const handleProductosClick = () => {
     setShowPrices(true);
     setShowBlog(false);
-  };
+  };  
 
   const handleBlogClick = () => {
     setShowBlog(true);
@@ -141,6 +141,27 @@ const AdminPage = () => {
     }
   };
 
+  const handleCreateProduct = () => {
+    const newProduct: Product = {
+      id: Date.now(), // ✅ Unique ID based on timestamp
+      name: "Nuevo Producto",
+      description: "Descripción del producto",
+      image: "/images/placeholder.png", // ✅ Default image
+      category: "uncategorized", // ✅ Default category
+      originalPrice: 0, // ✅ Default price
+      discount: "0",
+      price: 0,
+    };
+  
+    setProductData((prevData) => [...prevData, newProduct]);
+  };
+
+  const handleDeleteProduct = (id: number) => {
+    if (!confirm("¿Estás seguro de que quieres eliminar este producto?")) return;
+  
+    setProductData((prevData) => prevData.filter((product) => product.id !== id));
+  };  
+
   const handlePriceChange = (id: number, field: "originalPrice" | "discount", value: string) => {
     setProductData((prevData) =>
       prevData.map((product) =>
@@ -163,24 +184,34 @@ const AdminPage = () => {
     );
   };
 
-  const handleSaveChanges = async () => {
-    try {
-      const response = await fetch("/api/products", {
-        method: "PUT",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ products: productData }),
-      });
-  
-      if (response.ok) {
-        alert("Precios actualizados!");
-      } else {
-        alert("Error al actualizar los precios.");
-      }
-    } catch (error) {
-      console.error("Error:", error);
-      alert("Hubo un problema al guardar los cambios.");
+
+const handleProductChange = (id: number, field: "name" | "description", value: string) => {
+  setProductData((prevData) =>
+    prevData.map((product) =>
+      product.id === id ? { ...product, [field]: value } : product
+    )
+  );
+};
+
+const handleSaveChanges = async () => {
+  try {
+    const response = await fetch("/api/products", {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ products: productData }),
+    });
+
+    if (response.ok) {
+      alert("Productos actualizados!");
+    } else {
+      alert("Error al actualizar los productos.");
     }
-  };  
+  } catch (error) {
+    console.error("Error:", error);
+    alert("Hubo un problema al guardar los cambios.");
+  }
+};
+  
 
   if (!isAuthenticated) {
     return (
@@ -206,9 +237,9 @@ const AdminPage = () => {
     <div className="min-h-screen bg-white text-[#19333F] p-6">
       <h1 className="text-black text-2xl font-bold">Admin Dashboard</h1>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-4">
-        <button onClick={handlePreciosClick} className="bg-blue-600 text-white py-3 px-6 rounded-md">
-          Precios
-        </button>
+      <button onClick={handleProductosClick} className="bg-blue-600 text-white py-3 px-6 rounded-md">
+        Productos
+      </button>
         <button onClick={handleBlogClick} className="bg-blue-600 text-white py-3 px-6 rounded-md">
           Blog
         </button>
@@ -270,24 +301,47 @@ const AdminPage = () => {
 
       {showPrices && (
         <div className="mt-6">
-          <h2 className="text-xl font-bold">Ajustar Precios</h2>
+          <h2 className="text-black text-xl font-bold">Modificar productos</h2>
+          <button onClick={handleCreateProduct} className="bg-green-600 text-white py-2 px-4 mb-4 rounded-md">
+            Agregar Nuevo Producto
+          </button>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
             {productData.map((product) => (
               <div key={product.id} className="p-4 bg-gray-800 text-white rounded-md">
-                <h3 className="font-bold">{product.name}</h3>
-                <input
-                  type="text"
-                  value={(product.originalPrice ?? 0).toFixed(2)}
-                  onChange={(e) => handlePriceChange(product.id, "originalPrice", e.target.value)}
-                  className="w-full p-2 mt-2 border border-gray-600 rounded-md text-black"
-                />
-                <input
-                  type="text"
-                  value={product.discount ?? "0"}
-                  onChange={(e) => handlePriceChange(product.id, "discount", e.target.value)}
-                  className="w-full p-2 mt-2 border border-gray-600 rounded-md text-black"
-                />
-              </div>
+              {/* ✅ Editable Name */}
+              <input
+                type="text"
+                value={product.name}
+                onChange={(e) => handleProductChange(product.id, "name", e.target.value)}
+                className="w-full p-2 mt-2 border border-gray-600 rounded-md text-black font-bold"
+              />
+            
+              {/* ✅ Editable Description */}
+              <textarea
+                value={product.description}
+                onChange={(e) => handleProductChange(product.id, "description", e.target.value)}
+                className="w-full p-2 mt-2 border border-gray-600 rounded-md text-black"
+                rows={2}
+              />
+            
+              {/* ✅ Editable Price (Existing Functionality) */}
+              <input
+                type="text"
+                value={(product.originalPrice ?? 0).toFixed(2)}
+                onChange={(e) => handlePriceChange(product.id, "originalPrice", e.target.value)}
+                className="w-full p-2 mt-2 border border-gray-600 rounded-md text-black"
+              />
+              <input
+                type="text"
+                value={product.discount ?? "0"}
+                onChange={(e) => handlePriceChange(product.id, "discount", e.target.value)}
+                className="w-full p-2 mt-2 border border-gray-600 rounded-md text-black"
+              />
+              <button onClick={() => handleDeleteProduct(product.id)} className="bg-red-600 text-white py-2 px-4 mt-2 rounded-md">
+                Eliminar Producto
+              </button>
+            </div>
+            
             ))}
           </div>
           <button onClick={handleSaveChanges} className="bg-green-600 text-white py-2 px-4 mt-4">

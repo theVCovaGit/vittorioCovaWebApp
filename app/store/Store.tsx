@@ -1,13 +1,25 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
-import { useProducts } from "./products"; // ✅ Centralized product fetching
 import { useCart } from "@/context/CartContext"; // ✅ Import Cart Context
+
+// ✅ Define Product Type
+interface Product {
+  id: number;
+  name: string;
+  description: string;
+  image: string;
+  category: string;
+  originalPrice: number;
+  discount: string;
+  price: number;
+}
 
 export default function Store() {
   const { addToCart } = useCart();
-  const { products, loading } = useProducts(); // ✅ Fetch dynamic products
+  const [products, setProducts] = useState<Product[]>([]);
+  const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("todas");
   const searchParams = useSearchParams();
@@ -15,13 +27,34 @@ export default function Store() {
 
   const categories = ["todas", "aire", "descanso", "agua", "repuestos"];
 
-  // Update selectedCategory based on URL search params
-  useState(() => {
+  // ✅ Fetch products dynamically from Redis API
+  useEffect(() => {
+    async function fetchProducts() {
+      try {
+        const response = await fetch("/api/products");
+        const data = await response.json();
+        if (data.products && Array.isArray(data.products)) {
+          setProducts(data.products);
+        } else {
+          console.error("Invalid product data received:", data);
+        }
+      } catch (error) {
+        console.error("Failed to fetch products:", error);
+      } finally {
+        setLoading(false);
+      }
+    }
+
+    fetchProducts();
+  }, []);
+
+  // ✅ Update selectedCategory based on URL search params
+  useEffect(() => {
     const category = searchParams.get("category") || "todas";
     setSelectedCategory(category);
-  });
+  }, [searchParams]);
 
-  // Filtered products based on category and search term
+  // ✅ Filtered products based on category and search term
   const filteredProducts = products.filter(
     (product) =>
       (selectedCategory === "todas" || product.category === selectedCategory) &&
@@ -61,7 +94,7 @@ export default function Store() {
           <input
             type="text"
             placeholder="Buscar productos..."
-            className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-primary mb-4"
+            className="text-black w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-primary mb-4"
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
           />
@@ -74,8 +107,8 @@ export default function Store() {
                   className="border rounded-lg overflow-hidden shadow hover:shadow-lg transition cursor-pointer"
                   onClick={() => router.push(`/store/${product.id}`)} // ✅ Navigate to product page
                 >
-                  <img
-                    src={product.image}
+                 <img
+                    src={product.image ? product.image : "/images/placeholder.png"} // ✅ Default fallback image
                     alt={product.name}
                     className="w-full h-36 object-contain"
                   />
@@ -83,7 +116,9 @@ export default function Store() {
                     <h2 className="text-xl font-bold text-black group-hover:text-primary transition">
                       {product.name}
                     </h2>
-                    <p className="text-gray-700">{product.price ? `$${product.price.toFixed(2)}` : "Precio no disponible"}</p>
+                    <p className="text-gray-700">
+                      {product.price && product.price > 0 ? `$${product.price.toFixed(2)}` : "Precio no disponible"}
+                    </p>
 
                     {/* ✅ Add to Cart Button */}
                     <button

@@ -17,7 +17,7 @@ const productDetails: Product[] = [
   { id: 0, name: "PiMag Hydrogen", description: "whatever", image: "/images/PiDrogen.png", category: "agua" },
   { id: 1, name: "Pi Water", description: "whatever", image: "/images/Pi-Water.png", category: "agua" },
   { id: 2, name: "Optimizer", description: "whatever", image: "/images/PiMag-Optimizer.png", category: "agua" },
-  { id: 3, name: "Waterfall", description: "whatever", image: "/images/PiMag-Waterfall.png", category: "agua" },
+  { id: 3, name: "PiMag Waterfall", description: "- Libre de sedimentos, químicos y sabores", image: "/images/PiMag-Waterfall.png", category: "agua" },
   { id: 4, name: "Kenko Air Purifier", description: "whatever", image: "/images/Kenko-Air.png", category: "aire" },
   { id: 5, name: "Kenko Sleep", description: "whatever", image: "/images/Colchon.png", category: "descanso" },
   { id: 6, name: "Kenko Sleep Comforter", description: "whatever", image: "/images/product3.jpg", category: "descanso" },
