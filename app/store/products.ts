@@ -12,6 +12,7 @@ export interface Product {
   price?: number; // ✅ Final price after discount calculation
 }
 
+/*
 // Hardcoded Product Details (Without Prices)
 const productDetails: Product[] = [
   { id: 0, name: "PiMag Hydrogen", description: "whatever", image: "/images/PiDrogen.png", category: "agua" },
@@ -28,54 +29,50 @@ const productDetails: Product[] = [
   { id: 11, name: "Repuesto PiMag Piwater", description: "whatever", image: "/images/product3.jpg", category: "repuestos" },
   { id: 12, name: "Repuesto PiMag", description: "whatever", image: "/images/product3.jpg", category: "repuestos" },
 ];
+*/
 
-// Hook to Fetch Prices from Redis & Merge with Products
+// ✅ Hook to Fetch Products Directly from Redis
 export function useProducts() {
   const [products, setProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    async function fetchPrices() {
+    async function fetchProducts() {
       try {
         const response = await fetch("/api/products");
         const data = await response.json();
 
         if (data.products && Array.isArray(data.products)) {
-          // Merge Static Product Details with Fetched Prices
-          const updatedProducts = productDetails.map((product) => {
-            const matchingProduct = data.products.find((p: { id: number }) => p.id === product.id);
-
-            const originalPrice = matchingProduct?.originalPrice ?? product.originalPrice ?? 0;
-            const discount = matchingProduct?.discount ?? "0";
+          // ✅ Calculate the correct price and ensure all data is well-structured
+          const updatedProducts = data.products.map((product: Product) => {
+            const originalPrice = product.originalPrice ?? 0;
+            const discount = product.discount ?? "0";
 
             return {
               ...product,
-              originalPrice, // ✅ Ensure originalPrice is present
-              discount, // ✅ Store discount for admin adjustments
+              image: product.image || "/images/placeholder.png", // ✅ Ensure image is always valid
               price: Math.max(
                 originalPrice -
-                  (discount.endsWith('%')
-                    ? (originalPrice * parseFloat(discount) / 100) // ✅ Percentage discount
+                  (discount.endsWith("%")
+                    ? (originalPrice * parseFloat(discount)) / 100 // ✅ Percentage discount
                     : parseFloat(discount) || 0), // ✅ Fixed discount
                 0
               ),
             };
           });
 
-    setProducts(updatedProducts);
+          setProducts(updatedProducts);
         } else {
           console.error("Invalid product data received:", data);
-          setProducts(productDetails); // Default to static data if API fails
         }
       } catch (error) {
-        console.error("Failed to fetch product prices", error);
-        setProducts(productDetails); // Default to static data if API fails
+        console.error("Failed to fetch products", error);
       } finally {
         setLoading(false);
       }
     }
 
-    fetchPrices();
+    fetchProducts();
   }, []);
 
   return { products, loading };

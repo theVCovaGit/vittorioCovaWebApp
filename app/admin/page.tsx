@@ -25,12 +25,27 @@ const AdminPage = () => {
 
   const hardcodedPassword = "123";
 
-  // ✅ Stable useEffect dependencies (track length, not entire array)
+  // Stable useEffect dependencies (track length, not entire array)
   useEffect(() => {
-    if (isAuthenticated && showPrices && !loading) {
-      setProductData([...products]); // ✅ Ensures new state reference
+    if (isAuthenticated && showPrices) {
+      fetchProductsFromDB();
     }
-  }, [isAuthenticated, showPrices, loading, products]);  
+  }, [isAuthenticated, showPrices]);
+  
+  const fetchProductsFromDB = async () => {
+    try {
+      const response = await fetch("/api/products");
+      const data = await response.json();
+  
+      if (data.products && Array.isArray(data.products)) {
+        setProductData(data.products);
+      } else {
+        console.error("Invalid product data:", data);
+      }
+    } catch (error) {
+      console.error("Failed to fetch products:", error);
+    }
+  };    
   
   useEffect(() => {
     if (isAuthenticated && showBlog) {
@@ -141,25 +156,57 @@ const AdminPage = () => {
     }
   };
 
-  const handleCreateProduct = () => {
+  const handleCreateProduct = async () => {
     const newProduct: Product = {
-      id: Date.now(), // ✅ Unique ID based on timestamp
+      id: Date.now(),
       name: "Nuevo Producto",
       description: "Descripción del producto",
-      image: "/images/placeholder.png", // ✅ Default image
-      category: "uncategorized", // ✅ Default category
-      originalPrice: 0, // ✅ Default price
+      image: "/images/placeholder.png",
+      category: "uncategorized",
+      originalPrice: 0,
       discount: "0",
       price: 0,
     };
   
-    setProductData((prevData) => [...prevData, newProduct]);
-  };
+    try {
+      const response = await fetch("/api/products", {
+        method: "POST", // ✅ Change to POST for new product creation
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ product: newProduct }),
+      });
+  
+      if (response.ok) {
+        alert("Producto creado!");
+        fetchProductsFromDB(); // ✅ Refresh live data
+      } else {
+        alert("Error al crear el producto.");
+      }
+    } catch (error) {
+      console.error("Error:", error);
+      alert("Hubo un problema al crear el producto.");
+    }
+  };  
 
-  const handleDeleteProduct = (id: number) => {
+  const handleDeleteProduct = async (id: number) => {
     if (!confirm("¿Estás seguro de que quieres eliminar este producto?")) return;
   
-    setProductData((prevData) => prevData.filter((product) => product.id !== id));
+    try {
+      const response = await fetch("/api/products", {
+        method: "DELETE",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ id }),
+      });
+  
+      if (response.ok) {
+        alert("Producto eliminado!");
+        fetchProductsFromDB(); // ✅ Refresh live data
+      } else {
+        alert("Error al eliminar el producto.");
+      }
+    } catch (error) {
+      console.error("Error:", error);
+      alert("Hubo un problema al eliminar el producto.");
+    }
   };  
 
   const handlePriceChange = (id: number, field: "originalPrice" | "discount", value: string) => {
@@ -184,34 +231,34 @@ const AdminPage = () => {
     );
   };
 
+  const handleProductChange = (id: number, field: "name" | "description" | "category", value: string) => {
+    setProductData((prevData) =>
+      prevData.map((product) =>
+        product.id === id ? { ...product, [field]: value } : product
+      )
+    );
+  };  
 
-const handleProductChange = (id: number, field: "name" | "description", value: string) => {
-  setProductData((prevData) =>
-    prevData.map((product) =>
-      product.id === id ? { ...product, [field]: value } : product
-    )
-  );
-};
-
-const handleSaveChanges = async () => {
-  try {
-    const response = await fetch("/api/products", {
-      method: "PUT",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ products: productData }),
-    });
-
-    if (response.ok) {
-      alert("Productos actualizados!");
-    } else {
-      alert("Error al actualizar los productos.");
-    }
-  } catch (error) {
-    console.error("Error:", error);
-    alert("Hubo un problema al guardar los cambios.");
-  }
-};
+  const handleSaveChanges = async () => {
+    try {
+      const response = await fetch("/api/products", {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ products: productData.map(({ id, name, description, category, originalPrice, discount }) => ({
+          id, name, description, category, originalPrice, discount
+        }))}),
+      });
   
+      if (response.ok) {
+        alert("Productos actualizados!");
+      } else {
+        alert("Error al actualizar los productos.");
+      }
+    } catch (error) {
+      console.error("Error:", error);
+      alert("Hubo un problema al guardar los cambios.");
+    }
+  };  
 
   if (!isAuthenticated) {
     return (
@@ -335,6 +382,13 @@ const handleSaveChanges = async () => {
                 type="text"
                 value={product.discount ?? "0"}
                 onChange={(e) => handlePriceChange(product.id, "discount", e.target.value)}
+                className="w-full p-2 mt-2 border border-gray-600 rounded-md text-black"
+              />
+              {/* ✅ Editable Category */}
+              <input
+                type="text"
+                value={product.category}
+                onChange={(e) => handleProductChange(product.id, "category", e.target.value)}
                 className="w-full p-2 mt-2 border border-gray-600 rounded-md text-black"
               />
               <button onClick={() => handleDeleteProduct(product.id)} className="bg-red-600 text-white py-2 px-4 mt-2 rounded-md">

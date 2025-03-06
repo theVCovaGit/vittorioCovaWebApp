@@ -15,7 +15,7 @@ interface Product {
   price: number; // ✅ Fix: Explicitly define as number
 }
 
-// ✅ GET: Fetch All Products with Correct Discount Applied
+// GET: Fetch All Products with Correct Discount Applied
 export async function GET() {
   try {
     const productsData = await redis.get("products");
@@ -51,7 +51,47 @@ export async function GET() {
   }
 }
 
-// ✅ PUT: Update Products in Redis
+// POST: Create Products in Redis
+export async function POST(req: NextRequest) {
+  try {
+    const { product } = await req.json();
+
+    if (!product || !product.id) {
+      return NextResponse.json({ error: "Invalid product data" }, { status: 400 });
+    }
+
+    // ✅ Fetch existing products
+    const productsData = await redis.get("products");
+    let products: Product[] = [];
+
+    if (typeof productsData === "string") {
+      products = JSON.parse(productsData);
+    } else if (Array.isArray(productsData)) {
+      products = productsData as Product[];
+    }
+
+    // ✅ Add new product
+    products.push({
+      ...product,
+      price: Math.max(
+        product.originalPrice -
+          (product.discount.endsWith("%")
+            ? (product.originalPrice * parseFloat(product.discount)) / 100
+            : parseFloat(product.discount) || 0),
+        0
+      ), // ✅ Ensure price calculation is applied
+    });
+
+    await redis.set("products", JSON.stringify(products)); // ✅ Save to Redis
+
+    return NextResponse.json({ message: "Product added successfully" }, { status: 200 });
+  } catch (error) {
+    console.error("Error adding product:", error);
+    return NextResponse.json({ error: "Failed to add product" }, { status: 500 });
+  }
+}
+
+// PUT: Update Products in Redis
 export async function PUT(req: NextRequest) {
   try {
     const { products } = await req.json();
@@ -60,7 +100,6 @@ export async function PUT(req: NextRequest) {
       return NextResponse.json({ error: "Invalid products format" }, { status: 400 });
     }
 
-    // ✅ Fetch existing products
     const existingProductsData = await redis.get("products");
     let existingProducts: Product[] = [];
 
@@ -70,26 +109,27 @@ export async function PUT(req: NextRequest) {
       existingProducts = existingProductsData as Product[];
     }
 
-    // ✅ Merge new and existing products
     const updatedProducts = products.map((newProduct) => {
       const existingProduct = existingProducts.find((p) => p.id === newProduct.id);
 
-      if (existingProduct) {
-        // ✅ Update existing product
-        return {
-          ...existingProduct, // Preserve existing fields
-          name: newProduct.name,
-          description: newProduct.description,
-          category: newProduct.category || "uncategorized", // ✅ Ensure category is always updated
-          originalPrice: newProduct.originalPrice,
-          discount: newProduct.discount,
-        };
-      }
+      const originalPrice = newProduct.originalPrice || 0;
+      const discount = newProduct.discount || "0";
 
-      // ✅ If it's a new product, add it
+      const discountAmount = discount.endsWith("%")
+        ? (originalPrice * parseFloat(discount)) / 100
+        : parseFloat(discount) || 0;
+
+      const calculatedPrice = Math.max(originalPrice - discountAmount, 0); // ✅ Ensure price is correctly calculated
+
       return {
-        ...newProduct,
+        id: newProduct.id,
+        name: newProduct.name,
+        description: newProduct.description,
         category: newProduct.category || "uncategorized",
+        image: newProduct.image && newProduct.image !== "" ? newProduct.image : "/images/placeholder.png",
+        originalPrice: newProduct.originalPrice,
+        discount: newProduct.discount,
+        price: calculatedPrice, // ✅ Apply correct price calculation
       };
     });
 
@@ -110,17 +150,17 @@ export async function DELETE(req: NextRequest) {
       return NextResponse.json({ error: "Invalid product ID" }, { status: 400 });
     }
 
-    // ✅ Fetch current products
     const existingProductsData = await redis.get("products");
     let existingProducts: Product[] = [];
 
-    if (typeof existingProductsData === "string") {
-      existingProducts = JSON.parse(existingProductsData);
-    } else if (Array.isArray(existingProductsData)) {
-      existingProducts = existingProductsData as Product[];
+    if (existingProductsData) {
+      if (typeof existingProductsData === "string") {
+        existingProducts = JSON.parse(existingProductsData);
+      } else if (Array.isArray(existingProductsData)) {
+        existingProducts = existingProductsData as Product[];
+      }
     }
 
-    // ✅ Remove product with the given ID
     const updatedProducts = existingProducts.filter((product) => product.id !== id);
 
     await redis.set("products", JSON.stringify(updatedProducts));
@@ -131,5 +171,6 @@ export async function DELETE(req: NextRequest) {
     return NextResponse.json({ error: "Failed to delete product" }, { status: 500 });
   }
 }
+
 
 
