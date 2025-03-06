@@ -5,7 +5,6 @@ import { NextRequest, NextResponse } from "next/server";
 const redis = Redis.fromEnv();
 
 interface Product {
-  price: any;
   id: number;
   name: string;
   description: string;
@@ -13,6 +12,7 @@ interface Product {
   category: string;
   originalPrice: number;
   discount: string;
+  price: number; // ✅ Fix: Explicitly define as number
 }
 
 // ✅ GET: Fetch All Products with Correct Discount Applied
@@ -37,11 +37,11 @@ export async function GET() {
           ? (originalPrice * parseFloat(discount) / 100) // ✅ Percentage discount
           : parseFloat(discount) || 0; // ✅ Fixed discount
 
-        return {
-          ...product,
-          image: product.image && product.image !== "" ? product.image : "/images/placeholder.png", // ✅ Ensure image isn't empty
-          price: Math.max(originalPrice - discountAmount, 0), // ✅ Calculate final price
-        };
+          return {
+            ...product,
+            image: product.image && product.image !== "" ? product.image : "/images/placeholder.png",
+            price: Math.max(originalPrice - discountAmount, 0) || 0, // ✅ Ensure price is always a number
+          };
       }),
     }, { status: 200 });
 
