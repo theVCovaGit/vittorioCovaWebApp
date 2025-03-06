@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { useProducts } from "../store/products"; // ✅ Fetch dynamic products
+//import { useProducts } from "../store/products"; // ✅ Fetch dynamic products
 import { Product } from "../store/products"; // ✅ Ensure correct type
 
 interface Article {
@@ -12,7 +12,7 @@ interface Article {
 }
 
 const AdminPage = () => {
-  const { products, loading } = useProducts(); // ✅ Get products
+  //const { products, loading } = useProducts(); // ✅ Get products
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [password, setPassword] = useState("");
   const [showPrices, setShowPrices] = useState(false);

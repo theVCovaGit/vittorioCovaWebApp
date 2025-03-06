@@ -110,8 +110,7 @@ export async function PUT(req: NextRequest) {
     }
 
     const updatedProducts = products.map((newProduct) => {
-      const existingProduct = existingProducts.find((p) => p.id === newProduct.id);
-
+      //const existingProduct = existingProducts.find((p) => p.id === newProduct.id);
       const originalPrice = newProduct.originalPrice || 0;
       const discount = newProduct.discount || "0";
 
