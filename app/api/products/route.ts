@@ -100,14 +100,7 @@ export async function PUT(req: NextRequest) {
       return NextResponse.json({ error: "Invalid products format" }, { status: 400 });
     }
 
-    const existingProductsData = await redis.get("products");
-    let existingProducts: Product[] = [];
-
-    if (typeof existingProductsData === "string") {
-      existingProducts = JSON.parse(existingProductsData);
-    } else if (Array.isArray(existingProductsData)) {
-      existingProducts = existingProductsData as Product[];
-    }
+    await redis.get("products"); // ✅ Remove unused variable, but still fetch existing data to avoid errors
 
     const updatedProducts = products.map((newProduct) => {
       //const existingProduct = existingProducts.find((p) => p.id === newProduct.id);
