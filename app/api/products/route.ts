@@ -13,6 +13,7 @@ interface Product {
   originalPrice: number;
   discount: string;
   price: number; // ✅ Fix: Explicitly define as number
+  sizes?: string[];
 }
 
 // GET: Fetch All Products with Correct Discount Applied
@@ -34,14 +35,15 @@ export async function GET() {
         const discount = product.discount || "0";
 
         const discountAmount = discount.endsWith("%")
-          ? (originalPrice * parseFloat(discount) / 100) // ✅ Percentage discount
-          : parseFloat(discount) || 0; // ✅ Fixed discount
+          ? (originalPrice * parseFloat(discount) / 100) 
+          : parseFloat(discount) || 0; 
 
-          return {
-            ...product,
-            image: product.image && product.image !== "" ? product.image : "/images/placeholder.png",
-            price: Math.max(originalPrice - discountAmount, 0) || 0, // ✅ Ensure price is always a number
-          };
+        return {
+          ...product,
+          image: product.image && product.image !== "" ? product.image : "/images/placeholder.png",
+          price: Math.max(originalPrice - discountAmount, 0) || 0, 
+          sizes: Array.isArray(product.sizes) ? product.sizes : [], // ✅ Ensure sizes are always an array
+        };
       }),
     }, { status: 200 });
 
@@ -50,6 +52,7 @@ export async function GET() {
     return NextResponse.json({ error: "Failed to fetch products" }, { status: 500 });
   }
 }
+
 
 // POST: Create Products in Redis
 export async function POST(req: NextRequest) {
@@ -70,8 +73,8 @@ export async function POST(req: NextRequest) {
       products = productsData as Product[];
     }
 
-    // ✅ Add new product
-    products.push({
+    // ✅ Ensure sizes are stored properly
+    const newProduct: Product = {
       ...product,
       price: Math.max(
         product.originalPrice -
@@ -79,10 +82,14 @@ export async function POST(req: NextRequest) {
             ? (product.originalPrice * parseFloat(product.discount)) / 100
             : parseFloat(product.discount) || 0),
         0
-      ), // ✅ Ensure price calculation is applied
-    });
+      ),
+      sizes: Array.isArray(product.sizes) ? product.sizes : [], // ✅ Ensure sizes are stored as an array
+    };
 
-    await redis.set("products", JSON.stringify(products)); // ✅ Save to Redis
+    // ✅ Add new product
+    products.push(newProduct);
+
+    await redis.set("products", JSON.stringify(products));
 
     return NextResponse.json({ message: "Product added successfully" }, { status: 200 });
   } catch (error) {
@@ -91,6 +98,7 @@ export async function POST(req: NextRequest) {
   }
 }
 
+// PUT: Update Products in Redis
 // PUT: Update Products in Redis
 export async function PUT(req: NextRequest) {
   try {
@@ -103,7 +111,6 @@ export async function PUT(req: NextRequest) {
     await redis.get("products"); // ✅ Remove unused variable, but still fetch existing data to avoid errors
 
     const updatedProducts = products.map((newProduct) => {
-      //const existingProduct = existingProducts.find((p) => p.id === newProduct.id);
       const originalPrice = newProduct.originalPrice || 0;
       const discount = newProduct.discount || "0";
 
@@ -111,7 +118,7 @@ export async function PUT(req: NextRequest) {
         ? (originalPrice * parseFloat(discount)) / 100
         : parseFloat(discount) || 0;
 
-      const calculatedPrice = Math.max(originalPrice - discountAmount, 0); // ✅ Ensure price is correctly calculated
+      const calculatedPrice = Math.max(originalPrice - discountAmount, 0); 
 
       return {
         id: newProduct.id,
@@ -121,7 +128,8 @@ export async function PUT(req: NextRequest) {
         image: newProduct.image && newProduct.image !== "" ? newProduct.image : "/images/placeholder.png",
         originalPrice: newProduct.originalPrice,
         discount: newProduct.discount,
-        price: calculatedPrice, // ✅ Apply correct price calculation
+        price: calculatedPrice, 
+        sizes: Array.isArray(newProduct.sizes) ? newProduct.sizes : [], // ✅ Ensure sizes are always an array
       };
     });
 

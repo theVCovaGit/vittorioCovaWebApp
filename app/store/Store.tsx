@@ -14,6 +14,12 @@ interface Product {
   originalPrice: number;
   discount: string;
   price: number;
+  sizes?: string[]; // ✅ Add optional sizes field
+}
+
+interface CartItem extends Product {
+  selectedSize?: string; // ✅ Optional, only for products with sizes
+  quantity: number; // ✅ Required field for cart
 }
 
 export default function Store() {
@@ -24,31 +30,35 @@ export default function Store() {
   const [selectedCategory, setSelectedCategory] = useState("todas");
   const searchParams = useSearchParams();
   const router = useRouter();
-
   const categories = ["todas", "aire", "descanso", "agua", "repuestos"];
 
-  // ✅ Fetch products dynamically from Redis API
-  useEffect(() => {
-    async function fetchProducts() {
-      try {
-        const response = await fetch("/api/products");
-        const data = await response.json();
-        if (data.products && Array.isArray(data.products)) {
-          setProducts(data.products);
-        } else {
-          console.error("Invalid product data received:", data);
-        }
-      } catch (error) {
-        console.error("Failed to fetch products:", error);
-      } finally {
-        setLoading(false);
+  // Fetch products dynamically from Redis API
+useEffect(() => {
+  async function fetchProducts() {
+    try {
+      const response = await fetch("/api/products");
+      const data = await response.json();
+      if (data.products && Array.isArray(data.products)) {
+        setProducts(
+          data.products.map((product: Product) => ({
+            ...product,
+            sizes: Array.isArray(product.sizes) ? product.sizes : [], // ✅ Ensure sizes are always an array
+          }))
+        );
+      } else {
+        console.error("Invalid product data received:", data);
       }
+    } catch (error) {
+      console.error("Failed to fetch products:", error);
+    } finally {
+      setLoading(false);
     }
+  }
 
-    fetchProducts();
-  }, []);
+  fetchProducts();
+}, []);
 
-  // ✅ Update selectedCategory based on URL search params
+  // Update selectedCategory based on URL search params
   useEffect(() => {
     const category = searchParams.get("category") || "todas";
     setSelectedCategory(category);
@@ -125,8 +135,15 @@ export default function Store() {
                       className="mt-4 w-full bg-primary text-white py-2 px-4 rounded hover:bg-accent transition"
                       onClick={(e) => {
                         e.stopPropagation(); // Prevent navigation trigger
-                        addToCart({ ...product, price: Number(product.price), quantity: 1 });
-                      }}
+                      
+                        const cartItem: CartItem = {
+                          ...product,
+                          price: Number(product.price),
+                          quantity: 1
+                        };
+                      
+                        addToCart(cartItem);
+                      }}                                          
                     >
                       Añadir al carrito
                     </button>

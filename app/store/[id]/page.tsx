@@ -9,10 +9,16 @@ interface Product {
   id: number;
   name: string;
   description: string;
-  image?: string;
+  image: string; // ✅ Ensure image is always a string
   originalPrice: number;
   discount: string;
   price: number;
+  sizes?: string[]; // ✅ Ensure sizes are included
+}
+
+interface CartItem extends Product {
+  quantity: number;
+  selectedSize?: string; // ✅ Optional selected size
 }
 
 export default function ProductPage() {
@@ -21,10 +27,11 @@ export default function ProductPage() {
   const [loading, setLoading] = useState(true);
   const [quantity, setQuantity] = useState(1);
   const { addToCart } = useCart();
+  const [selectedSize, setSelectedSize] = useState<string>("");
 
   useEffect(() => {
     if (!id) return;
-
+  
     async function fetchProduct() {
       try {
         const response = await fetch(`/api/products/${id}`);
@@ -33,8 +40,9 @@ export default function ProductPage() {
         if (!data.error) {
           setProduct({
             ...data,
-            category: data.category || "uncategorized", // ✅ Ensure category is always set
-            image: data.image ?? "/images/placeholder.png", // ✅ Ensure image is always a string
+            category: data.category || "uncategorized", 
+            image: data.image ?? "/images/placeholder.png",
+            sizes: Array.isArray(data.sizes) ? data.sizes : [], // ✅ Ensure sizes are always an array
             price: Math.max(
               data.originalPrice -
                 (data.discount.endsWith('%') 
@@ -51,18 +59,27 @@ export default function ProductPage() {
         setLoading(false);
       }
     }
-
+  
     fetchProduct();
   }, [id]);
+  
 
   const handleAddToCart = () => {
     if (!product) return;
   
-    addToCart({
+    if (product.sizes && product.sizes.length > 0 && !selectedSize) {
+      alert("Por favor, selecciona un tamaño antes de añadir al carrito.");
+      return;
+    }
+  
+    const cartItem: CartItem = {
       ...product,
-      image: product.image ?? "/images/placeholder.png", // ✅ Ensure image is always a string
-      quantity, // ✅ Ensure quantity is included
-    });
+      image: product.image || "/images/placeholder.png", // ✅ Ensure image is always a string
+      quantity,
+      selectedSize: product.sizes && product.sizes.length > 0 ? selectedSize : undefined, // ✅ Only include if product has sizes
+    };
+  
+    addToCart(cartItem);
   };  
     
   if (loading) {
@@ -83,7 +100,6 @@ export default function ProductPage() {
           className="w-96 h-96 object-contain"
         />
 
-        
         {/* Product Details */}
         <div className="max-w-lg">
           <h1 className="text-4xl font-bold text-black">{product.name}</h1>
@@ -100,6 +116,23 @@ export default function ProductPage() {
               ${product.price.toFixed(2)}
             </p>
           </div>
+
+          {/* Size Selector */}
+          {product.sizes && product.sizes.length > 0 && (
+            <div className="mt-4">
+              <label className="text-black text-lg font-medium">Tamaño:</label>
+              <select
+                className="text-black w-full p-2 border rounded-lg mt-2"
+                value={selectedSize}
+                onChange={(e) => setSelectedSize(e.target.value)}
+              >
+                <option value="">Selecciona un tamaño</option>
+                {product.sizes.map((size) => (
+                  <option key={size} value={size}>{size}</option>
+                ))}
+              </select>
+            </div>
+          )}
 
           {/* Quantity Selector */}
           <div className="mt-4 flex items-center gap-4">

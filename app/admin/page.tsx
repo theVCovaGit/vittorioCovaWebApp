@@ -231,10 +231,19 @@ const AdminPage = () => {
     );
   };
 
-  const handleProductChange = (id: number, field: "name" | "description" | "category", value: string) => {
+  const handleProductChange = (
+    id: number,
+    field: "name" | "description" | "category" | "sizes",
+    value: string | string[]
+  ) => {
     setProductData((prevData) =>
       prevData.map((product) =>
-        product.id === id ? { ...product, [field]: value } : product
+        product.id === id
+          ? {
+              ...product,
+              [field]: field === "sizes" ? (Array.isArray(value) ? value : [value]) : value,
+            }
+          : product
       )
     );
   };  
@@ -244,9 +253,9 @@ const AdminPage = () => {
       const response = await fetch("/api/products", {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ products: productData.map(({ id, name, description, category, originalPrice, discount }) => ({
-          id, name, description, category, originalPrice, discount
-        }))}),
+        body: JSON.stringify({ products: productData.map(({ id, name, description, category, originalPrice, discount, sizes }) => ({
+          id, name, description, category, originalPrice, discount, sizes: sizes?.length ? sizes : undefined // ✅ Ensure sizes are optional
+        }))}),        
       });
   
       if (response.ok) {
@@ -384,6 +393,34 @@ const AdminPage = () => {
                 onChange={(e) => handlePriceChange(product.id, "discount", e.target.value)}
                 className="w-full p-2 mt-2 border border-gray-600 rounded-md text-black"
               />
+              
+              {/* ✅ Editable Sizes (Dropdown) */}
+              <div className="mt-2">
+                <label className="text-black font-medium">Tamaños:</label>
+                <div className="flex flex-wrap gap-2 mt-2">
+                  {["Pequeño", "Mediano", "Grande", "Extra Grande"].map((size) => (
+                    <button
+                      key={size}
+                      className={`w-10 h-10 flex items-center justify-center border rounded-full ${
+                        product.sizes?.includes(size) ? "bg-black text-white" : "bg-gray-200 text-black"
+                      }`}
+                      onClick={() =>
+                        handleProductChange(
+                          product.id,
+                          "sizes",
+                          product.sizes?.includes(size)
+                            ? product.sizes.filter((s) => s !== size) // Remove size if selected
+                            : [...(product.sizes || []), size] // Add size if not selected
+                        )
+                      }
+                    >
+                      {size.charAt(0)}
+                    </button>
+                  ))}
+                </div>
+              </div>
+
+
               {/* ✅ Editable Category */}
               <input
                 type="text"

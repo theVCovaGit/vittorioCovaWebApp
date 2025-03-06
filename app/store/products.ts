@@ -7,9 +7,10 @@ export interface Product {
   description: string;
   image: string;
   category: string;
-  originalPrice?: number; // ✅ Original price needed for discount calculations
-  discount?: string; // ✅ Store discount separately
-  price?: number; // ✅ Final price after discount calculation
+  originalPrice?: number; 
+  discount?: string; 
+  price?: number; 
+  sizes?: string[]; 
 }
 
 /*
@@ -31,7 +32,7 @@ const productDetails: Product[] = [
 ];
 */
 
-// ✅ Hook to Fetch Products Directly from Redis
+// Hook to Fetch Products Directly from Redis
 export function useProducts() {
   const [products, setProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState(true);
@@ -43,21 +44,21 @@ export function useProducts() {
         const data = await response.json();
 
         if (data.products && Array.isArray(data.products)) {
-          // ✅ Calculate the correct price and ensure all data is well-structured
           const updatedProducts = data.products.map((product: Product) => {
             const originalPrice = product.originalPrice ?? 0;
             const discount = product.discount ?? "0";
 
             return {
               ...product,
-              image: product.image || "/images/placeholder.png", // ✅ Ensure image is always valid
+              image: product.image || "/images/placeholder.png",
               price: Math.max(
                 originalPrice -
                   (discount.endsWith("%")
-                    ? (originalPrice * parseFloat(discount)) / 100 // ✅ Percentage discount
-                    : parseFloat(discount) || 0), // ✅ Fixed discount
+                    ? (originalPrice * parseFloat(discount)) / 100
+                    : parseFloat(discount) || 0),
                 0
               ),
+              sizes: product.sizes ?? [], // ✅ Ensure sizes are always an array
             };
           });
 
@@ -77,3 +78,4 @@ export function useProducts() {
 
   return { products, loading };
 }
+
