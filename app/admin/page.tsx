@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import ImageUpload from "@/components/imageUpload";
 //import { useProducts } from "../store/products"; // ✅ Fetch dynamic products
 import { Product } from "../store/products"; // ✅ Ensure correct type
 
@@ -233,7 +234,7 @@ const AdminPage = () => {
 
   const handleProductChange = (
     id: number,
-    field: "name" | "description" | "category" | "sizes",
+    field: "name" | "description" | "category" | "sizes" | "image", // ✅ Add "image"
     value: string | string[]
   ) => {
     setProductData((prevData) =>
@@ -241,21 +242,32 @@ const AdminPage = () => {
         product.id === id
           ? {
               ...product,
-              [field]: field === "sizes" ? (Array.isArray(value) ? value : [value]) : value,
+              [field]: field === "sizes"
+                ? (Array.isArray(value) ? value : [value])
+                : value,
             }
           : product
       )
     );
-  };  
+  };   
 
   const handleSaveChanges = async () => {
     try {
       const response = await fetch("/api/products", {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ products: productData.map(({ id, name, description, category, originalPrice, discount, sizes }) => ({
-          id, name, description, category, originalPrice, discount, sizes: sizes?.length ? sizes : undefined // ✅ Ensure sizes are optional
-        }))}),        
+        body: JSON.stringify({
+          products: productData.map(({ id, name, description, category, originalPrice, discount, sizes, image }) => ({
+            id,
+            name,
+            description,
+            category,
+            originalPrice,
+            discount,
+            sizes: sizes?.length ? sizes : undefined,
+            image, // ✅ Include the uploaded image URL
+          })),
+        }),
       });
   
       if (response.ok) {
@@ -267,7 +279,7 @@ const AdminPage = () => {
       console.error("Error:", error);
       alert("Hubo un problema al guardar los cambios.");
     }
-  };  
+  };    
 
   if (!isAuthenticated) {
     return (
@@ -372,7 +384,7 @@ const AdminPage = () => {
                 className="w-full p-2 mt-2 border border-gray-600 rounded-md text-black font-bold"
               />
             
-              {/* ✅ Editable Description */}
+              {/* Editable Description */}
               <textarea
                 value={product.description}
                 onChange={(e) => handleProductChange(product.id, "description", e.target.value)}
@@ -380,7 +392,7 @@ const AdminPage = () => {
                 rows={2}
               />
             
-              {/* ✅ Editable Price (Existing Functionality) */}
+              {/* Editable Price */}
               <input
                 type="text"
                 value={(product.originalPrice ?? 0).toFixed(2)}
@@ -393,8 +405,13 @@ const AdminPage = () => {
                 onChange={(e) => handlePriceChange(product.id, "discount", e.target.value)}
                 className="w-full p-2 mt-2 border border-gray-600 rounded-md text-black"
               />
-              
-              {/* ✅ Editable Sizes (Dropdown) */}
+
+              <ImageUpload
+                onUpload={(url) => handleProductChange(product.id, "image", url)}
+                currentImage={product.image}
+              />
+
+              {/* Editable Sizes */}
               <div className="mt-2">
                 <label className="text-black font-medium">Tamaños:</label>
                 <div className="flex flex-wrap gap-2 mt-2">
