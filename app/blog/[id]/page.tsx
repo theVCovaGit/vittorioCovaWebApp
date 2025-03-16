@@ -4,10 +4,11 @@ import { useState, useEffect } from "react";
 import { useParams } from "next/navigation";
 
 interface Article {
-  id: number; // 🔥 Ensure ID is a number
+  id: number;
   title: string;
   content: string;
   date: string;
+  image?: string; // ✅ Optional image property
 }
 
 export default function BlogPostPage() {
@@ -31,7 +32,7 @@ export default function BlogPostPage() {
       try {
         const response = await fetch(`/api/blog/${numericId}`);
         if (!response.ok) throw new Error(`Post not found (ID: ${numericId})`);
-
+    
         const data = await response.json();
         setPost(data);
       } catch (error) {
@@ -40,7 +41,7 @@ export default function BlogPostPage() {
       } finally {
         setLoading(false);
       }
-    };
+    };    
 
     fetchPost();
   }, [id]);
@@ -62,6 +63,13 @@ export default function BlogPostPage() {
 
   return (
     <div className="container mx-auto p-6 max-w-2xl">
+      {post.image && (
+        <img 
+          src={post.image} 
+          alt={post.title} 
+          className="w-full h-64 object-cover rounded-md mb-6"
+        />
+      )}
       <h1 className="text-3xl font-bold text-[#19333F] mb-4">{post.title}</h1>
       <p className="text-sm text-gray-500 mb-6">
         Publicado el{" "}
@@ -74,4 +82,5 @@ export default function BlogPostPage() {
       <div className="prose prose-lg text-[#19333F]">{post.content}</div>
     </div>
   );
+  
 }

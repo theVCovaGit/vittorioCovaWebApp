@@ -4,9 +4,10 @@ import { useState } from "react";
 interface ImageUploadProps {
   onUpload: (url: string) => void;
   currentImage?: string;
+  type?: "product" | "blog"; // ✅ Add type to distinguish between products and blogs
 }
 
-const ImageUpload = ({ onUpload, currentImage }: ImageUploadProps) => {
+const ImageUpload = ({ onUpload, currentImage, type = "product" }: ImageUploadProps) => {
   const [loading, setLoading] = useState(false);
   const [preview, setPreview] = useState(currentImage || "");
 
@@ -20,7 +21,8 @@ const ImageUpload = ({ onUpload, currentImage }: ImageUploadProps) => {
     formData.append("file", file);
 
     try {
-      const response = await fetch("/api/products", { // ✅ Use a separate endpoint for image upload only
+      const endpoint = type === "product" ? "/api/products" : "/api/blog-upload"; // ✅ Dynamically adjust endpoint
+      const response = await fetch(endpoint, {
         method: "POST",
         body: formData,
       });

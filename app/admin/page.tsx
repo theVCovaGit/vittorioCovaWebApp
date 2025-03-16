@@ -10,6 +10,7 @@ interface Article {
   title: string;
   content: string;
   date: string;
+  image?: string; // ✅ Add image field
 }
 
 const AdminPage = () => {
@@ -23,7 +24,8 @@ const AdminPage = () => {
   const [blogContent, setBlogContent] = useState("");
   const [blogPosts, setBlogPosts] = useState<Article[]>([]);
   const [editingPost, setEditingPost] = useState<Article | null>(null);
-
+  const [blogImage, setBlogImage] = useState<string | null>(null);
+  const [blogFile, setBlogFile] = useState<File | null>(null);
   const hardcodedPassword = "123";
 
   // Stable useEffect dependencies (track length, not entire array)
@@ -91,50 +93,72 @@ const AdminPage = () => {
     setShowPrices(false);
   };
 
-  // ✅ Handle Blog Post Submission & Editing
+  // Handle Blog Post Submission & Editing
   const handlePostBlog = async () => {
     if (!blogTitle || !blogContent) {
       alert("Please enter a title and content for the blog post.");
       return;
     }
-
+  
     const newPost: Article = {
       id: editingPost ? editingPost.id : Date.now(),
       title: blogTitle,
       content: blogContent,
       date: new Date().toISOString(),
+      image: blogImage || "",
     };
-
+  
     try {
-      const response = await fetch("/api/blog", {
-        method: editingPost ? "PUT" : "POST", // ✅ Use PUT for editing
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(newPost),
-      });
-
+      let response;
+  
+      if (blogImage) {
+        // ✅ Send as multipart/form-data if there's an image
+        const formData = new FormData();
+        if (blogFile) {
+          formData.append("file", blogFile);
+        }
+        formData.append("article", JSON.stringify(newPost));
+  
+        response = await fetch("/api/blog", {
+          method: editingPost ? "PUT" : "POST",
+          body: formData, // ✅ No need to set headers; `fetch` sets it automatically for FormData
+        });
+      } else {
+        // ✅ Send as JSON if no image
+        response = await fetch("/api/blog", {
+          method: editingPost ? "PUT" : "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(newPost),
+        });
+      }
+  
       if (response.ok) {
         alert(editingPost ? "Blog post updated!" : "Blog post added!");
         setBlogTitle("");
         setBlogContent("");
+        setBlogImage(null);
         setEditingPost(null);
         fetchBlogPosts(); // ✅ Refresh list
       } else {
-        alert("Error processing blog post.");
+        const errorData = await response.json();
+        console.error("Error processing post:", errorData);
+        alert(errorData.error || "Error processing blog post.");
       }
     } catch (error) {
       console.error("Error:", error);
       alert("There was a problem processing the blog post.");
     }
-  };
-
-  // ✅ Handle Edit
+  };  
+    
+  // Handle Edit
   const handleEditPost = (post: Article) => {
     setEditingPost(post);
     setBlogTitle(post.title);
     setBlogContent(post.content);
+    setBlogImage(post.image || null);
   };
-
-  // ✅ Handle Delete
+  
+  // Handle Delete
   const handleDeletePost = async (id: number) => {
     if (!confirm("Are you sure you want to delete this post?")) return;
   
@@ -330,6 +354,14 @@ const AdminPage = () => {
             rows={5}
             className="w-full p-2 mt-2 border border-gray-400 rounded-md"
           />
+          
+          <ImageUpload
+            onUpload={(url) => {
+              setBlogImage(url);
+            }}
+            currentImage={blogImage ?? undefined}
+          />
+
           <button onClick={handlePostBlog} className="bg-green-600 text-white py-2 px-4 mt-4 rounded-md">
             {editingPost ? "Actualizar" : "Publicar"}
           </button>
@@ -340,29 +372,36 @@ const AdminPage = () => {
             <p className="text-gray-500 mt-2">No hay artículos publicados aún.</p>
           ) : (
             <ul className="mt-4 space-y-4">
-              {blogPosts.map((post) => (
-                <li key={post.id} className="bg-gray-800 p-4 rounded-md shadow-md text-white">
-                  <h4 className="text-lg font-bold">{post.title}</h4>
-                  <p className="text-sm text-gray-400">
-                    Publicado el{" "}
-                    {new Date(post.date).toLocaleDateString("es-MX", {
-                      year: "numeric",
-                      month: "long",
-                      day: "numeric",
-                    })}
-                  </p>
-                  <p className="text-gray-300 mt-2">{post.content.slice(0, 100)}...</p>
-                  <div className="flex gap-2 mt-4">
-                    <button onClick={() => handleEditPost(post)} className="bg-yellow-500 text-white py-1 px-3 rounded-md">
-                      Editar
-                    </button>
-                    <button onClick={() => handleDeletePost(post.id)} className="bg-red-600 text-white py-1 px-3 rounded-md">
-                      Eliminar
-                    </button>
-                  </div>
-                </li>
-              ))}
-            </ul>
+                {blogPosts.map((post) => (
+                  <li key={post.id} className="bg-gray-800 p-4 rounded-md shadow-md text-white">
+                    {post.image && (
+                      <img 
+                        src={post.image} 
+                        alt={post.title} 
+                        className="w-full h-40 object-cover rounded-md mb-2"
+                      />
+                    )}
+                    <h4 className="text-lg font-bold">{post.title}</h4>
+                    <p className="text-sm text-gray-400">
+                      Publicado el{" "}
+                      {new Date(post.date).toLocaleDateString("es-MX", {
+                        year: "numeric",
+                        month: "long",
+                        day: "numeric",
+                      })}
+                    </p>
+                    <p className="text-gray-300 mt-2">{post.content.slice(0, 100)}...</p>
+                    <div className="flex gap-2 mt-4">
+                      <button onClick={() => handleEditPost(post)} className="bg-yellow-500 text-white py-1 px-3 rounded-md">
+                        Editar
+                      </button>
+                      <button onClick={() => handleDeletePost(post.id)} className="bg-red-600 text-white py-1 px-3 rounded-md">
+                        Eliminar
+                      </button>
+                    </div>
+                  </li>
+                ))}
+              </ul>
           )}
         </div>
       )}
