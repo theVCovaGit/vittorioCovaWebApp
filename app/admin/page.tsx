@@ -25,7 +25,6 @@ const AdminPage = () => {
   const [blogPosts, setBlogPosts] = useState<Article[]>([]);
   const [editingPost, setEditingPost] = useState<Article | null>(null);
   const [blogImage, setBlogImage] = useState<string | null>(null);
-  const [blogFile, setBlogFile] = useState<File | null>(null);
   const hardcodedPassword = "123";
 
   // Stable useEffect dependencies (track length, not entire array)
@@ -114,9 +113,7 @@ const AdminPage = () => {
       if (blogImage) {
         // ✅ Send as multipart/form-data if there's an image
         const formData = new FormData();
-        if (blogFile) {
-          formData.append("file", blogFile);
-        }
+        
         formData.append("article", JSON.stringify(newPost));
   
         response = await fetch("/api/blog", {
