@@ -8,7 +8,7 @@ interface Article {
   title: string;
   content: string;
   date: string;
-  image?: string; // ✅ Optional image property
+  image?: string; // Optional image property
 }
 
 export default function BlogPostPage() {
@@ -62,25 +62,39 @@ export default function BlogPostPage() {
   }
 
   return (
-    <div className="container mx-auto p-6 max-w-2xl">
+    <div className="container mx-auto p-6 max-w-4xl grid grid-cols-1 md:grid-cols-[2fr_1fr] gap-8">
+      {/* Left Column: Title and Content */}
+      <div>
+        <h1 className="text-3xl font-bold text-[#19333F] mb-4">
+          {post.title}
+        </h1>
+        <p className="text-sm text-gray-500 mb-6">
+          Publicado el{" "}
+          {new Date(post.date).toLocaleDateString("es-MX", {
+            year: "numeric",
+            month: "long",
+            day: "numeric",
+          })}
+        </p>
+        <div className="prose prose-lg text-[#19333F]">
+          {post.content}
+        </div>
+      </div>
+  
+      {/**/}
+      {/* Image beside text */}
       {post.image && (
-        <img 
-          src={post.image} 
-          alt={post.title} 
-          className="w-full h-64 object-cover rounded-md mb-6"
-        />
+        <div className="flex justify-center md:justify-end">
+          <img
+            src={post.image}
+            alt={post.title}
+            className="w-54 h-auto object-cover rounded-md"
+          />
+        </div>
       )}
-      <h1 className="text-3xl font-bold text-[#19333F] mb-4">{post.title}</h1>
-      <p className="text-sm text-gray-500 mb-6">
-        Publicado el{" "}
-        {new Date(post.date).toLocaleDateString("es-MX", {
-          year: "numeric",
-          month: "long",
-          day: "numeric",
-        })}
-      </p>
-      <div className="prose prose-lg text-[#19333F]">{post.content}</div>
+
     </div>
   );
+  
   
 }
