@@ -58,23 +58,22 @@ export async function POST(req: NextRequest) {
   try {
     const contentType = req.headers.get("content-type") || "";
 
-    // ✅ Handle image upload separately — No product creation
+    // Handle image upload separately — No product creation
     if (contentType.includes("multipart/form-data")) {
       const formData = await req.formData();
       const file = formData.get("file") as Blob | null;
+      if (file) {
+        // ✅ Generate unique filename
+        const fileName = `store-images/${Date.now()}-${Math.random().toString(36).substring(7)}`;
 
-      if (!file) {
-        return NextResponse.json({ error: "No file provided" }, { status: 400 });
+        // ✅ Upload to Vercel Blob
+        const { url } = await put(fileName, file, { access: "public" });
+
+        // ✅ Return the URL
+        return NextResponse.json({ url }, { status: 200 });
+      } else {
+        console.log("No file provided — Skipping file upload.");
       }
-
-      // ✅ Generate unique filename
-      const fileName = `store-images/${Date.now()}-${Math.random().toString(36).substring(7)}`;
-
-      // ✅ Upload to Vercel Blob
-      const { url } = await put(fileName, file, { access: "public" });
-
-      // ✅ Return only the URL — No product creation here
-      return NextResponse.json({ url }, { status: 200 });
     }
 
     // ✅ Handle product creation — Separate from image upload
