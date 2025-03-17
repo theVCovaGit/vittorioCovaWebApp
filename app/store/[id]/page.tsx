@@ -3,6 +3,12 @@
 import { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
 import { useCart } from "@/context/CartContext";
+import MarkdownIt from "markdown-it";
+
+const md = new MarkdownIt({
+  html: true, // ✅ Render HTML tags in markdown
+  breaks: true, // ✅ Convert line breaks to <br>
+});
 
 interface Product {
   category: string;
@@ -103,7 +109,10 @@ export default function ProductPage() {
         {/* Product Details */}
         <div className="max-w-lg">
           <h1 className="text-4xl font-bold text-black">{product.name}</h1>
-          <p className="text-gray-700 mt-4 text-lg">{product.description}</p>
+          <div
+            className="prose prose-lg text-gray-700 mt-4"
+            dangerouslySetInnerHTML={{ __html: md.render(product.description || "") }}
+          />
           
           {/* Price Section */}
           <div className="mt-4">

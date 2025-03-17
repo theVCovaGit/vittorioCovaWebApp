@@ -1,8 +1,10 @@
 import { Redis } from "@upstash/redis";
 import { NextRequest, NextResponse } from "next/server";
+import MarkdownIt from "markdown-it";
 
 // Initialize Redis
 const redis = Redis.fromEnv();
+const md = new MarkdownIt();
 
 interface Product {
   id: number;
@@ -41,13 +43,20 @@ export async function GET(req: NextRequest) {
     const products: Product[] = typeof productsData === "string" ? JSON.parse(productsData) : productsData;
 
     // ✅ Find the specific product by ID
+    // ✅ Find the specific product by ID
     const product = products.find((p) => p.id === requestedId);
+
+    if (product) {
+      // ✅ Convert Markdown to HTML for the description
+      product.description = product.description ? md.render(product.description) : "";
+    }
 
     if (!product) {
       return NextResponse.json({ error: "Product not found" }, { status: 404 });
     }
 
     return NextResponse.json(product, { status: 200 });
+    
   } catch (error) {
     console.error("Error fetching product:", error);
     return NextResponse.json({ error: "Failed to fetch product" }, { status: 500 });
