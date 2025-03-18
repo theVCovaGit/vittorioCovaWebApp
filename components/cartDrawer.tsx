@@ -27,7 +27,13 @@ export default function CartDrawer() {
         ) : (
           cart.map((product) => (
             <div key={product.id} className="flex items-center gap-4 border-b py-3">
-              <Image src={product.image} alt={product.name} width={50} height={50} className="rounded" />
+              <img 
+  src={product.image} 
+  alt={product.name} 
+  width={50} 
+  height={50} 
+  className="rounded" 
+/>
               <div className="flex-1">
                 <h3 className="text-sm font-semibold">{product.name}</h3>
                 <p className="text-gray-600">${product.price}</p>

@@ -25,6 +25,7 @@ const AdminPage = () => {
   const [blogPosts, setBlogPosts] = useState<Article[]>([]);
   const [editingPost, setEditingPost] = useState<Article | null>(null);
   const [blogImage, setBlogImage] = useState<string | null>(null);
+  const categories = ["aire", "agua", "descanso", "repuestos"];
   const hardcodedPassword = "123";
 
   // Stable useEffect dependencies (track length, not entire array)
@@ -475,12 +476,18 @@ const AdminPage = () => {
 
 
               {/* ✅ Editable Category */}
-              <input
-                type="text"
+              <select
                 value={product.category}
                 onChange={(e) => handleProductChange(product.id, "category", e.target.value)}
                 className="w-full p-2 mt-2 border border-gray-600 rounded-md text-black"
-              />
+              >
+                {categories.map((category) => (
+                  <option key={category} value={category}>
+                    {category}
+                  </option>
+                ))}
+              </select>
+
               <button onClick={() => handleDeleteProduct(product.id)} className="bg-red-600 text-white py-2 px-4 mt-2 rounded-md">
                 Eliminar Producto
               </button>
