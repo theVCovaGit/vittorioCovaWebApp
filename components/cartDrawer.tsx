@@ -1,7 +1,6 @@
 "use client";
 
 import { useCart } from "../context/CartContext";
-import Image from "next/image";
 import Link from "next/link";
 
 export default function CartDrawer() {
