@@ -7,7 +7,7 @@ interface Article {
   title: string;
   description: string;
   date: string;
-  image?: string; // ✅ Add image field
+  image?: string; 
 }
 
 export default function Blog() {

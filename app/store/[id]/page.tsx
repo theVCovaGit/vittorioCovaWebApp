@@ -109,10 +109,13 @@ export default function ProductPage() {
         {/* Product Details */}
         <div className="max-w-lg">
           <h1 className="text-4xl font-bold text-black">{product.name}</h1>
-          <div
-            className="prose prose-lg text-gray-700 mt-4"
-            dangerouslySetInnerHTML={{ __html: md.render(product.description || "") }}
-          />
+          <div className="mt-4 max-h-48 overflow-y-auto border border-gray-300 rounded-md p-2">
+  <div
+    className="prose prose-lg text-gray-700"
+    dangerouslySetInnerHTML={{ __html: md.render(product.description || "") }}
+  />
+</div>
+
           
           {/* Price Section */}
           <div className="mt-4">
