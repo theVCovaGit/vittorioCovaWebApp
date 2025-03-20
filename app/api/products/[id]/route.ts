@@ -10,6 +10,7 @@ interface Product {
   id: number;
   name: string;
   description?: string;
+  secondaryDescription?: string;
   image?: string;
   originalPrice: number;
   discount: string;
@@ -42,13 +43,14 @@ export async function GET(req: NextRequest) {
     // Ensure proper parsing
     const products: Product[] = typeof productsData === "string" ? JSON.parse(productsData) : productsData;
 
-    // ✅ Find the specific product by ID
+    
     // ✅ Find the specific product by ID
     const product = products.find((p) => p.id === requestedId);
 
     if (product) {
       // ✅ Convert Markdown to HTML for the description
       product.description = product.description ? md.render(product.description) : "";
+      product.secondaryDescription = product.secondaryDescription ? md.render(product.secondaryDescription) : "";
     }
 
     if (!product) {

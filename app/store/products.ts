@@ -5,6 +5,7 @@ export interface Product {
   id: number;
   name: string;
   description: string;
+  secondaryDescription?: string;
   image: string;
   category: string;
   originalPrice?: number; 
@@ -59,6 +60,7 @@ export function useProducts() {
                 0
               ),
               sizes: product.sizes ?? [], // ✅ Ensure sizes are always an array
+              secondaryDescription: product.secondaryDescription || "",
             };
           });
 

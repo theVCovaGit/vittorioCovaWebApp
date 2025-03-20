@@ -2,8 +2,8 @@
 
 import { useState, useEffect } from "react";
 import ImageUpload from "@/components/imageUpload";
-//import { useProducts } from "../store/products"; // ✅ Fetch dynamic products
-import { Product } from "../store/products"; // ✅ Ensure correct type
+//import { useProducts } from "../store/products"; // Fetch dynamic products
+import { Product } from "../store/products"; // Ensure correct type
 
 interface Article {
   id: number;
@@ -184,6 +184,7 @@ const AdminPage = () => {
       id: Date.now(),
       name: "Nuevo Producto",
       description: "Descripción del producto",
+      secondaryDescription: "Beneficios y características",
       image: "/images/placeholder.png",
       category: "uncategorized",
       originalPrice: 0,
@@ -256,7 +257,7 @@ const AdminPage = () => {
 
   const handleProductChange = (
     id: number,
-    field: "name" | "description" | "category" | "sizes" | "image", // ✅ Add "image"
+    field: "name" | "description" | "secondaryDescription" | "category" | "sizes" | "image", // ✅ Add "image"
     value: string | string[]
   ) => {
     setProductData((prevData) =>
@@ -279,10 +280,11 @@ const AdminPage = () => {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          products: productData.map(({ id, name, description, category, originalPrice, discount, sizes, image }) => ({
+          products: productData.map(({ id, name, description, secondaryDescription, category, originalPrice, discount, sizes, image }) => ({
             id,
             name,
             description,
+            secondaryDescription,
             category,
             originalPrice,
             discount,
@@ -428,6 +430,17 @@ const AdminPage = () => {
                 className="w-full p-2 mt-2 border border-gray-600 rounded-md text-black"
                 rows={2}
               />
+
+              {/* Editable Secondary Description */}
+              <textarea
+                value={product.secondaryDescription || ""}
+                onChange={(e) =>
+                  handleProductChange(product.id, "secondaryDescription", e.target.value)
+                }
+                className="w-full p-2 mt-2 border border-gray-600 rounded-md text-black"
+                rows={2}
+                placeholder="Descripción secundaria"
+              ></textarea>
             
               {/* Editable Price */}
               <input

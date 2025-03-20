@@ -10,6 +10,7 @@ interface Product {
   id: number;
   name: string;
   description: string;
+  secondaryDescription?: string;
   image: string;
   category: string;
   originalPrice: number;
@@ -45,6 +46,7 @@ export async function GET() {
           image: product.image || "/images/placeholder.png", // ✅ Default if missing
           price: Math.max(originalPrice - discountAmount, 0) || 0,
           sizes: Array.isArray(product.sizes) ? product.sizes : [],
+          secondaryDescription: product.secondaryDescription || "", // ✅ Add secondary description
         };
       }),
     }, { status: 200 });
@@ -106,6 +108,7 @@ export async function POST(req: NextRequest) {
         price: Math.max(originalPrice - discountAmount, 0),
         sizes: Array.isArray(product.sizes) ? product.sizes : [],
         image: product.image || "/images/placeholder.png", // ✅ Provide default image if missing
+        secondaryDescription: product.secondaryDescription || "", // ✅ Add secondary description
       };
 
       // ✅ Add new product to list
@@ -153,6 +156,7 @@ export async function PUT(req: NextRequest) {
         id: newProduct.id,
         name: newProduct.name,
         description: newProduct.description,
+        secondaryDescription: newProduct.secondaryDescription || "",
         category: newProduct.category || "uncategorized",
         image: newProduct.image && newProduct.image !== "" ? newProduct.image : "/images/placeholder.png",
         originalPrice: newProduct.originalPrice,
