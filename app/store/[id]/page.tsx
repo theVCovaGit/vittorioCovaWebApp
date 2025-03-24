@@ -121,35 +121,35 @@ export default function ProductPage() {
         </div>
 
         <button
-  onClick={() => setShowPopup(true)}
-  className="mt-4 bg-gray-200 text-black px-4 py-2 rounded-lg border border-gray-300 hover:bg-gray-300 transition"
->
-  Características y Beneficios
-</button>
-        {/* Popup for Secondary Description */}
-{showPopup && (
-  <div
-    onClick={() => setShowPopup(false)}
-    className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50"
-  >
-    <div
-      onClick={(e) => e.stopPropagation()}
-      className="bg-white rounded-2xl shadow-xl p-6 w-[90%] max-w-lg relative"
-    >
-      <button
-        onClick={() => setShowPopup(false)}
-        className="absolute top-2 right-2 text-gray-500 hover:text-gray-700 text-xl"
+        onClick={() => setShowPopup(true)}
+        className="mt-4 bg-gray-200 text-black px-4 py-2 rounded-lg border border-gray-300 hover:bg-gray-300 transition"
       >
-        ✕
+        Características y Beneficios
       </button>
-      <h2 className="text-2xl font-semibold mb-4 text-black">Características y Beneficios</h2>
-      <div
-        className="prose text-gray-700 max-h-[400px] overflow-y-auto"
-        dangerouslySetInnerHTML={{ __html: md.render(product.secondaryDescription || "") }}
-      />
-    </div>
-  </div>
-)}
+              {/* Popup for Secondary Description */}
+      {showPopup && (
+        <div
+          onClick={() => setShowPopup(false)}
+          className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50"
+        >
+          <div
+            onClick={(e) => e.stopPropagation()}
+            className="bg-white rounded-2xl shadow-xl p-6 w-[90%] max-w-lg relative"
+          >
+            <button
+              onClick={() => setShowPopup(false)}
+              className="absolute top-2 right-2 text-gray-500 hover:text-gray-700 text-xl"
+            >
+              ✕
+            </button>
+            <h2 className="text-2xl font-semibold mb-4 text-black">Características y Beneficios</h2>
+            <div
+              className="prose text-gray-700 max-h-[400px] overflow-y-auto"
+              dangerouslySetInnerHTML={{ __html: md.render(product.secondaryDescription || "") }}
+            />
+          </div>
+        </div>
+      )}
 
           
           {/* Price Section */}

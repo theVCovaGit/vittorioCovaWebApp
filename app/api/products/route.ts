@@ -1,6 +1,6 @@
 import { Redis } from "@upstash/redis";
 import { NextRequest, NextResponse } from "next/server";
-import { put } from "@vercel/blob";
+import { put, del } from "@vercel/blob"; 
 
 
 // Initialize Redis
@@ -175,7 +175,6 @@ export async function PUT(req: NextRequest) {
   }
 }
 
-// Delete: Delete Products 
 export async function DELETE(req: NextRequest) {
   try {
     const { id } = await req.json();
@@ -184,44 +183,58 @@ export async function DELETE(req: NextRequest) {
       return NextResponse.json({ error: "Invalid product ID" }, { status: 400 });
     }
 
+    // ✅ Fetch existing products
     const existingProductsData = await redis.get("products");
-    let existingProducts: Product[] = [];
-
-    if (typeof existingProductsData === "string") {
-      existingProducts = JSON.parse(existingProductsData);
-    } else if (Array.isArray(existingProductsData)) {
-      existingProducts = existingProductsData as Product[];
-    }
+    let existingProducts = Array.isArray(existingProductsData)
+      ? existingProductsData as Product[]
+      : typeof existingProductsData === "string"
+      ? JSON.parse(existingProductsData)
+      : [];
 
     // ✅ Find product to delete
-    const productToDelete = existingProducts.find((product) => product.id === id);
+    const productToDelete = existingProducts.find((product: { id: number; }) => product.id === id);
 
     if (!productToDelete) {
       return NextResponse.json({ error: "Product not found" }, { status: 404 });
     }
 
-    // ✅ Delete image from Vercel Blob if it exists
-    if (productToDelete.image && !productToDelete.image.includes("/placeholder.png")) {
-      const fileName = productToDelete.image.split("/").pop(); // Extract file name
-      await fetch(`https://api.vercel.com/v1/blobs/${fileName}`, {
-        method: "DELETE",
-        headers: {
-          Authorization: `Bearer ${process.env.VERCEL_API_TOKEN}`,
-        },
-      });
+    // ✅ Delete blob if it exists and is not the placeholder
+    if (
+      productToDelete.image &&
+      !productToDelete.image.includes("/placeholder.png")
+    ) {
+      try {
+        console.log(`🔍 Attempting to delete blob: ${productToDelete.image}`);
+
+        // ✅ Use `del()` directly from `@vercel/blob`
+        await del(productToDelete.image);
+        
+        console.log(`✅ Blob deleted successfully: ${productToDelete.image}`);
+      } catch (blobError) {
+        console.error("❌ Error deleting blob:", blobError);
+        // ✅ Gracefully handle blob deletion failure but continue with Redis cleanup
+      }
     }
 
-    // ✅ Remove product from list
-    const updatedProducts = existingProducts.filter((product) => product.id !== id);
-
+    // ✅ Remove product from Redis
+    const updatedProducts = existingProducts.filter((product: { id: number; }) => product.id !== id);
     await redis.set("products", JSON.stringify(updatedProducts));
 
     return NextResponse.json({ message: "Product deleted successfully" }, { status: 200 });
   } catch (error) {
-    console.error("Error deleting product:", error);
+    console.error("❌ Error deleting product:", error);
     return NextResponse.json({ error: "Failed to delete product" }, { status: 500 });
   }
 }
+
+
+
+
+
+
+
+
+
 
 
 
