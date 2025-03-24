@@ -185,11 +185,11 @@ export async function DELETE(req: NextRequest) {
 
     // ✅ Fetch existing products
     const existingProductsData = await redis.get("products");
-    let existingProducts = Array.isArray(existingProductsData)
-      ? existingProductsData as Product[]
-      : typeof existingProductsData === "string"
-      ? JSON.parse(existingProductsData)
-      : [];
+    const existingProducts = Array.isArray(existingProductsData)
+  ? existingProductsData as Product[]
+  : typeof existingProductsData === "string"
+  ? JSON.parse(existingProductsData)
+  : [];
 
     // ✅ Find product to delete
     const productToDelete = existingProducts.find((product: { id: number; }) => product.id === id);
