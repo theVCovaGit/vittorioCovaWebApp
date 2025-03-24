@@ -171,13 +171,14 @@ const AdminPage = () => {
         alert("Blog post deleted!");
         fetchBlogPosts(); // ✅ Refresh list
       } else {
-        alert("Error deleting blog post.");
+        const errorData = await response.json();
+        alert(errorData.error || "Error deleting blog post.");
       }
     } catch (error) {
       console.error("Error:", error);
       alert("There was a problem deleting the blog post.");
     }
-  };
+  };   
 
   const handleCreateProduct = async () => {
     const newProduct: Product = {
