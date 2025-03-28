@@ -36,9 +36,12 @@ export default function Testimonials() {
                 videoRefs.current[index] = el;
               }}
               src={testimonial.video}
+              poster={`/images/thumb${testimonial.id}.jpg`} // ✅ Poster image added
               controls
               muted
-              className="w-full rounded-xl shadow-lg"
+              playsInline
+              preload="metadata"
+              className="w-full rounded-xl shadow-lg bg-black"
             />
             <div className="mt-4 text-center">
               <p className="font-semibold text-gray-800">{testimonial.name}</p>
