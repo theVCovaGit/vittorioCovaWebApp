@@ -1,0 +1,11 @@
+.custom-carousel .carousel .thumbs .thumb {
+    width: 50px !important; /* Adjust this value as needed */
+    height: 50px !important; /* Adjust height to your preference */
+  }
+  
+  .custom-carousel .carousel .thumbs .thumb img {
+    height: 100% !important;
+    width: auto;
+    object-fit: cover;
+  }
+  

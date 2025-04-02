@@ -4,7 +4,8 @@ import { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
 import { useCart } from "@/context/CartContext";
 import MarkdownIt from "markdown-it";
-import "react-responsive-carousel/lib/styles/carousel.min.css"; // Import carousel styles
+import '@/styles/globals.css';
+import "react-responsive-carousel/lib/styles/carousel.min.css"; 
 import { Carousel } from "react-responsive-carousel";
 
 const md = new MarkdownIt({
@@ -18,7 +19,7 @@ interface Product {
   name: string;
   description: string;
   secondaryDescription?: string;
-  images: string[]; // Ensure images is an array of strings
+  images: string[]; 
   originalPrice: number;
   discount: string;
   price: number;
@@ -104,26 +105,25 @@ export default function ProductPage() {
       <div className="flex flex-col lg:flex-row items-center gap-8">
         {/* Product Images Carousel */}
         <div className="w-96">
-          <Carousel
-            showThumbs={true}
-            infiniteLoop
-            useKeyboardArrows
-            autoPlay
-            dynamicHeight
-            className="rounded-md shadow-md"
-          >
-            {product.images.map((image, index) => (
-              <div key={index}>
-                <img
-                  src={image}
-                  alt={`${product.name} - ${index + 1}`}
-                  className="w-96 h-96 object-contain"
-                />
-              </div>
-            ))}
-          </Carousel>
+        <Carousel
+          showThumbs={true}
+          infiniteLoop
+          useKeyboardArrows
+          autoPlay
+          dynamicHeight
+          className="rounded-md shadow-md custom-carousel"  // ✅ Apply custom class
+        >
+          {product.images.map((image, index) => (
+            <div key={index}>
+              <img
+                src={image}
+                alt={`${product.name} - ${index + 1}`}
+                className="w-96 h-96 object-contain"
+              />
+            </div>
+          ))}
+        </Carousel>
         </div>
-
         {/* Product Details */}
         <div className="max-w-lg">
           <h1 className="text-4xl font-bold text-black">{product.name}</h1>
@@ -217,3 +217,4 @@ export default function ProductPage() {
     </div>
   );
 }
+
