@@ -6,13 +6,14 @@ export interface Product {
   name: string;
   description: string;
   secondaryDescription?: string;
-  image: string;
+  images: string[]; // ✅ Update from image to images
   category: string;
-  originalPrice?: number; 
-  discount?: string; 
-  price?: number; 
-  sizes?: string[]; 
+  originalPrice: number;
+  discount: string;
+  price: number;
+  sizes?: string[];
 }
+
 
 /*
 // Hardcoded Product Details (Without Prices)
@@ -51,7 +52,7 @@ export function useProducts() {
 
             return {
               ...product,
-              image: product.image || "/images/placeholder.png",
+              image: product.images,
               price: Math.max(
                 originalPrice -
                   (discount.endsWith("%")

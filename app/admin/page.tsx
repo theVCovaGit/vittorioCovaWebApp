@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import ImageUpload from "@/components/imageUpload";
+import {ImageUpload, MultipleImagesUpload} from "@/components/imageUpload";
 //import { useProducts } from "../store/products"; // Fetch dynamic products
 import { Product } from "../store/products"; // Ensure correct type
 
@@ -186,12 +186,12 @@ const AdminPage = () => {
       name: "Nuevo Producto",
       description: "Descripción del producto",
       secondaryDescription: "Beneficios y características",
-      image: "/images/placeholder.png",
+      images: [], // ✅ Initialize as an empty array
       category: "uncategorized",
       originalPrice: 0,
       discount: "0",
       price: 0,
-    };
+    };    
   
     try {
       const response = await fetch("/api/products", {
@@ -256,56 +256,65 @@ const AdminPage = () => {
     );
   };
 
-  const handleProductChange = (
-    id: number,
-    field: "name" | "description" | "secondaryDescription" | "category" | "sizes" | "image", // ✅ Add "image"
-    value: string | string[]
-  ) => {
-    setProductData((prevData) =>
-      prevData.map((product) =>
-        product.id === id
-          ? {
-              ...product,
-              [field]: field === "sizes"
-                ? (Array.isArray(value) ? value : [value])
-                : value,
-            }
-          : product
-      )
-    );
-  };   
+  // Update images in a safer way, preserving existing ones if not replaced
+const handleProductChange = (
+  id: number,
+  field: "name" | "description" | "secondaryDescription" | "category" | "sizes" | "images",
+  value: string | string[]
+) => {
+  console.log(`🔄 Updating product ${id}, field: ${field}, value:`, value); // ✅ Log updates
+  setProductData((prevData) =>
+    prevData.map((product) =>
+      product.id === id
+        ? {
+            ...product,
+            [field]: field === "sizes" || field === "images" ? (Array.isArray(value) ? value : [value]) : value,
+          }
+        : product
+    )
+  );
+};
+ 
 
-  const handleSaveChanges = async () => {
-    try {
-      const response = await fetch("/api/products", {
-        method: "PUT",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          products: productData.map(({ id, name, description, secondaryDescription, category, originalPrice, discount, sizes, image }) => ({
-            id,
-            name,
-            description,
-            secondaryDescription,
-            category,
-            originalPrice,
-            discount,
-            sizes: sizes?.length ? sizes : undefined,
-            image, // ✅ Include the uploaded image URL
-          })),
-        }),
-      });
-  
-      if (response.ok) {
-        alert("Productos actualizados!");
-      } else {
-        alert("Error al actualizar los productos.");
-      }
-    } catch (error) {
-      console.error("Error:", error);
-      alert("Hubo un problema al guardar los cambios.");
+const handleSaveChanges = async () => {
+  try {
+    console.log("💾 Attempting to save the following product data:", productData); // ✅ Log full data
+
+    const response = await fetch("/api/products", {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        products: productData.map((product) => ({
+          id: product.id,
+          name: product.name,
+          description: product.description,
+          secondaryDescription: product.secondaryDescription,
+          category: product.category,
+          originalPrice: product.originalPrice,
+          discount: product.discount,
+          price: product.price,
+          sizes: product.sizes ?? [], // ✅ Ensure sizes are always an array
+          images: product.images && product.images.length > 0 ? product.images : [], // ✅ Use uploaded URLs or placeholder
+        })),
+      }),
+    });
+
+    if (response.ok) {
+      alert("Productos actualizados!");
+      console.log("✅ Products saved successfully.");
+      fetchProductsFromDB(); // ✅ Refresh live data
+    } else {
+      const errorData = await response.json();
+      console.error("❌ Error saving products:", errorData);
+      alert(errorData.error || "Error al actualizar los productos.");
     }
-  };    
+  } catch (error) {
+    console.error("❌ Error in handleSaveChanges:", error);
+    alert("Hubo un problema al guardar los cambios.");
+  }
+};
 
+    
   if (!isAuthenticated) {
     return (
       <div className="flex items-center justify-center h-screen">
@@ -457,10 +466,15 @@ const AdminPage = () => {
                 className="w-full p-2 mt-2 border border-gray-600 rounded-md text-black"
               />
 
-              <ImageUpload
-                onUpload={(url) => handleProductChange(product.id, "image", url)}
-                currentImage={product.image}
-              />
+<MultipleImagesUpload
+  onUpload={(urls) => {
+    console.log(`✅ Received uploaded image URLs for product ${product.id}:`, urls);
+    handleProductChange(product.id, "images", urls);
+  }}
+  currentImages={product.images || []}
+/>
+
+
 
               {/* Editable Sizes */}
               <div className="mt-2">

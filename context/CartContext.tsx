@@ -7,7 +7,7 @@ export interface Product {
   id: number;
   name: string;
   price: number; // 💰 Ensure price is a number
-  image: string;
+  images: string[];
   category: string;
   quantity: number; // ✅ Ensure quantity exists
 }

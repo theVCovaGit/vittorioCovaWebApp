@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 interface ImageUploadProps {
   onUpload: (url: string) => void;
@@ -7,32 +7,30 @@ interface ImageUploadProps {
   type?: "product" | "blog"; // ✅ Add type to distinguish between products and blogs
 }
 
+interface MultipleImagesUploadProps {
+  onUpload: (urls: string[]) => void;
+  currentImages?: string[];
+  type?: "product" | "blog";
+}
+
 const ImageUpload = ({ onUpload, currentImage, type = "product" }: ImageUploadProps) => {
   const [loading, setLoading] = useState(false);
   const [preview, setPreview] = useState(currentImage || "");
-  const [file, setFile] = useState<File | null>(null); // ✅ Store the file instead of uploading immediately
+  const [file, setFile] = useState<File | null>(null);
 
-  // ✅ Handle file selection but don't upload yet
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (!event.target.files?.[0]) return;
 
     const selectedFile = event.target.files[0];
     setFile(selectedFile);
-
-    // ✅ Show preview without uploading
     const objectUrl = URL.createObjectURL(selectedFile);
     setPreview(objectUrl);
-
-    // ✅ Revoke object URL to avoid memory leaks
     return () => URL.revokeObjectURL(objectUrl);
   };
 
-  // ✅ Upload manually on confirmation
   const handleUpload = async () => {
     if (!file) return;
-
     setLoading(true);
-
     const formData = new FormData();
     formData.append("file", file);
 
@@ -43,16 +41,12 @@ const ImageUpload = ({ onUpload, currentImage, type = "product" }: ImageUploadPr
         body: formData,
       });
 
-      if (!response.ok) {
-        throw new Error(`Failed to upload image: ${response.status}`);
-      }
-
+      if (!response.ok) throw new Error(`Failed to upload image: ${response.status}`);
       const data = await response.json();
-
       if (data.url) {
-        onUpload(data.url); // ✅ Pass uploaded URL to parent component
+        onUpload(data.url);
         setPreview(data.url);
-        setFile(null); // ✅ Clear the stored file after successful upload
+        setFile(null);
       } else {
         alert("Error uploading file.");
       }
@@ -66,9 +60,7 @@ const ImageUpload = ({ onUpload, currentImage, type = "product" }: ImageUploadPr
 
   return (
     <div className="mt-4">
-      <div
-        className="w-full h-40 border border-gray-300 rounded-md flex items-center justify-center relative cursor-pointer hover:border-blue-500 transition"
-      >
+      <div className="w-full h-40 border border-gray-300 rounded-md flex items-center justify-center relative cursor-pointer hover:border-blue-500 transition">
         {preview ? (
           <img src={preview} alt="Preview" className="w-full h-full object-cover rounded-md" />
         ) : (
@@ -78,18 +70,14 @@ const ImageUpload = ({ onUpload, currentImage, type = "product" }: ImageUploadPr
           type="file"
           accept="image/*"
           className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
-          onChange={handleFileChange} // ✅ Only update preview, don't upload yet
+          onChange={handleFileChange}
           disabled={loading}
         />
       </div>
-
-      {/* ✅ Show loading state */}
       {loading && <p className="text-gray-500 text-sm mt-2">Uploading...</p>}
-
-      {/* ✅ Show confirmation button */}
       {file && !loading && (
         <button
-          onClick={handleUpload} // ✅ Trigger upload manually
+          onClick={handleUpload}
           className="mt-3 bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition w-full"
         >
           Confirmar imagen
@@ -99,4 +87,99 @@ const ImageUpload = ({ onUpload, currentImage, type = "product" }: ImageUploadPr
   );
 };
 
-export default ImageUpload;
+const MultipleImagesUpload = ({ onUpload, currentImages = [], type = "product" }: MultipleImagesUploadProps) => {
+  const [loading, setLoading] = useState(false);
+  const [files, setFiles] = useState<(File | null)[]>(Array(6).fill(null));
+
+  // Initialize previews with current images and fill the remaining slots with null
+  const initialPreviews = [...currentImages, ...Array(6 - currentImages.length).fill(null)];
+  const [previews, setPreviews] = useState<string[]>(initialPreviews);
+
+  const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>, index: number) => {
+    if (!event.target.files?.[0]) return;
+
+    const file = event.target.files[0];
+    const objectUrl = URL.createObjectURL(file);
+    const updatedPreviews = [...previews];
+    updatedPreviews[index] = objectUrl;
+
+    const updatedFiles = [...files];
+    updatedFiles[index] = file;
+
+    setPreviews(updatedPreviews);
+    setFiles(updatedFiles);
+  };
+
+  const handleUpload = async () => {
+    if (files.every((file) => file === null)) return;
+    setLoading(true);
+
+    try {
+      const uploadedUrls: string[] = [...currentImages];
+      for (const file of files) {
+        if (file) {
+          const formData = new FormData();
+          formData.append("file", file);
+
+          const endpoint = "/api/products";
+          const response = await fetch(endpoint, {
+            method: "POST",
+            body: formData,
+          });
+
+          if (!response.ok) throw new Error(`Failed to upload image: ${response.status}`);
+          const data = await response.json();
+          if (data.urls) uploadedUrls.push(...data.urls);
+        }
+      }
+
+      onUpload(uploadedUrls);
+      setFiles(Array(6).fill(null));
+      alert("Imágenes subidas correctamente!");
+    } catch (error) {
+      console.error("Upload error:", error);
+      alert("Upload failed.");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  return (
+    <div className="mt-4">
+      <div className="w-full h-64 border border-gray-300 rounded-md relative">
+        <div className="grid grid-cols-3 grid-rows-2 gap-1 h-full">
+          {previews.map((preview, index) => (
+            <div
+              key={index}
+              className="relative w-full h-full border border-gray-300 rounded-md flex items-center justify-center"
+            >
+              {preview ? (
+                <img src={preview} alt={`Image ${index + 1}`} className="w-full h-full object-cover rounded-md" />
+              ) : (
+                <span className="text-gray-400">+</span>
+              )}
+              <input
+                type="file"
+                accept="image/*"
+                className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
+                onChange={(e) => handleFileChange(e, index)}
+                disabled={loading}
+              />
+            </div>
+          ))}
+        </div>
+        {loading && <p className="text-gray-500 text-sm mt-2">Uploading...</p>}
+      </div>
+      {files.some((file) => file !== null) && !loading && (
+        <button
+          onClick={handleUpload}
+          className="mt-3 bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition w-full"
+        >
+          Confirmar imágenes
+        </button>
+      )}
+    </div>
+  );
+};
+
+export { ImageUpload, MultipleImagesUpload };

@@ -9,7 +9,7 @@ interface Product {
   id: number;
   name: string;
   description: string;
-  image: string;
+  images: string[]
   category: string;
   originalPrice: number;
   discount: string;
@@ -118,7 +118,7 @@ useEffect(() => {
                   onClick={() => router.push(`/store/${product.id}`)} // ✅ Navigate to product page
                 >
                  <img
-                    src={product.image ? product.image : "/images/placeholder.png"} // ✅ Default fallback image
+                    src={product.images?.[0]}
                     alt={product.name}
                     className="w-full h-36 object-contain"
                   />
