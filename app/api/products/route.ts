@@ -196,38 +196,36 @@ export async function DELETE(req: NextRequest) {
     // ✅ Fetch existing products
     const existingProductsData = await redis.get("products");
     const existingProducts = Array.isArray(existingProductsData)
-  ? existingProductsData as Product[]
-  : typeof existingProductsData === "string"
-  ? JSON.parse(existingProductsData)
-  : [];
+      ? (existingProductsData as Product[])
+      : typeof existingProductsData === "string"
+      ? JSON.parse(existingProductsData)
+      : [];
 
     // ✅ Find product to delete
-    const productToDelete = existingProducts.find((product: { id: number; }) => product.id === id);
+    const productToDelete = existingProducts.find((product: { id: number }) => product.id === id);
 
     if (!productToDelete) {
       return NextResponse.json({ error: "Product not found" }, { status: 404 });
     }
 
-    // ✅ Delete blob if it exists and is not the placeholder
-    if (
-      productToDelete.image &&
-      !productToDelete.image.includes("/placeholder.png")
-    ) {
-      try {
-        console.log(`🔍 Attempting to delete blob: ${productToDelete.image}`);
-
-        // ✅ Use `del()` directly from `@vercel/blob`
-        await del(productToDelete.image);
-        
-        console.log(`✅ Blob deleted successfully: ${productToDelete.image}`);
-      } catch (blobError) {
-        console.error("❌ Error deleting blob:", blobError);
-        // ✅ Gracefully handle blob deletion failure but continue with Redis cleanup
+    // ✅ Delete all images if they exist and are not placeholders
+    if (Array.isArray(productToDelete.images)) {
+      for (const imageUrl of productToDelete.images) {
+        if (imageUrl && !imageUrl.includes("/placeholder.png")) {
+          try {
+            console.log(`🔍 Attempting to delete blob: ${imageUrl}`);
+            await del(imageUrl);
+            console.log(`✅ Blob deleted successfully: ${imageUrl}`);
+          } catch (blobError) {
+            console.error(`❌ Error deleting blob (${imageUrl}):`, blobError);
+            // ✅ Gracefully handle blob deletion failure but continue with Redis cleanup
+          }
+        }
       }
     }
 
     // ✅ Remove product from Redis
-    const updatedProducts = existingProducts.filter((product: { id: number; }) => product.id !== id);
+    const updatedProducts = existingProducts.filter((product: { id: number }) => product.id !== id);
     await redis.set("products", JSON.stringify(updatedProducts));
 
     return NextResponse.json({ message: "Product deleted successfully" }, { status: 200 });
@@ -236,6 +234,7 @@ export async function DELETE(req: NextRequest) {
     return NextResponse.json({ error: "Failed to delete product" }, { status: 500 });
   }
 }
+
 
 
 
