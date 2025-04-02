@@ -92,7 +92,7 @@ export default function Checkout() {
               {cart.map((product) => (
                 <li key={product.id} className="flex justify-between items-center p-4 border rounded-lg shadow">
                   <div className="flex items-center gap-4">
-                    <Image src={product.image} width={60} height={60} alt={product.name} className="rounded-md" />
+                    <Image src={product.images[0] || "/images/placeholder.png"} width={60} height={60} alt={product.name} className="rounded-md" />
                     <div>
                       <h3 className="text-white">{product.name}</h3>
                       <p className="text-gray-400 text-sm">Cantidad: {product.quantity}</p>
@@ -104,7 +104,7 @@ export default function Checkout() {
             </ul>
           )}
 
-          {/* 🏷️ Subtotal & Total */}
+          {/* Subtotal & Total */}
           <div className="flex justify-between text-gray-300 mt-4">
             <span>Subtotal</span>
             <span>${subtotal.toFixed(2)}</span>
