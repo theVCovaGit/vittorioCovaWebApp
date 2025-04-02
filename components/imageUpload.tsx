@@ -1,5 +1,5 @@
 "use client";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 
 interface ImageUploadProps {
   onUpload: (url: string) => void;
@@ -87,7 +87,7 @@ const ImageUpload = ({ onUpload, currentImage, type = "product" }: ImageUploadPr
   );
 };
 
-const MultipleImagesUpload = ({ onUpload, currentImages = [], type = "product" }: MultipleImagesUploadProps) => {
+const MultipleImagesUpload = ({ onUpload, currentImages = [] }: MultipleImagesUploadProps) => {
   const [loading, setLoading] = useState(false);
   const [files, setFiles] = useState<(File | null)[]>(Array(6).fill(null));
 
