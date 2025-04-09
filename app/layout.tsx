@@ -12,8 +12,6 @@ const poppins = Poppins({
   variable: "--font-poppins",
 });
 
-
-
 export const metadata: Metadata = {
   title: "Nikken E-Commerce",
   description: "Shop the best Nikken products with ease.",
@@ -27,20 +25,20 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-      className={`${poppins.variable} antialiased text-foreground bg-background flex flex-col min-h-screen font-poppins`}
+        className={`${poppins.variable} antialiased text-foreground bg-background flex flex-col min-h-screen font-poppins`}
       >
         <CartProvider>
-        <CartDrawer />
-        {/* Header for Navigation */}
-        <Header />
+          <CartDrawer />
+          {/* Header for Navigation */}
+          <Header />
 
-        {/* Main Content */}
-        <main className="flex-grow container mx-auto p-4 md:p-8">
-          {children}
-        </main>
+          {/* Main Content */}
+          <main className="flex-grow container mx-auto p-4 md:p-8">
+            {children}
+          </main>
 
-        {/* Footer at the bottom */}
-        <Footer />
+          {/* Footer at the bottom */}
+          <Footer />
         </CartProvider>
       </body>
     </html>

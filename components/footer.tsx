@@ -1,45 +1,16 @@
-"use client";
-
-import { useEffect, useState } from "react";
-import Link from "next/link";
+import Image from "next/image";
 
 export default function Footer() {
-  const [isMounted, setIsMounted] = useState(false);
-
-  useEffect(() => {
-    setIsMounted(true);
-  }, []);
-
-  if (!isMounted) return null; // Render nothing until hydration is complete.
-
   return (
-    <footer className="bg-[#2c72a6] text-white py-8">
-
-      <div className="container mx-auto flex flex-col md:flex-row justify-between items-center gap-2 md:gap-4">
-        {/* Contact Info */}
-        <div className="text-center md:text-left">
-          <h3 className="text-sm font-semibold md:text-lg">Contacto</h3>
-          <p className="text-xs md:text-sm">Teléfono: +52 (placeholder)</p>
-          <p className="text-xs md:text-sm">Correo: correo@placeholder.com</p>
-        </div>
-
-        {/* Divider */}
-        <div className="hidden md:block h-px w-full bg-gray-700 md:hidden"></div>
-
-        {/* Seal and Admin Link */}
-        <div className="text-center mt-2 md:mt-0">
- {/*   
-  <span className="ml-2">
-    <img src="/images/icon.png" alt="JRF Technologies" className="h-4 md:h-5" />
-  </span>
-*/}
-          <Link
-            href="/admin"
-            className="text-xs md:text-sm text-blue-400 hover:text-blue-300 mt-1 block"
-          >
-            Admin
-          </Link>
-        </div>
+    <footer className="bg-white fixed bottom-0 left-0 w-full h-[200px] flex justify-center items-end m-0 p-0">
+      <div className="w-full">
+        <Image
+          src="/assets/titleblock.svg"  // Adjusted path
+          alt="Architectural Title Block"
+          width={1440}
+          height={200}
+          className="w-full h-full object-cover m-0 p-0"  // Ensures full coverage without margins
+        />
       </div>
     </footer>
   );

@@ -14,23 +14,44 @@ export default {
         primary: "#19333F",
         secondary: "#4B6B70",
         accent: "#34d399",
+        light: "#f5f5f5",  // Light background for sections
+        dark: "#333333",    // Dark text for better contrast
       },
       fontFamily: {
         ripple: ["Ripple", "sans-serif"],
+        sans: ["Poppins", "sans-serif"],  // Improved font consistency
       },
       spacing: {
         72: "18rem",
         84: "21rem",
         96: "24rem",
+        128: "32rem",      // For wider spacing in galleries
+        screen: "100vh",   // Full screen height utility
       },
       screens: {
         xs: "475px",
+        md: "768px",      // Better responsiveness
+        lg: "1024px",
+      },
+      animation: {
+        fadeIn: "fadeIn 0.5s ease-in-out",
+        slideDown: "slideDown 0.3s ease-in-out",
+      },
+      keyframes: {
+        fadeIn: {
+          "0%": { opacity: "0" },
+          "100%": { opacity: "1" },
+        },
+        slideDown: {
+          "0%": { transform: "translateY(-10%)", opacity: "0" },
+          "100%": { transform: "translateY(0)", opacity: "1" },
+        },
       },
       typography: {
         DEFAULT: {
           css: {
             ul: {
-              listStyleType: "disc", // ✅ Force bullet points to display properly
+              listStyleType: "disc",
               paddingLeft: "1.5rem",
             },
             ol: {
@@ -38,12 +59,21 @@ export default {
               paddingLeft: "1.5rem",
             },
             li: {
-              marginBottom: "0.25rem", // ✅ Adjust spacing between bullet points
+              marginBottom: "0.25rem",
+            },
+            h1: {
+              color: "var(--foreground)",
+              fontWeight: "bold",
+            },
+            p: {
+              color: "var(--foreground)",
+              lineHeight: "1.6",
             },
           },
         },
       },
     },
+    
   },
   plugins: [
     require("@tailwindcss/typography"),
