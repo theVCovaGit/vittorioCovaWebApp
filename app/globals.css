@@ -2,9 +2,37 @@
 @tailwind components;
 @tailwind utilities;
 
+@font-face {
+  font-family: "Basica";
+  src: url("/fonts/Basica.ttf") format("truetype");
+  font-weight: 400;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Electrolize";
+  src: url("/fonts/Electrolize.ttf") format("truetype");
+  font-weight: 400;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Barrel";
+  src: url("/fonts/Barrel.ttf") format("truetype");
+  font-weight: 400;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Minecraft";
+  src: url("/fonts/Minecraft.ttf") format("truetype");
+  font-weight: 400;
+  font-style: normal;
+}
+
 /* CSS Variables for Dark Mode */
 :root {
-  --background: white;
+  --background: #5c4b4a;
   --foreground: #171717;
   --primary: #1a73e8; /* Primary color */
   --secondary: #fbbc05; /* Secondary color */
@@ -13,7 +41,7 @@
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --background: white;
+    --background: #5c4b4a;
     --foreground: #ededed;
     --primary: #2563eb; /* Adjusted for dark mode */
     --secondary: #facc15; /* Adjusted for dark mode */

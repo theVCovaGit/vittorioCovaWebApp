@@ -18,8 +18,10 @@ export default {
         dark: "#333333",    // Dark text for better contrast
       },
       fontFamily: {
-        ripple: ["Ripple", "sans-serif"],
-        sans: ["Poppins", "sans-serif"],  // Improved font consistency
+        basica: ['"Basica"', 'sans-serif'],
+        electrolize: ['"Electrolize"', 'sans-serif'],
+        barrel: ['"Barrel"', 'sans-serif'],
+        minecraft: ['"Minecraft"', 'sans-serif'],
       },
       spacing: {
         72: "18rem",

@@ -29,15 +29,12 @@ export default function RootLayout({
       >
         <CartProvider>
           <CartDrawer />
-          {/* Header for Navigation */}
           <Header />
 
-          {/* Main Content */}
-          <main className="flex-grow container mx-auto p-4 md:p-8">
+          <main className="flex-1 flex flex-col">
             {children}
           </main>
 
-          {/* Footer at the bottom */}
           <Footer />
         </CartProvider>
       </body>
