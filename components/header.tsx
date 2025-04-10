@@ -4,7 +4,7 @@ import React from "react";
 
 export default function Header() {
   return (
-    <header className="relative w-full h-[160px] sm:h-[180px] md:h-[200px] bg-[#5c4b4a] font-basica">
+    <header className="fixed top-0 left-0 w-full h-[160px] sm:h-[180px] md:h-[200px] bg-[#5c4b4a] font-basica z-50">
       {/* Logo Block */}
       <div className="absolute top-[70px] sm:top-[80px] md:top-[100px] left-[40px] sm:left-[60px] md:left-[80px] text-black leading-[2.5rem]">
         <div className="text-[2rem] sm:text-[2.5rem] md:text-[52px] font-normal tracking-[-0.02em] md:tracking-[-0.312px]">

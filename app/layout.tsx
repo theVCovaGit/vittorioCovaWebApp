@@ -13,9 +13,8 @@ const poppins = Poppins({
 });
 
 export const metadata: Metadata = {
-  title: "Nikken E-Commerce",
-  description: "Shop the best Nikken products with ease.",
-  viewport: "width=device-width, initial-scale=1.0, viewport-fit=cover",
+  title: "Vittorio Cova Studio",
+  description: "Frame the vision.",
 };
 
 export default function RootLayout({
