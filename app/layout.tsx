@@ -15,6 +15,7 @@ const poppins = Poppins({
 export const metadata: Metadata = {
   title: "Nikken E-Commerce",
   description: "Shop the best Nikken products with ease.",
+  viewport: "width=device-width, initial-scale=1.0, viewport-fit=cover",
 };
 
 export default function RootLayout({
@@ -24,19 +25,15 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body
-        className={`${poppins.variable} antialiased text-foreground bg-background flex flex-col min-h-screen font-poppins`}
-      >
-        <CartProvider>
+      <body className={`${poppins.variable} min-h-screen flex flex-col font-poppins`}>
+          <CartProvider>
           <CartDrawer />
           <Header />
-
-          <main className="flex-1 flex flex-col">
+          <main className="flex-1 flex flex-col overflow-y-auto">
             {children}
           </main>
-
           <Footer />
-        </CartProvider>
+          </CartProvider>
       </body>
     </html>
   );
