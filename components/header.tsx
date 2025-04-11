@@ -1,12 +1,22 @@
 "use client";
 
 import React from "react";
+import { usePathname } from "next/navigation";
 
 export default function Header() {
+  const pathname = usePathname();
+
+  const pageTitleMap: { [key: string]: string } = {
+    "/architecture": "ARCHITECTURE",
+    // Add more paths here as needed
+  };
+
+  const currentPageTitle = pageTitleMap[pathname];
+
   return (
-    <header className="fixed top-0 left-0 w-full bg-[#5c4b4a] font-basica z-50 h-[10rem] sm:h-[11.25rem] md:h-[12.5rem]">
+    <header className="fixed top-0 left-0 w-full bg-[#5c4b4a] font-basica z-50 h-[10rem] sm:h-[13.25rem] md:h-[14.5rem]">
       {/* Logo Block */}
-      <div className="absolute top-[4.375rem] sm:top-[5rem] md:top-[6.25rem] left-[2.5rem] sm:left-[3.75rem] md:left-[5rem] text-black leading-[2.5rem]">
+      <div className="absolute top-[2.375rem] sm:top-[3rem] md:top-[4.25rem] left-[2.5rem] sm:left-[3.75rem] md:left-[5rem] text-black leading-[2.5rem]">
         {/* VITTORIO */}
         <div className="text-[2rem] sm:text-[2.5rem] md:text-[3.25rem] font-normal tracking-[-0.02em] md:tracking-[-0.0195rem]">
           VITTORIO
@@ -16,10 +26,17 @@ export default function Header() {
         <div className="text-[2rem] sm:text-[2.5rem] md:text-[3.25rem] font-normal tracking-[0.05em] md:tracking-[0.08775rem] ml-[4rem] sm:ml-[5rem] md:ml-[7.06rem]">
           COVA
         </div>
+
+        {/* ARCHITECTURE (only on /architecture) */}
+        {currentPageTitle && (
+          <div className="text-[#8CAC77] text-[0.85rem] sm:text-[1rem] md:text-[1.3rem] font-bold tracking-[0.025em] mt-[0.5rem] sm:mt-[0.625rem] md:mt-[0.8rem]">
+            {currentPageTitle}
+          </div>
+        )}
       </div>
 
       {/* Frame SVG – Hidden on mobile */}
-      <div className="hidden md:block absolute top-[6.25rem] left-[26.25rem] w-[9rem] h-auto">
+      <div className="hidden md:block absolute top-[4.25rem] left-[26.25rem] w-[9rem] h-auto">
         <svg
           xmlns="http://www.w3.org/2000/svg"
           viewBox="0 0 144 75"
@@ -41,7 +58,7 @@ export default function Header() {
       </div>
 
       {/* "Frame the Vision" – Hidden on mobile */}
-      <div className="hidden md:block absolute top-[6.25rem] left-[36.25rem] text-black text-[1rem] tracking-[0.002em] w-[13.06rem] h-[1.625rem] leading-none">
+      <div className="hidden md:block absolute top-[4.25rem] left-[36.25rem] text-black text-[1rem] tracking-[0.002em] w-[13.06rem] h-[1.625rem] leading-none">
         FRAME THE VISION .
       </div>
     </header>
