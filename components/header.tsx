@@ -1,22 +1,27 @@
 "use client";
 
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { usePathname } from "next/navigation";
 
 export default function Header() {
   const pathname = usePathname();
+  const [isClient, setIsClient] = useState(false);
 
-  const pageTitleMap: { [key: string]: string } = {
-    "/architecture": "ARCHITECTURE",
-    // Add more paths here as needed
-  };
+  useEffect(() => {
+    // Ensure all dynamic client logic only runs after hydration
+    setIsClient(true);
+  }, []);
 
-  const currentPageTitle = pageTitleMap[pathname];
+  const isArchitecture = pathname === "/architecture";
 
   return (
-    <header className="fixed top-0 left-0 w-full bg-[#5c4b4a] font-basica z-50 h-[10rem] sm:h-[13.25rem] md:h-[14.5rem]">
+    <header
+      className={`fixed top-0 left-0 w-full bg-[#5c4b4a] font-basica z-50 h-[10rem] sm:h-[13.25rem] md:h-[14.5rem] ${
+        isClient && isArchitecture ? "text-black" : "text-[#fef4dc]"
+      }`}
+    >
       {/* Logo Block */}
-      <div className="absolute top-[2.375rem] sm:top-[3rem] md:top-[4.25rem] left-[2.5rem] sm:left-[3.75rem] md:left-[5rem] text-black leading-[2.5rem]">
+      <div className="absolute top-[2.375rem] sm:top-[3rem] md:top-[4.25rem] left-[2.5rem] sm:left-[3.75rem] md:left-[5rem] leading-[2.5rem]">
         {/* VITTORIO */}
         <div className="text-[2rem] sm:text-[2.5rem] md:text-[3.25rem] font-normal tracking-[-0.02em] md:tracking-[-0.0195rem]">
           VITTORIO
@@ -27,15 +32,20 @@ export default function Header() {
           COVA
         </div>
 
-        {/* ARCHITECTURE (only on /architecture) */}
-        {currentPageTitle && (
-          <div className="text-[#8CAC77] text-[0.85rem] sm:text-[1rem] md:text-[1.3rem] font-bold tracking-[0.025em] mt-[0.5rem] sm:mt-[0.625rem] md:mt-[0.8rem]">
-            {currentPageTitle}
-          </div>
+        {/* ARCHITECTURE label */}
+        {isClient && isArchitecture && (
+          <div
+          className={`text-[0.85rem] sm:text-[1rem] md:text-[1.3rem] font-bold tracking-[0.025em] mt-[0.5rem] sm:mt-[0.625rem] md:mt-[0.8rem] transition-opacity duration-300 ${
+            isClient && isArchitecture ? "text-[#8CAC77] opacity-100" : "opacity-0"
+          }`}
+        >
+          ARCHITECTURE
+        </div>
+        
         )}
       </div>
 
-      {/* Frame SVG – Hidden on mobile */}
+      {/* Frame SVG */}
       <div className="hidden md:block absolute top-[4.25rem] left-[26.25rem] w-[9rem] h-auto">
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -57,10 +67,12 @@ export default function Header() {
         </svg>
       </div>
 
-      {/* "Frame the Vision" – Hidden on mobile */}
-      <div className="hidden md:block absolute top-[4.25rem] left-[36.25rem] text-black text-[1rem] tracking-[0.002em] w-[13.06rem] h-[1.625rem] leading-none">
-        FRAME THE VISION .
-      </div>
+      {/* Frame the Vision */}
+      {isClient && !isArchitecture && (
+        <div className="hidden md:block absolute top-[4.25rem] left-[36.25rem] text-[1rem] tracking-[0.002em] w-[13.06rem] h-[1.625rem] leading-none">
+          FRAME THE VISION .
+        </div>
+      )}
     </header>
   );
 }
