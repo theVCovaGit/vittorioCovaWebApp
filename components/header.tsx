@@ -4,19 +4,22 @@ import React from "react";
 
 export default function Header() {
   return (
-    <header className="fixed top-0 left-0 w-full h-[160px] sm:h-[180px] md:h-[200px] bg-[#5c4b4a] font-basica z-50">
+    <header className="fixed top-0 left-0 w-full bg-[#5c4b4a] font-basica z-50 h-[10rem] sm:h-[11.25rem] md:h-[12.5rem]">
       {/* Logo Block */}
-      <div className="absolute top-[70px] sm:top-[80px] md:top-[100px] left-[40px] sm:left-[60px] md:left-[80px] text-black leading-[2.5rem]">
-        <div className="text-[2rem] sm:text-[2.5rem] md:text-[52px] font-normal tracking-[-0.02em] md:tracking-[-0.312px]">
+      <div className="absolute top-[4.375rem] sm:top-[5rem] md:top-[6.25rem] left-[2.5rem] sm:left-[3.75rem] md:left-[5rem] text-black leading-[2.5rem]">
+        {/* VITTORIO */}
+        <div className="text-[2rem] sm:text-[2.5rem] md:text-[3.25rem] font-normal tracking-[-0.02em] md:tracking-[-0.0195rem]">
           VITTORIO
         </div>
-        <div className="text-[2rem] sm:text-[2.5rem] md:text-[52px] font-normal tracking-[0.05em] md:tracking-[1.404px] ml-[4rem] sm:ml-[5rem] md:ml-[113px]">
+
+        {/* COVA */}
+        <div className="text-[2rem] sm:text-[2.5rem] md:text-[3.25rem] font-normal tracking-[0.05em] md:tracking-[0.08775rem] ml-[4rem] sm:ml-[5rem] md:ml-[7.06rem]">
           COVA
         </div>
       </div>
 
       {/* Frame SVG – Hidden on mobile */}
-      <div className="hidden md:block absolute top-[100px] left-[420px] w-[144px] h-auto">
+      <div className="hidden md:block absolute top-[6.25rem] left-[26.25rem] w-[9rem] h-auto">
         <svg
           xmlns="http://www.w3.org/2000/svg"
           viewBox="0 0 144 75"
@@ -38,7 +41,7 @@ export default function Header() {
       </div>
 
       {/* "Frame the Vision" – Hidden on mobile */}
-      <div className="hidden md:block absolute top-[100px] left-[580px] text-black text-[1rem] tracking-[0.002em] w-[209px] h-[26px] leading-none">
+      <div className="hidden md:block absolute top-[6.25rem] left-[36.25rem] text-black text-[1rem] tracking-[0.002em] w-[13.06rem] h-[1.625rem] leading-none">
         FRAME THE VISION .
       </div>
     </header>
