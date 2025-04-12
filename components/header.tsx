@@ -16,7 +16,7 @@ export default function Header() {
 
   return (
     <header
-      className={`fixed top-0 left-0 w-full bg-[#5c4b4a] font-basica z-50 h-[10rem] sm:h-[13.25rem] md:h-[14.5rem] ${
+      className={`fixed top-0 left-0 w-full bg-[#5c4b4a] font-basica z-50 h-[10rem] sm:h-[12.25rem] md:h-[13rem] ${
         isClient && isArchitecture ? "text-black" : "text-[#fef4dc]"
       }`}
     >

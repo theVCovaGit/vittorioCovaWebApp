@@ -5,9 +5,9 @@ import React from "react";
 export default function Footer() {
   return (
 <footer className="fixed bottom-0 left-0 w-full h-[140px] bg-transparent font-minecraft px-[4vw] z-50 pointer-events-auto flex flex-col items-end justify-end">
-  <div className="relative -top-2 -left-5 sm:-top-3 sm:-left-6 md:-top-8 md:-left-8">
+  <div className="relative -top-2 -left-5 sm:-top-3 sm:-left-6 md:-top-1 md:-left-8">
     {/* Barcode - positioned directly above the text */}
-    <div className="mb-5 w-[400px] h-auto scale-[1.09]">
+    <div className="mb-4 w-[400px] h-auto scale-[1.01]">
         <svg
           xmlns="http://www.w3.org/2000/svg"
           width="367"
