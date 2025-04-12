@@ -7,7 +7,7 @@ export default function Footer() {
 <footer className="fixed bottom-0 left-0 w-full h-[140px] bg-transparent font-minecraft px-[4vw] z-50 pointer-events-auto flex flex-col items-end justify-end">
   <div className="relative -top-2 -left-5 sm:-top-3 sm:-left-6 md:-top-8 md:-left-8">
     {/* Barcode - positioned directly above the text */}
-    <div className="mb-5 w-[400px] h-auto scale-[1.02]">
+    <div className="mb-5 w-[400px] h-auto scale-[1.09]">
         <svg
           xmlns="http://www.w3.org/2000/svg"
           width="367"
@@ -24,7 +24,7 @@ export default function Footer() {
       </div>
 
     {/* Footer Text */}
-    <div className="w-full max-w-[351px] flex justify-between text-[#fef4dc] text-[4.5vw] sm:text-[3.5vw] md:text-[21px] font-medium leading-none">
+    <div className="max-w-[351px] flex justify-between text-[#fef4dc] text-[4.5vw] sm:text-[3.5vw] md:text-[21px] font-medium leading-none ml-2 sm:ml-4 md:ml-5">
       <span>CONTACT</span>
       <span>/</span>
       <span>ABOUT</span>
