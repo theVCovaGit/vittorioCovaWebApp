@@ -21,7 +21,7 @@ export default function CreativePageLayout({
         className="hidden md:block absolute z-0"
         style={{
           top: "18rem",
-          left: "70vw",
+          left: "75vw",
           width: "47vw",
           height: "48vh",
           maxWidth: "800px",
@@ -37,7 +37,7 @@ export default function CreativePageLayout({
         className="hidden md:block absolute z-10"
         style={{
           top: "calc(30% + 5px)",
-          left: "clamp(200px, 26vw, 420px)", // stable across resolutions
+          left: "clamp(420px, 26vw, 420px)", // stable across resolutions
         }}
       >
         <DownwardDots />
@@ -47,13 +47,13 @@ export default function CreativePageLayout({
     <div
     className="hidden md:block absolute z-10"
     style={{
-        top: "calc(32% + 5px)",
+        top: "calc(21% + 5px)",
         right: "0",
-        width: "clamp(480px, 24vw, 490px)", // ⬅️ Responsive width
-        height: "clamp(240px, 12vw, 240px)", // ⬅️ Responsive height
-        minWidth: "300px", // ⛑️ Guardrails
+        width: "clamp(420px, 24vw, 490px)", // ⬅️ Responsive width
+        height: "clamp(300px, 12vw, 240px)", // ⬅️ Responsive height
+        minWidth: "300px", 
         minHeight: "150px",
-        transform: "scale(1.5)",
+        transform: "scale(1.7)",
         transformOrigin: "top right",
     }}
     >
