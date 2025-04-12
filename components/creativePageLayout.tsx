@@ -14,55 +14,52 @@ export default function CreativePageLayout({
   children,
 }: CreativePageLayoutProps) {
   return (
-    <section className="relative w-full min-h-screen bg-black font-basica text-[#fef4dc] pt-[10rem] sm:pt-[13.25rem] md:pt-[14.5rem] px-6 md:px-12 lg:px-24">
+    <section className="relative w-full max-w-[1600px] mx-auto min-h-screen bg-black font-basica text-[#fef4dc] pt-[10rem] sm:pt-[13.25rem] md:pt-[14.5rem] px-6 md:px-12 lg:px-24">
       
-      {/* Hero image */}
+      {/* 🖼️ Hero image */}
       <div
         className="hidden md:block absolute z-0"
         style={{
-          top: "18rem",
-          left: "75vw",
-          width: "47vw",
-          height: "48vh",
-          maxWidth: "800px",
-          maxHeight: "600px",
+          top: "clamp(18rem, 18vh, 18rem)",
+          left: "clamp(65vw, 72vw, 78vw)",
+          width: "clamp(400px, 49vw, 800px)",
+          height: "clamp(300px, 48vh, 600px)",
           transform: "translateX(-50%)",
         }}
       >
         {heroImage}
       </div>
 
-      {/* ⬇Downward dots */}
+      {/* ⬇️ Downward dots */}
       <div
         className="hidden md:block absolute z-10"
         style={{
           top: "calc(30% + 5px)",
-          left: "clamp(420px, 26vw, 420px)", // stable across resolutions
+          left: "clamp(280px, 24vw, 420px)",
         }}
       >
         <DownwardDots />
       </div>
 
-    {/* 🟡 Dot frame — responsive but rendered correctly */}
-    <div
-    className="hidden md:block absolute z-10"
-    style={{
-        top: "calc(21% + 5px)",
-        right: "0",
-        width: "clamp(420px, 24vw, 490px)", // ⬅️ Responsive width
-        height: "clamp(300px, 12vw, 240px)", // ⬅️ Responsive height
-        minWidth: "300px", 
-        minHeight: "150px",
-        transform: "scale(1.7)",
-        transformOrigin: "top right",
-    }}
-    >
-    <DotFrame />
-    </div>
-
+      {/* 🟡 Dot frame — responsive and anchored */}
+      <div
+        className="hidden md:block absolute z-10"
+        style={{
+          top: "calc(21% + 5px)",
+          right: "0",
+          width: "clamp(420px, 24vw, 490px)", 
+          height: "clamp(300px, 12vw, 240px)",
+          transform: "scale(1.7)",
+          transformOrigin: "top right",
+        }}
+      >
+        <DotFrame />
+      </div>
 
       {/* 📦 Page content */}
-      <div className="relative z-20">{children}</div>
+      <div className="relative z-20 w-full max-w-screen-xl mx-auto">
+        {children}
+      </div>
     </section>
   );
 }
