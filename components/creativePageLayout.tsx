@@ -49,7 +49,7 @@ export default function CreativePageLayout({
     style={{
         top: "calc(32% + 5px)",
         right: "0", 
-        width: "470px",
+        width: "490px",
         height: "240px",
         transform: "scale(1.5)", 
         transformOrigin: "top right", 
