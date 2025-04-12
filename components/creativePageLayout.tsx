@@ -16,36 +16,36 @@ export default function CreativePageLayout({
   return (
     <section className="relative w-full min-h-screen bg-black font-basica text-[#fef4dc] pt-[10rem] sm:pt-[13.25rem] md:pt-[14.5rem] px-6 md:px-12 lg:px-24">
       
-      {/* Image */}
+      {/* 📸 Hero image */}
       {heroImage && (
-        <div className="absolute top-[18rem] left-[50vw] w-[47vw] h-[48vh] z-0">
+        <div className="absolute top-[18rem] left-[50vw] w-[47vw] h-[48vh] max-w-[800px] max-h-[600px] z-0 -translate-x-1/2">
           {heroImage}
         </div>
       )}
 
-      {/* Downwars dots */}
+      {/* ⬇️ Downward dots */}
       <div
         className="hidden md:block absolute z-10"
         style={{
-          top: "calc(30% + 5px)", // fine-tune as needed
-          left: "clamp(420px, 12vw, 220px)", // responsive offset
+          top: "calc(30% + 5px)",
+          left: "clamp(200px, 26vw, 420px)", // stable across resolutions
         }}
       >
         <DownwardDots />
       </div>
 
-      {/* Dots frame */}
+      {/* 🟡 Dot frame */}
       <div
         className="hidden md:block absolute z-10"
         style={{
-          top: "calc(35% + 5px)", // fine-tune as needed
-          left: "clamp(610px, 12vw, 220px)", // responsive offset
+          top: "calc(35% + 5px)",
+          left: "clamp(400px, 43vw, 610px)", // matches design visually
         }}
       >
         <DotFrame />
       </div>
 
-      {/* ⬇️ Page content */}
+      {/* 📦 Page content */}
       <div className="relative z-20">{children}</div>
     </section>
   );
