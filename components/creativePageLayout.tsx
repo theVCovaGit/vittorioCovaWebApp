@@ -43,16 +43,18 @@ export default function CreativePageLayout({
         <DownwardDots />
       </div>
 
-    {/* 🟡 Dot frame */}
+    {/* 🟡 Dot frame — responsive but rendered correctly */}
     <div
     className="hidden md:block absolute z-10"
     style={{
         top: "calc(32% + 5px)",
-        right: "0", 
-        width: "490px",
-        height: "240px",
-        transform: "scale(1.5)", 
-        transformOrigin: "top right", 
+        right: "0",
+        width: "clamp(480px, 24vw, 490px)", // ⬅️ Responsive width
+        height: "clamp(240px, 12vw, 240px)", // ⬅️ Responsive height
+        minWidth: "300px", // ⛑️ Guardrails
+        minHeight: "150px",
+        transform: "scale(1.5)",
+        transformOrigin: "top right",
     }}
     >
     <DotFrame />
