@@ -15,7 +15,7 @@ export default function CreativePageLayout({ children }: CreativePageLayoutProps
         className="hidden md:block absolute z-10"
         style={{
             top: "calc(30% + 5px)",  // adjust vertical shift here
-            left: "clamp(360px, 12vw, 220px)",  // responsive left offset
+            left: "clamp(420px, 12vw, 220px)",  // responsive left offset
         }}
         >
         <DownwardDots />
