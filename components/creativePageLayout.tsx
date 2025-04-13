@@ -35,7 +35,7 @@ export default function CreativePageLayout({
         className="hidden md:block absolute z-10"
         style={{
           top: "calc(30% + 5px)",
-          left: "clamp(280px, 24vw, 420px)",
+          left: "clamp(280px, 34vw, 420px)",
         }}
       >
         <DownwardDots />

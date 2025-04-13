@@ -2,46 +2,42 @@
 
 import React, { useEffect, useState } from "react";
 import { usePathname } from "next/navigation";
+import Link from "next/link";
 
 export default function Header() {
   const pathname = usePathname();
-  const [isClient, setIsClient] = useState(false);
+  const [hasHydrated, setHasHydrated] = useState(false);
 
   useEffect(() => {
-    // Ensure all dynamic client logic only runs after hydration
-    setIsClient(true);
+    setHasHydrated(true);
   }, []);
+
+  if (!hasHydrated) return null;
 
   const isArchitecture = pathname === "/architecture";
 
   return (
     <header
       className={`fixed top-0 left-0 w-full bg-[#5c4b4a] font-basica z-50 h-[10rem] sm:h-[12.25rem] md:h-[13rem] ${
-        isClient && isArchitecture ? "text-black" : "text-[#fef4dc]"
+        isArchitecture ? "text-black" : "text-[#fef4dc]"
       }`}
     >
       {/* Logo Block */}
       <div className="absolute top-[2.375rem] sm:top-[3rem] md:top-[4.25rem] left-[2.5rem] sm:left-[3.75rem] md:left-[5rem] leading-[2.5rem]">
-        {/* VITTORIO */}
-        <div className="text-[2rem] sm:text-[2.5rem] md:text-[3.25rem] font-normal tracking-[-0.02em] md:tracking-[-0.0195rem]">
-          VITTORIO
-        </div>
+        <Link href="/" className="no-underline text-inherit cursor-pointer">
+          <div className="text-[2rem] sm:text-[2.5rem] md:text-[3.25rem] font-normal tracking-[-0.02em] md:tracking-[-0.0195rem]">
+            VITTORIO
+          </div>
 
-        {/* COVA */}
-        <div className="text-[2rem] sm:text-[2.5rem] md:text-[3.25rem] font-normal tracking-[0.05em] md:tracking-[0.08775rem] ml-[4rem] sm:ml-[5rem] md:ml-[7.06rem]">
-          COVA
-        </div>
+          <div className="text-[2rem] sm:text-[2.5rem] md:text-[3.25rem] font-normal tracking-[0.05em] md:tracking-[0.08775rem] ml-[4rem] sm:ml-[5rem] md:ml-[7.06rem]">
+            COVA
+          </div>
+        </Link>
 
-        {/* ARCHITECTURE label */}
-        {isClient && isArchitecture && (
-          <div
-          className={`text-[0.85rem] sm:text-[1rem] md:text-[1.3rem] font-bold tracking-[0.025em] mt-[0.5rem] sm:mt-[0.625rem] md:mt-[0.8rem] transition-opacity duration-300 ${
-            isClient && isArchitecture ? "text-[#8CAC77] opacity-100" : "opacity-0"
-          }`}
-        >
-          ARCHITECTURE
-        </div>
-        
+        {isArchitecture && (
+          <div className="text-[0.85rem] sm:text-[1rem] md:text-[1.3rem] font-bold tracking-[0.025em] mt-[0.5rem] sm:mt-[0.625rem] md:mt-[0.8rem] text-[#8CAC77] transition-opacity duration-300 opacity-100">
+            ARCHITECTURE
+          </div>
         )}
       </div>
 
@@ -68,7 +64,7 @@ export default function Header() {
       </div>
 
       {/* Frame the Vision */}
-      {isClient && !isArchitecture && (
+      {!isArchitecture && (
         <div className="hidden md:block absolute top-[4.25rem] left-[36.25rem] text-[1rem] tracking-[0.002em] w-[13.06rem] h-[1.625rem] leading-none">
           FRAME THE VISION .
         </div>
