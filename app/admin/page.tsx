@@ -336,7 +336,7 @@ const handleSaveChanges = async () => {
   }
 
   return (
-    <div className="min-h-screen bg-white text-[#19333F] p-6">
+<div className="min-h-screen bg-white text-[#19333F] px-6 md:px-12 lg:px-24 mt-[10rem] sm:mt-[12rem] md:mt-[14rem] pb-28 sm:pb-32">
       <h1 className="text-black text-2xl font-bold">Admin Dashboard</h1>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-4">
       <button onClick={handleProductosClick} className="bg-blue-600 text-white py-3 px-6 rounded-md">
@@ -466,15 +466,13 @@ const handleSaveChanges = async () => {
                 className="w-full p-2 mt-2 border border-gray-600 rounded-md text-black"
               />
 
-<MultipleImagesUpload
-  onUpload={(urls) => {
-    console.log(`✅ Received uploaded image URLs for product ${product.id}:`, urls);
-    handleProductChange(product.id, "images", urls);
-  }}
-  currentImages={product.images || []}
-/>
-
-
+              <MultipleImagesUpload
+                onUpload={(urls) => {
+                  console.log(`✅ Received uploaded image URLs for product ${product.id}:`, urls);
+                  handleProductChange(product.id, "images", urls);
+                }}
+                currentImages={product.images || []}
+              />
 
               {/* Editable Sizes */}
               <div className="mt-2">

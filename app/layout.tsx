@@ -6,6 +6,7 @@ import Footer from "@/components/footer";
 import { CartProvider } from "../context/CartContext";
 import CartDrawer from "@/components/cartDrawer";
 
+
 const poppins = Poppins({
   subsets: ["latin"],
   weight: ["300", "400", "700", "900"], // Light, Regular, Bold, Black
@@ -28,9 +29,9 @@ export default function RootLayout({
           <CartProvider>
           <CartDrawer />
           <Header />
-          <main className="flex-1 flex flex-col overflow-y-auto">
-            {children}
-          </main>
+            <main className="flex-1 flex flex-col overflow-y-auto">
+              {children}
+            </main>
           <Footer />
           </CartProvider>
       </body>
