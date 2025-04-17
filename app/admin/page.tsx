@@ -2,8 +2,8 @@
 
 import { useState, useEffect } from "react";
 import {ImageUpload, MultipleImagesUpload} from "@/components/imageUpload";
-//import { useProducts } from "../store/products"; // Fetch dynamic products
-import { Product } from "../store/products"; // Ensure correct type
+import { Product } from "../store/products"; 
+import ArchitectureContentPanel from "@/components/architectureContentPanel";
 
 interface Article {
   id: number;
@@ -27,6 +27,7 @@ const AdminPage = () => {
   const [blogImage, setBlogImage] = useState<string | null>(null);
   const categories = ["aire", "agua", "descanso", "repuestos"];
   const hardcodedPassword = "123";
+  const [showArchitecture, setShowArchitecture] = useState(false);
 
   // Stable useEffect dependencies (track length, not entire array)
   useEffect(() => {
@@ -86,11 +87,13 @@ const AdminPage = () => {
   const handleProductosClick = () => {
     setShowPrices(true);
     setShowBlog(false);
+    setShowArchitecture(false);
   };  
 
   const handleBlogClick = () => {
     setShowBlog(true);
     setShowPrices(false);
+    setShowArchitecture(false);
   };
 
   // Handle Blog Post Submission & Editing
@@ -274,7 +277,12 @@ const handleProductChange = (
     )
   );
 };
- 
+
+const handleArchitectureClick = () => {
+  setShowArchitecture(true);
+  setShowPrices(false);
+  setShowBlog(false);
+};
 
 const handleSaveChanges = async () => {
   try {
@@ -337,15 +345,20 @@ const handleSaveChanges = async () => {
 
   return (
 <div className="min-h-screen bg-[#5c4b4a] text-[#19333F] px-6 md:px-12 lg:px-24 mt-[10rem] sm:mt-[12rem] md:mt-[14rem] pb-28 sm:pb-32">
-      <h1 className="text-black text-2xl font-bold">Welcome back</h1>
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-4">
-      <button onClick={handleProductosClick} className="bg-blue-600 text-white py-3 px-6 rounded-md">
-        Productos
-      </button>
-        <button onClick={handleBlogClick} className="bg-blue-600 text-white py-3 px-6 rounded-md">
-          Blog
-        </button>
-      </div>
+      <h1 className="text-black text-2xl font-bold">Welcome back Vittorio</h1>
+<div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-4">
+  <button onClick={handleProductosClick} className="bg-blue-600 text-white py-3 px-6 rounded-md">
+    Productos
+  </button>
+  <button onClick={handleBlogClick} className="bg-blue-600 text-white py-3 px-6 rounded-md">
+    Blog
+  </button>
+  <button onClick={handleArchitectureClick} className="bg-blue-600 text-white py-3 px-6 rounded-md">
+  Architecture
+</button>
+</div>
+
+
 
       {showBlog && (
         <div className="mt-6">
@@ -526,6 +539,10 @@ const handleSaveChanges = async () => {
           </button>
         </div>
       )}
+  <ArchitectureContentPanel isActive={showArchitecture} />
+
+
+
     </div>
   );
 };

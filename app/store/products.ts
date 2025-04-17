@@ -6,7 +6,7 @@ export interface Product {
   name: string;
   description: string;
   secondaryDescription?: string;
-  images: string[]; // ✅ Update from image to images
+  images: string[]; 
   category: string;
   originalPrice: number;
   discount: string;
