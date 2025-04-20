@@ -7,11 +7,13 @@ import DotFrame from "@/components/dotFrame";
 type CreativePageLayoutProps = {
   heroImage?: React.ReactNode;
   children?: React.ReactNode;
+  projectList?: React.ReactNode; 
 };
 
 export default function CreativePageLayout({
   heroImage,
   children,
+  projectList,
 }: CreativePageLayoutProps) {
   return (
     <section className="relative w-full max-w-[1600px] mx-auto min-h-screen bg-black font-basica text-[#fef4dc] pt-[10rem] sm:pt-[13.25rem] md:pt-[14.5rem] px-6 md:px-12 lg:px-24">
@@ -29,6 +31,14 @@ export default function CreativePageLayout({
       >
         {heroImage}
       </div>
+
+      {/* 📦 Sidebar + Main Content */}
+      <div className="relative z-20 w-full max-w-screen-xl mx-auto flex flex-col md:flex-row gap-12">
+        {projectList && (
+          <aside className="flex-shrink-0 mt-10">{projectList}</aside>
+        )}
+      </div>
+
 
       {/* ⬇️ Downward dots */}
       <div
@@ -54,11 +64,6 @@ export default function CreativePageLayout({
         }}
       >
         <DotFrame />
-      </div>
-
-      {/* 📦 Page content */}
-      <div className="relative z-20 w-full max-w-screen-xl mx-auto">
-        {children}
       </div>
     </section>
   );

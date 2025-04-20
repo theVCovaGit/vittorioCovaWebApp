@@ -4,8 +4,9 @@ import { useState } from "react";
 interface ImageUploadProps {
   onUpload: (url: string) => void;
   currentImage?: string;
-  type?: "product" | "blog"; // ✅ Add type to distinguish between products and blogs
+  type?: "product" | "blog" | "icon"; // ✅ Add "icon"
 }
+
 
 interface MultipleImagesUploadProps {
   onUpload: (urls: string[]) => void;

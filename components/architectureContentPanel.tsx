@@ -1,11 +1,14 @@
 "use client";
 import { useEffect, useState } from "react";
-import { MultipleImagesUpload } from "@/components/imageUpload";
+import {ImageUpload, MultipleImagesUpload} from "@/components/imageUpload";
+
+
 
 export default function ArchitectureContentPanel({ isActive }: { isActive: boolean }) {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [category, setCategory] = useState("residencial");
+  const [icon, setIcon] = useState<string>("");
   const [images, setImages] = useState<string[]>([]);
   const [projects, setProjects] = useState<any[]>([]);
   const [editingId, setEditingId] = useState<number | null>(null);
@@ -52,6 +55,7 @@ export default function ArchitectureContentPanel({ isActive }: { isActive: boole
       description,
       category,
       images,
+      icon,
     };
 
     try {
@@ -114,6 +118,7 @@ export default function ArchitectureContentPanel({ isActive }: { isActive: boole
         {editingId ? "Edit project" : "Add new project"}
       </h2>
       <div className="bg-[#5c4b4a] p-4 mt-4 text-black">
+        <label className="block mb-1 font-basica text-sm text-white">Title</label>
         <input
           type="text"
           placeholder="Title"
@@ -121,6 +126,7 @@ export default function ArchitectureContentPanel({ isActive }: { isActive: boole
           onChange={(e) => setTitle(e.target.value)}
           className="w-full p-2 border border-gray-400 rounded-md mb-2"
         />
+        <label className="block mb-1 font-basica text-sm text-white">Description</label>
         <textarea
           placeholder="Description"
           value={description}
@@ -128,6 +134,7 @@ export default function ArchitectureContentPanel({ isActive }: { isActive: boole
           rows={4}
           className="w-full p-2 border border-gray-400 rounded-md mb-2"
         />
+        <label className="block mb-1 font-basica text-sm text-white">Category</label>
         <select
           value={category}
           onChange={(e) => setCategory(e.target.value)}
@@ -138,7 +145,9 @@ export default function ArchitectureContentPanel({ isActive }: { isActive: boole
           <option value="cultural">Cultural</option>
           <option value="otros">Otros</option>
         </select>
-
+        <label className="block mb-1 font-basica text-sm text-white">Icon</label>
+        <ImageUpload onUpload={setIcon} currentImage={icon} type="icon" />
+        <label className="block mb-1 font-basica text-sm text-white">Project images</label>
         <MultipleImagesUpload onUpload={setImages} currentImages={images} />
 
         <div className="flex items-center gap-4 mt-4">
@@ -185,6 +194,7 @@ export default function ArchitectureContentPanel({ isActive }: { isActive: boole
                     setTitle(project.title);
                     setDescription(project.description);
                     setCategory(project.category);
+                    setIcon(project.icon || "");
                     setImages(project.images);
                     setEditingId(project.id);
                   }}

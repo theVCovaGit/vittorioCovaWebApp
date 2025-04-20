@@ -2,6 +2,8 @@
 
 import { useEffect, useState } from "react";
 import CreativePageLayout from "@/components/creativePageLayout";
+import ProjectsList from "@/components/projectsList"; // ⬅️ import your sidebar
+import Image from "next/image";
 
 interface ArchitectureProject {
   id: number;
@@ -13,6 +15,7 @@ interface ArchitectureProject {
 
 export default function Architecture() {
   const [projects, setProjects] = useState<ArchitectureProject[]>([]);
+  const [selectedId, setSelectedId] = useState<number | null>(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -35,33 +38,44 @@ export default function Architecture() {
     fetchProjects();
   }, []);
 
+  const selected = selectedId
+    ? projects.find((p) => p.id === selectedId)
+    : projects[0];
+
   const featuredImage =
-    projects.length > 0 && projects[0].images?.length > 0
-      ? projects[0].images[0]
-      : "/images/fallback.jpg";
+    selected?.images?.[0] || "/images/fallback.jpg";
 
   return (
     <CreativePageLayout
       heroImage={
-        <img
+        <Image
           src={featuredImage}
           alt="Architecture hero image"
-          className="w-full h-full object-cover object-center absolute top-0 left-0 z-0"
+          fill
+          className="object-cover object-center"
+        />
+      }
+      projectList={
+        <ProjectsList
+          projects={projects}
+          selectedId={selected?.id}
+          onSelect={(id) => setSelectedId(id)}
         />
       }
     >
       {loading ? (
-        <p className="text-center text-gray-500 py-12">Cargando proyectos de arquitectura...</p>
-      ) : (
-        <div className="w-full flex flex-col md:flex-row flex-wrap gap-10 pb-20">
-          {projects.map((project) => (
-            <div key={project.id} className="w-full md:w-[45%] lg:w-[30%]">
-              
-              <h2 className="text-xl font-bold text-[#19333F]">{project.title}</h2>
-              
-            </div>
-          ))}
+        <p className="text-center text-gray-500 py-12">
+          Cargando proyectos de arquitectura...
+        </p>
+      ) : selected ? (
+        <div className="pb-20">
+          <h2 className="text-4xl font-bold text-[#19333F] mb-2">
+            {selected.title}
+          </h2>
+          <p className="text-lg text-gray-400">{selected.description}</p>
         </div>
+      ) : (
+        <p className="text-gray-500">No hay proyectos para mostrar.</p>
       )}
     </CreativePageLayout>
   );
