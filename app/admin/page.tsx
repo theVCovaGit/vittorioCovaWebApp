@@ -345,7 +345,7 @@ const handleSaveChanges = async () => {
 
   return (
 <div className="min-h-screen bg-[#5c4b4a] text-[#19333F] px-6 md:px-12 lg:px-24 mt-[10rem] sm:mt-[12rem] md:mt-[14rem] pb-28 sm:pb-32">
-      <h1 className="text-black font-basica text-[#FFF3DF] text-2xl font-bold">Welcome back Vittorio</h1>
+      <h1 className="font-basica text-[#FFF3DF] text-2xl font-bold">Welcome back Vittorio</h1>
 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-4">
   <button onClick={handleProductosClick} className="bg-blue-600 text-white py-3 px-6 rounded-md">
     Productos
