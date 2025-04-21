@@ -2,7 +2,14 @@
 import { useEffect, useState } from "react";
 import {ImageUpload, MultipleImagesUpload} from "@/components/imageUpload";
 
-
+interface ArchitectureProject {
+  id: number;
+  title: string;
+  description: string;
+  category: string;
+  images: string[];
+  icon?: string;
+}
 
 export default function ArchitectureContentPanel({ isActive }: { isActive: boolean }) {
   const [title, setTitle] = useState("");
@@ -10,7 +17,7 @@ export default function ArchitectureContentPanel({ isActive }: { isActive: boole
   const [category, setCategory] = useState("residencial");
   const [icon, setIcon] = useState<string>("");
   const [images, setImages] = useState<string[]>([]);
-  const [projects, setProjects] = useState<any[]>([]);
+  const [projects, setProjects] = useState<ArchitectureProject[]>([]);
   const [editingId, setEditingId] = useState<number | null>(null);
 
   const resetForm = () => {

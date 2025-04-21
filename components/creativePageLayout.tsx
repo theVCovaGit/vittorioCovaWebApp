@@ -12,7 +12,6 @@ type CreativePageLayoutProps = {
 
 export default function CreativePageLayout({
   heroImage,
-  children,
   projectList,
 }: CreativePageLayoutProps) {
   return (
