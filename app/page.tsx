@@ -28,37 +28,42 @@ export default function Hero() {
         </a>
 
         {/* PRODUCT DESIGN */}
-        <h2
+        <a
+          href="/productdesign"
           onMouseEnter={() => setHovered("product")}
           onMouseLeave={() => setHovered(null)}
-          className={`text-[1.9rem] md:text-[2rem] tracking-[-0.02em] font-normal w-fit z-[60] ${
+          className={`text-[1.9rem] md:text-[2rem] tracking-[-0.02em] font-normal w-fit no-underline transition-opacity duration-200 z-[60] ${
             hovered === "product" ? "text-[#8494ac]" : "text-[#fef4dc]"
           }`}
         >
           PRODUCT DESIGN
-        </h2>
+        </a>
 
         {/* FILM */}
-        <h2
+        <a
+          href="/film"
           onMouseEnter={() => setHovered("film")}
           onMouseLeave={() => setHovered(null)}
-          className={`text-[1.9rem] md:text-[2rem] tracking-[-0.02em] font-normal w-fit z-[60] ${
+          className={`text-[1.9rem] md:text-[2rem] tracking-[-0.02em] font-normal w-fit no-underline transition-opacity duration-200 z-[60] ${
             hovered === "film" ? "text-[#d7c97c]" : "text-[#fef4dc]"
           }`}
         >
           FILM
-        </h2>
+        </a>
+
 
         {/* ART */}
-        <h2
+        <a
+          href="/art"
           onMouseEnter={() => setHovered("art")}
           onMouseLeave={() => setHovered(null)}
-          className={`text-[1.9rem] md:text-[2rem] tracking-[-0.02em] font-normal w-fit z-[60] ${
+          className={`text-[1.9rem] md:text-[2rem] tracking-[-0.02em] font-normal w-fit no-underline transition-opacity duration-200 z-[60] ${
             hovered === "art" ? "text-[#bc76b1]" : "text-[#fef4dc]"
           }`}
         >
           ART
-        </h2>
+        </a>
+
       </div>
       {hovered && (
   <div className="hidden md:block absolute top-[4.25rem] left-[26.25rem] w-[9rem] h-auto z-[61]">

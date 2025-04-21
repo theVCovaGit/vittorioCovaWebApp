@@ -5,23 +5,24 @@ import CreativePageLayout from "@/components/creativePageLayout";
 import ProjectsList from "@/components/projectsList";
 import Image from "next/image";
 
-interface ArchitectureProject {
+interface ArtProject {
   id: number;
   title: string;
   description: string;
   category: string;
   images: string[];
+  icon?: string;
 }
 
-export default function Architecture() {
-  const [projects, setProjects] = useState<ArchitectureProject[]>([]);
+export default function Art() {
+  const [projects, setProjects] = useState<ArtProject[]>([]);
   const [selectedId, setSelectedId] = useState<number | null>(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     async function fetchProjects() {
       try {
-        const res = await fetch("/api/architecture");
+        const res = await fetch("/api/art");
         const data = await res.json();
         if (Array.isArray(data.projects)) {
           setProjects(data.projects);
@@ -29,7 +30,7 @@ export default function Architecture() {
           console.error("Invalid data structure from API:", data);
         }
       } catch (err) {
-        console.error("Failed to fetch architecture projects:", err);
+        console.error("Failed to fetch art projects:", err);
       } finally {
         setLoading(false);
       }
@@ -50,7 +51,7 @@ export default function Architecture() {
       heroImage={
         <Image
           src={featuredImage}
-          alt="Architecture hero image"
+          alt="Art hero image"
           fill
           className="object-cover object-center"
         />
@@ -65,7 +66,7 @@ export default function Architecture() {
     >
       {loading ? (
         <p className="text-center text-gray-500 py-12">
-          Cargando proyectos de arquitectura...
+          Cargando proyectos de arte...
         </p>
       ) : selected ? (
         <div className="pb-20">
