@@ -71,10 +71,6 @@ a {
   transition: color 0.3s ease-in-out;
 }
 
-a:hover {
-  @apply text-accent; /* Accent color on hover */
-}
-
 /* Container Utility */
 .container {
   @apply max-w-7xl mx-auto px-4;
