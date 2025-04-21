@@ -87,14 +87,19 @@ export default function ArchitectureContentPanel({ isActive }: { isActive: boole
   // DELETE
   const handleDelete = async (id: number) => {
     if (!confirm("¿Estás seguro de eliminar este proyecto?")) return;
-
+  
+    const projectToDelete = projects.find((p) => p.id === id); // 👈 grab icon
+  
     try {
       const res = await fetch("/api/architecture", {
         method: "DELETE",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ id }),
+        body: JSON.stringify({
+          id,
+          icon: projectToDelete?.icon || "", // ✅ include the icon
+        }),
       });
-
+  
       if (res.ok) {
         alert("Proyecto eliminado");
         setProjects((prev) => prev.filter((p) => p.id !== id));
@@ -109,16 +114,17 @@ export default function ArchitectureContentPanel({ isActive }: { isActive: boole
       alert("Error inesperado");
     }
   };
+  
 
   if (!isActive) return null;
 
   return (
     <div className="mt-6">
-      <h2 className="text-black text-xl font-bold">
+      <h2 className="text-[#FFF3DF] text-xl font-basica">
         {editingId ? "Edit project" : "Add new project"}
       </h2>
       <div className="bg-[#5c4b4a] p-4 mt-4 text-black">
-        <label className="block mb-1 font-basica text-sm text-white">Title</label>
+        <label className="block mb-1 font-basica text-sm text-[#FFF3DF]">Title</label>
         <input
           type="text"
           placeholder="Title"
@@ -126,7 +132,7 @@ export default function ArchitectureContentPanel({ isActive }: { isActive: boole
           onChange={(e) => setTitle(e.target.value)}
           className="w-full p-2 border border-gray-400 rounded-md mb-2"
         />
-        <label className="block mb-1 font-basica text-sm text-white">Description</label>
+        <label className="block mb-1 font-basica text-sm text-[#FFF3DF]">Description</label>
         <textarea
           placeholder="Description"
           value={description}
@@ -134,7 +140,7 @@ export default function ArchitectureContentPanel({ isActive }: { isActive: boole
           rows={4}
           className="w-full p-2 border border-gray-400 rounded-md mb-2"
         />
-        <label className="block mb-1 font-basica text-sm text-white">Category</label>
+        <label className="block mb-1 font-basica text-sm text-[#FFF3DF]">Category</label>
         <select
           value={category}
           onChange={(e) => setCategory(e.target.value)}
@@ -145,9 +151,9 @@ export default function ArchitectureContentPanel({ isActive }: { isActive: boole
           <option value="cultural">Cultural</option>
           <option value="otros">Otros</option>
         </select>
-        <label className="block mb-1 font-basica text-sm text-white">Icon</label>
+        <label className="block mb-1 font-basica text-sm text-[#FFF3DF]">Icon</label>
         <ImageUpload onUpload={setIcon} currentImage={icon} type="icon" />
-        <label className="block mb-1 font-basica text-sm text-white">Project images</label>
+        <label className="block mb-1 font-basica text-sm text-[#FFF3DF]">Project images</label>
         <MultipleImagesUpload onUpload={setImages} currentImages={images} />
 
         <div className="flex items-center gap-4 mt-4">
@@ -199,13 +205,13 @@ export default function ArchitectureContentPanel({ isActive }: { isActive: boole
                     setEditingId(project.id);
                   }}
                 >
-                  Editar
+                  Edit
                 </button>
                 <button
                   className="bg-red-600 text-white py-1 px-3 rounded-md"
                   onClick={() => handleDelete(project.id)}
                 >
-                  Eliminar
+                  Delete
                 </button>
               </div>
             </div>

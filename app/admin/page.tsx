@@ -326,8 +326,8 @@ const handleSaveChanges = async () => {
   if (!isAuthenticated) {
     return (
       <div className="flex items-center justify-center h-screen">
-        <div className="w-96 p-6 bg-gray-800 text-white rounded-lg shadow-lg">
-          <h1 className="text-2xl font-bold mb-4 text-center">Admin Login</h1>
+        <div className="w-96 p-6 bg-transparent text-white">
+          <h1 className="text-2xl font-basica mb-4 text-center">Admin Login</h1>
           <input
             type="password"
             value={password}
@@ -335,7 +335,7 @@ const handleSaveChanges = async () => {
             className="text-black w-full p-2 mb-4 border border-gray-600 rounded-md"
             placeholder="Enter password"
           />
-          <button onClick={handleLogin} className="w-full bg-blue-600 text-white py-2 px-4 rounded-md">
+          <button onClick={handleLogin} className="w-full font-basica bg-transparent text-white py-2 px-4 rounded-md">
             Login
           </button>
         </div>
@@ -345,7 +345,7 @@ const handleSaveChanges = async () => {
 
   return (
 <div className="min-h-screen bg-[#5c4b4a] text-[#19333F] px-6 md:px-12 lg:px-24 mt-[10rem] sm:mt-[12rem] md:mt-[14rem] pb-28 sm:pb-32">
-      <h1 className="text-black text-2xl font-bold">Welcome back Vittorio</h1>
+      <h1 className="text-black font-basica text-[#FFF3DF] text-2xl font-bold">Welcome back Vittorio</h1>
 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-4">
   <button onClick={handleProductosClick} className="bg-blue-600 text-white py-3 px-6 rounded-md">
     Productos

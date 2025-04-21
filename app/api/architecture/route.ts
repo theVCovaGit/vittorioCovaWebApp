@@ -84,10 +84,9 @@ export async function PUT(req: NextRequest) {
   }
 }
 
-// DELETE: Delete by ID and remove blobs
 export async function DELETE(req: NextRequest) {
   try {
-    const { id } = await req.json();
+    const { id, icon } = await req.json(); // ✅ now includes icon
 
     if (typeof id !== "number") {
       return NextResponse.json({ error: "Invalid project ID" }, { status: 400 });
@@ -105,6 +104,7 @@ export async function DELETE(req: NextRequest) {
       return NextResponse.json({ error: "Project not found" }, { status: 404 });
     }
 
+    // Delete images
     for (const img of projectToDelete.images) {
       if (img && !img.includes("/placeholder.png")) {
         try {
@@ -113,6 +113,16 @@ export async function DELETE(req: NextRequest) {
         } catch (err) {
           console.warn("❌ Error deleting blob:", img, err);
         }
+      }
+    }
+
+    // ✅ Delete icon
+    if (icon && !icon.includes("/placeholder.png")) {
+      try {
+        console.log(`🧹 Deleting icon blob: ${icon}`);
+        await del(icon);
+      } catch (err) {
+        console.warn("❌ Error deleting icon blob:", icon, err);
       }
     }
 
