@@ -1,10 +1,12 @@
 "use client";
 
 import React from "react";
+import { useIconDisplay } from "@/context/IconDisplayContext";
 
 interface Project {
   id: number;
-  title: string; // Example: "Vistahermosa 114"
+  title: string;
+  icon?: string;
 }
 
 interface ProjectsListProps {
@@ -18,6 +20,8 @@ export default function ProjectsList({
   selectedId,
   onSelect,
 }: ProjectsListProps) {
+  const { setIconUrl } = useIconDisplay(); // ✅ moved into component
+
   return (
     <div
       className="w-[259px] h-auto flex flex-col gap-2 sm:gap-3 px-2"
@@ -33,7 +37,10 @@ export default function ProjectsList({
         return (
           <button
             key={project.id}
-            onClick={() => onSelect(project.id)}
+            onClick={() => {
+              onSelect(project.id);
+              setIconUrl(project.icon || ""); // ✅ update icon
+            }}
             className={`text-left uppercase tracking-[2.565px] text-[13.5px] leading-none flex justify-between items-center transition duration-150 px-3 py-[6px] rounded-sm
               ${isSelected ? "text-[#8CAC77]" : "text-[#FEF4DC] hover:text-[#8CAC77]"} bg-black`}
             style={{

@@ -4,7 +4,9 @@ import "./globals.css";
 import Header from "@/components/header";
 import Footer from "@/components/footer";
 import { CartProvider } from "../context/CartContext";
+import { IconDisplayProvider } from "@/context/IconDisplayContext";
 import CartDrawer from "@/components/cartDrawer";
+
 
 
 const poppins = Poppins({
@@ -26,6 +28,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${poppins.variable} min-h-screen flex flex-col font-poppins`}>
+          <IconDisplayProvider>
           <CartProvider>
           <CartDrawer />
           <Header />
@@ -34,6 +37,7 @@ export default function RootLayout({
             </main>
           <Footer />
           </CartProvider>
+          </IconDisplayProvider>
       </body>
     </html>
   );

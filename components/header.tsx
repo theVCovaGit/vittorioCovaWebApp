@@ -3,9 +3,12 @@
 import React, { useEffect, useState } from "react";
 import { usePathname } from "next/navigation";
 import Link from "next/link";
+import { useIconDisplay } from "@/context/IconDisplayContext";
+
 
 export default function Header() {
   const pathname = usePathname();
+  const { iconUrl } = useIconDisplay(); 
   const [hasHydrated, setHasHydrated] = useState(false);
 
   useEffect(() => {
@@ -47,7 +50,7 @@ export default function Header() {
           xmlns="http://www.w3.org/2000/svg"
           viewBox="0 0 144 75"
           fill="none"
-          className="w-full h-auto"
+          className="w-full h-auto absolute top-0 left-0"
         >
           <g clipPath="url(#clip0_18_57)">
             <path d="M25.7093 0.705688H0.694824V26.1103" stroke="#FFF3DF" strokeMiterlimit="10" />
@@ -61,7 +64,16 @@ export default function Header() {
             </clipPath>
           </defs>
         </svg>
-      </div>
+
+        {isArchitecture && iconUrl && (
+          <img
+            src={iconUrl}
+            alt="Project Icon"
+            className="absolute top-[0.75rem] left-[0.75rem] w-[7rem] h-[3.75rem] object-contain z-10"
+          />
+        )}
+</div>
+
 
       {/* Frame the Vision */}
       {!isArchitecture && (

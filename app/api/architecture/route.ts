@@ -11,6 +11,7 @@ interface ArchitectureProject {
   description: string;
   category: string;
   images: string[];
+  icon?: string; // ✅ Add this
 }
 
 // GET: Fetch all architecture projects
@@ -53,6 +54,7 @@ export async function POST(req: NextRequest) {
     const newProject: ArchitectureProject = {
       ...project,
       images: project.images,
+      icon: project.icon || "",
     };
 
     projects.push(newProject);
