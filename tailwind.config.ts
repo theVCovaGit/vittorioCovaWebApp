@@ -14,8 +14,14 @@ export default {
         primary: "#19333F",
         secondary: "#4B6B70",
         accent: "#34d399",
-        light: "#f5f5f5",  // Light background for sections
-        dark: "#333333",    // Dark text for better contrast
+        light: "#f5f5f5",  
+        dark: "#333333",
+        architecture: "#92a982",
+        product: "#8494ac",
+        film: "#d7c97c",
+        art: "#bc76b1",
+        cream: "#fef4dc",
+        brown: "#5c4b4a",    
       },
       fontFamily: {
         basica: ['"Basica"', 'sans-serif'],
