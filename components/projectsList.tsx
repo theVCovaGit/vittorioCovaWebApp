@@ -27,7 +27,7 @@ export default function ProjectsList({
       className="w-[259px] h-auto flex flex-col gap-2 sm:gap-3 px-2"
       style={{
         flexShrink: 0,
-        fontFamily: '"Basica v.2012", sans-serif',
+        fontFamily: '"Basica", sans-serif',
       }}
     >
       {projects.map((project) => {
