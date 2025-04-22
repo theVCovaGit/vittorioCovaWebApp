@@ -17,12 +17,12 @@ export default function Header() {
 
   if (!hasHydrated) return null;
 
-  const isArchitecture = pathname === "/architecture";
+  const isCreativePage = ["/architecture", "/productdesign", "/film", "/art"].includes(pathname);
 
   return (
     <header
       className={`fixed top-0 left-0 w-full bg-[#5c4b4a] font-basica z-50 h-[10rem] sm:h-[12.25rem] md:h-[13rem] ${
-        isArchitecture ? "text-black" : "text-[#fef4dc]"
+        isCreativePage ? "text-black" : "text-[#fef4dc]"
       }`}
     >
       {/* Logo Block */}
@@ -37,11 +37,32 @@ export default function Header() {
           </div>
         </Link>
 
-        {isArchitecture && (
-          <div className="text-[0.85rem] sm:text-[1rem] md:text-[1.3rem] font-bold tracking-[0.025em] mt-[0.5rem] sm:mt-[0.625rem] md:mt-[0.8rem] text-[#8CAC77] transition-opacity duration-300 opacity-100">
-            ARCHITECTURE
-          </div>
-        )}
+        {isCreativePage && (
+  <div
+    className={`text-[0.85rem] sm:text-[1rem] md:text-[1.3rem] font-bold tracking-[0.025em] mt-[0.5rem] sm:mt-[0.625rem] md:mt-[0.8rem] transition-opacity duration-300 opacity-100 ${
+      pathname === "/architecture"
+        ? "text-[#8CAC77]"
+        : pathname === "/productdesign"
+        ? "text-[#8494ac]"
+        : pathname === "/film"
+        ? "text-[#d7c97c]"
+        : pathname === "/art"
+        ? "text-[#bc76b1]"
+        : ""
+    }`}
+  >
+    {pathname === "/architecture"
+      ? "ARCHITECTURE"
+      : pathname === "/productdesign"
+      ? "PRODUCT DESIGN"
+      : pathname === "/film"
+      ? "FILM"
+      : pathname === "/art"
+      ? "ART"
+      : ""}
+  </div>
+)}
+
       </div>
 
       {/* Frame SVG */}
@@ -65,7 +86,7 @@ export default function Header() {
           </defs>
         </svg>
 
-        {isArchitecture && iconUrl && (
+        {isCreativePage && iconUrl && (
           <img
             src={iconUrl}
             alt="Project Icon"
@@ -76,7 +97,7 @@ export default function Header() {
 
 
       {/* Frame the Vision */}
-      {!isArchitecture && (
+      {!isCreativePage && (
         <div className="hidden md:block absolute top-[4.25rem] left-[36.25rem] text-[1rem] tracking-[0.002em] w-[13.06rem] h-[1.625rem] leading-none">
           FRAME THE VISION .
         </div>
