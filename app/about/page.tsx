@@ -5,7 +5,7 @@ import AboutFrame from "@/components/aboutFrame";
 
 // ⬅️ Optional offsets you can still tweak later
 const frameStyles = {
-  top: "mt-[6rem] md:mt-[10rem]",
+  top: "mt-[11rem] md:mt-[11.5rem]",
   bottom: "mb-[6rem]",
   left: "left-[5vw] sm:left-[6vw] xl:left-[6vw]",
 };
