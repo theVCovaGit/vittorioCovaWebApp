@@ -19,6 +19,12 @@ export default function Header() {
 
   const isCreativePage = ["/architecture", "/productdesign", "/film", "/art"].includes(pathname);
 
+  if (iconUrl) {
+    console.log("🧠 Header rendering icon:", iconUrl);
+  } else {
+    console.log("📭 Header: iconUrl is empty");
+  }
+
   return (
     <header
       className={`fixed top-0 left-0 w-full bg-[#5c4b4a] font-basica z-50 h-[10rem] sm:h-[12.25rem] md:h-[13rem] ${
@@ -65,35 +71,41 @@ export default function Header() {
 
       </div>
 
-      {/* Frame SVG */}
-      <div className="hidden md:block absolute top-[4.25rem] left-[26.25rem] w-[9rem] h-auto">
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          viewBox="0 0 144 75"
-          fill="none"
-          className="w-full h-auto absolute top-0 left-0"
-        >
-          <g clipPath="url(#clip0_18_57)">
-            <path d="M25.7093 0.705688H0.694824V26.1103" stroke="#FFF3DF" strokeMiterlimit="10" />
-            <path d="M0.694824 48.8897V74.2943H25.7093" stroke="#FFF3DF" strokeMiterlimit="10" />
-            <path d="M118.277 74.2943H143.305V48.8897" stroke="#FFF3DF" strokeMiterlimit="10" />
-            <path d="M143.305 26.1103V0.705688H118.277" stroke="#FFF3DF" strokeMiterlimit="10" />
-          </g>
-          <defs>
-            <clipPath id="clip0_18_57">
-              <rect width="144" height="75" fill="white" />
-            </clipPath>
-          </defs>
-        </svg>
+      {/* Frame + Centered Icon */}
+<div className="hidden md:block absolute top-[4.25rem] left-[26.25rem] w-[9rem] h-[4.7rem] z-[60]">
+  {/* SVG Frame */}
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    viewBox="0 0 144 75"
+    fill="none"
+    className="w-full h-full absolute top-0 left-0"
+  >
+    <g clipPath="url(#clip0_18_57)">
+      <path d="M25.7093 0.705688H0.694824V26.1103" stroke="#FFF3DF" strokeMiterlimit="10" />
+      <path d="M0.694824 48.8897V74.2943H25.7093" stroke="#FFF3DF" strokeMiterlimit="10" />
+      <path d="M118.277 74.2943H143.305V48.8897" stroke="#FFF3DF" strokeMiterlimit="10" />
+      <path d="M143.305 26.1103V0.705688H118.277" stroke="#FFF3DF" strokeMiterlimit="10" />
+    </g>
+    <defs>
+      <clipPath id="clip0_18_57">
+        <rect width="144" height="75" fill="white" />
+      </clipPath>
+    </defs>
+  </svg>
 
-        {isCreativePage && iconUrl && (
-          <img
-            src={iconUrl}
-            alt="Project Icon"
-            className="absolute top-[0.75rem] left-[0.75rem] w-[7rem] h-[3.75rem] object-contain z-10"
-          />
-        )}
+  {/* Centered Icon */}
+  {iconUrl && (
+    <div className="absolute inset-0 flex items-center justify-center z-10">
+      <img
+        src={iconUrl}
+        alt="Project Icon"
+        className="max-w-[70%] max-h-[70%] object-contain"
+      />
+    </div>
+  )}
 </div>
+
+
 
 
       {/* Frame the Vision */}
