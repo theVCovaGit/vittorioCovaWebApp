@@ -3,6 +3,8 @@
 "use client";
 
 import React from "react";
+import Link from "next/link";
+
 
 export default function Footer() {
   return (
@@ -28,12 +30,19 @@ export default function Footer() {
 
         {/* Footer Text - Adjusts flex direction on mobile */}
         <div className="w-full max-w-[351px] flex flex-wrap items-center justify-center md:justify-between text-[#fef4dc] text-[4.5vw] sm:text-[3.5vw] md:text-[21px] font-medium leading-none gap-2">
-          <span>CONTACT</span>
-          <span>/</span>
-          <span>ABOUT</span>
-          <span>/</span>
-          <span>HISTORY</span>
-        </div>
+        <span>CONTACT</span>
+        <span>/</span>
+        <Link
+          href="/about"
+          className="cursor-pointer text-[#fef4dc] no-underline hover:opacity-80 transition-opacity duration-200"
+        >
+          ABOUT
+        </Link>
+
+        <span>/</span>
+        <span>HISTORY</span>
+      </div>
+
       </div>
     </footer>
   );
