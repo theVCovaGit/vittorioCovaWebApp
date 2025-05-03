@@ -3,14 +3,20 @@
 import React from "react";
 import AboutFrame from "@/components/aboutFrame";
 import AboutLabel from "@/components/aboutLabel";
+import AboutNameplate from "@/components/aboutNameplate";
 
 
-// ⬅️ Optional offsets you can still tweak later
 const frameStyles = {
   top: "mt-[11rem] md:mt-[11.5rem]",
   bottom: "mb-[6rem]",
   left: "left-[5vw] sm:left-[6vw] xl:left-[6vw]",
 };
+
+const nameplateStyles = {
+    top: "top-[4.2%] sm:top-[4.5%] md:top-[5%]",
+    right: "right-[7.5%] sm:right-[8%] md:right-[1%]",
+    fontSize: "text-[18px] sm:text-[21px] md:text-[23px]",
+  };  
 
 const labelStyles = {
     bottom: "bottom-[8vh] sm:bottom-[10vh] md:bottom-[20.4vh]",
@@ -42,7 +48,11 @@ export default function About() {
         `}
       >
         <AboutFrame />
-        
+        <AboutNameplate
+        top={nameplateStyles.top}
+        right={nameplateStyles.right}
+        fontSize={nameplateStyles.fontSize}
+        /> 
       </div>
       <AboutLabel
         bottom={labelStyles.bottom}
