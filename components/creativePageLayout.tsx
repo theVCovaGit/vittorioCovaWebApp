@@ -15,7 +15,7 @@ export default function CreativePageLayout({
   projectList,
 }: CreativePageLayoutProps) {
   return (
-    <section className="relative w-full max-w-[1600px] mx-auto min-h-screen bg-black font-basica text-[#fef4dc] pt-[10rem] sm:pt-[13.25rem] md:pt-[14.5rem] px-6 md:px-12 lg:px-24">
+    <section className="relative w-full min-h-screen bg-black font-basica text-[#fef4dc] pt-[10rem] sm:pt-[13.25rem] md:pt-[14.5rem] px-6 md:px-12 lg:px-24">
       
       {/* 🖼️ Hero image */}
       <div
