@@ -4,13 +4,13 @@ import React from "react";
 
 type AboutNameplateProps = {
   top?: string;
-  right?: string;
+  leftPercent?: string; // new prop
   fontSize?: string;
 };
 
 export default function AboutNameplate({
-  top = "top-[4.2%]",
-  right = "right-[8.2%]",
+  top = "top-[7.2%]",
+  leftPercent = "left-[74.9%]", // ← % based inside frame
   fontSize = "text-[23px]",
 }: AboutNameplateProps) {
   return (
@@ -18,15 +18,16 @@ export default function AboutNameplate({
       className={`
         absolute
         ${top}
-        ${right}
+        ${leftPercent}
+        ${fontSize}
         w-[222px]
         h-[23px]
-        ${fontSize}
         text-[#FEF4DC]
         font-basica
         font-normal
         leading-none
         tracking-tight
+        transform -translate-x-1/2
         z-[1002]
       `}
     >
