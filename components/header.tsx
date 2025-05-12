@@ -72,7 +72,7 @@ export default function Header() {
       </div>
 
       {/* Frame + Centered Icon */}
-<div className="hidden md:block absolute top-[4.25rem] left-[26.25rem] w-[9rem] h-[4.7rem] z-[60]">
+<div className="hidden md:block absolute top-[4.25rem] left-[25.6rem] w-[9rem] h-[4.7rem] z-[60]">
   {/* SVG Frame */}
   <svg
     xmlns="http://www.w3.org/2000/svg"
@@ -95,7 +95,7 @@ export default function Header() {
 
   {/* Centered Icon */}
   {iconUrl && (
-    <div className="absolute inset-0 flex items-center justify-center z-10">
+    <div className="absolute inset-0 flex items-center justify-center z-100">
       <img
         src={iconUrl}
         alt="Project Icon"
@@ -110,7 +110,7 @@ export default function Header() {
 
       {/* Frame the Vision */}
       {!isCreativePage && (
-        <div className="hidden md:block absolute top-[4.25rem] left-[36.25rem] text-[1rem] tracking-[0.002em] w-[13.06rem] h-[1.625rem] leading-none">
+        <div className="hidden md:block absolute top-[4.25rem] left-[36.25rem] text-[1rem] tracking-[0.002em] w-[13.06rem] h-[1.625rem] leading-none font-minecraft">
           FRAME THE VISION .
         </div>
       )}
