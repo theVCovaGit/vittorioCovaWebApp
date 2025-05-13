@@ -45,38 +45,41 @@ export default function Architecture() {
   const featuredImage =
     selected?.images?.[0] || "/images/fallback.jpg";
 
-  return (
-    <CreativePageLayout
-      heroImage={
-        <Image
-          src={featuredImage}
-          alt="Architecture hero image"
-          fill
-          className="object-cover object-center"
-        />
-      }
-      projectList={
-        <ProjectsList
-          projects={projects}
-          selectedId={selected?.id}
-          onSelect={(id) => setSelectedId(id)}
-        />
-      }
-    >
-      {loading ? (
-        <p className="text-center text-gray-500 py-12">
-          Cargando proyectos de arquitectura...
-        </p>
-      ) : selected ? (
-        <div className="pb-20">
-          <h2 className="text-4xl font-bold text-[#19333F] mb-2">
-            {selected.title}
-          </h2>
-          <p className="text-lg text-gray-400">{selected.description}</p>
-        </div>
-      ) : (
-        <p className="text-gray-500">No hay proyectos para mostrar.</p>
-      )}
-    </CreativePageLayout>
-  );
+    return (
+      <div className="min-h-screen bg-[#5c4b4a]">
+        {!loading && (
+          <CreativePageLayout
+            heroImage={
+              <Image
+                src={featuredImage}
+                alt="Architecture hero image"
+                fill
+                className="object-cover object-center"
+              />
+            }
+            projectList={
+              <ProjectsList
+                projects={projects}
+                selectedId={selected?.id}
+                onSelect={(id) => setSelectedId(id)}
+              />
+            }
+          >
+            <div className="pb-20">
+              <h2 className="text-4xl font-bold text-[#19333F] mb-2">
+                {selected?.title}
+              </h2>
+              <p className="text-lg text-gray-400">{selected?.description}</p>
+            </div>
+          </CreativePageLayout>
+        )}
+    
+        {loading && (
+          <p className="text-center text-gray-500 py-12">
+            Cargando proyectos de arquitectura...
+          </p>
+        )}
+      </div>
+    );
+    
 }

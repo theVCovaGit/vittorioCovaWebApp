@@ -1,6 +1,7 @@
 "use client";
 
 import React from "react";
+import { motion } from "framer-motion";
 import DownwardDots from "@/components/downwardDots";
 import DotFrame from "@/components/dotFrame";
 
@@ -15,8 +16,13 @@ export default function CreativePageLayout({
   projectList,
 }: CreativePageLayoutProps) {
   return (
-  <section className="relative w-full min-h-screen bg-black font-basica text-[#fef4dc] pt-[10rem] sm:pt-[13.25rem] md:pt-[14.5rem]">
-      
+    
+    <motion.section
+    className="relative w-full min-h-screen bg-black font-basica text-[#fef4dc] pt-[10rem] sm:pt-[13.25rem] md:pt-[14.5rem]"
+    initial={{ y: "100%" }}
+    animate={{ y: 0 }}
+    transition={{ duration: 0.8, ease: "easeOut" }}
+  >  
       {/* 🖼️ Hero image */}
       <div
         className="hidden md:block absolute z-0"
@@ -64,6 +70,6 @@ export default function CreativePageLayout({
       >
         <DotFrame />
       </div>
-    </section>
+    </motion.section>
   );
 }
