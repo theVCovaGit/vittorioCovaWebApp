@@ -9,13 +9,7 @@ import { useIconDisplay } from "@/context/IconDisplayContext";
 export default function Header() {
   const pathname = usePathname();
   const { iconUrl } = useIconDisplay(); 
-  const [hasHydrated, setHasHydrated] = useState(false);
-
-  useEffect(() => {
-    setHasHydrated(true);
-  }, []);
-
-  if (!hasHydrated) return null;
+  
 
   const isCreativePage = ["/architecture", "/productdesign", "/film", "/art"].includes(pathname);
 
@@ -95,18 +89,15 @@ export default function Header() {
 
   {/* Centered Icon */}
   {iconUrl && (
-    <div className="absolute inset-0 flex items-center justify-center z-100">
-      <img
-        src={iconUrl}
-        alt="Project Icon"
-        className="max-w-[70%] max-h-[70%] object-contain"
-      />
-    </div>
-  )}
+  <div className="absolute inset-0 flex items-center justify-center z-100">
+    <img
+      src={iconUrl}
+      alt="Project Icon"
+      className="max-w-[70%] max-h-[70%] object-contain"
+    />
+  </div>
+)}
 </div>
-
-
-
 
       {/* Frame the Vision */}
       {!isCreativePage && (
