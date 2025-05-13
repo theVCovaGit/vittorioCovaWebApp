@@ -2,6 +2,8 @@
 
 import React, { useEffect, useState, useRef } from "react";
 import { useIconDisplay } from "@/context/IconDisplayContext";
+// import HorizontalDots from "@/components/horizontalDots";
+
 
 export default function Hero() {
   const [hovered, setHovered] = useState<string | null>(null);
@@ -66,6 +68,11 @@ export default function Hero() {
           </a>
         ))}
       </div>
+      {/*
+      <div className="absolute top-[desiredValue] left-[desiredValue] z-[50]">
+      <HorizontalDots className="scale-[1.5] sm:scale-[2] md:scale-[2.5]" />
+  ````</div>
+  ````*/}
     </section>
   );
 }
