@@ -94,8 +94,7 @@ export default function Hero() {
 
     return (
       <motion.div
-      key={`${category}-${animationPhase}`} 
-
+  key={category} // Keep it stable
   className="flex items-center"
   custom={
     selectedCategory
@@ -113,10 +112,9 @@ export default function Hero() {
         : categoryOrder[category] === categoryOrder[selectedCategory!]
           ? "moveToTop"
           : animationPhase === 2
-            ? "exitLeft"
+            ? "exitLeft" // This now correctly activates only in Phase 2
             : "initial"
   }
-  
   variants={variants}
       >
 
