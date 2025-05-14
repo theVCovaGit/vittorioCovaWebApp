@@ -37,7 +37,7 @@ export default function Hero() {
     }),
     exitLeft: {
       x: "-1000%",
-      transition: { duration: 0.9, ease: "easeInOut" },
+      transition: { duration: 1.3, ease: "easeInOut" },
     },
   };
 
