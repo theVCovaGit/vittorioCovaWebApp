@@ -36,7 +36,7 @@ export default function Hero() {
       transition: { duration: 0.3, ease: "easeInOut" },
     }),
     exitLeft: {
-      x: "-300%",
+      x: "-1000%",
       transition: { duration: 0.9, ease: "easeInOut" },
     },
   };
@@ -136,7 +136,7 @@ export default function Hero() {
                     // Navigate after both animations finish
                     setTimeout(() => {
                       window.location.href = `/${category === "product" ? "productdesign" : category}`;
-                    }, 1400);
+                    }, 1700);
                   }}
                   className={`ml-6 text-[1.9rem] md:text-[2rem] font-normal tracking-[-0.02em] no-underline transition-opacity duration-200 z-[60] ${
                     hovered === category
