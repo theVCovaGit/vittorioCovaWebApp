@@ -75,7 +75,7 @@ export default function Hero() {
       <div className="flex flex-col space-y-6 absolute top-[10.375rem] left-10 sm:left-20 md:left-[26.25rem] z-[60]">
         <AnimatePresence>
           {["architecture", "product", "film", "art"].map((category) => {
-            const index = categoryOrder[category];
+            
 
             // Skip rendering lower categories after Phase 2 to trigger exit animation
             if (
