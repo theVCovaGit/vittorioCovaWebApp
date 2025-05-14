@@ -41,7 +41,7 @@ export default function Hero() {
     },
   };
 
-  const verticalSpacing = 50; // Adjust based on your design
+  const verticalSpacing = 80; // Adjust based on your design
 
   const categoryIcons: Record<string, string> = {
     architecture: "/icons/architecture.png",
