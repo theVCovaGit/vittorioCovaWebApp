@@ -36,7 +36,7 @@ export default function Hero() {
       transition: { duration: 0.3, ease: "easeInOut" },
     }),
     exitLeft: {
-      x: "-1000%",
+      x: "1000%",
       transition: { duration: 1.3, ease: "easeInOut" },
     },
   };
