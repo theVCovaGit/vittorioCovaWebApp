@@ -19,9 +19,9 @@ export default function CreativePageLayout({
     
     <motion.section
     className="relative w-full min-h-screen bg-black font-basica text-[#fef4dc] pt-[10rem] sm:pt-[13.25rem] md:pt-[14.5rem]"
-    initial={{ y: "100%" }}
+    initial={{ y: "-100%" }}
     animate={{ y: 0 }}
-    transition={{ duration: 2, ease: "easeOut" }}
+    transition={{ duration: 1.5, ease: "easeOut" }}
   >  
       {/* 🖼️ Hero image */}
       <div
