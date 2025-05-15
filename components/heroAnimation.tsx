@@ -34,6 +34,9 @@ export default function Hero() {
     art: 3,
   };
 
+  const FIXED_FINAL_Y = categoryOrder["film"] * verticalSpacing; // Use FILM's position for all
+
+
   const categoryIcons: Record<string, string> = {
     architecture: "/icons/architecture.png",
     product: "/icons/productdesign.png",
@@ -86,8 +89,8 @@ export default function Hero() {
   
     setTransition({
         category,
-        finalY: yOffset,
-        finalX: originalX, // Whatever value you're calculating for original X
+        finalY: FIXED_FINAL_Y, // Always the same Y for phase 3
+        finalX: originalX,
         textSize: TEXT_SIZE,
       });
   
