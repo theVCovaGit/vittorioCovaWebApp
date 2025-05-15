@@ -23,7 +23,7 @@ export default function CreativePageLayout({
     animate={{ y: 0 }}
     transition={{ duration: 1.5, ease: "easeOut" }}
   >  
-      {/* 🖼️ Hero image */}
+      
       <div
         className="hidden md:block absolute z-0"
         style={{
