@@ -5,7 +5,10 @@ import Header from "@/components/header";
 import Footer from "@/components/footer";
 import { CartProvider } from "../context/CartContext";
 import { IconDisplayProvider } from "@/context/IconDisplayContext";
+import { TransitionProvider } from "@/context/TransitionContext";
 import CartDrawer from "@/components/cartDrawer";
+
+
 
 
 
@@ -28,17 +31,20 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${poppins.variable} min-h-screen flex flex-col font-poppins`}>
+        <TransitionProvider> {/* ✅ Add This */}
           <IconDisplayProvider>
-          <CartProvider>
-          <CartDrawer />
-          <Header />
-            <main className="flex-1 flex flex-col overflow-y-auto">
-              {children}
-            </main>
-          <Footer />
-          </CartProvider>
+            <CartProvider>
+              <CartDrawer />
+              <Header />
+              <main className="flex-1 flex flex-col overflow-y-auto">
+                {children}
+              </main>
+              <Footer />
+            </CartProvider>
           </IconDisplayProvider>
+        </TransitionProvider> {/* ✅ Close Here */}
       </body>
     </html>
   );
 }
+

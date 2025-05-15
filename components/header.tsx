@@ -4,6 +4,8 @@ import React from "react";
 import { usePathname } from "next/navigation";
 import Link from "next/link";
 import { useIconDisplay } from "@/context/IconDisplayContext";
+import HeaderAnimation from "@/components/headerAnimation";
+
 
 
 export default function Header() {
@@ -36,32 +38,7 @@ export default function Header() {
             COVA
           </div>
         </Link>
-
-        {isCreativePage && (
-  <div
-    className={`text-[0.85rem] sm:text-[1rem] md:text-[1.3rem] font-bold tracking-[0.025em] mt-[0.5rem] sm:mt-[0.625rem] md:mt-[0.8rem] transition-opacity duration-300 opacity-100 ${
-      pathname === "/architecture"
-        ? "text-[#8CAC77]"
-        : pathname === "/productdesign"
-        ? "text-[#8494ac]"
-        : pathname === "/film"
-        ? "text-[#d7c97c]"
-        : pathname === "/art"
-        ? "text-[#bc76b1]"
-        : ""
-    }`}
-  >
-    {pathname === "/architecture"
-      ? "ARCHITECTURE"
-      : pathname === "/productdesign"
-      ? "PRODUCT DESIGN"
-      : pathname === "/film"
-      ? "FILM"
-      : pathname === "/art"
-      ? "ART"
-      : ""}
-  </div>
-)}
+        <HeaderAnimation /> 
 
       </div>
 
