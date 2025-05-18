@@ -5,7 +5,7 @@ import { motion } from "framer-motion";
 import { useTransition } from "@/context/TransitionContext";
 
 export default function HeaderAnimation() {
-  const { category, finalX, finalY, textSize } = useTransition();
+  const { category, finalX, finalY, textSize, color } = useTransition();
   const [startSlideLeft, setStartSlideLeft] = useState(false);
 
   // ✅ Start slide when category is set, reset when it clears (e.g., route change)
@@ -38,9 +38,12 @@ export default function HeaderAnimation() {
         transform: `translate(${startSlideLeft ? finalX - 340 : finalX}px, ${finalY}px)`,
       }}
     >
-      <span className="text-[#fef4dc] font-normal tracking-[-0.02em] whitespace-nowrap">
-        {category === "product" ? "PRODUCT DESIGN" : category.toUpperCase()}
-      </span>
+    <span
+    className="font-normal tracking-[-0.02em] whitespace-nowrap"
+    style={{ color }} // Directly apply the color
+    >
+    {category === "product" ? "PRODUCT DESIGN" : category.toUpperCase()}
+    </span>
     </motion.div>
   );
 }

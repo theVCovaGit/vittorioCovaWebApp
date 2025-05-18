@@ -25,6 +25,13 @@ export default function Hero() {
 
   const verticalSpacing = 80;
   const TEXT_SIZE = "1.9rem";
+
+  const categoryColors: Record<string, string> = {
+    architecture: "#92a982",
+    product: "#8494ac",
+    film: "#d7c97c",
+    art: "#bc76b1",
+  };
   
 
   const categoryOrder: Record<string, number> = {
@@ -89,9 +96,10 @@ export default function Hero() {
   
     setTransition({
         category,
-        finalY: FIXED_FINAL_Y, // Always the same Y for phase 3
+        finalY: FIXED_FINAL_Y, 
         finalX: originalX,
         textSize: TEXT_SIZE,
+        color: categoryColors[category],
       });
   
     setSelectedCategory(category);

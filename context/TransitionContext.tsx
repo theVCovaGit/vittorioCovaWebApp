@@ -8,6 +8,7 @@ type TransitionState = {
   finalX: number;
   finalY: number;
   textSize: string;
+  color: string; 
   setTransition: (data: Partial<TransitionState>) => void;
 };
 
@@ -16,6 +17,7 @@ const TransitionContext = createContext<TransitionState>({
   finalX: 0,
   finalY: 0,
   textSize: "1.9rem",
+  color: "#fef4dc",
   setTransition: () => {},
 });
 
@@ -27,6 +29,7 @@ export function TransitionProvider({ children }: { children: React.ReactNode }) 
     finalX: 0,
     finalY: 0,
     textSize: "1.9rem",
+    color: "#fef4dc",
   });
 
   const setTransition = (data: Partial<TransitionState>) => {
@@ -46,6 +49,7 @@ export function TransitionProvider({ children }: { children: React.ReactNode }) 
         finalX: 0,
         finalY: 0,
         textSize: "1.9rem",
+        color: "#fef4dc",
       });
     }
     // Otherwise, keep the category visible
