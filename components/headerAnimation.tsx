@@ -30,12 +30,12 @@ export default function HeaderAnimation() {
   return (
     <motion.div
       initial={{ x: finalX, y: finalY }}
-      animate={{ x: startSlideLeft ? finalX - 340 : finalX, y: finalY }}
+      animate={{ x: startSlideLeft ? finalX - 326 : finalX, y: finalY }}
       transition={{ duration: 0.5, ease: "easeInOut" }}
       className="fixed z-[99999] left-0 top-0 pointer-events-none"
       style={{
         fontSize: textSize,
-        transform: `translate(${startSlideLeft ? finalX - 340 : finalX}px, ${finalY}px)`,
+        transform: `translate(${startSlideLeft ? finalX - 326 : finalX}px, ${finalY}px)`,
       }}
     >
     <span
