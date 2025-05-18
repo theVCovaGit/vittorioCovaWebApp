@@ -56,6 +56,7 @@ export default function Hero() {
     initial: { x: 0, y: 0, opacity: 1 },
     moveToTop: (distance: number) => ({
       y: -distance,
+      opacity: 0,
       transition: { duration: 0.3, ease: "easeInOut" },
     }),
     fastMoveUpFade: (distance: number) => ({
@@ -65,7 +66,7 @@ export default function Hero() {
     }),
     exitRight: {
       x: "1000%",
-      transition: { duration: 1.3, ease: "easeInOut" },
+      transition: { duration: 1, ease: "easeInOut" },
     },
   };
 
