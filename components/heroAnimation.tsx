@@ -11,9 +11,6 @@ import HorizontalDotFour from "@/components/horizontalDotFour";
 import HorizontalDotFive from "@/components/horizontalDotFive";
 import { useTransition } from "@/context/TransitionContext";
 
-const heroContainer = document.querySelector(".hero-container"); 
-const heroTopOffset = heroContainer ? heroContainer.getBoundingClientRect().top : 166;
-
 
 export default function Hero() {
   const [hovered, setHovered] = useState<string | null>(null);
