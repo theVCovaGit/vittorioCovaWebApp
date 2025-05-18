@@ -16,7 +16,7 @@ export default function HeaderAnimation() {
       const timer = setTimeout(() => {
         console.log("🎬 Starting Slide Animation...");
         setStartSlideLeft(true);
-      }, 300);
+      }, 2100);
 
       return () => clearTimeout(timer);
     } else {
