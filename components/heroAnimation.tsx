@@ -11,6 +11,10 @@ import HorizontalDotFour from "@/components/horizontalDotFour";
 import HorizontalDotFive from "@/components/horizontalDotFive";
 import { useTransition } from "@/context/TransitionContext";
 
+const heroContainer = document.querySelector(".hero-container"); 
+const heroTopOffset = heroContainer ? heroContainer.getBoundingClientRect().top : 166;
+
+
 export default function Hero() {
   const [hovered, setHovered] = useState<string | null>(null);
   const { setIconUrl } = useIconDisplay();
@@ -101,7 +105,14 @@ export default function Hero() {
         textSize: TEXT_SIZE,
         color: categoryColors[category],
       });
-  
+      console.log("🌍 HERO Viewport:", { width: window.innerWidth, height: window.innerHeight });
+      console.log("📤 HERO Sending Transition Data:", {
+        category,
+        finalX: originalX,
+        finalY: FIXED_FINAL_Y,
+        textSize: TEXT_SIZE,
+        color: categoryColors[category],
+      });
     setSelectedCategory(category);
     setAnimationPhase(1);
   
@@ -116,7 +127,7 @@ export default function Hero() {
 
   return (
     <section className="flex-1 w-full bg-[#5c4b4a] text-black font-basica flex items-start justify-start px-10 md:px-24 lg:px-[409px] pt-[160px] sm:pt-[180px] md:pt-[200px]">
-      <div className="flex flex-col space-y-6 absolute top-[10.375rem] left-10 sm:left-20 md:left-[26.25rem] z-[60]">
+      <div className="flex flex-col space-y-6 absolute top-[10.375rem] left-10 sm:left-20 md:left-[21.65rem] z-[60]">
         <AnimatePresence>
           {["architecture", "product", "film", "art"].map((category) => {
             if (
@@ -159,6 +170,7 @@ export default function Hero() {
 
                 {/* Text */}
                 <a
+                  data-category={category}
                   href={`/${category === "product" ? "productdesign" : category}`}
                   onMouseEnter={() => handleHover(category)}
                   onMouseLeave={() => handleHover(null)}

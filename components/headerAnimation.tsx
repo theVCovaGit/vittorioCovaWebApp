@@ -10,6 +10,9 @@ export default function HeaderAnimation() {
 
   // ✅ Start slide when category is set, reset when it clears (e.g., route change)
   useEffect(() => {
+    console.log("🌍 HEADER Viewport:", { width: window.innerWidth, height: window.innerHeight });
+    console.log("📥 HEADER Received Transition Data:", { category, finalX, finalY, textSize, color });
+    
     if (category) {
       console.log("📦 Using Transition Context:", { category, finalX, finalY, textSize });
 
@@ -29,14 +32,16 @@ export default function HeaderAnimation() {
 
   return (
     <motion.div
-      initial={{ x: finalX, y: finalY }}
-      animate={{ x: startSlideLeft ? finalX - 326 : finalX, y: finalY }}
-      transition={{ duration: 0.5, ease: "easeInOut" }}
-      className="fixed z-[99999] left-0 top-0 pointer-events-none"
-      style={{
-        fontSize: textSize,
-        transform: `translate(${startSlideLeft ? finalX - 326 : finalX}px, ${finalY}px)`,
-      }}
+    initial={{ x: 0, y: 0 }} // Reset to 0, handled by CSS instead
+    animate={{ x: startSlideLeft ? -326 : 0, y: 0 }} // Only animate the slide left
+    transition={{ duration: 0.5, ease: "easeInOut" }}
+    className="fixed z-[99999] pointer-events-none"
+    style={{
+      left: `${finalX}px`,
+      top: `${finalY}px`,
+      fontSize: textSize,
+      transform: `translateX(${startSlideLeft ? -326 : 0}px)`,
+    }}
     >
     <span
     className="font-normal tracking-[-0.02em] whitespace-nowrap"
