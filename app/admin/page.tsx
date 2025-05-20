@@ -2,11 +2,13 @@
 
 import { useState } from "react";
 import ArchitectureContentPanel from "@/components/architectureContentPanel";
+import ProductDesignContentPanel from "@/components/productDesignContentPanel";
+
 
 const AdminPage = () => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [password, setPassword] = useState("");
-  const [activePanel, setActivePanel] = useState<"architecture" | null>(null);
+  const [activePanel, setActivePanel] = useState<"architecture" | "productdesign" | null>(null);
 
   const hardcodedPassword = "123";
 
@@ -47,15 +49,24 @@ const AdminPage = () => {
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-4">
         <button
           onClick={() => setActivePanel("architecture")}
-          className="bg-blue-600 text-white py-3 px-6 rounded-md"
+          className="bg-black text-white py-3 px-6 rounded-md"
         >
           Architecture
         </button>
+        <button
+          onClick={() => setActivePanel("productdesign")}
+          className="bg-blue-600 text-white py-3 px-6 rounded-md"
+        >
+          Product Design
+        </button>
+
         {/* Future: Add buttons for Film, Product Design, Art */}
       </div>
 
       {/* Content Panels */}
       <ArchitectureContentPanel isActive={activePanel === "architecture"} />
+      <ProductDesignContentPanel isActive={activePanel === "productdesign"} />
+
     </div>
   );
 };
