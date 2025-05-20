@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import DownwardDots from "@/components/downwardDots";
 import DotFrame from "@/components/dotFrame";
@@ -15,15 +15,23 @@ export default function CreativePageLayout({
   heroImage,
   projectList,
 }: CreativePageLayoutProps) {
+  const [showSection, setShowSection] = useState(false);
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setShowSection(true);
+    }, 2000); // 3 seconds delay
+
+    return () => clearTimeout(timer);
+  }, []);
+
   return (
-    
     <motion.section
-    className="relative w-full min-h-screen bg-black font-basica text-[#fef4dc] pt-[10rem] sm:pt-[13.25rem] md:pt-[14.5rem]"
-    initial={{ y: "-100%" }}
-    animate={{ y: 0 }}
-    transition={{ duration: 1.5, ease: "easeOut" }}
-  >  
-      
+      className="relative w-full min-h-screen bg-black font-basica text-[#fef4dc] pt-[10rem] sm:pt-[13.25rem] md:pt-[14.5rem]"
+      initial={{ y: "-100%" }}
+      animate={{ y: showSection ? 0 : "-100%" }}
+      transition={{ duration: 1.5, ease: "easeOut" }}
+    >  
       <div
         className="hidden md:block absolute z-0"
         style={{
@@ -39,11 +47,8 @@ export default function CreativePageLayout({
 
       {/* 📦 Sidebar + Main Content */}
       <div className="relative z-20 w-full max-w-screen-xl mx-auto px-6 md:px-12 lg:px-24 flex flex-col md:flex-row gap-12">
-        {projectList && (
-          <aside className="flex-shrink-0 mt-10">{projectList}</aside>
-        )}
+        {projectList && <aside className="flex-shrink-0 mt-10">{projectList}</aside>}
       </div>
-
 
       {/* ⬇️ Downward dots */}
       <div
@@ -56,7 +61,7 @@ export default function CreativePageLayout({
         <DownwardDots />
       </div>
 
-      {/* 🟡 Dot frame — responsive and anchored */}
+      {/* 🟡 Dot frame */}
       <div
         className="hidden md:block absolute z-10"
         style={{
