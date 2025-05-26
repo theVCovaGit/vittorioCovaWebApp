@@ -3,7 +3,7 @@
 import type { CreativeProject } from "@/types/creative";
 
 import React, { useEffect, useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion } from "framer-motion";
 import AnimatedDotFrame from "@/components/dotFrameAnimation";
 import AnimatedDownwardDots from "./downwardDotsAnimation";
 import AnimatedSidebarContent from "@/components/sidebarContentAnimation";
