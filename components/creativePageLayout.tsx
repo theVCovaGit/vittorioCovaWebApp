@@ -7,6 +7,8 @@ import { motion, AnimatePresence } from "framer-motion";
 import AnimatedDotFrame from "@/components/dotFrameAnimation";
 import AnimatedDownwardDots from "./downwardDotsAnimation";
 import AnimatedSidebarContent from "@/components/sidebarContentAnimation";
+import AnimatedHeroImage from "@/components/heroImageAnimation"; 
+
 
 type CreativePageLayoutProps = {
   heroImage?: React.ReactNode;
@@ -51,23 +53,12 @@ export default function CreativePageLayout({
       transition={{ duration: 1.5, ease: "easeOut" }}
     >
       {/* 🖼️ Hero image with animation */}
-      <motion.div
-        onClick={handleHeroClick}
-        className="hidden md:block absolute z-[300] pointer-events-auto"
-        style={{
-          top: expandedProject ? "auto" : "clamp(18rem, 18vh, 18rem)",
-          left: expandedProject ? "auto" : "clamp(65vw, 72vw, 78vw)",
-          bottom: expandedProject ? "5vh" : "auto",
-          right: expandedProject ? "5vw" : "auto",
-          width: expandedProject ? "600px" : "clamp(400px, 49vw, 800px)",
-          height: expandedProject ? "400px" : "clamp(300px, 48vh, 600px)",
-          transform: expandedProject ? "scale(0.75)" : "translateX(-50%)",
-        }}
-        animate={{ opacity: 1 }}
-        transition={{ duration: 1 }}
-      >
-        {heroImage}
-      </motion.div>
+      <AnimatedHeroImage animate={slideStarted}>
+        <div onClick={handleHeroClick}>
+          {heroImage}
+        </div>
+      </AnimatedHeroImage>
+
 
       {/* 📦 Sidebar + Content (slide out when expanded) */}
       <AnimatedSidebarContent animate={slideStarted}>

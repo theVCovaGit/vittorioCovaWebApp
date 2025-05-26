@@ -17,8 +17,8 @@ export default function AnimatedDotFrame({
         top: "250px",
         right: "-215vw", // starts off to the right
       }}
-      animate={animate ? { x: "-50vw" } : { x: 0 }}
-      transition={{ duration: 1, onComplete }}
+      animate={animate ? { x: "-250vw" } : { x: 0 }}
+      transition={{ duration: 5, onComplete }}
     >
       <DotFrame />
     </motion.div>
