@@ -8,6 +8,7 @@ import AnimatedDotFrame from "@/components/dotFrameAnimation";
 import AnimatedDownwardDots from "./downwardDotsAnimation";
 import AnimatedSidebarContent from "@/components/sidebarContentAnimation";
 import AnimatedHeroImage from "@/components/heroImageAnimation"; 
+import ProjectTitleAnimation from "@/components/projectTitleAnimation";
 
 
 type CreativePageLayoutProps = {
@@ -78,23 +79,12 @@ export default function CreativePageLayout({
       />
 
       {/* 🪩 Expanded content overlay */}
-      <AnimatePresence>
-        {expandedProject && (
-          <motion.div
-            key="expanded-overlay"
-            className="absolute bottom-10 left-10 z-40"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ delay: 0.5, duration: 0.6 }}
-          >
-            <h1 className="text-4xl font-bold">{expandedProject.title}</h1>
-            <p className="max-w-xl text-lg text-[#dcdcdc] mt-4">
-              {expandedProject.description}
-            </p>
-          </motion.div>
-        )}
-      </AnimatePresence>
+      {expandedProject && (
+  <ProjectTitleAnimation
+    title={expandedProject.title}
+    animateIn={true}
+  />
+)}
     </motion.section>
   );
 }
