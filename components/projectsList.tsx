@@ -2,25 +2,23 @@
 
 import React from "react";
 import { useIconDisplay } from "@/context/IconDisplayContext";
+import type { CreativeProject } from "@/types/creative";
 
-interface Project {
-  id: number;
-  title: string;
-  icon?: string;
-}
-
-interface ProjectsListProps {
-  projects: Project[];
+type ProjectsListProps = {
+  projects: CreativeProject[];
   selectedId?: number;
   onSelect: (id: number) => void;
-}
+  onProjectClick?: (id: number) => void; // 🔧 optional now
+};
+
 
 export default function ProjectsList({
   projects,
   selectedId,
   onSelect,
+ 
 }: ProjectsListProps) {
-  const { setIconUrl } = useIconDisplay(); // ✅ moved into component
+  const { setIconUrl } = useIconDisplay();
 
   return (
     <div
@@ -39,7 +37,8 @@ export default function ProjectsList({
             key={project.id}
             onClick={() => {
               onSelect(project.id);
-              setIconUrl(project.icon || ""); // ✅ update icon
+              setIconUrl(project.icon || "");
+            
             }}
             className={`text-left uppercase tracking-[2.565px] text-[13.5px] leading-none flex justify-between items-center transition duration-150 px-3 py-[6px] rounded-sm
               ${isSelected ? "text-[#8CAC77]" : "text-[#FEF4DC] hover:text-[#8CAC77]"} bg-black`}

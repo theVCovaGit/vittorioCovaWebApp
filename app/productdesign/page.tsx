@@ -1,23 +1,30 @@
 "use client";
 
+import type { CreativeProject } from "@/types/creative";
+
 import { useEffect, useState } from "react";
 import CreativePageLayout from "@/components/creativePageLayout";
 import ProjectsList from "@/components/projectsList";
 import Image from "next/image";
 
-interface ProductDesignProject {
-  id: number;
-  title: string;
-  description: string;
-  category: string;
-  images: string[];
-  icon?: string;
-}
+type ProductDesignProject = CreativeProject;
 
 export default function ProductDesign() {
   const [projects, setProjects] = useState<ProductDesignProject[]>([]);
   const [selectedId, setSelectedId] = useState<number | null>(null);
   const [loading, setLoading] = useState(true);
+  const [expandedProject, setExpandedProject] = useState<ProductDesignProject | null>(null);
+  const [dotMoved, setDotMoved] = useState(false);
+  const [dotsMoved, setDotsMoved] = useState(false);
+  const [contentMoved, setContentMoved] = useState(false);
+
+  const handleHeroClick = () => {
+    console.log("✅ Clicked hero!");
+    setDotMoved(true);
+    setTimeout(() => setDotsMoved(true), 400);
+    setTimeout(() => setContentMoved(true), 800);
+    setTimeout(() => setExpandedProject(selected || null), 1200);
+  };  
 
   useEffect(() => {
     async function fetchProjects() {
@@ -48,36 +55,30 @@ export default function ProductDesign() {
 
   return (
     <CreativePageLayout
-      heroImage={
-        <Image
-          src={featuredImage}
-          alt="Product Design hero image"
-          fill
-          className="object-cover object-center"
-        />
-      }
-      projectList={
-        <ProjectsList
-          projects={projects}
-          selectedId={selected?.id}
-          onSelect={(id) => setSelectedId(id)}
-        />
-      }
-    >
-      {loading ? (
-        <p className="text-center text-gray-500 py-12">
-          Cargando proyectos de diseño de producto...
-        </p>
-      ) : selected ? (
-        <div className="pb-20">
-          <h2 className="text-4xl font-bold text-[#19333F] mb-2">
-            {selected.title}
-          </h2>
-          <p className="text-lg text-gray-400">{selected.description}</p>
-        </div>
-      ) : (
-        <p className="text-gray-500">No hay proyectos para mostrar.</p>
-      )}
-    </CreativePageLayout>
+  heroImage={
+    <div onClick={handleHeroClick} className="cursor-pointer">
+      <Image
+        src={featuredImage}
+        alt="Product Design hero image"
+        fill
+        className="object-cover object-center"
+      />
+    </div>
+  }
+  projectList={
+    <ProjectsList
+      projects={projects}
+      selectedId={selected?.id}
+      onSelect={(id) => setSelectedId(id)}
+    />
+  }
+  expandedProject={expandedProject}
+  setExpandedProject={setExpandedProject}
+  
+  contentMoved={contentMoved}
+  setContentMoved={setContentMoved}
+  onHeroClick={handleHeroClick}
+/>
+
   );
 }

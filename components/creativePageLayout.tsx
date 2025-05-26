@@ -1,80 +1,116 @@
 "use client";
 
+import type { CreativeProject } from "@/types/creative";
+
 import React, { useEffect, useState } from "react";
-import { motion } from "framer-motion";
-import DownwardDots from "@/components/downwardDots";
-import DotFrame from "@/components/dotFrame";
+import { motion, AnimatePresence } from "framer-motion";
+import AnimatedDotFrame from "@/components/dotFrameAnimation";
+import AnimatedDownwardDots from "./downwardDotsAnimation";
+import AnimatedSidebarContent from "@/components/sidebarContentAnimation";
 
 type CreativePageLayoutProps = {
   heroImage?: React.ReactNode;
   children?: React.ReactNode;
-  projectList?: React.ReactNode; 
+  projectList?: React.ReactNode;
+  expandedProject?: CreativeProject | null;
+  setExpandedProject?: (project: CreativeProject | null) => void;
+  
+  contentMoved?: boolean;
+  setContentMoved?: (v: boolean) => void;
+  onHeroClick?: () => void;
 };
 
 export default function CreativePageLayout({
   heroImage,
   projectList,
+  expandedProject,
+  setExpandedProject,
+  
+  contentMoved,
+  setContentMoved,
 }: CreativePageLayoutProps) {
   const [showSection, setShowSection] = useState(false);
+  const [slideStarted, setSlideStarted] = useState(false);
+
+  const variants = {
+    initial: { x: 0, opacity: 1 },
+    animate: { x: "-100%", opacity: 0, transition: { duration: 1 } },
+    exit: { display: "none" },
+  };  
+
+  const handleHeroClick = () => {
+    console.log("Hero clicked starting animation");
+    setSlideStarted(true);
+  };  
 
   useEffect(() => {
     const timer = setTimeout(() => {
       setShowSection(true);
-    }, 2000); // 3 seconds delay
-
+    }, 2000);
     return () => clearTimeout(timer);
   }, []);
 
   return (
     <motion.section
-      className="relative w-full min-h-screen bg-black font-basica text-[#fef4dc] pt-[10rem] sm:pt-[13.25rem] md:pt-[14.5rem]"
+      className="relative w-full min-h-screen bg-black font-basica text-[#fef4dc] pt-[10rem] sm:pt-[13.25rem] md:pt-[14.5rem] overflow-x-hidden"
       initial={{ y: "-100%" }}
       animate={{ y: showSection ? 0 : "-100%" }}
       transition={{ duration: 1.5, ease: "easeOut" }}
-    >  
-      <div
-        className="hidden md:block absolute z-0"
+    >
+      {/* 🖼️ Hero image with animation */}
+      <motion.div
+        onClick={handleHeroClick}
+        className="hidden md:block absolute z-[300] pointer-events-auto"
         style={{
-          top: "clamp(18rem, 18vh, 18rem)",
-          left: "clamp(65vw, 72vw, 78vw)",
-          width: "clamp(400px, 49vw, 800px)",
-          height: "clamp(300px, 48vh, 600px)",
-          transform: "translateX(-50%)",
+          top: expandedProject ? "auto" : "clamp(18rem, 18vh, 18rem)",
+          left: expandedProject ? "auto" : "clamp(65vw, 72vw, 78vw)",
+          bottom: expandedProject ? "5vh" : "auto",
+          right: expandedProject ? "5vw" : "auto",
+          width: expandedProject ? "600px" : "clamp(400px, 49vw, 800px)",
+          height: expandedProject ? "400px" : "clamp(300px, 48vh, 600px)",
+          transform: expandedProject ? "scale(0.75)" : "translateX(-50%)",
         }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 1 }}
       >
         {heroImage}
-      </div>
+      </motion.div>
 
-      {/* 📦 Sidebar + Main Content */}
-      <div className="relative z-20 w-full max-w-screen-xl mx-auto px-6 md:px-12 lg:px-24 flex flex-col md:flex-row gap-12">
-        {projectList && <aside className="flex-shrink-0 mt-10">{projectList}</aside>}
-      </div>
+      {/* 📦 Sidebar + Content (slide out when expanded) */}
+      <AnimatedSidebarContent animate={slideStarted}>
+        {projectList}
+      </AnimatedSidebarContent>
 
-      {/* ⬇️ Downward dots */}
-      <div
-        className="hidden md:block absolute z-10"
-        style={{
-          top: "calc(30% + 5px)",
-          left: "clamp(280px, 34vw, 420px)",
-        }}
-      >
-        <DownwardDots />
-      </div>
+      {/* ⬇️ Downward dots with animation */}
+      <AnimatedDownwardDots
+        animate={slideStarted}
+        onComplete={() => setContentMoved?.(true)}
+      />
 
-      {/* 🟡 Dot frame */}
-      <div
-        className="hidden md:block absolute z-10"
-        style={{
-          top: "calc(21% + 5px)",
-          right: "0",
-          width: "clamp(420px, 24vw, 490px)", 
-          height: "clamp(300px, 12vw, 240px)",
-          transform: "scale(1.7)",
-          transformOrigin: "top right",
-        }}
-      >
-        <DotFrame />
-      </div>
+      {/* 🟡 Dot frame with animation */}
+      <AnimatedDotFrame
+        animate={slideStarted}
+        onComplete={() => setContentMoved?.(true)}
+      />
+
+      {/* 🪩 Expanded content overlay */}
+      <AnimatePresence>
+        {expandedProject && (
+          <motion.div
+            key="expanded-overlay"
+            className="absolute bottom-10 left-10 z-40"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ delay: 0.5, duration: 0.6 }}
+          >
+            <h1 className="text-4xl font-bold">{expandedProject.title}</h1>
+            <p className="max-w-xl text-lg text-[#dcdcdc] mt-4">
+              {expandedProject.description}
+            </p>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </motion.section>
   );
 }
