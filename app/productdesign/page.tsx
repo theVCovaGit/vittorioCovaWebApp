@@ -12,16 +12,11 @@ type ProductDesignProject = CreativeProject;
 export default function ProductDesign() {
   const [projects, setProjects] = useState<ProductDesignProject[]>([]);
   const [selectedId, setSelectedId] = useState<number | null>(null);
-  const [loading, setLoading] = useState(true);
   const [expandedProject, setExpandedProject] = useState<ProductDesignProject | null>(null);
-  const [dotMoved, setDotMoved] = useState(false);
-  const [dotsMoved, setDotsMoved] = useState(false);
   const [contentMoved, setContentMoved] = useState(false);
 
   const handleHeroClick = () => {
     console.log("✅ Clicked hero!");
-    setDotMoved(true);
-    setTimeout(() => setDotsMoved(true), 400);
     setTimeout(() => setContentMoved(true), 800);
     setTimeout(() => setExpandedProject(selected || null), 1200);
   };  
@@ -39,7 +34,7 @@ export default function ProductDesign() {
       } catch (err) {
         console.error("Failed to fetch product design projects:", err);
       } finally {
-        setLoading(false);
+    
       }
     }
 

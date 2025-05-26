@@ -24,19 +24,12 @@ export default function CreativePageLayout({
   heroImage,
   projectList,
   expandedProject,
-  setExpandedProject,
-  
-  contentMoved,
   setContentMoved,
 }: CreativePageLayoutProps) {
   const [showSection, setShowSection] = useState(false);
   const [slideStarted, setSlideStarted] = useState(false);
 
-  const variants = {
-    initial: { x: 0, opacity: 1 },
-    animate: { x: "-100%", opacity: 0, transition: { duration: 1 } },
-    exit: { display: "none" },
-  };  
+  
 
   const handleHeroClick = () => {
     console.log("Hero clicked starting animation");
