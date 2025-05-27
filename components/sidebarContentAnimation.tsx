@@ -14,7 +14,7 @@ export default function AnimatedSidebarContent({
 
   useEffect(() => {
     if (animate) {
-      const timeout = setTimeout(() => setHidden(true), 1000); // matches animation duration
+      const timeout = setTimeout(() => setHidden(true), 1000);
       return () => clearTimeout(timeout);
     }
   }, [animate]);
@@ -23,7 +23,7 @@ export default function AnimatedSidebarContent({
 
   return (
     <motion.div
-      className="relative z-20 w-full max-w-screen-xl mx-auto px-6 md:px-12 lg:px-24 flex flex-col md:flex-row gap-12"
+      className="relative z-[9999] w-full max-w-screen-xl mx-auto px-6 md:px-12 lg:px-24 flex flex-col md:flex-row gap-12 translate-x-[-4vw] translate-y-[3vh]"
       animate={animate ? { x: "-100vw", opacity: 0 } : { x: 0, opacity: 1 }}
       transition={{ duration: 1, ease: "easeInOut" }}
     >
