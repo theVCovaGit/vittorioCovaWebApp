@@ -9,6 +9,9 @@ import AnimatedDownwardDots from "./downwardDotsAnimation";
 import AnimatedSidebarContent from "@/components/sidebarContentAnimation";
 import AnimatedHeroImage from "@/components/heroImageAnimation"; 
 import ProjectTitleAnimation from "@/components/projectTitleAnimation";
+import ProjectSubtitleTopAnimation from "@/components/projectSubtitleTopAnimation";
+import ProjectSubtitleBottomAnimation from "@/components/projectSubtitleBottomAnimation";
+
 
 
 type CreativePageLayoutProps = {
@@ -31,7 +34,17 @@ export default function CreativePageLayout({
 }: CreativePageLayoutProps) {
   const [showSection, setShowSection] = useState(false);
   const [slideStarted, setSlideStarted] = useState(false);
+  const [showDescription, setShowDescription] = useState(false);
 
+  useEffect(() => {
+    if (slideStarted) {
+      const timeout = setTimeout(() => {
+        setShowDescription(true);
+      }, 1200); // ~after 1s of the slide animations
+      return () => clearTimeout(timeout);
+    }
+  }, [slideStarted]);
+  
   
 
   const handleHeroClick = () => {
@@ -84,7 +97,17 @@ export default function CreativePageLayout({
     title={expandedProject.title}
     animateIn={true}
   />
-)}
+  )}
+
+  {expandedProject && showDescription && (
+    <ProjectSubtitleTopAnimation text={expandedProject.description} />
+  )}
+
+  {expandedProject && showDescription && (
+    <ProjectSubtitleBottomAnimation text={expandedProject.category} />
+  )}
+
+
     </motion.section>
   );
 }

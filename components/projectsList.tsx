@@ -43,7 +43,7 @@ export default function ProjectsList({
             className={`text-left uppercase tracking-[2.565px] text-[13.5px] leading-none flex justify-between items-center transition duration-150 px-3 py-[6px] rounded-sm
               ${isSelected ? "text-[#8CAC77]" : "text-[#FEF4DC] hover:text-[#8CAC77]"} bg-black`}
             style={{
-              marginTop: "2vh",
+              marginTop: "2.5vh",
               zIndex: 9999,
               fontWeight: 400,
               fontStyle: "normal",
