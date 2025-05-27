@@ -28,7 +28,7 @@ export default function AnimatedDownwardDots({
     <motion.div
       style={{
         top: "clamp(6rem, 30vh, 14rem)",
-        left: "clamp(6rem, 26vw, 28rem)",
+        left: "clamp(25vw, 32vw, 38vw)"
       }}
       className="absolute z-10"
       animate={animate ? { x: xOffset, opacity: 0 } : { x: 0, opacity: 1 }}
