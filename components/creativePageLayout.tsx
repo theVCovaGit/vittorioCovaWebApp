@@ -11,6 +11,9 @@ import AnimatedHeroImage from "@/components/heroImageAnimation";
 import ProjectTitleAnimation from "@/components/projectTitleAnimation";
 import ProjectSubtitleTopAnimation from "@/components/projectSubtitleTopAnimation";
 import ProjectSubtitleBottomAnimation from "@/components/projectSubtitleBottomAnimation";
+import VerticalCarouselController from "@/components/verticalCarouselController";
+import VerticalCarouselAnimated from "@/components/verticalCarouselAnimation";
+
 
 
 
@@ -106,6 +109,26 @@ export default function CreativePageLayout({
   {expandedProject && showDescription && (
     <ProjectSubtitleBottomAnimation text={expandedProject.category} />
   )}
+
+{expandedProject && showDescription && (
+  <VerticalCarouselController
+    onClickUp={() => console.log("⬆ Scroll Up")}
+    onClickDown={() => console.log("⬇ Scroll Down")}
+  />
+)}
+
+{expandedProject && showDescription && (
+  <>
+    <VerticalCarouselController
+      onClickUp={() => console.log("⬆ Scroll Up")}
+      onClickDown={() => console.log("⬇ Scroll Down")}
+    />
+
+    <VerticalCarouselAnimated images={expandedProject.images} />
+  </>
+)}
+
+
 
 
     </motion.section>
