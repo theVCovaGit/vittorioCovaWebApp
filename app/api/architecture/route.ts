@@ -8,10 +8,12 @@ const redis = Redis.fromEnv();
 interface ArchitectureProject {
   id: number;
   title: string;
-  description: string;
+  country: string;
+  city: string;
   category: string;
+  year?: string;
   images: string[];
-  icon?: string; // ✅ Add this
+  icon?: string;
 }
 
 // GET: Fetch all architecture projects
@@ -38,8 +40,16 @@ export async function POST(req: NextRequest) {
   try {
     const { project } = await req.json();
 
-    if (!project || !project.id || !project.title || !Array.isArray(project.images)) {
-      return NextResponse.json({ error: "Invalid project data" }, { status: 400 });
+    if (
+      !project ||
+      !project.id ||
+      !project.title ||
+      !project.country ||
+      !project.city ||
+      !project.category ||
+      !Array.isArray(project.images)
+    ) {
+          return NextResponse.json({ error: "Invalid project data" }, { status: 400 });
     }
 
     const existingData = await redis.get("architectureProjects");
@@ -52,10 +62,16 @@ export async function POST(req: NextRequest) {
     }
 
     const newProject: ArchitectureProject = {
-      ...project,
+      id: project.id,
+      title: project.title,
+      country: project.country,
+      city: project.city,
+      category: project.category,
+      year: project.year || "",
       images: project.images,
       icon: project.icon || "",
     };
+    
 
     projects.push(newProject);
     await redis.set("architectureProjects", JSON.stringify(projects));
@@ -72,9 +88,21 @@ export async function PUT(req: NextRequest) {
   try {
     const { projects } = await req.json();
 
-    if (!Array.isArray(projects)) {
-      return NextResponse.json({ error: "Invalid format" }, { status: 400 });
+    if (
+      !Array.isArray(projects) ||
+      projects.some(
+        (p) =>
+          !p.id ||
+          !p.title ||
+          !p.country ||
+          !p.city ||
+          !p.category ||
+          !Array.isArray(p.images)
+      )
+    ) {
+      return NextResponse.json({ error: "Invalid project format" }, { status: 400 });
     }
+    
 
     await redis.set("architectureProjects", JSON.stringify(projects));
     return NextResponse.json({ message: "Projects updated" }, { status: 200 });

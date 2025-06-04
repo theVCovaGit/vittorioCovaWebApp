@@ -5,16 +5,21 @@ import {ImageUpload, MultipleImagesUpload} from "@/components/imageUpload";
 interface ArchitectureProject {
   id: number;
   title: string;
-  description: string;
+  country: string;
+  city: string;
   category: string;
+  year?: string;
   images: string[];
   icon?: string;
 }
 
+
 export default function ArchitectureContentPanel({ isActive }: { isActive: boolean }) {
   const [title, setTitle] = useState("");
-  const [description, setDescription] = useState("");
-  const [category, setCategory] = useState("residencial");
+  const [country, setCountry] = useState("");
+  const [city, setCity] = useState("");
+  const [category, setCategory] = useState("");
+  const [year, setYear] = useState("");
   const [icon, setIcon] = useState<string>("");
   const [images, setImages] = useState<string[]>([]);
   const [projects, setProjects] = useState<ArchitectureProject[]>([]);
@@ -22,8 +27,10 @@ export default function ArchitectureContentPanel({ isActive }: { isActive: boole
 
   const resetForm = () => {
     setTitle("");
-    setDescription("");
-    setCategory("residencial");
+    setCountry("");
+    setCity("");
+    setYear("");
+    setCategory("");
     setImages([]);
     setEditingId(null);
   };
@@ -51,19 +58,22 @@ export default function ArchitectureContentPanel({ isActive }: { isActive: boole
 
   // POST or PUT
   const handleSubmit = async () => {
-    if (!title || !description || images.length === 0) {
-      alert("Faltan campos");
+    if (!title || !country || !city || !category || images.length === 0) {
+      alert("Faltan campos obligatorios");
       return;
     }
-
-    const project = {
+    
+    const project: ArchitectureProject = {
       id: editingId ?? Date.now(),
       title,
-      description,
+      country,
+      city,
       category,
+      year,
       images,
       icon,
     };
+    
 
     try {
       const res = await fetch("/api/architecture", {
@@ -139,25 +149,42 @@ export default function ArchitectureContentPanel({ isActive }: { isActive: boole
           onChange={(e) => setTitle(e.target.value)}
           className="w-full p-2 border border-gray-400 rounded-md mb-2"
         />
-        <label className="block mb-1 font-minecraft text-sm text-[#FFF3DF]">Description</label>
-        <textarea
-          placeholder="Description"
-          value={description}
-          onChange={(e) => setDescription(e.target.value)}
-          rows={4}
+       <label className="block mb-1 font-minecraft text-sm text-[#FFF3DF]">Country</label>
+        <input
+          type="text"
+          placeholder="e.g. Mexico"
+          value={country}
+          onChange={(e) => setCountry(e.target.value)}
           className="w-full p-2 border border-gray-400 rounded-md mb-2"
         />
+
+        <label className="block mb-1 font-minecraft text-sm text-[#FFF3DF]">City</label>
+        <input
+          type="text"
+          placeholder="e.g. CDMX"
+          value={city}
+          onChange={(e) => setCity(e.target.value)}
+          className="w-full p-2 border border-gray-400 rounded-md mb-2"
+        />
+
         <label className="block mb-1 font-minecraft text-sm text-[#FFF3DF]">Category</label>
-        <select
+        <input
+          type="text"
+          placeholder="e.g. Casa habitación"
           value={category}
           onChange={(e) => setCategory(e.target.value)}
           className="w-full p-2 border border-gray-400 rounded-md mb-2"
-        >
-          <option value="residencial">Residencial</option>
-          <option value="comercial">Comercial</option>
-          <option value="cultural">Cultural</option>
-          <option value="otros">Otros</option>
-        </select>
+        />
+
+        <label className="block mb-1 font-minecraft text-sm text-[#FFF3DF]">Year</label>
+        <input
+          type="text"
+          placeholder="e.g. 2023"
+          value={year}
+          onChange={(e) => setYear(e.target.value)}
+          className="w-full p-2 border border-gray-400 rounded-md mb-2"
+        />
+
         <label className="block mb-1 font-minecraft text-sm text-[#FFF3DF]">Icon</label>
         <ImageUpload onUpload={setIcon} currentImage={icon} type="icon" />
         <label className="block mb-1 font-minecraft text-sm text-[#FFF3DF]">Project images</label>
@@ -199,13 +226,18 @@ export default function ArchitectureContentPanel({ isActive }: { isActive: boole
               )}
               <h4 className="text-lg font-bold">{project.title}</h4>
               <p className="text-sm text-gray-400">{project.category}</p>
-              <p className="text-gray-300 mt-2">{project.description}</p>
+              <p className="text-gray-300 mt-2">
+                {project.city}, {project.country} {project.year && `· ${project.year}`}
+              </p>
               <div className="flex gap-2 mt-3">
                 <button
                   className="bg-yellow-400 text-black py-1 px-3 rounded-md"
                   onClick={() => {
                     setTitle(project.title);
-                    setDescription(project.description);
+                    setCountry(project.country);
+                    setCity(project.city);
+                    setCategory(project.category);
+                    setYear(project.year || "");
                     setCategory(project.category);
                     setIcon(project.icon || "");
                     setImages(project.images);
