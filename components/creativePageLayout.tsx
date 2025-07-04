@@ -1,6 +1,7 @@
 "use client";
 
 import type { CreativeProject } from "@/types/creative";
+import type { CreativeProjectBase } from "@/types/creative";
 
 import React, { useEffect, useState } from "react";
 import { motion } from "framer-motion";
@@ -17,13 +18,13 @@ import VerticalCarouselAnimated from "@/components/verticalCarouselAnimation";
 
 
 
+
 type CreativePageLayoutProps = {
   heroImage?: React.ReactNode;
   children?: React.ReactNode;
   projectList?: React.ReactNode;
   expandedProject?: CreativeProject | null;
   setExpandedProject?: (project: CreativeProject | null) => void;
-  
   contentMoved?: boolean;
   setContentMoved?: (v: boolean) => void;
   onHeroClick?: () => void;
@@ -33,8 +34,12 @@ export default function CreativePageLayout({
   heroImage,
   projectList,
   expandedProject,
+  setExpandedProject,
+  contentMoved,
   setContentMoved,
+  onHeroClick,
 }: CreativePageLayoutProps) {
+
   const [showSection, setShowSection] = useState(false);
   const [slideStarted, setSlideStarted] = useState(false);
   const [showDescription, setShowDescription] = useState(false);
@@ -102,20 +107,39 @@ export default function CreativePageLayout({
   />
   )}
 
-  {expandedProject && showDescription && (
-    <ProjectSubtitleTopAnimation text={expandedProject.description} />
-  )}
+  {expandedProject && showDescription && (() => {
+  if (!expandedProject) return null;
 
-  {expandedProject && showDescription && (
-    <ProjectSubtitleBottomAnimation text={expandedProject.category} />
-  )}
+  switch (expandedProject.type) {
+    case "architecture":
+      return (
+        <>
+          <ProjectSubtitleTopAnimation
+            text={`${expandedProject.city}, ${expandedProject.country}${
+              expandedProject.year ? ` · ${expandedProject.year}` : ""
+            }`}
+          />
+          <ProjectSubtitleBottomAnimation text={expandedProject.category} />
+        </>
+      );
 
-{expandedProject && showDescription && (
-  <VerticalCarouselController
-    onClickUp={() => console.log("⬆ Scroll Up")}
-    onClickDown={() => console.log("⬇ Scroll Down")}
-  />
-)}
+    case "productDesign":
+    case "art":
+    case "film":
+      return (
+        <>
+          <ProjectSubtitleTopAnimation text={expandedProject.description} />
+          {"category" in expandedProject && (
+            <ProjectSubtitleBottomAnimation text={expandedProject.category} />
+          )}
+        </>
+      );
+
+    default:
+      return null;
+  }
+})()}
+
 
 {expandedProject && showDescription && (
   <>

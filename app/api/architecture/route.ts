@@ -7,6 +7,7 @@ const redis = Redis.fromEnv();
 
 interface ArchitectureProject {
   id: number;
+  type: "architecture"; // ✅ REQUIRED for discriminated union
   title: string;
   country: string;
   city: string;
@@ -23,11 +24,14 @@ export async function GET() {
     let projects: ArchitectureProject[] = [];
 
     if (typeof data === "string") {
-      projects = JSON.parse(data);
+      const parsed = JSON.parse(data);
+      projects = Array.isArray(parsed)
+        ? parsed.map((p) => ({ ...p, type: "architecture" }))
+        : [];
     } else if (Array.isArray(data)) {
-      projects = data;
+      projects = data.map((p) => ({ ...p, type: "architecture" }));
     }
-
+    
     return NextResponse.json({ projects }, { status: 200 });
   } catch (error) {
     console.error("❌ Error fetching architecture projects:", error);
@@ -63,6 +67,7 @@ export async function POST(req: NextRequest) {
 
     const newProject: ArchitectureProject = {
       id: project.id,
+      type: "architecture", // ✅ Inject the type
       title: project.title,
       country: project.country,
       city: project.city,
@@ -70,8 +75,7 @@ export async function POST(req: NextRequest) {
       year: project.year || "",
       images: project.images,
       icon: project.icon || "",
-    };
-    
+    };       
 
     projects.push(newProject);
     await redis.set("architectureProjects", JSON.stringify(projects));

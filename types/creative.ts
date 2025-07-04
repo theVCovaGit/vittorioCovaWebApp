@@ -1,53 +1,48 @@
-export type ArchitectureProject = {
-    id: number;
-    type: "architecture";
-    title: string;
-    description: string;
-    location: string;
-    images: string[];
-    icon?: string;
-  };
-  
-  export type ProductDesignItem = {
-    id: number;
-    type: "productDesign";
-    title: string;
-    description: string;
-    category: string;
-    material?: string;
-    images: string[];
-    icon?: string;
-  };
-  
-  export type ArtProject = {
-    id: number;
-    type: "art";
-    title: string;
-    description: string;
-    medium: string;
-    year?: number;
-    images: string[];
-    icon?: string;
-  };
-  
-  export type FilmProject = {
-    id: number;
-    type: "film";
-    title: string;
-    description: string;
-    director?: string;
-    releaseYear?: number;
-    images: string[];
-    icon?: string;
-  };
-  
-  
-    export interface CreativeProject {
-      id: number;
-      title: string;
-      description: string;
-      category: string;
-      images: string[];
-      icon?: string;
-    }
-  
+// Shared base type (common to all projects)
+export interface CreativeProjectBase {
+  id: number;
+  type: "architecture" | "productDesign" | "art" | "film";
+  title: string;
+  images: string[];
+  icon?: string;
+}
+
+// ✅ Architecture
+export type ArchitectureProject = CreativeProjectBase & {
+  type: "architecture";
+  country: string;
+  city: string;
+  category: string;
+  year?: string;
+};
+
+// ✅ Product Design
+export type ProductDesignItem = CreativeProjectBase & {
+  type: "productDesign";
+  description: string;
+  category: string;
+  material?: string;
+};
+
+// ✅ Art
+export type ArtProject = CreativeProjectBase & {
+  type: "art";
+  description: string;
+  medium: string;
+  year?: number;
+};
+
+// ✅ Film
+export type FilmProject = CreativeProjectBase & {
+  type: "film";
+  description: string;
+  director?: string;
+  releaseYear?: number;
+};
+
+// 🧠 Optional union of all project types
+export type CreativeProject =
+  | ArchitectureProject
+  | ProductDesignItem
+  | ArtProject
+  | FilmProject;
