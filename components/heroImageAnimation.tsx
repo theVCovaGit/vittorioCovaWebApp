@@ -20,7 +20,7 @@ export default function AnimatedHeroImage({
       initial={{ x: 0 }}
       animate={{
         x: animate ? "-20vw" : 0,
-        scale: animate ? 1.4 : 0.9, // 👈 grows from 85% to 100%
+        scale: animate ? 1.3 : 0.9, // 👈 grows from 85% to 100%
       }}      transition={{ duration: 1.8, ease: "easeInOut" }}
     >
       {children}
