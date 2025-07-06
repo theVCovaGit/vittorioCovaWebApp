@@ -41,12 +41,12 @@ export default function ProjectsList({
           <button
             key={project.id}
             onMouseEnter={() => {
-              onSelect(project.id); // 👈 Hover to preview
+              onSelect(project.id); // Hover to preview
               setIconUrl(project.icon || "");
             }}
             onClick={() => {
               setExpandedProject?.(project);     // set project
-              triggerAnimations?.();             // 🎬 trigger animations
+              triggerAnimations?.();             // trigger animations
             }}
             
             className={`text-left uppercase tracking-[2.565px] text-[13.5px] leading-none flex justify-between items-center transition duration-150 px-3 py-[6px] rounded-sm

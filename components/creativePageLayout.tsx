@@ -63,6 +63,16 @@ export default function CreativePageLayout({
     setSlideStarted(true);
   };  
 
+  const categoryColors: Record<string, string> = {
+    architecture: "#92a982",
+    productDesign: "#8494ac",
+    film: "#d7c97c",
+    art: "#bc76b1",
+  };
+
+  const color = expandedProject?.type ? categoryColors[expandedProject.type] || "#fef4dc" : "#fef4dc";
+
+
   useEffect(() => {
     const timer = setTimeout(() => {
       setShowSection(true);
@@ -77,7 +87,7 @@ export default function CreativePageLayout({
       animate={{ y: showSection ? 0 : "-100%" }}
       transition={{ duration: 1.5, ease: "easeOut" }}
     >
-      {/* 🖼️ Hero image with animation */}
+      {/* Hero image with animation */}
       <AnimatedHeroImage animate={slideStarted}>
         <div onClick={handleHeroClick}>
           {heroImage}
@@ -104,7 +114,7 @@ export default function CreativePageLayout({
 
       </AnimatedSidebarContent>
 
-      {/* ⬇️ Downward dots with animation */}
+      {/* Downward dots with animation */}
       <AnimatedDownwardDots
         animate={slideStarted}
         onComplete={() => setContentMoved?.(true)}
@@ -118,10 +128,12 @@ export default function CreativePageLayout({
 
       {/* 🪩 Expanded content overlay */}
       {expandedProject && (
-  <ProjectTitleAnimation
-    title={expandedProject.title}
-    animateIn={true}
-  />
+        <ProjectTitleAnimation
+        title={expandedProject.title}
+        animateIn={true}
+        color={color}
+      />
+
   )}
 
   {expandedProject && showDescription && (() => {

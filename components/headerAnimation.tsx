@@ -5,7 +5,17 @@ import { motion } from "framer-motion";
 import { useTransition } from "@/context/TransitionContext";
 
 export default function HeaderAnimation() {
-  const { category, finalX, finalY, textSize, color } = useTransition();
+  const { category, finalX, finalY, textSize } = useTransition();
+
+  const categoryColors: Record<string, string> = {
+    architecture: "#92a982",
+    product: "#8494ac",
+    film: "#d7c97c",
+    art: "#bc76b1",
+  };
+
+  const color = category ? categoryColors[category] || "#000" : "#000";
+
   const [startSlideLeft, setStartSlideLeft] = useState(false);
 
   // ✅ Start slide when category is set, reset when it clears (e.g., route change)
@@ -17,7 +27,7 @@ export default function HeaderAnimation() {
       console.log("📦 Using Transition Context:", { category, finalX, finalY, textSize });
 
       const timer = setTimeout(() => {
-        console.log("🎬 Starting Slide Animation...");
+        console.log("Starting Slide Animation...");
         setStartSlideLeft(true);
       }, 2100);
 
