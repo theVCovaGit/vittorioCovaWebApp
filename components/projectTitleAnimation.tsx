@@ -12,7 +12,7 @@ export default function ProjectTitleAnimation({
 }) {
   return (
     <motion.div
-      className="fixed top-16 right-12 lg:top-40 lg:right-[-20] z-[9999] text-right pointer-events-none"
+      className="fixed top-16 right-12 lg:top-[9.5rem] lg:right-[-20] z-[9999] text-right pointer-events-none"
       initial={{ x: 2000, opacity: 1 }}
       animate={{ x: animateIn ? 0 : 2000, opacity: 1 }}
       exit={{ x: 2000, opacity: 1 }}
