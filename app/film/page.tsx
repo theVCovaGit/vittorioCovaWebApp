@@ -4,15 +4,7 @@ import { useEffect, useState } from "react";
 import CreativePageLayout from "@/components/creativePageLayout";
 import ProjectsList from "@/components/projectsList";
 import Image from "next/image";
-
-interface FilmProject {
-  id: number;
-  title: string;
-  description: string;
-  category: string;
-  images: string[];
-  icon?: string;
-}
+import type { FilmProject } from "@/types/creative";
 
 export default function Film() {
   const [projects, setProjects] = useState<FilmProject[]>([]);
@@ -25,7 +17,12 @@ export default function Film() {
         const res = await fetch("/api/film");
         const data = await res.json();
         if (Array.isArray(data.projects)) {
-          setProjects(data.projects);
+          const typedProjects = data.projects.map((p: any) => ({
+            ...p,
+            type: "film",
+          })) as FilmProject[];
+
+          setProjects(typedProjects);
         } else {
           console.error("Invalid data structure from API:", data);
         }
@@ -59,7 +56,7 @@ export default function Film() {
       projectList={
         <ProjectsList
           projects={projects}
-          selectedId={selected?.id}
+          selectedId={selected?.id ?? null}
           onSelect={(id) => setSelectedId(id)}
         />
       }

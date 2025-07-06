@@ -1,9 +1,18 @@
 import { Redis } from "@upstash/redis";
 import { NextRequest, NextResponse } from "next/server";
 import { del } from "@vercel/blob";
-import type { FilmProject } from "@/types/creative"; // ✅ use shared type
 
+// Initialize Redis
 const redis = Redis.fromEnv();
+
+interface FilmProject {
+  id: number;
+  title: string;
+  description: string;
+  category: string;
+  images: string[];
+  icon?: string;
+}
 
 // GET: Fetch all film projects
 export async function GET() {
@@ -24,7 +33,7 @@ export async function GET() {
   }
 }
 
-// POST: Add new film project
+// POST: Add new project
 export async function POST(req: NextRequest) {
   try {
     const { project } = await req.json();
@@ -44,7 +53,7 @@ export async function POST(req: NextRequest) {
 
     const newProject: FilmProject = {
       ...project,
-      type: "film", // ✅ REQUIRED field for shared type
+      images: project.images,
       icon: project.icon || "",
     };
 
@@ -96,6 +105,7 @@ export async function DELETE(req: NextRequest) {
       return NextResponse.json({ error: "Project not found" }, { status: 404 });
     }
 
+    // Delete images
     for (const img of projectToDelete.images) {
       if (img && !img.includes("/placeholder.png")) {
         try {
@@ -107,6 +117,7 @@ export async function DELETE(req: NextRequest) {
       }
     }
 
+    // Delete icon
     if (icon && !icon.includes("/placeholder.png")) {
       try {
         console.log(`🧹 Deleting icon blob: ${icon}`);
