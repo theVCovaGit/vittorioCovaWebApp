@@ -1,9 +1,9 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import Image from "next/image";
 import CreativePageLayout from "@/components/creativePageLayout";
 import ProjectsList from "@/components/projectsList";
-import Image from "next/image";
 import type { FilmProject } from "@/types/creative";
 
 export default function Film() {
@@ -17,12 +17,7 @@ export default function Film() {
         const res = await fetch("/api/film");
         const data = await res.json();
         if (Array.isArray(data.projects)) {
-          const typedProjects = data.projects.map((p: any) => ({
-            ...p,
-            type: "film",
-          })) as FilmProject[];
-
-          setProjects(typedProjects);
+          setProjects(data.projects);
         } else {
           console.error("Invalid data structure from API:", data);
         }
@@ -36,12 +31,11 @@ export default function Film() {
     fetchProjects();
   }, []);
 
-  const selected = selectedId
+  const selected = selectedId !== null
     ? projects.find((p) => p.id === selectedId)
     : projects[0];
 
-  const featuredImage =
-    selected?.images?.[0] || "/images/fallback.jpg";
+  const featuredImage = selected?.images?.[0] || "/images/fallback.jpg";
 
   return (
     <CreativePageLayout
