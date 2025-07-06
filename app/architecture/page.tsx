@@ -65,15 +65,16 @@ export default function Architecture() {
           projectList={
             <ProjectsList
               projects={projects}
-              selectedId={selected?.id}
+              selectedId={selected?.id ?? null}
               onSelect={(id) => setSelectedId(id)}
             />
           }
+          
           expandedProject={expandedProject}
           setExpandedProject={(p) => setExpandedProject(p as ArchitectureProject | null)}
           contentMoved={contentMoved}
           setContentMoved={setContentMoved}
-          onHeroClick={handleHeroClick}
+          
         >
           <div className="pb-20">
             <h2 className="text-4xl font-bold text-[#19333F] mb-2">

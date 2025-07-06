@@ -22,7 +22,7 @@ import VerticalCarouselAnimated from "@/components/verticalCarouselAnimation";
 type CreativePageLayoutProps = {
   heroImage?: React.ReactNode;
   children?: React.ReactNode;
-  projectList?: React.ReactNode;
+  projectList?: React.ReactElement<{ setExpandedProject?: (project: CreativeProject | null) => void }>;
   expandedProject?: CreativeProject | null;
   setExpandedProject?: (project: CreativeProject | null) => void;
   contentMoved?: boolean;
@@ -53,7 +53,10 @@ export default function CreativePageLayout({
     }
   }, [slideStarted]);
   
-  
+  const triggerAnimations = () => {
+    console.log("🎬 Triggering project animations");
+    setSlideStarted(true);
+  };  
 
   const handleHeroClick = () => {
     console.log("Hero clicked starting animation");
@@ -84,7 +87,14 @@ export default function CreativePageLayout({
 
       {/* 📦 Sidebar + Content (slide out when expanded) */}
       <AnimatedSidebarContent animate={slideStarted}>
-        {projectList}
+      {projectList &&
+      React.isValidElement(projectList) &&
+      React.cloneElement<any>(projectList, {
+        setExpandedProject,
+        triggerAnimations,
+      })}
+
+
       </AnimatedSidebarContent>
 
       {/* ⬇️ Downward dots with animation */}

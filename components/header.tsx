@@ -16,9 +16,9 @@ export default function Header() {
   const isCreativePage = ["/architecture", "/productdesign", "/film", "/art"].includes(pathname);
 
   if (iconUrl) {
-    console.log("🧠 Header rendering icon:", iconUrl);
+    //console.log("Header rendering icon:", iconUrl);
   } else {
-    console.log("📭 Header: iconUrl is empty");
+    //console.log("📭 Header: iconUrl is empty");
   }
 
   return (

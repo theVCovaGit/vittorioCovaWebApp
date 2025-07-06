@@ -8,8 +8,10 @@ type ProjectsListProps = {
   projects: CreativeProject[];
   selectedId: number | null;
   onSelect: (id: number) => void;
-  setExpandedProject?: (project: CreativeProject | null) => void; // 👈 add this
+  setExpandedProject?: (project: CreativeProject | null) => void;
+  triggerAnimations?: () => void; // ✅ new prop
 };
+
 
 
 
@@ -18,6 +20,7 @@ export default function ProjectsList({
   selectedId,
   onSelect,
   setExpandedProject,
+  triggerAnimations
  
 }: ProjectsListProps) {
   const { setIconUrl } = useIconDisplay();
@@ -42,8 +45,10 @@ export default function ProjectsList({
               setIconUrl(project.icon || "");
             }}
             onClick={() => {
-              setExpandedProject?.(project); // 👈 Click to expand
+              setExpandedProject?.(project);     // set project
+              triggerAnimations?.();             // 🎬 trigger animations
             }}
+            
             className={`text-left uppercase tracking-[2.565px] text-[13.5px] leading-none flex justify-between items-center transition duration-150 px-3 py-[6px] rounded-sm
               ${isSelected ? "text-[#8CAC77]" : "text-[#FEF4DC] hover:text-[#8CAC77]"} bg-black`}
             style={{
