@@ -1,23 +1,17 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import type { ArtProject, CreativeProject } from "@/types/creative";
 import CreativePageLayout from "@/components/creativePageLayout";
 import ProjectsList from "@/components/projectsList";
 import Image from "next/image";
 
-interface ArtProject {
-  id: number;
-  title: string;
-  description: string;
-  category: string;
-  images: string[];
-  icon?: string;
-}
-
 export default function Art() {
-  const [projects, setProjects] = useState<ArtProject[]>([]);
+  const [projects, setProjects] = useState<CreativeProject[]>([]);
   const [selectedId, setSelectedId] = useState<number | null>(null);
   const [loading, setLoading] = useState(true);
+  const [expandedProject, setExpandedProject] = useState<CreativeProject | null>(null);
+  const [contentMoved, setContentMoved] = useState(false);
 
   useEffect(() => {
     async function fetchProjects() {
@@ -25,7 +19,7 @@ export default function Art() {
         const res = await fetch("/api/art");
         const data = await res.json();
         if (Array.isArray(data.projects)) {
-          setProjects(data.projects);
+          setProjects(data.projects as ArtProject[]);
         } else {
           console.error("Invalid data structure from API:", data);
         }
@@ -43,8 +37,14 @@ export default function Art() {
     ? projects.find((p) => p.id === selectedId)
     : projects[0];
 
-  const featuredImage =
-    selected?.images?.[0] || "/images/fallback.jpg";
+  const featuredImage = selected?.images?.[0] || "/images/fallback.jpg";
+
+  const handleProjectSelect = (id: number) => {
+    const found = projects.find((p) => p.id === id) || null;
+    setSelectedId(id);
+    setTimeout(() => setContentMoved(true), 800);
+    setTimeout(() => setExpandedProject(found), 1200);
+  };
 
   return (
     <CreativePageLayout
@@ -59,10 +59,14 @@ export default function Art() {
       projectList={
         <ProjectsList
           projects={projects}
-          selectedId={selected?.id}
-          onSelect={(id) => setSelectedId(id)}
+          selectedId={selected?.id ?? null}
+          onSelect={handleProjectSelect}
         />
       }
+      expandedProject={expandedProject}
+      setExpandedProject={setExpandedProject}
+      contentMoved={contentMoved}
+      setContentMoved={setContentMoved}
     >
       {loading ? (
         <p className="text-center text-gray-500 py-12">
@@ -73,7 +77,9 @@ export default function Art() {
           <h2 className="text-4xl font-bold text-[#19333F] mb-2">
             {selected.title}
           </h2>
-          <p className="text-lg text-gray-400">{selected.description}</p>
+          <p className="text-lg text-gray-400">
+            {"description" in selected ? selected.description : ""}
+          </p>
         </div>
       ) : (
         <p className="text-gray-500">No hay proyectos para mostrar.</p>

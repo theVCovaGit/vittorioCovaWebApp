@@ -1,7 +1,7 @@
 "use client";
 
 import type { CreativeProject } from "@/types/creative";
-//import type { CreativeProjectBase } from "@/types/creative";
+// import type { CreativeProjectBase } from "@/types/creative";
 
 import React, { useEffect, useState } from "react";
 import { motion } from "framer-motion";

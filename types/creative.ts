@@ -13,11 +13,11 @@ export type ArchitectureProject = CreativeProjectBase & {
   country: string;
   city: string;
   category: string;
-  year?: string;
+  year?: number;
 };
 
 // ✅ Product Design
-export type ProductDesignItem = CreativeProjectBase & {
+export type ProductDesignProject = CreativeProjectBase & {
   type: "productDesign";
   description: string;
   category: string;
@@ -40,9 +40,9 @@ export type FilmProject = CreativeProjectBase & {
   releaseYear?: number;
 };
 
-// 🧠 Optional union of all project types
+// 🧠 Union of all project types
 export type CreativeProject =
   | ArchitectureProject
-  | ProductDesignItem
+  | ProductDesignProject
   | ArtProject
   | FilmProject;
