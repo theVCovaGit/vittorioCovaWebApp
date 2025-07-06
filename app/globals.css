@@ -78,7 +78,7 @@ a {
 
 /* Buttons */
 button {
-  @apply bg-primary text-white font-medium py-2 px-4 rounded hover:bg-accent transition;
+  @apply bg-primary text-white font-medium py-2 px-4 rounded  transition;
 }
 
 /* Default Reset for List Styles */
