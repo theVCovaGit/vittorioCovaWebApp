@@ -79,7 +79,7 @@ export default function Header() {
       {/* Frame the Vision */}
      
         <div className="hidden md:block absolute top-[4.25rem] left-[36.25rem] text-[1rem] tracking-[0.002em] w-[13.06rem] h-[1.625rem] leading-none font-minecraft">
-          FRAME THE VISION .
+          
         </div>
      
     </header>

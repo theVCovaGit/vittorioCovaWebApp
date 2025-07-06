@@ -6,16 +6,18 @@ import type { CreativeProject } from "@/types/creative";
 
 type ProjectsListProps = {
   projects: CreativeProject[];
-  selectedId?: number;
+  selectedId: number | null;
   onSelect: (id: number) => void;
-  onProjectClick?: (id: number) => void; // 🔧 optional now
+  setExpandedProject?: (project: CreativeProject | null) => void; // 👈 add this
 };
+
 
 
 export default function ProjectsList({
   projects,
   selectedId,
   onSelect,
+  setExpandedProject,
  
 }: ProjectsListProps) {
   const { setIconUrl } = useIconDisplay();
@@ -31,14 +33,16 @@ export default function ProjectsList({
       {projects.map((project) => {
         const [main, number] = project.title.split(/ (?=\d+$)/);
         const isSelected = selectedId === project.id;
-
+  
         return (
           <button
             key={project.id}
-            onClick={() => {
-              onSelect(project.id);
+            onMouseEnter={() => {
+              onSelect(project.id); // 👈 Hover to preview
               setIconUrl(project.icon || "");
-            
+            }}
+            onClick={() => {
+              setExpandedProject?.(project); // 👈 Click to expand
             }}
             className={`text-left uppercase tracking-[2.565px] text-[13.5px] leading-none flex justify-between items-center transition duration-150 px-3 py-[6px] rounded-sm
               ${isSelected ? "text-[#8CAC77]" : "text-[#FEF4DC] hover:text-[#8CAC77]"} bg-black`}
@@ -68,4 +72,5 @@ export default function ProjectsList({
       })}
     </div>
   );
+  
 }
