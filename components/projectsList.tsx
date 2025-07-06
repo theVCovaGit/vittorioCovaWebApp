@@ -39,25 +39,29 @@ export default function ProjectsList({
   
         return (
           <button
-            key={project.id}
-            onMouseEnter={() => {
-              onSelect(project.id); // Hover to preview
-              setIconUrl(project.icon || "");
-            }}
-            onClick={() => {
-              setExpandedProject?.(project);     // set project
-              triggerAnimations?.();             // trigger animations
-            }}
-            
-            className={`text-left uppercase tracking-[2.565px] text-[13.5px] leading-none flex justify-between items-center transition duration-150 px-3 py-[6px] rounded-sm
-              ${isSelected ? "text-[#8CAC77]" : "text-[#FEF4DC] hover:text-[#8CAC77]"} bg-black`}
-            style={{
-              marginTop: "2.5vh",
-              zIndex: 9999,
-              fontWeight: 400,
-              fontStyle: "normal",
-            }}
-          >
+  key={project.id}
+  onMouseEnter={() => {
+    onSelect(project.id);
+    setIconUrl(project.icon || "");
+  }}
+  onClick={() => {
+    setExpandedProject?.(project);
+    triggerAnimations?.();
+  }}
+  className={`text-left uppercase tracking-[2.565px] text-[13.5px] leading-none flex justify-between items-center px-3 py-[6px] rounded-sm bg-black transition duration-150
+    ${isSelected ? "text-[#8CAC77]" : "text-[#FEF4DC]"}
+    focus:outline-none focus:ring-0 active:ring-0 hover:ring-0`}
+  style={{
+    WebkitTapHighlightColor: "transparent",
+    outline: "none",
+    boxShadow: "none",
+    marginTop: "2.5vh",
+    zIndex: 9999,
+    fontWeight: 400,
+    fontStyle: "normal",
+  }}
+>
+
             <span className="truncate">{main}</span>
             {number && (
               <span
