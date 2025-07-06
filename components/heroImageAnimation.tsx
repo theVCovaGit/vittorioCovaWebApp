@@ -18,8 +18,10 @@ export default function AnimatedHeroImage({
         height: "clamp(300px, 48vh, 600px)",
       }}
       initial={{ x: 0 }}
-      animate={{ x: animate ? "-20vw" : 0 }} // 👈 Move far offscreen to the left
-      transition={{ duration: 1.8, ease: "easeInOut" }}
+      animate={{
+        x: animate ? "-20vw" : 0,
+        scale: animate ? 1.4 : 0.9, // 👈 grows from 85% to 100%
+      }}      transition={{ duration: 1.8, ease: "easeInOut" }}
     >
       {children}
     </motion.div>
