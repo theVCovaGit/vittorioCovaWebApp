@@ -18,7 +18,7 @@ export default function AnimatedHeroImage({
         height: "clamp(300px, 48vh, 600px)",
       }}
       initial={{ x: 0 }}
-      animate={{ x: animate ? "-120vw" : 0 }} // 👈 Move far offscreen to the left
+      animate={{ x: animate ? "-20vw" : 0 }} // 👈 Move far offscreen to the left
       transition={{ duration: 1.8, ease: "easeInOut" }}
     >
       {children}

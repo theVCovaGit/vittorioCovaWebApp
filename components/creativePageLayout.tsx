@@ -13,7 +13,7 @@ import ProjectTitleAnimation from "@/components/projectTitleAnimation";
 import ProjectSubtitleTopAnimation from "@/components/projectSubtitleTopAnimation";
 import ProjectSubtitleBottomAnimation from "@/components/projectSubtitleBottomAnimation";
 import VerticalCarouselController from "@/components/verticalCarouselController";
-import VerticalCarouselAnimated from "@/components/verticalCarouselAnimation";
+//import VerticalCarouselAnimated from "@/components/verticalCarouselAnimation";
 
 
 
@@ -177,7 +177,7 @@ export default function CreativePageLayout({
       onClickDown={() => console.log("⬇ Scroll Down")}
     />
 
-    <VerticalCarouselAnimated images={expandedProject.images} />
+    {/*<VerticalCarouselAnimated images={expandedProject.images} />*/}
   </>
 )}
 

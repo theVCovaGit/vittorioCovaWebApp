@@ -11,7 +11,7 @@ export default function ProjectSubtitleBottomAnimation({
       initial={{ y: -200 }}
       animate={{ y: 0 }}
       transition={{ duration: 2, delay: 1.2, ease: "easeOut" }} // slight stagger after top
-      className="absolute left-24 top-[50vh] w-[145px] h-[37px] text-white"
+      className="absolute left-24 top-[54vh] w-[145px] h-[37px] text-white"
       style={{
         fontFamily: '"Basica v.2012", sans-serif',
         fontSize: "30px",
