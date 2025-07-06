@@ -32,8 +32,9 @@ export default function ProductDesign() {
         if (Array.isArray(data.projects)) {
           // Enforce type safety by attaching the right type
           const filtered = data.projects.filter(
-            (p: any) => p.type === "productDesign"
+            (p: { type: string; }): p is CreativeProject => p.type === "productDesign"
           );
+          
           setProjects(filtered);
         } else {
           console.error("Invalid data structure from API:", data);
