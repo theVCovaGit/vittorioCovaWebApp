@@ -1,7 +1,7 @@
 "use client";
 
 import type { CreativeProject } from "@/types/creative";
-import type { CreativeProjectBase } from "@/types/creative";
+//import type { CreativeProjectBase } from "@/types/creative";
 
 import React, { useEffect, useState } from "react";
 import { motion } from "framer-motion";
@@ -35,9 +35,9 @@ export default function CreativePageLayout({
   projectList,
   expandedProject,
   setExpandedProject,
-  contentMoved,
+  //contentMoved,
   setContentMoved,
-  onHeroClick,
+  //onHeroClick,
 }: CreativePageLayoutProps) {
 
   const [showSection, setShowSection] = useState(false);
@@ -89,10 +89,17 @@ export default function CreativePageLayout({
       <AnimatedSidebarContent animate={slideStarted}>
       {projectList &&
       React.isValidElement(projectList) &&
-      React.cloneElement<any>(projectList, {
-        setExpandedProject,
-        triggerAnimations,
-      })}
+      React.cloneElement(
+        projectList as React.ReactElement<{
+          setExpandedProject?: (project: CreativeProject | null) => void;
+          triggerAnimations?: () => void;
+        }>,
+        {
+          setExpandedProject,
+          triggerAnimations,
+        }
+      )
+      }
 
 
       </AnimatedSidebarContent>
