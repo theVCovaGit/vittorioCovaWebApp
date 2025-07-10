@@ -14,9 +14,9 @@ const signatureComponents = [
 ];
 
 const animationTimings = [
-    { delay: 0, duration: 0.6 },  // Component 1
+    { delay: 0, duration: 0.4 },  // Component 1
     { delay: 1.0, duration: 1.8 },  // Component 2
-    { delay: 3.0, duration: 2.0 },  // Component 3
+    { delay: 3.0, duration: 2.2 },  // Component 3
     { delay: 4.9, duration: 0.8 },  // Component 4
   ];  
 
@@ -52,27 +52,34 @@ export default function SignatureAnimation() {
           fill="none"
           xmlns="http://www.w3.org/2000/svg"
         >
-          <defs>
-            <clipPath id={`clip-signature-${i}`}>
-              <motion.rect
-                initial={{ height: 0 }}
-                animate={{ height: 104 }}
-                transition={{
-                    duration: animationTimings[i].duration,
-                    delay: animationTimings[i].delay,
-                    ease: "easeInOut",
-                  }}                  
-                x="0"
-                y="0"
-                width="300"
-                height="104"
-              />
-            </clipPath>
-          </defs>
-
-          <g clipPath={`url(#clip-signature-${i})`}>
+          { (i === 2 || i === 1) ? (
             <Component />
-          </g>
+            ) : (
+            <>
+                <defs>
+                <clipPath id={`clip-signature-${i}`}>
+                    <motion.rect
+                    initial={{ height: 0 }}
+                    animate={{ height: 104 }}
+                    transition={{
+                        duration: animationTimings[i].duration,
+                        delay: animationTimings[i].delay,
+                        ease: "easeInOut",
+                    }}
+                    x="0"
+                    y="0"
+                    width="300"
+                    height="104"
+                    />
+                </clipPath>
+                </defs>
+                <g clipPath={`url(#clip-signature-${i})`}>
+                <Component />
+                </g>
+            </>
+            )}
+
+
         </motion.svg>
       ))}
     </>
