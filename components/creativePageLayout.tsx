@@ -132,6 +132,7 @@ export default function CreativePageLayout({
         title={expandedProject.title}
         animateIn={true}
         color={color}
+        finalX={1280} // 👈 this ensures last letter aligns at x=1280
       />
 
   )}
