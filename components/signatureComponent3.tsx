@@ -13,8 +13,8 @@ export default function SignatureComponent3() {
       initial={{ pathLength: 0, pathOffset: 1 }}
       animate={{ pathLength: 1, pathOffset: 0 }}
       transition={{
-        duration: 2.2,
-        delay: 3.0,
+        duration: 1.9,
+        delay: 2.1,
         ease: "easeInOut",
       }}
     />

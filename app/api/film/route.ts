@@ -2,16 +2,19 @@ import { Redis } from "@upstash/redis";
 import { NextRequest, NextResponse } from "next/server";
 import { del } from "@vercel/blob";
 
-// Initialize Redis
 const redis = Redis.fromEnv();
 
 interface FilmProject {
   id: number;
+  type: "film";
   title: string;
-  description: string;
-  category: string;
-  images: string[];
   icon?: string;
+  images: string[];
+  releaseYear?: string;
+  countries?: string[];
+  cities?: string[];
+  genre?: string;
+  category?: string; // e.g. short film, full film, etc.
 }
 
 // GET: Fetch all film projects
@@ -21,9 +24,12 @@ export async function GET() {
     let projects: FilmProject[] = [];
 
     if (typeof data === "string") {
-      projects = JSON.parse(data);
+      const parsed = JSON.parse(data);
+      projects = Array.isArray(parsed)
+        ? parsed.map((p) => ({ ...p, type: "film" }))
+        : [];
     } else if (Array.isArray(data)) {
-      projects = data;
+      projects = data.map((p) => ({ ...p, type: "film" }));
     }
 
     return NextResponse.json({ projects }, { status: 200 });
@@ -33,7 +39,7 @@ export async function GET() {
   }
 }
 
-// POST: Add new project
+// POST: Add new film project
 export async function POST(req: NextRequest) {
   try {
     const { project } = await req.json();
@@ -52,9 +58,24 @@ export async function POST(req: NextRequest) {
     }
 
     const newProject: FilmProject = {
-      ...project,
-      images: project.images,
+      id: project.id,
+      type: "film",
+      title: project.title,
       icon: project.icon || "",
+      images: project.images,
+      releaseYear: project.releaseYear || "",
+      countries: Array.isArray(project.countries)
+        ? project.countries
+        : project.countries
+        ? [project.countries]
+        : [],
+      cities: Array.isArray(project.cities)
+        ? project.cities
+        : project.cities
+        ? [project.cities]
+        : [],
+      genre: project.genre || "",
+      category: project.category || "",
     };
 
     projects.push(newProject);
@@ -67,16 +88,36 @@ export async function POST(req: NextRequest) {
   }
 }
 
-// PUT: Update all film projects
+
+// PUT: Replace all film projects
 export async function PUT(req: NextRequest) {
   try {
     const { projects } = await req.json();
 
-    if (!Array.isArray(projects)) {
-      return NextResponse.json({ error: "Invalid format" }, { status: 400 });
+    if (
+      !Array.isArray(projects) ||
+      projects.some((p) => !p.id || !p.title || !Array.isArray(p.images))
+    ) {
+      return NextResponse.json({ error: "Invalid project format" }, { status: 400 });
     }
 
-    await redis.set("filmProjects", JSON.stringify(projects));
+    const cleanProjects: FilmProject[] = projects.map((p) => ({
+      ...p,
+      type: "film",
+      countries: Array.isArray(p.countries)
+        ? p.countries
+        : p.countries
+        ? [p.countries]
+        : [],
+      cities: Array.isArray(p.cities)
+        ? p.cities
+        : p.cities
+        ? [p.cities]
+        : [],
+    }));
+    
+    await redis.set("filmProjects", JSON.stringify(cleanProjects));
+    
     return NextResponse.json({ message: "Projects updated" }, { status: 200 });
   } catch (error) {
     console.error("❌ Error in PUT:", error);
@@ -84,7 +125,7 @@ export async function PUT(req: NextRequest) {
   }
 }
 
-// DELETE: Delete by ID and remove blobs
+// DELETE: Delete film project by ID
 export async function DELETE(req: NextRequest) {
   try {
     const { id, icon } = await req.json();

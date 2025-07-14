@@ -3,12 +3,14 @@
 import { useState } from "react";
 import ArchitectureContentPanel from "@/components/architectureContentPanel";
 import ProductDesignContentPanel from "@/components/productDesignContentPanel";
+import ArtContentPanel from "@/components/artContentPanel"; 
+import FilmContentPanel from "@/components/filmContentPanel"; 
 
 
 const AdminPage = () => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [password, setPassword] = useState("");
-  const [activePanel, setActivePanel] = useState<"architecture" | "productdesign" | null>(null);
+  const [activePanel, setActivePanel] = useState<"architecture" | "productdesign" | "art" | "film" | null>(null); // ✅ add "art"
 
   const hardcodedPassword = "123";
 
@@ -46,27 +48,39 @@ const AdminPage = () => {
   return (
     <div className="min-h-screen bg-[#5c4b4a] text-[#19333F] px-6 md:px-12 lg:px-24 mt-[10rem] sm:mt-[12rem] md:mt-[14rem] pb-28 sm:pb-32">
       <h1 className="font-basica text-[#FFF3DF] text-2xl font-bold">Welcome back Vittorio</h1>
+      
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-4">
         <button
           onClick={() => setActivePanel("architecture")}
-          className="bg-black text-white py-3 px-6 rounded-md"
+          className="font-basica bg-black text-white py-3 px-6 rounded-md"
         >
           Architecture
         </button>
         <button
           onClick={() => setActivePanel("productdesign")}
-          className="bg-blue-600 text-white py-3 px-6 rounded-md"
+          className="font-basica bg-black text-white py-3 px-6 rounded-md"
         >
           Product Design
         </button>
-
-        {/* Future: Add buttons for Film, Product Design, Art */}
+        <button
+          onClick={() => setActivePanel("art")}
+          className="font-basica bg-black text-white py-3 px-6 rounded-md"
+        >
+          Art
+        </button>
+        <button
+          onClick={() => setActivePanel("film")}
+          className="font-basica bg-black text-white py-3 px-6 rounded-md"
+        >
+          Film
+        </button>
       </div>
 
       {/* Content Panels */}
       <ArchitectureContentPanel isActive={activePanel === "architecture"} />
       <ProductDesignContentPanel isActive={activePanel === "productdesign"} />
-
+      <ArtContentPanel isActive={activePanel === "art"} />
+      <FilmContentPanel isActive={activePanel === "film"} />
     </div>
   );
 };

@@ -137,9 +137,7 @@ export default function CreativePageLayout({
 
   )}
 
-  {expandedProject && showDescription && (() => {
-  if (!expandedProject) return null;
-
+{expandedProject && showDescription && (() => {
   switch (expandedProject.type) {
     case "architecture":
       return (
@@ -154,21 +152,50 @@ export default function CreativePageLayout({
       );
 
     case "productDesign":
-    case "art":
-    case "film":
       return (
         <>
           <ProjectSubtitleTopAnimation text={expandedProject.description} />
-          {"category" in expandedProject && (
-            <ProjectSubtitleBottomAnimation text={expandedProject.category} />
-          )}
+          <ProjectSubtitleBottomAnimation text={expandedProject.category} />
         </>
       );
+
+    case "art":
+      return (
+        <>
+          <ProjectSubtitleTopAnimation
+            text={`${expandedProject.city}, ${expandedProject.country}${
+              expandedProject.year ? ` · ${expandedProject.year}` : ""
+            }`}
+          />
+          <ProjectSubtitleBottomAnimation
+            text={`${expandedProject.discipline} · ${expandedProject.collection}`}
+          />
+        </>
+      );
+
+      case "film":
+  return (
+    <>
+      <ProjectSubtitleTopAnimation
+        text={`${expandedProject.cities?.join(", ") || "—"}, ${expandedProject.countries?.join(", ") || "—"}${
+          expandedProject.releaseYear ? ` · ${expandedProject.releaseYear}` : ""
+        }`}
+      />
+      {(expandedProject.genre || expandedProject.category) && (
+        <ProjectSubtitleBottomAnimation
+          text={[expandedProject.genre, expandedProject.category].filter(Boolean).join(" · ")}
+        />
+      )}
+    </>
+  );
+
+      
 
     default:
       return null;
   }
 })()}
+
 
 
 {expandedProject && showDescription && (

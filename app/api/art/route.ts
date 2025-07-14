@@ -2,16 +2,19 @@ import { Redis } from "@upstash/redis";
 import { NextRequest, NextResponse } from "next/server";
 import { del } from "@vercel/blob";
 
-// Initialize Redis
 const redis = Redis.fromEnv();
 
 interface ArtProject {
   id: number;
+  type: "art";
   title: string;
-  description: string;
-  category: string;
-  images: string[];
   icon?: string;
+  images: string[];
+  year?: string;
+  country: string;
+  city: string;
+  discipline: string; // e.g., "painting", "sculpture"
+  collection?: string;
 }
 
 // GET: Fetch all art projects
@@ -21,9 +24,12 @@ export async function GET() {
     let projects: ArtProject[] = [];
 
     if (typeof data === "string") {
-      projects = JSON.parse(data);
+      const parsed = JSON.parse(data);
+      projects = Array.isArray(parsed)
+        ? parsed.map((p) => ({ ...p, type: "art" }))
+        : [];
     } else if (Array.isArray(data)) {
-      projects = data;
+      projects = data.map((p) => ({ ...p, type: "art" }));
     }
 
     return NextResponse.json({ projects }, { status: 200 });
@@ -33,12 +39,20 @@ export async function GET() {
   }
 }
 
-// POST: Add new project
+// POST: Add a new art project
 export async function POST(req: NextRequest) {
   try {
     const { project } = await req.json();
 
-    if (!project || !project.id || !project.title || !Array.isArray(project.images)) {
+    if (
+      !project ||
+      !project.id ||
+      !project.title ||
+      !Array.isArray(project.images) ||
+      !project.country ||
+      !project.city ||
+      !project.discipline
+    ) {
       return NextResponse.json({ error: "Invalid project data" }, { status: 400 });
     }
 
@@ -52,9 +66,16 @@ export async function POST(req: NextRequest) {
     }
 
     const newProject: ArtProject = {
-      ...project,
-      images: project.images,
+      id: project.id,
+      type: "art",
+      title: project.title,
       icon: project.icon || "",
+      images: project.images,
+      year: project.year || "",
+      country: project.country,
+      city: project.city,
+      discipline: project.discipline,
+      collection: project.collection || "",
     };
 
     projects.push(newProject);
@@ -67,13 +88,24 @@ export async function POST(req: NextRequest) {
   }
 }
 
-// PUT: Update all projects
+// PUT: Overwrite all art projects
 export async function PUT(req: NextRequest) {
   try {
     const { projects } = await req.json();
 
-    if (!Array.isArray(projects)) {
-      return NextResponse.json({ error: "Invalid format" }, { status: 400 });
+    if (
+      !Array.isArray(projects) ||
+      projects.some(
+        (p) =>
+          !p.id ||
+          !p.title ||
+          !Array.isArray(p.images) ||
+          !p.country ||
+          !p.city ||
+          !p.discipline
+      )
+    ) {
+      return NextResponse.json({ error: "Invalid project format" }, { status: 400 });
     }
 
     await redis.set("artProjects", JSON.stringify(projects));
@@ -84,7 +116,7 @@ export async function PUT(req: NextRequest) {
   }
 }
 
-// DELETE: Delete by ID and remove blobs
+// DELETE: Remove a project and its blobs
 export async function DELETE(req: NextRequest) {
   try {
     const { id, icon } = await req.json();
@@ -105,7 +137,6 @@ export async function DELETE(req: NextRequest) {
       return NextResponse.json({ error: "Project not found" }, { status: 404 });
     }
 
-    // Delete images
     for (const img of projectToDelete.images) {
       if (img && !img.includes("/placeholder.png")) {
         try {
@@ -117,7 +148,6 @@ export async function DELETE(req: NextRequest) {
       }
     }
 
-    // Delete icon
     if (icon && !icon.includes("/placeholder.png")) {
       try {
         console.log(`🧹 Deleting icon blob: ${icon}`);

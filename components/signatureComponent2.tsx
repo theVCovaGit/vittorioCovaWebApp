@@ -12,8 +12,8 @@ export default function SignatureComponent2() {
       initial={{ pathLength: 0, pathOffset: 1 }}
       animate={{ pathLength: 1, pathOffset: 0 }}
       transition={{
-        duration: 1.8, // match your timing array
-        delay: 1.0,
+        duration: 1.2, // match your timing array
+        delay: 0.5,
         ease: "easeInOut",
       }}
     />

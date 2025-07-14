@@ -24,21 +24,28 @@ export type ProductDesignProject = CreativeProjectBase & {
   material?: string;
 };
 
-// ✅ Art
+// Art
 export type ArtProject = CreativeProjectBase & {
   type: "art";
   description: string;
-  medium: string;
+  discipline: string;       // e.g., painting, sculpture
+  collection: string;       // e.g., private, gallery, museum
+  country: string;
+  city: string;
   year?: number;
 };
 
-// ✅ Film
+
+// Film
 export type FilmProject = CreativeProjectBase & {
   type: "film";
-  description: string;
-  director?: string;
   releaseYear?: number;
+  countries?: string[];
+  cities?: string[];
+  genre?: string;
+  category?: string; // e.g. "Short Film", "Full Film", etc.
 };
+
 
 // 🧠 Union of all project types
 export type CreativeProject =
