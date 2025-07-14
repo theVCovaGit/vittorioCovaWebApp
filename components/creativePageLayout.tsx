@@ -151,13 +151,25 @@ export default function CreativePageLayout({
         </>
       );
 
-    case "productDesign":
-      return (
-        <>
-          <ProjectSubtitleTopAnimation text={expandedProject.description} />
-          <ProjectSubtitleBottomAnimation text={expandedProject.category} />
-        </>
-      );
+      case "productDesign":
+        return (
+          <>
+            <ProjectSubtitleTopAnimation
+              text={`${expandedProject.city}, ${expandedProject.country}${
+                expandedProject.year ? ` · ${expandedProject.year}` : ""
+              }`}
+            />
+            <ProjectSubtitleBottomAnimation
+              text={[
+                expandedProject.material,
+                expandedProject.useCase,
+              ]
+                .filter(Boolean)
+                .join(" · ")}
+            />
+          </>
+        );
+      
 
     case "art":
       return (

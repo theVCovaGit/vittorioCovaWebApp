@@ -1,28 +1,17 @@
 "use client";
 
-import type { CreativeProject } from "@/types/creative";
 import { useEffect, useState } from "react";
+import type { ProductDesignProject } from "@/types/creative";
 import CreativePageLayout from "@/components/creativePageLayout";
 import ProjectsList from "@/components/projectsList";
 import Image from "next/image";
 
 export default function ProductDesign() {
-  const [projects, setProjects] = useState<CreativeProject[]>([]);
+  const [projects, setProjects] = useState<ProductDesignProject[]>([]);
   const [selectedId, setSelectedId] = useState<number | null>(null);
-  const [expandedProject, setExpandedProject] = useState<CreativeProject | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [expandedProject, setExpandedProject] = useState<ProductDesignProject | null>(null);
   const [contentMoved, setContentMoved] = useState(false);
-
-  const selected = selectedId !== null
-    ? projects.find((p) => p.id === selectedId)
-    : projects[0];
-
-  const featuredImage = selected?.images?.[0] || "/images/fallback.jpg";
-
-  const handleHeroClick = () => {
-    console.log("✅ Clicked hero!");
-    setTimeout(() => setContentMoved(true), 800);
-    setTimeout(() => setExpandedProject(selected || null), 1200);
-  };
 
   useEffect(() => {
     async function fetchProjects() {
@@ -30,47 +19,83 @@ export default function ProductDesign() {
         const res = await fetch("/api/productdesign");
         const data = await res.json();
         if (Array.isArray(data.projects)) {
-          // Enforce type safety by attaching the right type
-          const filtered = data.projects.filter(
-            (p: { type: string; }): p is CreativeProject => p.type === "productDesign"
-          );
-          
-          setProjects(filtered);
+          setProjects(data.projects as ProductDesignProject[]);
         } else {
           console.error("Invalid data structure from API:", data);
         }
       } catch (err) {
         console.error("Failed to fetch product design projects:", err);
+      } finally {
+        setLoading(false);
       }
     }
 
     fetchProjects();
   }, []);
 
+  const selected = selectedId
+    ? projects.find((p) => p.id === selectedId)
+    : projects[0];
+
+  const handleHeroClick = () => {
+    console.log("🧢 Clicked product design hero");
+    setTimeout(() => setContentMoved(true), 800);
+    setTimeout(() => setExpandedProject(selected || null), 1200);
+  };
+
+  const featuredImage = selected?.images?.[0] || "/images/fallback.jpg";
+
   return (
-    <CreativePageLayout
-      heroImage={
-        <div onClick={handleHeroClick} className="cursor-pointer">
-          <Image
-            src={featuredImage}
-            alt="Product Design hero image"
-            fill
-            className="object-cover object-center"
-          />
-        </div>
-      }
-      projectList={
-        <ProjectsList
-          projects={projects}
-          selectedId={selected?.id ?? null}
-          onSelect={(id) => setSelectedId(id)}
-        />
-      }
-      expandedProject={expandedProject}
-      setExpandedProject={setExpandedProject}
-      contentMoved={contentMoved}
-      setContentMoved={setContentMoved}
-      onHeroClick={handleHeroClick}
-    />
+    <div className="min-h-screen bg-[#5c4b4a]">
+      {!loading && (
+        <CreativePageLayout
+          heroImage={
+            <div onClick={handleHeroClick} className="cursor-pointer">
+              <Image
+                src={featuredImage}
+                alt="Product Design hero image"
+                fill
+                className="object-cover object-center"
+              />
+            </div>
+          }
+          projectList={
+            <ProjectsList
+              projects={projects}
+              selectedId={selected?.id ?? null}
+              onSelect={(id) => setSelectedId(id)}
+            />
+          }
+          expandedProject={expandedProject}
+          setExpandedProject={(p) =>
+            setExpandedProject(p as ProductDesignProject | null)
+          }
+          contentMoved={contentMoved}
+          setContentMoved={setContentMoved}
+        >
+          <div className="pb-20">
+            <h2 className="text-4xl font-bold text-[#fef4dc] mb-2">
+              {selected?.title}
+            </h2>
+            <p className="text-lg text-gray-400">
+              
+              {selected?.year ? ` · ${selected.year}` : ""}
+            </p>
+            <p className="text-md text-gray-500 mt-1 italic">
+              {selected?.material}
+              {selected?.city && ` · ${selected.city}`}
+              {selected?.country && `, ${selected.country}`}
+              {selected?.useCase && ` · ${selected.useCase}`}
+            </p>
+          </div>
+        </CreativePageLayout>
+      )}
+
+      {loading && (
+        <p className="text-center text-gray-500 py-12">
+          Cargando proyectos de diseño de producto...
+        </p>
+      )}
+    </div>
   );
 }

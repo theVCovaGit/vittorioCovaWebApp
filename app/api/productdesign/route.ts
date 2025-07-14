@@ -2,14 +2,17 @@ import { Redis } from "@upstash/redis";
 import { NextRequest, NextResponse } from "next/server";
 import { del } from "@vercel/blob";
 
-// Initialize Redis
 const redis = Redis.fromEnv();
 
 interface ProductDesignProject {
   id: number;
+  type: "productDesign";
   title: string;
-  description: string;
-  category: string;
+  country: string;
+  city: string;
+  material?: string;
+  year?: number;
+  useCase?: string;
   images: string[];
   icon?: string;
 }
@@ -21,9 +24,12 @@ export async function GET() {
     let projects: ProductDesignProject[] = [];
 
     if (typeof data === "string") {
-      projects = JSON.parse(data);
+      const parsed = JSON.parse(data);
+      projects = Array.isArray(parsed)
+        ? parsed.map((p) => ({ ...p, type: "productDesign" }))
+        : [];
     } else if (Array.isArray(data)) {
-      projects = data;
+      projects = data.map((p) => ({ ...p, type: "productDesign" }));
     }
 
     return NextResponse.json({ projects }, { status: 200 });
@@ -36,30 +42,17 @@ export async function GET() {
 // POST: Add new product design project
 export async function POST(req: NextRequest) {
   try {
-    const body = await req.json();
-    console.log("📦 Incoming Request Body:", JSON.stringify(body, null, 2));
+    const { project } = await req.json();
 
-    const { project } = body;
-
-    // Validation logging
-    if (!project) {
-      console.error("❌ Validation Failed: 'project' is missing.");
-      return NextResponse.json({ error: "Missing 'project' field." }, { status: 400 });
-    }
-
-    if (!project.id) {
-      console.error("❌ Validation Failed: 'project.id' is missing.");
-      return NextResponse.json({ error: "Missing 'project.id' field." }, { status: 400 });
-    }
-
-    if (!project.title) {
-      console.error("❌ Validation Failed: 'project.title' is missing.");
-      return NextResponse.json({ error: "Missing 'project.title' field." }, { status: 400 });
-    }
-
-    if (!Array.isArray(project.images)) {
-      console.error("❌ Validation Failed: 'project.images' is not an array.");
-      return NextResponse.json({ error: "'project.images' must be an array." }, { status: 400 });
+    if (
+      !project ||
+      !project.id ||
+      !project.title ||
+      !project.country ||
+      !project.city ||
+      !Array.isArray(project.images)
+    ) {
+      return NextResponse.json({ error: "Invalid project data" }, { status: 400 });
     }
 
     const existingData = await redis.get("productDesignProjects");
@@ -72,7 +65,14 @@ export async function POST(req: NextRequest) {
     }
 
     const newProject: ProductDesignProject = {
-      ...project,
+      id: project.id,
+      type: "productDesign",
+      title: project.title,
+      country: project.country,
+      city: project.city,
+      material: project.material || "",
+      year: project.year || null,
+      useCase: project.useCase || "",
       images: project.images,
       icon: project.icon || "",
     };
@@ -80,33 +80,42 @@ export async function POST(req: NextRequest) {
     projects.push(newProject);
     await redis.set("productDesignProjects", JSON.stringify(projects));
 
-    console.log("✅ Project successfully added:", JSON.stringify(newProject, null, 2));
-    return NextResponse.json({ message: "Product design project added", project: newProject }, { status: 200 });
+    return NextResponse.json({ message: "Project added", project: newProject }, { status: 200 });
   } catch (err) {
-    console.error("❌ Error in POST Handler:", err);
-    return NextResponse.json({ error: "Failed to add product design project" }, { status: 500 });
+    console.error("❌ Error in POST:", err);
+    return NextResponse.json({ error: "Failed to add project" }, { status: 500 });
   }
 }
 
-
-// PUT: Update all product design projects
+// PUT: Replace all product design projects
 export async function PUT(req: NextRequest) {
   try {
     const { projects } = await req.json();
 
-    if (!Array.isArray(projects)) {
-      return NextResponse.json({ error: "Invalid format" }, { status: 400 });
+    if (
+      !Array.isArray(projects) ||
+      projects.some(
+        (p) =>
+          !p.id ||
+          !p.title ||
+          !p.country ||
+          !p.city ||
+       
+          !Array.isArray(p.images)
+      )
+    ) {
+      return NextResponse.json({ error: "Invalid project format" }, { status: 400 });
     }
 
     await redis.set("productDesignProjects", JSON.stringify(projects));
-    return NextResponse.json({ message: "Product design projects updated" }, { status: 200 });
+    return NextResponse.json({ message: "Projects updated" }, { status: 200 });
   } catch (error) {
     console.error("❌ Error in PUT:", error);
-    return NextResponse.json({ error: "Failed to update product design projects" }, { status: 500 });
+    return NextResponse.json({ error: "Failed to update projects" }, { status: 500 });
   }
 }
 
-// DELETE: Delete a product design project
+// DELETE: Remove a specific project
 export async function DELETE(req: NextRequest) {
   try {
     const { id, icon } = await req.json();
@@ -127,7 +136,6 @@ export async function DELETE(req: NextRequest) {
       return NextResponse.json({ error: "Project not found" }, { status: 404 });
     }
 
-    // Delete project images
     for (const img of projectToDelete.images) {
       if (img && !img.includes("/placeholder.png")) {
         try {
@@ -139,7 +147,6 @@ export async function DELETE(req: NextRequest) {
       }
     }
 
-    // Delete icon if present
     if (icon && !icon.includes("/placeholder.png")) {
       try {
         console.log(`🧹 Deleting icon blob: ${icon}`);
@@ -152,9 +159,9 @@ export async function DELETE(req: NextRequest) {
     const updated = projects.filter((p) => p.id !== id);
     await redis.set("productDesignProjects", JSON.stringify(updated));
 
-    return NextResponse.json({ message: "Product design project deleted" }, { status: 200 });
+    return NextResponse.json({ message: "Project deleted" }, { status: 200 });
   } catch (error) {
     console.error("❌ Error in DELETE:", error);
-    return NextResponse.json({ error: "Failed to delete product design project" }, { status: 500 });
+    return NextResponse.json({ error: "Failed to delete project" }, { status: 500 });
   }
 }

@@ -1,31 +1,42 @@
 "use client";
+
 import { useEffect, useState } from "react";
 import { ImageUpload, MultipleImagesUpload } from "@/components/imageUpload";
 
 interface ProductDesignItem {
   id: number;
   title: string;
-  description: string;
-  category: string;
   images: string[];
   icon?: string;
+  year?: number;
+  country?: string;
+  city?: string;
+  material?: string;
+  useCase?: string;
 }
 
 export default function ProductDesignContentPanel({ isActive }: { isActive: boolean }) {
   const [title, setTitle] = useState("");
-  const [description, setDescription] = useState("");
-  const [category, setCategory] = useState("furniture");
   const [icon, setIcon] = useState<string>("");
   const [images, setImages] = useState<string[]>([]);
   const [items, setItems] = useState<ProductDesignItem[]>([]);
   const [editingId, setEditingId] = useState<number | null>(null);
 
+  const [year, setYear] = useState<number | undefined>(undefined);
+  const [country, setCountry] = useState("");
+  const [city, setCity] = useState("");
+  const [material, setMaterial] = useState("");
+  const [useCase, setUseCase] = useState("");
+
   const resetForm = () => {
     setTitle("");
-    setDescription("");
-    setCategory("furniture");
-    setImages([]);
     setIcon("");
+    setImages([]);
+    setYear(undefined);
+    setCountry("");
+    setCity("");
+    setMaterial("");
+    setUseCase("");
     setEditingId(null);
   };
 
@@ -36,10 +47,10 @@ export default function ProductDesignContentPanel({ isActive }: { isActive: bool
         const res = await fetch("/api/productdesign");
         const data = await res.json();
         if (res.ok && Array.isArray(data.projects)) {
-            setItems(data.projects);
-          } else {
-            console.error("❌ Unexpected response:", data);
-          }          
+          setItems(data.projects);
+        } else {
+          console.error("❌ Unexpected response:", data);
+        }
       } catch (err) {
         console.error("❌ Error fetching items:", err);
       }
@@ -48,18 +59,21 @@ export default function ProductDesignContentPanel({ isActive }: { isActive: bool
   }, [isActive]);
 
   const handleSubmit = async () => {
-    if (!title || !description || images.length === 0) {
+    if (!title || images.length === 0) {
       alert("Please fill in all required fields.");
       return;
     }
 
-    const item = {
+    const item: ProductDesignItem = {
       id: editingId ?? Date.now(),
       title,
-      description,
-      category,
       images,
       icon,
+      year,
+      country,
+      city,
+      material,
+      useCase,
     };
 
     try {
@@ -67,7 +81,6 @@ export default function ProductDesignContentPanel({ isActive }: { isActive: bool
         method: editingId ? "PUT" : "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ project: item }),
-
       });
 
       if (res.ok) {
@@ -121,37 +134,63 @@ export default function ProductDesignContentPanel({ isActive }: { isActive: bool
       <h2 className="text-[#FFF3DF] text-xl font-basica">
         {editingId ? "Edit Product" : "Add New Product"}
       </h2>
+
       <div className="bg-[#5c4b4a] p-4 mt-4 text-black">
+        {/* FORM INPUTS */}
         <label className="block mb-1 font-minecraft text-sm text-[#FFF3DF]">Title</label>
         <input
           type="text"
-          placeholder="Title"
           value={title}
           onChange={(e) => setTitle(e.target.value)}
           className="w-full p-2 border border-gray-400 rounded-md mb-2"
         />
-        <label className="block mb-1 font-minecraft text-sm text-[#FFF3DF]">Description</label>
-        <textarea
-          placeholder="Description"
-          value={description}
-          onChange={(e) => setDescription(e.target.value)}
-          rows={4}
+
+        
+
+        <label className="block mb-1 font-minecraft text-sm text-[#FFF3DF]">Year</label>
+        <input
+          type="number"
+          value={year ?? ""}
+          onChange={(e) => setYear(Number(e.target.value))}
           className="w-full p-2 border border-gray-400 rounded-md mb-2"
         />
-        <label className="block mb-1 font-minecraft text-sm text-[#FFF3DF]">Category</label>
-        <select
-          value={category}
-          onChange={(e) => setCategory(e.target.value)}
+
+        <label className="block mb-1 font-minecraft text-sm text-[#FFF3DF]">Country</label>
+        <input
+          type="text"
+          value={country}
+          onChange={(e) => setCountry(e.target.value)}
           className="w-full p-2 border border-gray-400 rounded-md mb-2"
-        >
-          <option value="furniture">Furniture</option>
-          <option value="electronics">Electronics</option>
-          <option value="wearables">Wearables</option>
-          <option value="others">Others</option>
-        </select>
+        />
+
+        <label className="block mb-1 font-minecraft text-sm text-[#FFF3DF]">City</label>
+        <input
+          type="text"
+          value={city}
+          onChange={(e) => setCity(e.target.value)}
+          className="w-full p-2 border border-gray-400 rounded-md mb-2"
+        />
+
+        <label className="block mb-1 font-minecraft text-sm text-[#FFF3DF]">Material</label>
+        <input
+          type="text"
+          value={material}
+          onChange={(e) => setMaterial(e.target.value)}
+          className="w-full p-2 border border-gray-400 rounded-md mb-2"
+        />
+
+        <label className="block mb-1 font-minecraft text-sm text-[#FFF3DF]">Use Case</label>
+        <input
+          type="text"
+          value={useCase}
+          onChange={(e) => setUseCase(e.target.value)}
+          className="w-full p-2 border border-gray-400 rounded-md mb-2"
+        />
+
         <label className="block mb-1 font-minecraft text-sm text-[#FFF3DF]">Icon</label>
         <ImageUpload onUpload={setIcon} currentImage={icon} type="icon" />
-        <label className="block mb-1 font-minecraft text-sm text-[#FFF3DF]">Product Images</label>
+
+        <label className="block mb-1 font-minecraft text-sm text-[#FFF3DF]">Images</label>
         <MultipleImagesUpload onUpload={setImages} currentImages={images} />
 
         <div className="flex items-center gap-4 mt-4">
@@ -159,47 +198,57 @@ export default function ProductDesignContentPanel({ isActive }: { isActive: bool
             onClick={handleSubmit}
             className="bg-green-600 text-white py-2 px-4 rounded-md"
           >
-            {editingId ? "Update Product" : "Add New Product"}
+            {editingId ? "Update Product" : "Add Product Design project"}
           </button>
           {editingId && (
-            <button
-              onClick={resetForm}
-              className="text-red-500 underline text-sm"
-            >
+            <button onClick={resetForm} className="text-red-500 underline text-sm">
               Cancel Edit
             </button>
           )}
         </div>
       </div>
 
+      {/* ITEMS LIST */}
       {items.length > 0 && (
         <div className="mt-6 space-y-4">
           {items.map((item) => (
-            <div key={item.id} className="bg-gray-800 text-white p-4 rounded-md shadow-md">
+            <div
+              key={item.id}
+              className="bg-gray-800 text-white p-4 rounded-md shadow-md"
+            >
               {Array.isArray(item.images) && (
                 <div className="grid grid-cols-2 gap-2 mb-2">
-                  {item.images.map((img: string, i: number) => (
+                  {item.images.map((img, i) => (
                     <img
                       key={i}
                       src={img}
-                      alt={`image ${i}`}
+                      alt={`Image ${i}`}
                       className="w-full h-32 object-cover rounded-md"
                     />
                   ))}
                 </div>
               )}
               <h4 className="text-lg font-bold">{item.title}</h4>
-              <p className="text-sm text-gray-400">{item.category}</p>
-              <p className="text-gray-300 mt-2">{item.description}</p>
+              <p className="text-sm text-gray-400">
+                {item.year && `🗓 ${item.year}`} {item.city && `📍 ${item.city}`}, {item.country}
+              </p>
+              <p className="text-sm text-gray-400">
+                {item.material && `🧱 ${item.material}`} {item.useCase && ` · 🧰 ${item.useCase}`}
+              </p>
+              
+
               <div className="flex gap-2 mt-3">
                 <button
                   className="bg-yellow-400 text-black py-1 px-3 rounded-md"
                   onClick={() => {
                     setTitle(item.title);
-                    setDescription(item.description);
-                    setCategory(item.category);
                     setIcon(item.icon || "");
                     setImages(item.images);
+                    setYear(item.year);
+                    setCountry(item.country || "");
+                    setCity(item.city || "");
+                    setMaterial(item.material || "");
+                    setUseCase(item.useCase || "");
                     setEditingId(item.id);
                   }}
                 >

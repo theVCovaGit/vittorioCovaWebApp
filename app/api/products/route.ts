@@ -121,7 +121,7 @@ export async function POST(req: NextRequest) {
       console.log("✅ Product stored in Redis:", newProduct);
 
       return NextResponse.json(
-        { message: "Product added successfully", product: newProduct },
+        { message: "Product design project added successfully", product: newProduct },
         { status: 200 }
       );
     }

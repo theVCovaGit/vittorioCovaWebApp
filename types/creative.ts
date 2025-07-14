@@ -16,13 +16,16 @@ export type ArchitectureProject = CreativeProjectBase & {
   year?: number;
 };
 
-// ✅ Product Design
+// Product Design
 export type ProductDesignProject = CreativeProjectBase & {
   type: "productDesign";
-  description: string;
-  category: string;
+  year?: number;
+  country?: string;
+  city?: string;
   material?: string;
+  useCase?: string;
 };
+
 
 // Art
 export type ArtProject = CreativeProjectBase & {
