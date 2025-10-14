@@ -52,32 +52,28 @@ export default function SignatureAnimation() {
           fill="none"
           xmlns="http://www.w3.org/2000/svg"
         >
-          { (i === 2 || i === 1) ? (
-            <Component />
-            ) : (
-            <>
-                <defs>
-                <clipPath id={`clip-signature-${i}`}>
-                    <motion.rect
-                    initial={{ height: 0 }}
-                    animate={{ height: 104 }}
-                    transition={{
-                        duration: animationTimings[i].duration,
-                        delay: animationTimings[i].delay,
-                        ease: "easeInOut",
-                    }}
-                    x="0"
-                    y="0"
-                    width="300"
-                    height="104"
-                    />
-                </clipPath>
-                </defs>
-                <g clipPath={`url(#clip-signature-${i})`}>
-                <Component />
-                </g>
-            </>
-            )}
+          <>
+            <defs>
+              <clipPath id={`clip-signature-${i}`}>
+                <motion.rect
+                  initial={{ height: 0 }}
+                  animate={{ height: 104 }}
+                  transition={{
+                    duration: animationTimings[i].duration,
+                    delay: animationTimings[i].delay,
+                    ease: "easeInOut",
+                  }}
+                  x="0"
+                  y="0"
+                  width="300"
+                  height="104"
+                />
+              </clipPath>
+            </defs>
+            <g clipPath={`url(#clip-signature-${i})`}>
+              <Component />
+            </g>
+          </>
 
 
         </motion.svg>
