@@ -31,6 +31,7 @@ export default {
         microextend: ['"MicroExtendFLF-Bold"', 'sans-serif'],
       },
       spacing: {
+        30: "7.5rem",      // 120px - for left-30
         72: "18rem",
         84: "21rem",
         96: "24rem",
