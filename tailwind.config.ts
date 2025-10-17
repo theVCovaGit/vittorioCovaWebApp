@@ -28,6 +28,7 @@ export default {
         electrolize: ['"Electrolize"', 'sans-serif'],
         barrel: ['"Barrel"', 'sans-serif'],
         minecraft: ['"Minecraft"', 'sans-serif'],
+        microextend: ['"MicroExtendFLF-Bold"', 'sans-serif'],
       },
       spacing: {
         72: "18rem",

@@ -3,8 +3,8 @@
 @tailwind utilities;
 
 @font-face {
-  font-family: "Basica";
-  src: url("/fonts/Basica.ttf") format("truetype");
+  font-family: "MicroExtendFLF-Bold";
+  src: url("/fonts/MicroExtendFLF-Bold.ttf") format("truetype");
   font-weight: 400;
   font-style: normal;
 }
