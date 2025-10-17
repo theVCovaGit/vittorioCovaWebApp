@@ -7,7 +7,7 @@ import SnugBarcode from "@/components/snugBarcode";
 
 export default function Footer() {
   const pathname = usePathname();
-  const isFooterPage = ["/about", "/contact", "/history"].includes(pathname);
+  const isFooterPage = ["/about", "/contact", "/news"].includes(pathname);
 
   return (
     <footer className="fixed bottom-0 left-0 w-full bg-transparent font-minecraft z-50 pointer-events-auto px-4 sm:px-6 md:px-[4vw] pb-4 sm:pb-5 md:pb-6">
@@ -40,7 +40,7 @@ export default function Footer() {
                 ABOUT
               </Link>
               <span>/</span>
-              <span>HISTORY</span>
+              <span>NEWS</span>
             </div>
           </div>
         )}
