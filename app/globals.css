@@ -62,7 +62,7 @@ body {
 
 /* Custom cursor for all elements */
 * {
-  cursor: url('/assets/cursor.png'), auto;
+  cursor: url('/assets/cursor.png'), auto; /* Custom cursor */
 }
 
 /* Utility Classes for Headings */
