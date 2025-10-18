@@ -18,6 +18,14 @@ export default function Hero() {
 
   return (
     <div className="min-h-screen bg-[#5c4b4a] relative">
+      {/* Logo - positioned absolutely so it doesn't affect text flow */}
+      <div className="absolute top-32 left-30 px-8">
+        <img 
+          src="/logos/logoYellow.png" 
+          alt="Vittorio Cova Studio Logo" 
+          className="h-16 w-auto"
+        />
+      </div>
       {/* Main Content */}
       <div className="pt-64 left-30 px-8 relative">
         <div className="flex items-center">
@@ -36,4 +44,9 @@ export default function Hero() {
       </div>
     </div>
   );
-}
+  }
+
+
+
+
+
