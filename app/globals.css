@@ -61,8 +61,18 @@ body {
 }
 
 /* Custom cursor for all elements */
-* {
-  cursor: url('/assets/cursor.png'), auto; /* Custom cursor */
+*, *::before, *::after {
+  cursor: url('/assets/cursor.png'), auto !important; /* Custom cursor with !important */
+}
+
+/* Ensure custom cursor on interactive elements */
+a, button, input, select, textarea, [role="button"], [tabindex] {
+  cursor: url('/assets/cursor.png'), auto !important;
+}
+
+/* Override any browser default cursors */
+a:hover, button:hover, input:hover, select:hover, textarea:hover {
+  cursor: url('/assets/cursor.png'), auto !important;
 }
 
 /* Utility Classes for Headings */

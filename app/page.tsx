@@ -49,7 +49,7 @@ export default function Hero() {
             <div className="mb-2">
               <Link 
                 href="/architecture" 
-                className="text-[#fef4dc] font-microextend text-sm font-bold uppercase tracking-wide hover:opacity-80 transition-opacity duration-200 cursor-pointer no-underline"
+                className="text-[#fef4dc] font-microextend text-sm font-bold uppercase tracking-wide hover:opacity-80 transition-opacity duration-200 no-underline"
               >
                 ARCHITECTURE
               </Link>
@@ -57,7 +57,7 @@ export default function Hero() {
             <div className="mb-2">
               <Link 
                 href="/productdesign" 
-                className="text-[#fef4dc] font-microextend text-sm font-bold uppercase tracking-wide hover:opacity-80 transition-opacity duration-200 cursor-pointer no-underline"
+                className="text-[#fef4dc] font-microextend text-sm font-bold uppercase tracking-wide hover:opacity-80 transition-opacity duration-200 no-underline"
               >
                 PRODUCT DESIGN
               </Link>
@@ -65,7 +65,7 @@ export default function Hero() {
             <div className="mb-2">
               <Link 
                 href="/film" 
-                className="text-[#fef4dc] font-microextend text-sm font-bold uppercase tracking-wide hover:opacity-80 transition-opacity duration-200 cursor-pointer no-underline"
+                className="text-[#fef4dc] font-microextend text-sm font-bold uppercase tracking-wide hover:opacity-80 transition-opacity duration-200 no-underline"
               >
                 FILM
               </Link>
@@ -73,7 +73,7 @@ export default function Hero() {
             <div>
               <Link 
                 href="/art" 
-                className="text-[#fef4dc] font-microextend text-sm font-bold uppercase tracking-wide hover:opacity-80 transition-opacity duration-200 cursor-pointer no-underline"
+                className="text-[#fef4dc] font-microextend text-sm font-bold uppercase tracking-wide hover:opacity-80 transition-opacity duration-200 no-underline"
               >
                 ART
               </Link>
