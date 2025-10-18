@@ -60,18 +60,40 @@ body {
   cursor: url('/assets/cursor.png'), auto; /* Custom cursor */
 }
 
-/* Custom cursor for all elements */
-*, *::before, *::after {
-  cursor: url('/assets/cursor.png'), auto !important; /* Custom cursor with !important */
-}
-
-/* Ensure custom cursor on interactive elements */
-a, button, input, select, textarea, [role="button"], [tabindex] {
+/* Custom cursor for all elements - ULTRA ROBUST */
+*, *::before, *::after, *:hover, *:focus, *:active, *:visited {
   cursor: url('/assets/cursor.png'), auto !important;
 }
 
-/* Override any browser default cursors */
-a:hover, button:hover, input:hover, select:hover, textarea:hover {
+/* Ensure custom cursor on ALL interactive elements */
+a, button, input, select, textarea, [role="button"], [tabindex], 
+div, span, p, h1, h2, h3, h4, h5, h6, img, svg, path, rect, circle, 
+header, main, footer, section, article, nav, aside, 
+ul, ol, li, table, tr, td, th, form, label, fieldset, legend {
+  cursor: url('/assets/cursor.png'), auto !important;
+}
+
+/* Override ALL possible cursor states */
+a:hover, a:focus, a:active, a:visited,
+button:hover, button:focus, button:active,
+input:hover, input:focus, input:active,
+select:hover, select:focus, select:active,
+textarea:hover, textarea:focus, textarea:active,
+div:hover, span:hover, p:hover, img:hover, svg:hover,
+header:hover, main:hover, footer:hover, section:hover,
+article:hover, nav:hover, aside:hover {
+  cursor: url('/assets/cursor.png'), auto !important;
+}
+
+/* Force cursor on body and html */
+html, body, body * {
+  cursor: url('/assets/cursor.png'), auto !important;
+}
+
+/* Override any Tailwind or framework cursor classes */
+.cursor-pointer, .cursor-default, .cursor-auto, .cursor-move, 
+.cursor-grab, .cursor-grabbing, .cursor-text, .cursor-wait,
+.cursor-help, .cursor-not-allowed, .cursor-none {
   cursor: url('/assets/cursor.png'), auto !important;
 }
 
