@@ -1,8 +1,16 @@
 "use client";
 
 import React from "react";
+import { usePathname } from "next/navigation";
 
 export default function Header() {
+  const pathname = usePathname();
+  
+  // Hide header on home page
+  if (pathname === "/") {
+    return null;
+  }
+
   return (
     <header className="fixed top-0 left-30 w-full z-50 bg-[#5c4b4a] h-20 flex items-center px-8">      <div className="flex items-center">
         <span className="text-[#fef4dc] font-microextend text-xl font-bold uppercase tracking-wide">
