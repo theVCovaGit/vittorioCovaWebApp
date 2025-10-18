@@ -44,7 +44,7 @@ export default function Hero() {
           </div>
           
           {/* Routes */}
-          <div className="ml-16 mt-2">
+          <div className="-ml-24 mt-10">
             <div className="mb-2">
               <span className="text-[#fef4dc] font-microextend text-sm font-bold uppercase tracking-wide">
                 ARCHITECTURE
