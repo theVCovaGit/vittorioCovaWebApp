@@ -19,7 +19,7 @@ export default function Hero() {
   return (
     <div className="min-h-screen bg-[#5c4b4a] relative">
       {/* Main Content */}
-      <div className="pt-32 left-30 px-8 relative">
+      <div className="pt-64 left-30 px-8 relative">
         <div className="flex items-center">
           <span className="text-[#fef4dc] font-microextend text-xl font-bold uppercase tracking-wide">
             VITTORIO COVA
