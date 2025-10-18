@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import Link from "next/link";
 import HeroAnimation from "@/components/heroAnimation";
 import SignatureAnimation from "@/components/signatureAnimation";
 
@@ -46,24 +47,36 @@ export default function Hero() {
           {/* Routes */}
           <div className="-ml-24 mt-10">
             <div className="mb-2">
-              <span className="text-[#fef4dc] font-microextend text-sm font-bold uppercase tracking-wide">
+              <Link 
+                href="/architecture" 
+                className="text-[#fef4dc] font-microextend text-sm font-bold uppercase tracking-wide hover:opacity-80 transition-opacity duration-200 cursor-pointer no-underline"
+              >
                 ARCHITECTURE
-              </span>
+              </Link>
             </div>
             <div className="mb-2">
-              <span className="text-[#fef4dc] font-microextend text-sm font-bold uppercase tracking-wide">
+              <Link 
+                href="/productdesign" 
+                className="text-[#fef4dc] font-microextend text-sm font-bold uppercase tracking-wide hover:opacity-80 transition-opacity duration-200 cursor-pointer no-underline"
+              >
                 PRODUCT DESIGN
-              </span>
+              </Link>
             </div>
-            <div className="flex items-center mb-2">
-              <span className="text-[#fef4dc] font-microextend text-sm font-bold uppercase tracking-wide">
+            <div className="mb-2">
+              <Link 
+                href="/film" 
+                className="text-[#fef4dc] font-microextend text-sm font-bold uppercase tracking-wide hover:opacity-80 transition-opacity duration-200 cursor-pointer no-underline"
+              >
                 FILM
-              </span>
+              </Link>
             </div>
-            <div className="flex items-center">
-              <span className="text-[#fef4dc] font-microextend text-sm font-bold uppercase tracking-wide">
+            <div>
+              <Link 
+                href="/art" 
+                className="text-[#fef4dc] font-microextend text-sm font-bold uppercase tracking-wide hover:opacity-80 transition-opacity duration-200 cursor-pointer no-underline"
+              >
                 ART
-              </span>
+              </Link>
             </div>
           </div>
         </div>
