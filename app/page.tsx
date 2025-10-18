@@ -49,7 +49,7 @@ export default function Hero() {
             <div className="mb-2 group relative">
               <Link 
                 href="/architecture" 
-                className="text-[#fef4dc] font-microextend text-sm font-bold uppercase tracking-wide hover:opacity-80 transition-opacity duration-200 no-underline"
+                className="text-[#fef4dc] font-microextend text-sm font-bold uppercase tracking-wide no-underline"
               >
                 ARCHITECTURE
               </Link>
@@ -62,7 +62,7 @@ export default function Hero() {
             <div className="mb-2 group relative">
               <Link 
                 href="/productdesign" 
-                className="text-[#fef4dc] font-microextend text-sm font-bold uppercase tracking-wide hover:opacity-80 transition-opacity duration-200 no-underline"
+                className="text-[#fef4dc] font-microextend text-sm font-bold uppercase tracking-wide no-underline"
               >
                 PRODUCT DESIGN
               </Link>
@@ -75,7 +75,7 @@ export default function Hero() {
             <div className="mb-2 group relative">
               <Link 
                 href="/film" 
-                className="text-[#fef4dc] font-microextend text-sm font-bold uppercase tracking-wide hover:opacity-80 transition-opacity duration-200 no-underline"
+                className="text-[#fef4dc] font-microextend text-sm font-bold uppercase tracking-wide no-underline"
               >
                 FILM
               </Link>
@@ -88,7 +88,7 @@ export default function Hero() {
             <div className="group relative">
               <Link 
                 href="/art" 
-                className="text-[#fef4dc] font-microextend text-sm font-bold uppercase tracking-wide hover:opacity-80 transition-opacity duration-200 no-underline"
+                className="text-[#fef4dc] font-microextend text-sm font-bold uppercase tracking-wide no-underline"
               >
                 ART
               </Link>
