@@ -57,6 +57,12 @@ body {
   padding: 0;
   line-height: 1.6;
   overflow-x: hidden; /* Prevent horizontal scrolling issues */
+  cursor: url('/assets/cursor.png'), auto; /* Custom cursor */
+}
+
+/* Custom cursor for all elements */
+* {
+  cursor: url('/assets/cursor.png'), auto;
 }
 
 /* Utility Classes for Headings */
