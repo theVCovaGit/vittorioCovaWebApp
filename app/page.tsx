@@ -46,22 +46,22 @@ export default function Hero() {
           {/* Routes */}
           <div className="ml-16 mt-2">
             <div className="mb-2">
-              <span className="text-[#fef4dc] font-microextend text-lg font-bold uppercase tracking-wide">
+              <span className="text-[#fef4dc] font-microextend text-sm font-bold uppercase tracking-wide">
                 ARCHITECTURE
               </span>
             </div>
             <div className="mb-2">
-              <span className="text-[#fef4dc] font-microextend text-lg font-bold uppercase tracking-wide">
+              <span className="text-[#fef4dc] font-microextend text-sm font-bold uppercase tracking-wide">
                 PRODUCT DESIGN
               </span>
             </div>
             <div className="flex items-center mb-2">
-              <span className="text-[#fef4dc] font-microextend text-lg font-bold uppercase tracking-wide">
+              <span className="text-[#fef4dc] font-microextend text-sm font-bold uppercase tracking-wide">
                 FILM
               </span>
             </div>
             <div className="flex items-center">
-              <span className="text-[#fef4dc] font-microextend text-lg font-bold uppercase tracking-wide">
+              <span className="text-[#fef4dc] font-microextend text-sm font-bold uppercase tracking-wide">
                 ART
               </span>
             </div>
