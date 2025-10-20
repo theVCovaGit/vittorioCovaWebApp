@@ -4,7 +4,7 @@ import { useState } from "react";
 interface ImageUploadProps {
   onUpload: (url: string) => void;
   currentImage?: string;
-  type?: "product" | "blog" | "icon"; // ✅ Add "icon"
+  type?: "product" | "blog" | "icon";
 }
 
 
@@ -178,7 +178,7 @@ const MultipleImagesUpload = ({
           <button
             onClick={handlePrevPage}
             disabled={currentPage <= 1}
-            className="px-2 py-1 text-sm border border-gray-300 rounded disabled:opacity-50 disabled:cursor-not-allowed hover:bg-gray-50 font-microextend"
+            className="px-2 py-1 text-sm bg-transparent border border-gray-300 rounded disabled:opacity-50 disabled:cursor-not-allowed hover:bg-gray-50 font-microextend"
           >
             &lt;
           </button>
@@ -191,7 +191,7 @@ const MultipleImagesUpload = ({
           />
           <button
             onClick={handleNextPage}
-            className="px-2 py-1 text-sm border border-gray-300 rounded hover:bg-gray-50 font-microextend"
+            className="px-2 py-1 text-sm bg-transparent border border-gray-300 rounded hover:bg-gray-50 font-microextend"
           >
             &gt;
           </button>
