@@ -168,7 +168,7 @@ export default function CreativePageLayoutMobile({
           )}
 
           {/* Project Description */}
-          {expandedProject.description && (
+          {expandedProject.type === "art" && expandedProject.description && (
             <div className="px-4 pt-6">
               <p className="text-sm text-[#fef4dc] leading-relaxed">
                 {expandedProject.description}
