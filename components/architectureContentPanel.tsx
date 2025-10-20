@@ -137,7 +137,7 @@ export default function ArchitectureContentPanel({ isActive }: { isActive: boole
 
   return (
     <div className="mt-6">
-      <h2 className="text-[#FFF3DF] text-xl font-basica">
+      <h2 className="text-[#FFF3DF] text-xl font-microextend">
         {editingId ? "Edit project" : "Add new project"}
       </h2>
       <div className="bg-[#5c4b4a] p-4 mt-4 text-black">
@@ -193,7 +193,7 @@ export default function ArchitectureContentPanel({ isActive }: { isActive: boole
         <div className="flex items-center gap-4 mt-4">
           <button
             onClick={handleSubmit}
-            className="bg-green-600 text-white py-2 px-4 rounded-md"
+            className="bg-green-600 text-white py-2 px-4 rounded-md font-microextend"
           >
             {editingId ? "Actualizar" : "Publicar Proyecto"}
           </button>
@@ -224,14 +224,14 @@ export default function ArchitectureContentPanel({ isActive }: { isActive: boole
                   ))}
                 </div>
               )}
-              <h4 className="text-lg font-bold">{project.title}</h4>
+              <h4 className="text-lg font-bold font-microextend">{project.title}</h4>
               <p className="text-sm text-gray-400">{project.category}</p>
               <p className="text-gray-300 mt-2">
                 {project.city}, {project.country} {project.year && `· ${project.year}`}
               </p>
               <div className="flex gap-2 mt-3">
                 <button
-                  className="bg-yellow-400 text-black py-1 px-3 rounded-md"
+                  className="bg-yellow-400 text-black py-1 px-3 rounded-md font-microextend"
                   onClick={() => {
                     setTitle(project.title);
                     setCountry(project.country);
@@ -247,7 +247,7 @@ export default function ArchitectureContentPanel({ isActive }: { isActive: boole
                   Edit
                 </button>
                 <button
-                  className="bg-red-600 text-white py-1 px-3 rounded-md"
+                  className="bg-red-600 text-white py-1 px-3 rounded-md font-microextend"
                   onClick={() => handleDelete(project.id)}
                 >
                   Delete
