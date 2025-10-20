@@ -26,7 +26,7 @@ const AdminPage = () => {
     return (
       <div className="flex items-center justify-center h-screen">
         <div className="w-96 p-6 bg-transparent text-white">
-          <h1 className="text-2xl font-basica mb-4 text-center">Admin Login</h1>
+          <h1 className="text-2xl font-microextend mb-4 text-center">Admin Login</h1>
           <input
             type="password"
             value={password}
@@ -36,7 +36,7 @@ const AdminPage = () => {
           />
           <button
             onClick={handleLogin}
-            className="w-full font-basica bg-transparent text-white py-2 px-4 rounded-md"
+            className="w-full font-microextend bg-transparent text-white py-2 px-4 rounded-md"
           >
             Login
           </button>
@@ -47,30 +47,30 @@ const AdminPage = () => {
 
   return (
     <div className="min-h-screen bg-[#5c4b4a] text-[#19333F] px-6 md:px-12 lg:px-24 mt-[10rem] sm:mt-[12rem] md:mt-[14rem] pb-28 sm:pb-32">
-      <h1 className="font-basica text-[#FFF3DF] text-2xl font-bold">Welcome back Vittorio</h1>
+      <h1 className="font-microextend text-[#FFF3DF] text-2xl font-bold">Welcome back Vittorio</h1>
       
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-4">
         <button
           onClick={() => setActivePanel("architecture")}
-          className="font-basica bg-black text-white py-3 px-6 rounded-md"
+          className="font-microextend bg-black text-white py-3 px-6 rounded-md"
         >
           Architecture
         </button>
         <button
           onClick={() => setActivePanel("productdesign")}
-          className="font-basica bg-black text-white py-3 px-6 rounded-md"
+          className="font-microextend bg-black text-white py-3 px-6 rounded-md"
         >
           Product Design
         </button>
         <button
           onClick={() => setActivePanel("art")}
-          className="font-basica bg-black text-white py-3 px-6 rounded-md"
+          className="font-microextend bg-black text-white py-3 px-6 rounded-md"
         >
           Art
         </button>
         <button
           onClick={() => setActivePanel("film")}
-          className="font-basica bg-black text-white py-3 px-6 rounded-md"
+          className="font-microextend bg-black text-white py-3 px-6 rounded-md"
         >
           Film
         </button>
