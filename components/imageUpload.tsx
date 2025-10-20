@@ -12,6 +12,8 @@ interface MultipleImagesUploadProps {
   onUpload: (urls: string[]) => void;
   currentImages?: string[];
   type?: "product" | "blog";
+  currentPage?: number;
+  onPageChange?: (page: number) => void;
 }
 
 const ImageUpload = ({ onUpload, currentImage, type = "product" }: ImageUploadProps) => {
@@ -91,7 +93,12 @@ const ImageUpload = ({ onUpload, currentImage, type = "product" }: ImageUploadPr
   );
 };
 
-const MultipleImagesUpload = ({ onUpload, currentImages = [] }: MultipleImagesUploadProps) => {
+const MultipleImagesUpload = ({ 
+  onUpload, 
+  currentImages = [], 
+  currentPage = 1, 
+  onPageChange
+}: MultipleImagesUploadProps) => {
   const [loading, setLoading] = useState(false);
   const [files, setFiles] = useState<(File | null)[]>(Array(9).fill(null));
 
@@ -148,8 +155,49 @@ const MultipleImagesUpload = ({ onUpload, currentImages = [] }: MultipleImagesUp
     }
   };
 
+  const handlePrevPage = () => {
+    if (currentPage > 1 && onPageChange) {
+      onPageChange(currentPage - 1);
+    }
+  };
+
+  const handleNextPage = () => {
+    if (onPageChange) {
+      onPageChange(currentPage + 1);
+    }
+  };
+
   return (
     <div className="mt-4">
+      {/* Pagination Controls */}
+      <div className="flex justify-between items-center mb-2">
+        <div className="text-sm text-gray-400 font-microextend">
+          Page {currentPage}
+        </div>
+        <div className="flex items-center space-x-2">
+          <button
+            onClick={handlePrevPage}
+            disabled={currentPage <= 1}
+            className="px-2 py-1 text-sm border border-gray-300 rounded disabled:opacity-50 disabled:cursor-not-allowed hover:bg-gray-50 font-microextend"
+          >
+            &lt;
+          </button>
+          <input
+            type="number"
+            min="1"
+            value={currentPage}
+            onChange={(e) => onPageChange?.(parseInt(e.target.value) || 1)}
+            className="w-12 px-1 py-1 text-center border border-gray-300 rounded text-sm font-microextend"
+          />
+          <button
+            onClick={handleNextPage}
+            className="px-2 py-1 text-sm border border-gray-300 rounded hover:bg-gray-50 font-microextend"
+          >
+            &gt;
+          </button>
+        </div>
+      </div>
+      
       <div className="w-full h-64 border border-gray-300 rounded-md relative">
         <div className="grid grid-cols-3 grid-rows-3 gap-1 h-full">
           {previews.map((preview, index) => (

@@ -24,6 +24,7 @@ export default function ArchitectureContentPanel({ isActive }: { isActive: boole
   const [images, setImages] = useState<string[]>([]);
   const [projects, setProjects] = useState<ArchitectureProject[]>([]);
   const [editingId, setEditingId] = useState<number | null>(null);
+  const [currentPage, setCurrentPage] = useState(1);
 
   const resetForm = () => {
     setTitle("");
@@ -33,6 +34,7 @@ export default function ArchitectureContentPanel({ isActive }: { isActive: boole
     setCategory("");
     setImages([]);
     setEditingId(null);
+    setCurrentPage(1);
   };
 
   // GET: Fetch all projects
@@ -188,7 +190,12 @@ export default function ArchitectureContentPanel({ isActive }: { isActive: boole
         <label className="block mb-1 font-minecraft text-sm text-[#FFF3DF]">Icon</label>
         <ImageUpload onUpload={setIcon} currentImage={icon} type="icon" />
         <label className="block mb-1 font-minecraft text-sm text-[#FFF3DF]">Project images</label>
-        <MultipleImagesUpload onUpload={setImages} currentImages={images} />
+        <MultipleImagesUpload 
+          onUpload={setImages} 
+          currentImages={images} 
+          currentPage={currentPage}
+          onPageChange={setCurrentPage}
+        />
 
         <div className="flex items-center gap-4 mt-4">
           <button
