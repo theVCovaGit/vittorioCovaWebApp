@@ -67,15 +67,6 @@ export default function HeroMobile() {
             ART
           </Link>
         </div>
-
-        {/* Store Link */}
-        <Link 
-          href="/store" 
-          className="mt-8 text-[#FACC15] font-microextend text-sm font-bold uppercase tracking-wide no-underline
-            px-8 py-2"
-        >
-          STORE
-        </Link>
       </div>
     </div>
   );
