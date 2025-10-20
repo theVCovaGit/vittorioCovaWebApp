@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
 import { Poppins } from "next/font/google";
 import "./globals.css";
-import Header from "@/components/header";
-import Footer from "@/components/footer";
+import HeaderWrapper from "@/components/headerWrapper";
+import FooterWrapper from "@/components/footerWrapper";
 import { CartProvider } from "../context/CartContext";
 import { IconDisplayProvider } from "@/context/IconDisplayContext";
 import { TransitionProvider } from "@/context/TransitionContext";
@@ -31,18 +31,18 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${poppins.variable} min-h-screen flex flex-col font-poppins`}>
-        <TransitionProvider> {/* ✅ Add This */}
+        <TransitionProvider>
           <IconDisplayProvider>
             <CartProvider>
               <CartDrawer />
-              <Header />
+              <HeaderWrapper />
               <main className="flex-1 flex flex-col overflow-y-auto">
                 {children}
               </main>
-              <Footer />
+              <FooterWrapper />
             </CartProvider>
           </IconDisplayProvider>
-        </TransitionProvider> {/* ✅ Close Here */}
+        </TransitionProvider>
       </body>
     </html>
   );

@@ -1,0 +1,88 @@
+"use client";
+
+import Link from "next/link";
+
+export default function HeroMobile() {
+  return (
+    <div className="min-h-screen bg-[#5c4b4a] relative overflow-hidden flex flex-col">
+      {/* Logo */}
+      <div className="absolute top-8 left-4 px-4">
+        <img 
+          src="/logos/logoYellow.png" 
+          alt="Vittorio Cova Studio Logo" 
+          className="h-12 w-auto"
+        />
+      </div>
+
+      {/* Main Content - Centered */}
+      <div className="flex-1 flex flex-col items-center justify-center px-6 pb-20">
+        {/* Studio Name */}
+        <div className="flex flex-col items-center mb-12">
+          <div className="flex items-center mb-2">
+            <span className="text-[#fef4dc] font-microextend text-lg font-bold uppercase tracking-wide">
+              VITTORIO COVA
+            </span>
+          </div>
+          <div className="flex items-center">
+            <svg width="60" height="3" viewBox="0 0 60 3" className="mr-2">
+              <rect x="0" y="0" width="60" height="2" fill="#FACC15"/>
+            </svg>
+            <span className="text-[#FACC15] font-microextend text-lg font-bold uppercase tracking-wide">
+              STUDIO
+            </span>
+          </div>
+        </div>
+        
+        {/* Navigation Links */}
+        <div className="flex flex-col items-center space-y-6 w-full">
+          <Link 
+            href="/architecture" 
+            className="text-[#fef4dc] font-microextend text-xl font-bold uppercase tracking-wide no-underline
+              border-2 border-[#fef4dc] w-full max-w-xs py-4 text-center
+              hover:bg-[#fef4dc] hover:text-[#5c4b4a] transition-all duration-300"
+          >
+            ARCHITECTURE
+          </Link>
+          
+          <Link 
+            href="/productdesign" 
+            className="text-[#fef4dc] font-microextend text-xl font-bold uppercase tracking-wide no-underline
+              border-2 border-[#fef4dc] w-full max-w-xs py-4 text-center
+              hover:bg-[#fef4dc] hover:text-[#5c4b4a] transition-all duration-300"
+          >
+            PRODUCT DESIGN
+          </Link>
+          
+          <Link 
+            href="/film" 
+            className="text-[#fef4dc] font-microextend text-xl font-bold uppercase tracking-wide no-underline
+              border-2 border-[#fef4dc] w-full max-w-xs py-4 text-center
+              hover:bg-[#fef4dc] hover:text-[#5c4b4a] transition-all duration-300"
+          >
+            FILM
+          </Link>
+          
+          <Link 
+            href="/art" 
+            className="text-[#fef4dc] font-microextend text-xl font-bold uppercase tracking-wide no-underline
+              border-2 border-[#fef4dc] w-full max-w-xs py-4 text-center
+              hover:bg-[#fef4dc] hover:text-[#5c4b4a] transition-all duration-300"
+          >
+            ART
+          </Link>
+        </div>
+
+        {/* Store Link */}
+        <Link 
+          href="/store" 
+          className="mt-8 text-[#FACC15] font-microextend text-sm font-bold uppercase tracking-wide no-underline
+            border border-[#FACC15] px-8 py-2
+            hover:bg-[#FACC15] hover:text-[#5c4b4a] transition-all duration-300"
+        >
+          STORE
+        </Link>
+      </div>
+    </div>
+  );
+}
+

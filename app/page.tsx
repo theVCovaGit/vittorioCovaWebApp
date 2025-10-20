@@ -1,9 +1,18 @@
 "use client";
 
 import Link from "next/link";
+import { useIsMobile } from "@/hooks/useMediaQuery";
+import HeroMobile from "@/components/heroMobile";
 
 export default function Hero() {
+  const isMobile = useIsMobile();
 
+  // Mobile version
+  if (isMobile) {
+    return <HeroMobile />;
+  }
+
+  // Desktop version (original)
   return (
     <div className="min-h-screen bg-[#5c4b4a] relative overflow-hidden">
       {/* Logo - positioned absolutely so it doesn't affect text flow */}
