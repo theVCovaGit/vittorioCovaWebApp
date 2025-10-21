@@ -46,7 +46,7 @@ export async function GET() {
       country: p.country,
       city: p.city,
       material: p.material || "",
-      year: p.year || null,
+      year: p.year ?? undefined,
       useCase: p.use_case || "",
       images: p.images || [],
       icon: p.icon || ""
@@ -90,7 +90,7 @@ export async function POST(req: NextRequest) {
       country: newProject.country,
       city: newProject.city,
       material: newProject.material || "",
-      year: newProject.year || null,
+      year: newProject.year ?? undefined,
       useCase: newProject.use_case || "",
       images: newProject.images || [],
       icon: newProject.icon || ""
