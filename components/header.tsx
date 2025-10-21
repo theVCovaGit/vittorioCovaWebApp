@@ -2,6 +2,7 @@
 
 import React from "react";
 import { usePathname } from "next/navigation";
+import Link from "next/link";
 
 export default function Header() {
   const pathname = usePathname();
@@ -12,7 +13,8 @@ export default function Header() {
   }
 
   return (
-    <header className="fixed top-0 left-0 w-full z-50 bg-[#5c4b4a] h-20 flex items-center px-8">      <div className="flex items-center">
+    <header className="fixed top-0 left-0 w-full z-50 bg-[#5c4b4a] h-20 flex items-center px-8">
+      <Link href="/" className="flex items-center no-underline cursor-pointer">
         <span className="text-[#fef4dc] font-microextend text-xl font-bold uppercase tracking-wide">
           VITTORIO COVA
         </span>
@@ -24,7 +26,7 @@ export default function Header() {
         <span className="text-[#FACC15] font-microextend text-xl font-bold uppercase tracking-wide">
           STUDIO
         </span>
-      </div>
+      </Link>
     </header>
   );
 }
