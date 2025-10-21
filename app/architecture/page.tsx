@@ -16,18 +16,18 @@ interface ArchitectureProject {
   page?: number;
 }
 
-// Position mapping for 3x3 grid inside the scroll
+// Position mapping for 3x3 grid inside the scroll with symmetric spacing
 const getPositionStyles = (position: number) => {
   const positions = {
-    1: "top-[15%] left-[10%]",      // Top-left
-    2: "top-[15%] left-[50%]",      // Top-center  
-    3: "top-[15%] right-[10%]",     // Top-right
+    1: "top-[20%] left-[10%]",      // Top-left
+    2: "top-[20%] left-[50%]",      // Top-center  
+    3: "top-[20%] right-[10%]",     // Top-right
     4: "top-[50%] left-[10%]",      // Middle-left
     5: "top-[50%] left-[50%]",      // Center
     6: "top-[50%] right-[10%]",     // Middle-right
-    7: "bottom-[15%] left-[10%]",   // Bottom-left
-    8: "bottom-[15%] left-[50%]",   // Bottom-center
-    9: "bottom-[15%] right-[10%]"   // Bottom-right
+    7: "top-[80%] left-[10%]",      // Bottom-left
+    8: "top-[80%] left-[50%]",      // Bottom-center
+    9: "top-[80%] right-[10%]"      // Bottom-right
   };
   return positions[position as keyof typeof positions] || positions[1];
 };
