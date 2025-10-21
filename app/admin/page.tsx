@@ -26,7 +26,7 @@ const AdminPage = () => {
     return (
       <div className="flex items-center justify-center h-screen">
         <div className="w-96 p-6 bg-transparent text-white">
-          <h1 className="text-2xl font-microextend mb-4 text-center">Admin Login</h1>
+          <h1 className="text-2xl font-microextend mb-4 text-center"></h1>
           <input
             type="password"
             value={password}
@@ -52,25 +52,25 @@ const AdminPage = () => {
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-4">
         <button
           onClick={() => setActivePanel("architecture")}
-          className="font-microextend bg-black text-white py-3 px-6 rounded-md"
+          className="font-microextend bg-[#5c4b4a] border-2 border-black text-white py-3 px-6 rounded-md"
         >
           Architecture
         </button>
         <button
           onClick={() => setActivePanel("productdesign")}
-          className="font-microextend bg-black text-white py-3 px-6 rounded-md"
+          className="font-microextend bg-[#5c4b4a] border-2 border-black text-white py-3 px-6 rounded-md"
         >
           Product Design
         </button>
         <button
           onClick={() => setActivePanel("art")}
-          className="font-microextend bg-black text-white py-3 px-6 rounded-md"
+          className="font-microextend bg-[#5c4b4a] border-2 border-black text-white py-3 px-6 rounded-md"
         >
           Art
         </button>
         <button
           onClick={() => setActivePanel("film")}
-          className="font-microextend bg-black text-white py-3 px-6 rounded-md"
+          className="font-microextend bg-[#5c4b4a] border-2 border-black text-white py-3 px-6 rounded-md"
         >
           Film
         </button>
