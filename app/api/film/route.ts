@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { del } from "@vercel/blob";
-import { sql } from "@/lib/db";
+import { sql, ensureTableExists } from "@/lib/db";
 
 interface FilmProject {
   id: number;
@@ -18,6 +18,9 @@ interface FilmProject {
 // GET: Fetch all film projects
 export async function GET() {
   try {
+    // Ensure table exists before querying
+    await ensureTableExists('film_projects');
+    
     const projects = await sql`
       SELECT * FROM film_projects 
       ORDER BY created_at DESC
@@ -51,6 +54,9 @@ export async function POST(req: NextRequest) {
     if (!project || !project.title || !Array.isArray(project.images)) {
       return NextResponse.json({ error: "Invalid project data" }, { status: 400 });
     }
+
+    // Ensure table exists before inserting
+    await ensureTableExists('film_projects');
 
     const [newProject] = await sql`
       INSERT INTO film_projects (title, country, city, category, year, images, icon)
