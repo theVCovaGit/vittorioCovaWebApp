@@ -12,6 +12,8 @@ interface ArchitectureProject {
   year?: string;
   images: string[];
   icon?: string;
+  position?: number;
+  page?: number;
 }
 
 // GET: Fetch all architecture projects
@@ -34,7 +36,9 @@ export async function GET() {
       category: p.category,
       year: p.year || "",
       images: p.images || [],
-      icon: p.icon || ""
+      icon: p.icon || "",
+      position: p.position || 1,
+      page: p.page || 1
     }));
     
     return NextResponse.json({ projects: formattedProjects }, { status: 200 });
@@ -64,8 +68,8 @@ export async function POST(req: NextRequest) {
     await ensureTableExists('architecture_projects');
 
     const [newProject] = await sql`
-      INSERT INTO architecture_projects (title, country, city, category, year, images, icon)
-      VALUES (${project.title}, ${project.country}, ${project.city}, ${project.category}, ${project.year || ""}, ${project.images}, ${project.icon || ""})
+      INSERT INTO architecture_projects (title, country, city, category, year, images, icon, position, page)
+      VALUES (${project.title}, ${project.country}, ${project.city}, ${project.category}, ${project.year || ""}, ${project.images}, ${project.icon || ""}, ${project.position || 1}, ${project.page || 1})
       RETURNING *
     `;
 
@@ -78,7 +82,9 @@ export async function POST(req: NextRequest) {
       category: newProject.category,
       year: newProject.year || "",
       images: newProject.images || [],
-      icon: newProject.icon || ""
+      icon: newProject.icon || "",
+      position: newProject.position || 1,
+      page: newProject.page || 1
     };
 
     return NextResponse.json({ message: "Project added", project: formattedProject }, { status: 200 });

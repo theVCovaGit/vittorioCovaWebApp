@@ -26,6 +26,8 @@ export default function ArchitectureContentPanel({ isActive }: { isActive: boole
   const [projects, setProjects] = useState<ArchitectureProject[]>([]);
   const [editingId, setEditingId] = useState<number | null>(null);
   const [currentPage, setCurrentPage] = useState(1);
+  const [position, setPosition] = useState<number>(1);
+  const [page, setPage] = useState<number>(1);
 
   const resetForm = () => {
     setTitle("");
@@ -34,6 +36,8 @@ export default function ArchitectureContentPanel({ isActive }: { isActive: boole
     setYear("");
     setCategory("");
     setImages([]);
+    setPosition(1);
+    setPage(1);
     setEditingId(null);
     setCurrentPage(1);
   };
@@ -75,6 +79,8 @@ export default function ArchitectureContentPanel({ isActive }: { isActive: boole
       year,
       images,
       icon,
+      position,
+      page,
     };
     
 
@@ -200,10 +206,10 @@ export default function ArchitectureContentPanel({ isActive }: { isActive: boole
 
         <label className="block mb-1 font-minecraft text-sm text-[#FFF3DF] mt-4">Project position</label>
         <ProjectPosition 
-          onPositionSelect={(position) => console.log('Selected position:', position)}
-          currentPosition={1}
-          currentPage={1}
-          onPageChange={(page) => console.log('Page changed:', page)}
+          onPositionSelect={setPosition}
+          currentPosition={position}
+          currentPage={page}
+          onPageChange={setPage}
         />
 
         <div className="flex items-center gap-4 mt-4">

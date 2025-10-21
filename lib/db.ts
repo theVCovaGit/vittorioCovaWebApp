@@ -24,6 +24,8 @@ export async function ensureTableExists(tableName: string) {
             year VARCHAR(10),
             images TEXT[],
             icon VARCHAR(500),
+            position INTEGER DEFAULT 1,
+            page INTEGER DEFAULT 1,
             created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
             updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
           )
@@ -42,6 +44,8 @@ export async function ensureTableExists(tableName: string) {
             images TEXT[],
             icon VARCHAR(500),
             collection VARCHAR(255),
+            position INTEGER DEFAULT 1,
+            page INTEGER DEFAULT 1,
             created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
             updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
           )
@@ -59,6 +63,8 @@ export async function ensureTableExists(tableName: string) {
             year VARCHAR(10),
             images TEXT[],
             icon VARCHAR(500),
+            position INTEGER DEFAULT 1,
+            page INTEGER DEFAULT 1,
             created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
             updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
           )
@@ -77,6 +83,8 @@ export async function ensureTableExists(tableName: string) {
             use_case VARCHAR(500),
             images TEXT[],
             icon VARCHAR(500),
+            position INTEGER DEFAULT 1,
+            page INTEGER DEFAULT 1,
             created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
             updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
           )
