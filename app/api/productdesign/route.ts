@@ -66,7 +66,7 @@ export async function POST(req: NextRequest) {
 
     const [newProject] = await sql`
       INSERT INTO productdesign_projects (title, country, city, material, year, use_case, images, icon)
-      VALUES (${project.title}, ${project.country}, ${project.city}, ${project.material || ""}, ${project.year || null}, ${project.useCase || ""}, ${JSON.stringify(project.images)}, ${project.icon || ""})
+      VALUES (${project.title}, ${project.country}, ${project.city}, ${project.material || ""}, ${project.year || null}, ${project.useCase || ""}, ${project.images}, ${project.icon || ""})
       RETURNING *
     `;
 
@@ -115,7 +115,7 @@ export async function PUT(req: NextRequest) {
     for (const project of projects) {
       await sql`
         INSERT INTO productdesign_projects (id, title, country, city, material, year, use_case, images, icon)
-        VALUES (${project.id}, ${project.title}, ${project.country}, ${project.city}, ${project.material || ""}, ${project.year || null}, ${project.useCase || ""}, ${JSON.stringify(project.images)}, ${project.icon || ""})
+        VALUES (${project.id}, ${project.title}, ${project.country}, ${project.city}, ${project.material || ""}, ${project.year || null}, ${project.useCase || ""}, ${project.images}, ${project.icon || ""})
       `;
     }
 

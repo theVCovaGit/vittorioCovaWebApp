@@ -60,7 +60,7 @@ export async function POST(req: NextRequest) {
 
     const [newProject] = await sql`
       INSERT INTO film_projects (title, country, city, category, year, images, icon)
-      VALUES (${project.title}, ${project.countries?.[0] || ""}, ${project.cities?.[0] || ""}, ${project.category || ""}, ${project.releaseYear || ""}, ${JSON.stringify(project.images)}, ${project.icon || ""})
+      VALUES (${project.title}, ${project.countries?.[0] || ""}, ${project.cities?.[0] || ""}, ${project.category || ""}, ${project.releaseYear || ""}, ${project.images}, ${project.icon || ""})
       RETURNING *
     `;
 
@@ -103,7 +103,7 @@ export async function PUT(req: NextRequest) {
     for (const project of projects) {
       await sql`
         INSERT INTO film_projects (id, title, country, city, category, year, images, icon)
-        VALUES (${project.id}, ${project.title}, ${project.countries?.[0] || ""}, ${project.cities?.[0] || ""}, ${project.category || ""}, ${project.releaseYear || ""}, ${JSON.stringify(project.images)}, ${project.icon || ""})
+        VALUES (${project.id}, ${project.title}, ${project.countries?.[0] || ""}, ${project.cities?.[0] || ""}, ${project.category || ""}, ${project.releaseYear || ""}, ${project.images}, ${project.icon || ""})
       `;
     }
     

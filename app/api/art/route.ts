@@ -67,7 +67,7 @@ export async function POST(req: NextRequest) {
 
     const [newProject] = await sql`
       INSERT INTO art_projects (title, country, city, category, year, images, icon, collection)
-      VALUES (${project.title}, ${project.country}, ${project.city}, ${project.discipline}, ${project.year || ""}, ${JSON.stringify(project.images)}, ${project.icon || ""}, ${project.collection || ""})
+      VALUES (${project.title}, ${project.country}, ${project.city}, ${project.discipline}, ${project.year || ""}, ${project.images}, ${project.icon || ""}, ${project.collection || ""})
       RETURNING *
     `;
 
@@ -117,7 +117,7 @@ export async function PUT(req: NextRequest) {
     for (const project of projects) {
       await sql`
         INSERT INTO art_projects (id, title, country, city, category, year, images, icon, collection)
-        VALUES (${project.id}, ${project.title}, ${project.country}, ${project.city}, ${project.discipline}, ${project.year || ""}, ${JSON.stringify(project.images)}, ${project.icon || ""}, ${project.collection || ""})
+        VALUES (${project.id}, ${project.title}, ${project.country}, ${project.city}, ${project.discipline}, ${project.year || ""}, ${project.images}, ${project.icon || ""}, ${project.collection || ""})
       `;
     }
 
