@@ -13,16 +13,26 @@ export default function Architecture() {
           WebkitOverflowScrolling: 'touch'
         }}
       >
-        {/* Film Strip SVG */}
+        {/* Architecture Scroll with Tape */}
         <div className="relative w-full h-full flex">
+          <div className="relative flex-shrink-0">
+            <img 
+              src="/assets/scroll.svg" 
+              alt="Architecture Scroll" 
+              className="h-full w-auto object-contain"
+            />
+            
+            {/* Single tape at upper left corner */}
+            <img 
+              src="/assets/tape2.svg" 
+              alt="Tape" 
+              className="absolute top-2 left-2 w-48 h-16 opacity-80 transform rotate-[-5deg]"
+            />
+          </div>
+          
           <img 
             src="/assets/scroll.svg" 
-            alt="Film Strip" 
-            className="h-full w-auto object-contain flex-shrink-0"
-          />
-          <img 
-            src="/assets/scroll.svg" 
-            alt="Film Strip" 
+            alt="Architecture Scroll" 
             className="h-full w-auto object-contain flex-shrink-0"
           />
         </div>
