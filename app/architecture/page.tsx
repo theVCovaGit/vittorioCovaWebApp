@@ -5,7 +5,7 @@ export default function Architecture() {
     <div className="min-h-screen bg-[#fff5e0] relative overflow-visible">
       {/* Film Strip Container */}
       <div 
-        className="film-strip-container absolute top-1/2 left-0 transform -translate-y-1/2 w-screen h-[700px] overflow-x-scroll overflow-y-visible scrollbar-hide"
+        className="film-strip-container absolute top-[48.3%] left-0 transform -translate-y-1/2 w-screen h-[700px] overflow-x-scroll overflow-y-visible scrollbar-hide"
         style={{ 
           scrollBehavior: 'smooth',
           scrollbarWidth: 'none',
