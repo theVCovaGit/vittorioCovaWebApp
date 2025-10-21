@@ -12,6 +12,8 @@ interface ArchitectureProject {
   year?: string;
   images: string[];
   icon?: string;
+  position?: number;
+  page?: number;
 }
 
 
