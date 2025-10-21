@@ -15,6 +15,19 @@ interface ArtProject {
   collection?: string;
 }
 
+interface ArtProjectRow {
+  id: number;
+  title: string;
+  icon: string;
+  images: string[];
+  year: string;
+  country: string;
+  city: string;
+  category: string;
+  collection: string;
+  created_at?: string;
+}
+
 // GET: Fetch all art projects
 export async function GET() {
   try {
@@ -26,7 +39,7 @@ export async function GET() {
       ORDER BY created_at DESC
     `;
     
-    const formattedProjects: ArtProject[] = projects.map((p: any) => ({
+    const formattedProjects: ArtProject[] = projects.map((p: ArtProjectRow) => ({
       id: p.id,
       type: "art" as const,
       title: p.title,

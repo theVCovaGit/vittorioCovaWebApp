@@ -16,6 +16,20 @@ interface ArchitectureProject {
   page?: number;
 }
 
+interface ArchitectureProjectRow {
+  id: number;
+  title: string;
+  country: string;
+  city: string;
+  category: string;
+  year: string;
+  images: string[];
+  icon: string;
+  position: number;
+  page: number;
+  created_at?: string;
+}
+
 // GET: Fetch all architecture projects
 export async function GET() {
   try {
@@ -27,7 +41,7 @@ export async function GET() {
       ORDER BY created_at DESC
     `;
     
-    const formattedProjects: ArchitectureProject[] = projects.map((p: any) => ({
+    const formattedProjects: ArchitectureProject[] = projects.map((p: ArchitectureProjectRow) => ({
       id: p.id,
       type: "architecture" as const,
       title: p.title,

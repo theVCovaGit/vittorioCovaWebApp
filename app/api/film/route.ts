@@ -15,6 +15,21 @@ interface FilmProject {
   category?: string; // e.g. short film, full film, etc.
 }
 
+interface FilmProjectRow {
+  id: number;
+  title: string;
+  icon: string;
+  images: string[];
+  year: string;
+  countries: string[];
+  cities: string[];
+  genre: string;
+  category: string;
+  country?: string;
+  city?: string;
+  created_at?: string;
+}
+
 // GET: Fetch all film projects
 export async function GET() {
   try {
@@ -26,7 +41,7 @@ export async function GET() {
       ORDER BY created_at DESC
     `;
     
-    const formattedProjects: FilmProject[] = projects.map((p: any) => ({
+    const formattedProjects: FilmProject[] = projects.map((p: FilmProjectRow) => ({
       id: p.id,
       type: "film" as const,
       title: p.title,

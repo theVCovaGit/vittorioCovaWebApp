@@ -15,6 +15,19 @@ interface ProductDesignProject {
   icon?: string;
 }
 
+interface ProductDesignProjectRow {
+  id: number;
+  title: string;
+  country: string;
+  city: string;
+  material: string;
+  year: number | null;
+  use_case: string;
+  images: string[];
+  icon: string;
+  created_at?: string;
+}
+
 // GET: Fetch all product design projects
 export async function GET() {
   try {
@@ -26,7 +39,7 @@ export async function GET() {
       ORDER BY created_at DESC
     `;
     
-    const formattedProjects: ProductDesignProject[] = projects.map((p: any) => ({
+    const formattedProjects: ProductDesignProject[] = projects.map((p: ProductDesignProjectRow) => ({
       id: p.id,
       type: "productDesign" as const,
       title: p.title,

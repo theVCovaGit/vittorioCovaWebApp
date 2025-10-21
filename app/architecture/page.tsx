@@ -34,7 +34,7 @@ const getPositionStyles = (position: number) => {
 
 export default function Architecture() {
   const [projects, setProjects] = useState<ArchitectureProject[]>([]);
-  const [currentPage, setCurrentPage] = useState(1);
+  const [currentPage] = useState(1);
 
   // Fetch projects from API
   useEffect(() => {
