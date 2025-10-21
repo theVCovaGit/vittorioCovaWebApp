@@ -16,6 +16,7 @@ const ProjectPosition = ({
   onPageChange
 }: ProjectPositionProps) => {
   const [selectedPosition, setSelectedPosition] = useState<number>(currentPosition);
+  const [page, setPage] = useState<number>(currentPage);
 
   const handlePositionClick = (position: number) => {
     setSelectedPosition(position);
@@ -25,14 +26,29 @@ const ProjectPosition = ({
   };
 
   const handlePrevPage = () => {
-    if (currentPage > 1 && onPageChange) {
-      onPageChange(currentPage - 1);
+    if (page > 1) {
+      const newPage = page - 1;
+      setPage(newPage);
+      if (onPageChange) {
+        onPageChange(newPage);
+      }
     }
   };
 
   const handleNextPage = () => {
+    const newPage = page + 1;
+    setPage(newPage);
     if (onPageChange) {
-      onPageChange(currentPage + 1);
+      onPageChange(newPage);
+    }
+  };
+
+  const handlePageInputChange = (newPage: number) => {
+    if (newPage >= 1) {
+      setPage(newPage);
+      if (onPageChange) {
+        onPageChange(newPage);
+      }
     }
   };
 
@@ -41,12 +57,12 @@ const ProjectPosition = ({
       {/* Pagination Controls */}
       <div className="flex justify-between items-center mb-2">
         <div className="text-sm text-gray-400 font-microextend">
-          Page {currentPage}
+          Page {page}
         </div>
         <div className="flex items-center space-x-2">
           <button
             onClick={handlePrevPage}
-            disabled={currentPage <= 1}
+            disabled={page <= 1}
             className="px-2 py-1 text-sm bg-transparent border border-gray-300 rounded disabled:opacity-50 disabled:cursor-not-allowed hover:bg-gray-50 font-microextend"
           >
             &lt;
@@ -54,8 +70,8 @@ const ProjectPosition = ({
           <input
             type="number"
             min="1"
-            value={currentPage}
-            onChange={(e) => onPageChange?.(parseInt(e.target.value) || 1)}
+            value={page}
+            onChange={(e) => handlePageInputChange(parseInt(e.target.value) || 1)}
             className="w-12 px-1 py-1 text-center border border-gray-300 rounded text-sm font-microextend"
           />
           <button
