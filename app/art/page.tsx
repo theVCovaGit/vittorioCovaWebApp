@@ -19,11 +19,13 @@ export default function Art() {
             src="/assets/papyrus.svg" 
             alt="Film Strip" 
             className="h-full w-auto object-contain flex-shrink-0"
+            style={{ transform: 'scaleY(1.8)' }}
           />
           <img 
             src="/assets/papyrus.svg" 
             alt="Film Strip" 
             className="h-full w-auto object-contain flex-shrink-0"
+            style={{ transform: 'scaleY(1.8)' }}
           />
         </div>
       </div>
