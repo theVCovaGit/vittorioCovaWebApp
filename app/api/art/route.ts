@@ -1,8 +1,6 @@
-import { Redis } from "@upstash/redis";
 import { NextRequest, NextResponse } from "next/server";
 import { del } from "@vercel/blob";
-
-const redis = Redis.fromEnv();
+import { sql } from "@/lib/db";
 
 interface ArtProject {
   id: number;
@@ -20,19 +18,25 @@ interface ArtProject {
 // GET: Fetch all art projects
 export async function GET() {
   try {
-    const data = await redis.get("artProjects");
-    let projects: ArtProject[] = [];
-
-    if (typeof data === "string") {
-      const parsed = JSON.parse(data);
-      projects = Array.isArray(parsed)
-        ? parsed.map((p) => ({ ...p, type: "art" }))
-        : [];
-    } else if (Array.isArray(data)) {
-      projects = data.map((p) => ({ ...p, type: "art" }));
-    }
-
-    return NextResponse.json({ projects }, { status: 200 });
+    const projects = await sql`
+      SELECT * FROM art_projects 
+      ORDER BY created_at DESC
+    `;
+    
+    const formattedProjects: ArtProject[] = projects.map((p: any) => ({
+      id: p.id,
+      type: "art" as const,
+      title: p.title,
+      icon: p.icon || "",
+      images: p.images || [],
+      year: p.year || "",
+      country: p.country,
+      city: p.city,
+      discipline: p.category, // mapping category to discipline
+      collection: p.collection || ""
+    }));
+    
+    return NextResponse.json({ projects: formattedProjects }, { status: 200 });
   } catch (error) {
     console.error("❌ Error fetching art projects:", error);
     return NextResponse.json({ error: "Failed to fetch projects" }, { status: 500 });
@@ -46,7 +50,6 @@ export async function POST(req: NextRequest) {
 
     if (
       !project ||
-      !project.id ||
       !project.title ||
       !Array.isArray(project.images) ||
       !project.country ||
@@ -56,32 +59,26 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: "Invalid project data" }, { status: 400 });
     }
 
-    const existingData = await redis.get("artProjects");
-    let projects: ArtProject[] = [];
+    const [newProject] = await sql`
+      INSERT INTO art_projects (title, country, city, category, year, images, icon, collection)
+      VALUES (${project.title}, ${project.country}, ${project.city}, ${project.discipline}, ${project.year || ""}, ${JSON.stringify(project.images)}, ${project.icon || ""}, ${project.collection || ""})
+      RETURNING *
+    `;
 
-    if (typeof existingData === "string") {
-      projects = JSON.parse(existingData);
-    } else if (Array.isArray(existingData)) {
-      projects = existingData;
-    }
-
-    const newProject: ArtProject = {
-      id: project.id,
+    const formattedProject: ArtProject = {
+      id: newProject.id,
       type: "art",
-      title: project.title,
-      icon: project.icon || "",
-      images: project.images,
-      year: project.year || "",
-      country: project.country,
-      city: project.city,
-      discipline: project.discipline,
-      collection: project.collection || "",
+      title: newProject.title,
+      icon: newProject.icon || "",
+      images: newProject.images || [],
+      year: newProject.year || "",
+      country: newProject.country,
+      city: newProject.city,
+      discipline: newProject.category,
+      collection: newProject.collection || ""
     };
 
-    projects.push(newProject);
-    await redis.set("artProjects", JSON.stringify(projects));
-
-    return NextResponse.json({ message: "Project added", project: newProject }, { status: 200 });
+    return NextResponse.json({ message: "Project added", project: formattedProject }, { status: 200 });
   } catch (err) {
     console.error("❌ Error in POST:", err);
     return NextResponse.json({ error: "Failed to add project" }, { status: 500 });
@@ -108,7 +105,16 @@ export async function PUT(req: NextRequest) {
       return NextResponse.json({ error: "Invalid project format" }, { status: 400 });
     }
 
-    await redis.set("artProjects", JSON.stringify(projects));
+    // Clear existing projects and insert new ones
+    await sql`DELETE FROM art_projects`;
+    
+    for (const project of projects) {
+      await sql`
+        INSERT INTO art_projects (id, title, country, city, category, year, images, icon, collection)
+        VALUES (${project.id}, ${project.title}, ${project.country}, ${project.city}, ${project.discipline}, ${project.year || ""}, ${JSON.stringify(project.images)}, ${project.icon || ""}, ${project.collection || ""})
+      `;
+    }
+
     return NextResponse.json({ message: "Projects updated" }, { status: 200 });
   } catch (error) {
     console.error("❌ Error in PUT:", error);
@@ -125,19 +131,17 @@ export async function DELETE(req: NextRequest) {
       return NextResponse.json({ error: "Invalid project ID" }, { status: 400 });
     }
 
-    const existingData = await redis.get("artProjects");
-    const projects: ArtProject[] = Array.isArray(existingData)
-      ? existingData
-      : typeof existingData === "string"
-      ? JSON.parse(existingData)
-      : [];
+    // Get project data before deletion for blob cleanup
+    const [projectToDelete] = await sql`
+      SELECT images FROM art_projects WHERE id = ${id}
+    `;
 
-    const projectToDelete = projects.find((p) => p.id === id);
     if (!projectToDelete) {
       return NextResponse.json({ error: "Project not found" }, { status: 404 });
     }
 
-    for (const img of projectToDelete.images) {
+    // Delete images
+    for (const img of projectToDelete.images || []) {
       if (img && !img.includes("/placeholder.png")) {
         try {
           console.log(`🧹 Deleting blob: ${img}`);
@@ -148,6 +152,7 @@ export async function DELETE(req: NextRequest) {
       }
     }
 
+    // Delete icon
     if (icon && !icon.includes("/placeholder.png")) {
       try {
         console.log(`🧹 Deleting icon blob: ${icon}`);
@@ -157,8 +162,8 @@ export async function DELETE(req: NextRequest) {
       }
     }
 
-    const updated = projects.filter((p) => p.id !== id);
-    await redis.set("artProjects", JSON.stringify(updated));
+    // Delete from database
+    await sql`DELETE FROM art_projects WHERE id = ${id}`;
 
     return NextResponse.json({ message: "Project deleted" }, { status: 200 });
   } catch (error) {

@@ -1,8 +1,6 @@
-import { Redis } from "@upstash/redis";
 import { NextRequest, NextResponse } from "next/server";
 import { del } from "@vercel/blob";
-
-const redis = Redis.fromEnv();
+import { sql } from "@/lib/db";
 
 interface FilmProject {
   id: number;
@@ -20,19 +18,25 @@ interface FilmProject {
 // GET: Fetch all film projects
 export async function GET() {
   try {
-    const data = await redis.get("filmProjects");
-    let projects: FilmProject[] = [];
-
-    if (typeof data === "string") {
-      const parsed = JSON.parse(data);
-      projects = Array.isArray(parsed)
-        ? parsed.map((p) => ({ ...p, type: "film" }))
-        : [];
-    } else if (Array.isArray(data)) {
-      projects = data.map((p) => ({ ...p, type: "film" }));
-    }
-
-    return NextResponse.json({ projects }, { status: 200 });
+    const projects = await sql`
+      SELECT * FROM film_projects 
+      ORDER BY created_at DESC
+    `;
+    
+    const formattedProjects: FilmProject[] = projects.map((p: any) => ({
+      id: p.id,
+      type: "film" as const,
+      title: p.title,
+      icon: p.icon || "",
+      images: p.images || [],
+      releaseYear: p.year || "",
+      countries: p.countries || [],
+      cities: p.cities || [],
+      genre: p.genre || "",
+      category: p.category || ""
+    }));
+    
+    return NextResponse.json({ projects: formattedProjects }, { status: 200 });
   } catch (error) {
     console.error("❌ Error fetching film projects:", error);
     return NextResponse.json({ error: "Failed to fetch projects" }, { status: 500 });
@@ -44,44 +48,30 @@ export async function POST(req: NextRequest) {
   try {
     const { project } = await req.json();
 
-    if (!project || !project.id || !project.title || !Array.isArray(project.images)) {
+    if (!project || !project.title || !Array.isArray(project.images)) {
       return NextResponse.json({ error: "Invalid project data" }, { status: 400 });
     }
 
-    const existingData = await redis.get("filmProjects");
-    let projects: FilmProject[] = [];
+    const [newProject] = await sql`
+      INSERT INTO film_projects (title, country, city, category, year, images, icon)
+      VALUES (${project.title}, ${project.countries?.[0] || ""}, ${project.cities?.[0] || ""}, ${project.category || ""}, ${project.releaseYear || ""}, ${JSON.stringify(project.images)}, ${project.icon || ""})
+      RETURNING *
+    `;
 
-    if (typeof existingData === "string") {
-      projects = JSON.parse(existingData);
-    } else if (Array.isArray(existingData)) {
-      projects = existingData;
-    }
-
-    const newProject: FilmProject = {
-      id: project.id,
+    const formattedProject: FilmProject = {
+      id: newProject.id,
       type: "film",
-      title: project.title,
-      icon: project.icon || "",
-      images: project.images,
-      releaseYear: project.releaseYear || "",
-      countries: Array.isArray(project.countries)
-        ? project.countries
-        : project.countries
-        ? [project.countries]
-        : [],
-      cities: Array.isArray(project.cities)
-        ? project.cities
-        : project.cities
-        ? [project.cities]
-        : [],
-      genre: project.genre || "",
-      category: project.category || "",
+      title: newProject.title,
+      icon: newProject.icon || "",
+      images: newProject.images || [],
+      releaseYear: newProject.year || "",
+      countries: newProject.country ? [newProject.country] : [],
+      cities: newProject.city ? [newProject.city] : [],
+      genre: newProject.genre || "",
+      category: newProject.category || ""
     };
 
-    projects.push(newProject);
-    await redis.set("filmProjects", JSON.stringify(projects));
-
-    return NextResponse.json({ message: "Project added", project: newProject }, { status: 200 });
+    return NextResponse.json({ message: "Project added", project: formattedProject }, { status: 200 });
   } catch (err) {
     console.error("❌ Error in POST:", err);
     return NextResponse.json({ error: "Failed to add project" }, { status: 500 });
@@ -101,22 +91,15 @@ export async function PUT(req: NextRequest) {
       return NextResponse.json({ error: "Invalid project format" }, { status: 400 });
     }
 
-    const cleanProjects: FilmProject[] = projects.map((p) => ({
-      ...p,
-      type: "film",
-      countries: Array.isArray(p.countries)
-        ? p.countries
-        : p.countries
-        ? [p.countries]
-        : [],
-      cities: Array.isArray(p.cities)
-        ? p.cities
-        : p.cities
-        ? [p.cities]
-        : [],
-    }));
+    // Clear existing projects and insert new ones
+    await sql`DELETE FROM film_projects`;
     
-    await redis.set("filmProjects", JSON.stringify(cleanProjects));
+    for (const project of projects) {
+      await sql`
+        INSERT INTO film_projects (id, title, country, city, category, year, images, icon)
+        VALUES (${project.id}, ${project.title}, ${project.countries?.[0] || ""}, ${project.cities?.[0] || ""}, ${project.category || ""}, ${project.releaseYear || ""}, ${JSON.stringify(project.images)}, ${project.icon || ""})
+      `;
+    }
     
     return NextResponse.json({ message: "Projects updated" }, { status: 200 });
   } catch (error) {
@@ -134,20 +117,17 @@ export async function DELETE(req: NextRequest) {
       return NextResponse.json({ error: "Invalid project ID" }, { status: 400 });
     }
 
-    const existingData = await redis.get("filmProjects");
-    const projects: FilmProject[] = Array.isArray(existingData)
-      ? existingData
-      : typeof existingData === "string"
-      ? JSON.parse(existingData)
-      : [];
+    // Get project data before deletion for blob cleanup
+    const [projectToDelete] = await sql`
+      SELECT images FROM film_projects WHERE id = ${id}
+    `;
 
-    const projectToDelete = projects.find((p) => p.id === id);
     if (!projectToDelete) {
       return NextResponse.json({ error: "Project not found" }, { status: 404 });
     }
 
     // Delete images
-    for (const img of projectToDelete.images) {
+    for (const img of projectToDelete.images || []) {
       if (img && !img.includes("/placeholder.png")) {
         try {
           console.log(`🧹 Deleting blob: ${img}`);
@@ -168,8 +148,8 @@ export async function DELETE(req: NextRequest) {
       }
     }
 
-    const updated = projects.filter((p) => p.id !== id);
-    await redis.set("filmProjects", JSON.stringify(updated));
+    // Delete from database
+    await sql`DELETE FROM film_projects WHERE id = ${id}`;
 
     return NextResponse.json({ message: "Project deleted" }, { status: 200 });
   } catch (error) {

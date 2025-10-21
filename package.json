@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@heroicons/react": "^2.2.0",
+    "@neondatabase/serverless": "^1.0.2",
     "@paypal/checkout-server-sdk": "^1.0.3",
     "@paypal/paypal-server-sdk": "^0.6.0",
     "@paypal/react-paypal-js": "^8.8.2",
