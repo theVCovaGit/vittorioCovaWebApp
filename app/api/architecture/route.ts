@@ -41,7 +41,7 @@ export async function GET() {
       ORDER BY created_at DESC
     `;
     
-    const formattedProjects: ArchitectureProject[] = projects.map((p: ArchitectureProjectRow) => ({
+    const formattedProjects: ArchitectureProject[] = (projects as ArchitectureProjectRow[]).map((p) => ({
       id: p.id,
       type: "architecture" as const,
       title: p.title,

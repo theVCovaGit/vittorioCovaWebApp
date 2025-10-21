@@ -41,7 +41,7 @@ export async function GET() {
       ORDER BY created_at DESC
     `;
     
-    const formattedProjects: FilmProject[] = projects.map((p: FilmProjectRow) => ({
+    const formattedProjects: FilmProject[] = (projects as FilmProjectRow[]).map((p) => ({
       id: p.id,
       type: "film" as const,
       title: p.title,
