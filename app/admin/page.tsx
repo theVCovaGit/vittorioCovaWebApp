@@ -31,7 +31,7 @@ const AdminPage = () => {
             type="password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
-            className="text-black w-full p-2 mb-4 border border-gray-600 rounded-md"
+            className="bg-transparent font-microextend text-black w-full p-2 mb-4 border border-gray-600 rounded-md"
             placeholder="Enter password"
           />
           <button
