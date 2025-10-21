@@ -53,6 +53,33 @@ export default function Architecture() {
               alt="Tape" 
               className="absolute -top-4 left-[15%] w-48 h-16 opacity-80 transform rotate-[-4deg] z-[9999]"
             />
+            
+            {/* Tapes positioned relative to the scroll - Below */}
+            <img 
+              src="/assets/tape7.svg" 
+              alt="Tape" 
+              className="absolute bottom-[-20px] left-[5%] w-48 h-16 opacity-80 transform rotate-[2deg] z-[9999]"
+            />
+            <img 
+              src="/assets/tape8.svg" 
+              alt="Tape" 
+              className="absolute bottom-[-20px] left-[25%] w-48 h-16 opacity-80 transform rotate-[-5deg] z-[9999]"
+            />
+            <img 
+              src="/assets/tape9.svg" 
+              alt="Tape" 
+              className="absolute bottom-[-20px] left-[45%] w-48 h-16 opacity-80 transform rotate-[4deg] z-[9999]"
+            />
+            <img 
+              src="/assets/tape10.svg" 
+              alt="Tape" 
+              className="absolute bottom-[-20px] left-[65%] w-48 h-16 opacity-80 transform rotate-[-2deg] z-[9999]"
+            />
+            <img 
+              src="/assets/tape11.svg" 
+              alt="Tape" 
+              className="absolute bottom-[-20px] left-[85%] w-48 h-16 opacity-80 transform rotate-[3deg] z-[9999]"
+            />
           </div>
           
           <img 
