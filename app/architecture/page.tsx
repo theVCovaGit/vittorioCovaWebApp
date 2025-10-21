@@ -3,11 +3,36 @@
 export default function Architecture() {
   return (
     <div className="min-h-screen bg-[#fff5e0] relative">
-      {/* Tape positioned outside the scroll container */}
+      {/* Tapes positioned outside the scroll container - Above */}
+      <img 
+        src="/assets/tape1.svg" 
+        alt="Tape" 
+        className="absolute top-[calc(50%-250px-48px)] left-[5%] w-48 h-16 opacity-80 transform rotate-[2deg] z-50"
+      />
       <img 
         src="/assets/tape2.svg" 
         alt="Tape" 
-        className="absolute top-[calc(50%-250px-48px)] left-2 w-48 h-16 opacity-80 transform rotate-[-5deg] z-50"
+        className="absolute top-[calc(50%-250px-48px)] left-[25%] w-48 h-16 opacity-80 transform rotate-[-5deg] z-50"
+      />
+      <img 
+        src="/assets/tape3.svg" 
+        alt="Tape" 
+        className="absolute top-[calc(50%-250px-48px)] left-[45%] w-48 h-16 opacity-80 transform rotate-[4deg] z-50"
+      />
+      <img 
+        src="/assets/tape4.svg" 
+        alt="Tape" 
+        className="absolute top-[calc(50%-250px-48px)] left-[65%] w-48 h-16 opacity-80 transform rotate-[-2deg] z-50"
+      />
+      <img 
+        src="/assets/tape5.svg" 
+        alt="Tape" 
+        className="absolute top-[calc(50%-250px-48px)] left-[85%] w-48 h-16 opacity-80 transform rotate-[3deg] z-50"
+      />
+      <img 
+        src="/assets/tape6.svg" 
+        alt="Tape" 
+        className="absolute top-[calc(50%-250px-48px)] left-[15%] w-48 h-16 opacity-80 transform rotate-[-4deg] z-50"
       />
       
       {/* Film Strip Container */}

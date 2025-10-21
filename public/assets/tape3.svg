@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg id="Layer_2" data-name="Layer 2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 17.79 50.27">
+  <defs>
+    <style>
+      .cls-1 {
+        fill: #ceccc7;
+        opacity: .48;
+      }
+    </style>
+  </defs>
+  <g id="TAPE">
+    <polygon class="cls-1" points="4.35 2.14 9.56 0 9.9 3.34 12.07 13.32 16.25 38.56 17.79 47.86 15.62 48.66 13.04 49.25 9.74 50.27 6.84 48.31 1.47 15.78 0 7.39 4.35 2.14"/>
+  </g>
+</svg>
