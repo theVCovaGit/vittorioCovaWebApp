@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { ImageUpload, MultipleImagesUpload } from "@/components/imageUpload";
+import ProjectPosition from "@/components/projectPosition";
 
 interface FilmProject {
   id: number;
@@ -200,6 +201,14 @@ export default function FilmContentPanel({ isActive }: { isActive: boolean }) {
 
         <label className="block font-minecraft text-sm text-[#FFF3DF] mb-1">Images</label>
         <MultipleImagesUpload onUpload={setImages} currentImages={images} />
+
+        <label className="block mb-1 font-minecraft text-sm text-[#FFF3DF] mt-4">Project position</label>
+        <ProjectPosition 
+          onPositionSelect={(position) => console.log('Selected position:', position)}
+          currentPosition={1}
+          currentPage={1}
+          onPageChange={(page) => console.log('Page changed:', page)}
+        />
 
         {/* Submit / Cancel */}
         <div className="flex items-center gap-4 mt-4">

@@ -1,6 +1,7 @@
 "use client";
 import { useEffect, useState } from "react";
 import {ImageUpload, MultipleImagesUpload} from "@/components/imageUpload";
+import ProjectPosition from "@/components/projectPosition";
 
 interface ArchitectureProject {
   id: number;
@@ -195,6 +196,14 @@ export default function ArchitectureContentPanel({ isActive }: { isActive: boole
           currentImages={images} 
           currentPage={currentPage}
           onPageChange={setCurrentPage}
+        />
+
+        <label className="block mb-1 font-minecraft text-sm text-[#FFF3DF] mt-4">Project position</label>
+        <ProjectPosition 
+          onPositionSelect={(position) => console.log('Selected position:', position)}
+          currentPosition={1}
+          currentPage={1}
+          onPageChange={(page) => console.log('Page changed:', page)}
         />
 
         <div className="flex items-center gap-4 mt-4">
