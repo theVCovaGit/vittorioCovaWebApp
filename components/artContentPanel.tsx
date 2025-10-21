@@ -197,9 +197,9 @@ export default function ArtContentPanel({ isActive }: { isActive: boolean }) {
         <div className="flex items-center gap-4 mt-4">
           <button
             onClick={handleSubmit}
-            className="bg-green-600 text-white py-2 px-4 rounded-md"
+            className="bg-transparent border-2 border-black text-white py-2 px-4 rounded-md"
           >
-            {editingId ? "Actualizar" : "Publicar Proyecto"}
+            {editingId ? "Actualizar" : "Submit"}
           </button>
           {editingId && (
             <button onClick={resetForm} className="text-red-500 underline text-sm">

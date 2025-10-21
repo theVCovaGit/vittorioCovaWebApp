@@ -200,9 +200,9 @@ export default function ArchitectureContentPanel({ isActive }: { isActive: boole
         <div className="flex items-center gap-4 mt-4">
           <button
             onClick={handleSubmit}
-            className="bg-green-600 text-white py-2 px-4 rounded-md font-microextend"
+            className="bg-transparent border-2 border-black text-white py-2 px-4 rounded-md font-microextend"
           >
-            {editingId ? "Actualizar" : "Publicar Proyecto"}
+            {editingId ? "Actualizar" : "Submit"}
           </button>
           {editingId && (
             <button
