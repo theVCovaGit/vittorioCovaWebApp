@@ -100,10 +100,10 @@ const MultipleImagesUpload = ({
   onPageChange
 }: MultipleImagesUploadProps) => {
   const [loading, setLoading] = useState(false);
-  const [files, setFiles] = useState<(File | null)[]>(Array(9).fill(null));
+  const [files, setFiles] = useState<(File | null)[]>(Array(6).fill(null));
 
   // Initialize previews with current images and fill the remaining slots with null
-  const initialPreviews = [...currentImages, ...Array(9 - currentImages.length).fill(null)];
+  const initialPreviews = [...currentImages, ...Array(6 - currentImages.length).fill(null)];
   const [previews, setPreviews] = useState<string[]>(initialPreviews);
 
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>, index: number) => {
@@ -199,7 +199,7 @@ const MultipleImagesUpload = ({
       </div>
       
       <div className="w-full h-64 border border-gray-300 rounded-md relative">
-        <div className="grid grid-cols-3 grid-rows-3 gap-1 h-full">
+        <div className="grid grid-cols-3 grid-rows-2 gap-1 h-full">
           {previews.map((preview, index) => (
             <div
               key={index}
