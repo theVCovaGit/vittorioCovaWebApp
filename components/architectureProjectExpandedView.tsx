@@ -66,8 +66,12 @@ export default function ArchitectureProjectExpandedView({
   }
 
   const handleClose = () => {
+    // Dispatch the close event first
     window.dispatchEvent(new CustomEvent('architecture-expanded-close'));
-    onClose();
+    // Add a small delay to ensure the event is processed
+    setTimeout(() => {
+      onClose();
+    }, 100);
   };
 
   return (
