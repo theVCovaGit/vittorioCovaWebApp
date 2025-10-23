@@ -99,6 +99,54 @@ export default function ArchitectureProjectExpandedView({
             </div>
           )}
         </div>
+
+        {/* Project Details Overlay */}
+        <div className="absolute top-20 left-0 right-0 bottom-0 pointer-events-none z-20">
+          {/* Project Name */}
+          <div className="absolute top-12 left-8">
+            <div className="text-[#FFD700] font-bold text-4xl tracking-wider">
+              {project.title.toUpperCase()}
+            </div>
+          </div>
+
+          {/* Year */}
+          <div className="absolute top-20 left-8">
+            <div className="text-[#FFD700] font-bold text-2xl">
+              {project.year || new Date().getFullYear()}
+            </div>
+          </div>
+
+          {/* Category */}
+          <div className="absolute top-12 right-8">
+            <div className="text-[#FFD700] font-bold text-xl tracking-wider">
+              {project.category.toUpperCase()}
+            </div>
+          </div>
+
+          {/* Location */}
+          <div className="absolute bottom-32 left-8">
+            <div className="text-[#FFD700] font-bold text-2xl">
+              {project.city.toUpperCase()}
+            </div>
+            <div className="text-[#FFD700] font-bold text-xl mt-1">
+              {project.country.toUpperCase()}
+            </div>
+          </div>
+
+          {/* Project Type */}
+          <div className="absolute bottom-20 left-8">
+            <div className="text-[#FFD700] font-bold text-lg">
+              {project.category.toUpperCase()}
+            </div>
+          </div>
+
+          {/* Navigation Footer */}
+          <div className="absolute bottom-8 right-8">
+            <div className="text-white text-lg font-medium opacity-80">
+              CONTACT / ABOUT / NEWS
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   );
