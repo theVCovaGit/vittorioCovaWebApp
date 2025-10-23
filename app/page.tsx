@@ -14,7 +14,7 @@ export default function Hero() {
 
   // Desktop version (original)
   return (
-    <div className="min-h-screen bg-[#5c4b4a] relative overflow-hidden">
+    <div className="min-h-screen bg-[#302120] relative overflow-hidden">
       {/* Logo - positioned absolutely so it doesn't affect text flow */}
       <div className="absolute top-32 left-[12vw] px-8">
         <img 
