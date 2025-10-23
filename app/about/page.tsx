@@ -23,7 +23,7 @@ const labelStyles = {
   
 export default function About() {
   return (
-    <main className="relative min-h-screen bg-[#5c4b4a] text-[#fef4dc] font-basica overflow-hidden">
+    <main className="relative min-h-screen bg-[#302120] text-[#fef4dc] font-basica overflow-hidden">
         
         <div
           className={`
@@ -53,7 +53,14 @@ export default function About() {
         fontSize={labelStyles.fontSize}
         />
 
-
+      {/* Fingie SVG - Right side, vertical middle */}
+      <div className="absolute right-[2vw] top-1/2 transform -translate-y-1/2 z-[1002]">
+        <img 
+          src="/assets/fingie.svg" 
+          alt="Fingie" 
+          className="w-auto h-[200px] sm:h-[250px] md:h-[300px]"
+        />
+      </div>
 
       {/* 🧱 Content Zone (stacked on top of SVG) */}
       <section className="relative z-10 px-4 sm:px-6 lg:px-12">
