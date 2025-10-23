@@ -30,12 +30,12 @@ export default function Hero() {
             <span className="text-[#fef4dc] font-microextend text-xl font-bold uppercase tracking-wide">
               VITTORIO COVA
             </span>
-            <span className="text-[#FACC15] font-microextend text-xl font-bold uppercase tracking-wide mx-2">
+            <span className="text-[#fdf053] font-microextend text-xl font-bold uppercase tracking-wide mx-2">
               <svg width="80" height="4" viewBox="0 0 80 4" className="inline-block">
-                <rect x="0" y="0" width="80" height="2" fill="#FACC15"/>
+                <rect x="0" y="0" width="80" height="2" fill="#fdf053"/>
               </svg>
             </span>
-            <span className="text-[#FACC15] font-microextend text-xl font-bold uppercase tracking-wide">
+            <span className="text-[#fdf053] font-microextend text-xl font-bold uppercase tracking-wide">
               STUDIO
             </span>
           </div>

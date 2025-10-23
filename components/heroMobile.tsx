@@ -25,9 +25,9 @@ export default function HeroMobile() {
           </div>
           <div className="flex items-center">
             <svg width="60" height="3" viewBox="0 0 60 3" className="mr-2">
-              <rect x="0" y="0" width="60" height="2" fill="#FACC15"/>
+              <rect x="0" y="0" width="60" height="2" fill="#fdf053"/>
             </svg>
-            <span className="text-[#FACC15] font-microextend text-lg font-bold uppercase tracking-wide">
+            <span className="text-[#fdf053] font-microextend text-lg font-bold uppercase tracking-wide">
               STUDIO
             </span>
           </div>
