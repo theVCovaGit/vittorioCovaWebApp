@@ -144,7 +144,10 @@ export default function Architecture() {
               >
                 <div 
                   className="relative w-full h-full bg-white rounded-lg shadow-lg border-2 border-gray-300 overflow-hidden hover:scale-105 transition-transform duration-200 cursor-pointer"
-                  onClick={() => setSelectedProjectId(project.id)}
+                  onClick={() => {
+                    setSelectedProjectId(project.id);
+                    window.dispatchEvent(new CustomEvent('architecture-expanded-open'));
+                  }}
                 >
                   {project.images && project.images.length > 0 && (
                     <img
@@ -174,7 +177,10 @@ export default function Architecture() {
       {selectedProjectId && (
         <ArchitectureProjectExpandedView
           projectId={selectedProjectId}
-          onClose={() => setSelectedProjectId(null)}
+          onClose={() => {
+            setSelectedProjectId(null);
+            window.dispatchEvent(new CustomEvent('architecture-expanded-close'));
+          }}
         />
       )}
     </div>

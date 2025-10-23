@@ -65,10 +65,15 @@ export default function ArchitectureProjectExpandedView({
     return null;
   }
 
+  const handleClose = () => {
+    window.dispatchEvent(new CustomEvent('architecture-expanded-close'));
+    onClose();
+  };
+
   return (
     <div 
       className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50"
-      onClick={onClose}
+      onClick={handleClose}
     >
       <div 
         className="relative w-full h-full max-w-7xl max-h-[90vh] bg-white overflow-hidden"

@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import SnugBarcode from "@/components/snugBarcode";
@@ -8,10 +8,24 @@ import SnugBarcode from "@/components/snugBarcode";
 export default function Footer() {
   const pathname = usePathname();
   const isFooterPage = ["/about", "/contact", "/news"].includes(pathname);
-  const isArchitecturePage = pathname === "/architecture";
+  const [isExpandedViewOpen, setIsExpandedViewOpen] = useState(false);
+
+  // Listen for custom events to track expanded view state
+  useEffect(() => {
+    const handleExpandedViewOpen = () => setIsExpandedViewOpen(true);
+    const handleExpandedViewClose = () => setIsExpandedViewOpen(false);
+
+    window.addEventListener('architecture-expanded-open', handleExpandedViewOpen);
+    window.addEventListener('architecture-expanded-close', handleExpandedViewClose);
+
+    return () => {
+      window.removeEventListener('architecture-expanded-open', handleExpandedViewOpen);
+      window.removeEventListener('architecture-expanded-close', handleExpandedViewClose);
+    };
+  }, []);
 
   return (
-    <footer className={`fixed bottom-0 left-0 w-full font-minecraft z-50 pointer-events-auto px-4 sm:px-6 md:px-[4vw] pt-12 sm:pt-16 md:pt-20 pb-4 sm:pb-5 md:pb-6 ${isArchitecturePage ? 'bg-transparent' : 'bg-[#5c4b4a]'}`}>
+    <footer className={`fixed bottom-0 left-0 w-full font-minecraft z-50 pointer-events-auto px-4 sm:px-6 md:px-[4vw] pt-12 sm:pt-16 md:pt-20 pb-4 sm:pb-5 md:pb-6 ${isExpandedViewOpen ? 'bg-transparent' : 'bg-[#5c4b4a]'}`}>
 <div className="absolute bottom-4 right-6 flex flex-col items-center space-y-2">
         {isFooterPage ? (
           <SnugBarcode />
