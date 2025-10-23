@@ -72,7 +72,7 @@ export default function ArchitectureProjectExpandedView({
 
   return (
     <div 
-      className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50"
+      className="fixed inset-0 bg-transparent flex items-center justify-center z-50"
       onClick={handleClose}
     >
       <div 
@@ -80,7 +80,7 @@ export default function ArchitectureProjectExpandedView({
         onClick={(e) => e.stopPropagation()}
       >
         {/* Instagram-style Image Carousel - Below main header */}
-        <div className="absolute top-20 left-0 right-0 h-[calc(100%-5rem)] overflow-y-auto scrollbar-hide">
+        <div className="absolute top-20 left-0 right-0 bottom-0 overflow-y-auto scrollbar-hide">
           {project.images && project.images.length > 0 ? (
             <div className="flex flex-col">
               {project.images.map((image, index) => (
