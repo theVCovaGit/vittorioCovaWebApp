@@ -9,7 +9,7 @@ export default function FooterMobile() {
   const isFooterPage = ["/about", "/contact", "/news"].includes(pathname);
 
   return (
-    <footer className="fixed bottom-0 left-0 w-full bg-[#5c4b4a] font-minecraft z-50 px-4 pt-8 pb-4">
+    <footer className={`fixed bottom-0 left-0 w-full font-minecraft z-50 px-4 pt-8 pb-4 ${isFooterPage ? 'bg-[#302120]' : 'bg-[#5c4b4a]'}`}>
       <div className="flex flex-col items-center space-y-3">
         {!isFooterPage && (
           <>
