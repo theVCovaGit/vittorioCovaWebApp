@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import ArchitectureProjectExpandedView from "@/components/architectureProjectExpandedView";
 
 interface ArchitectureProject {
   id: number;
@@ -35,6 +36,7 @@ const getPositionStyles = (position: number) => {
 export default function Architecture() {
   const [projects, setProjects] = useState<ArchitectureProject[]>([]);
   const [currentPage] = useState(1);
+  const [selectedProjectId, setSelectedProjectId] = useState<number | null>(null);
 
   // Fetch projects from API
   useEffect(() => {
@@ -140,7 +142,10 @@ export default function Architecture() {
                 key={project.id}
                 className={`absolute w-32 h-32 transform -translate-x-1/2 -translate-y-1/2 z-10 ${getPositionStyles(project.position || 1)}`}
               >
-                <div className="relative w-full h-full bg-white rounded-lg shadow-lg border-2 border-gray-300 overflow-hidden hover:scale-105 transition-transform duration-200">
+                <div 
+                  className="relative w-full h-full bg-white rounded-lg shadow-lg border-2 border-gray-300 overflow-hidden hover:scale-105 transition-transform duration-200 cursor-pointer"
+                  onClick={() => setSelectedProjectId(project.id)}
+                >
                   {project.images && project.images.length > 0 && (
                     <img
                       src={project.images[0]}
@@ -164,6 +169,14 @@ export default function Architecture() {
           />
         </div>
       </div>
+
+      {/* Expanded Project View */}
+      {selectedProjectId && (
+        <ArchitectureProjectExpandedView
+          projectId={selectedProjectId}
+          onClose={() => setSelectedProjectId(null)}
+        />
+      )}
     </div>
   );
 }
