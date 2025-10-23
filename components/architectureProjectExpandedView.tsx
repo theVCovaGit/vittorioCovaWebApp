@@ -140,12 +140,7 @@ export default function ArchitectureProjectExpandedView({
             </div>
           </div>
 
-          {/* Navigation Footer */}
-          <div className="absolute bottom-8 right-8">
-            <div className="text-white text-lg font-medium opacity-80">
-              CONTACT / ABOUT / NEWS
-            </div>
-          </div>
+         
         </div>
       </div>
     </div>
