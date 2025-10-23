@@ -22,7 +22,7 @@ export default function HeaderMobile() {
           <span className="text-[#fef4dc] font-microextend text-sm font-bold uppercase tracking-wide">
             VITTORIO COVA
           </span>
-          <span className="text-[#FACC15] font-microextend text-sm font-bold uppercase tracking-wide ml-2">
+          <span className="text-[#fdf053] font-microextend text-sm font-bold uppercase tracking-wide ml-2">
             STUDIO
           </span>
         </Link>
