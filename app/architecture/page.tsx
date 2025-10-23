@@ -143,23 +143,19 @@ export default function Architecture() {
                 className={`absolute w-32 h-32 transform -translate-x-1/2 -translate-y-1/2 z-10 ${getPositionStyles(project.position || 1)}`}
               >
                 <div 
-                  className="relative w-full h-full bg-white rounded-lg shadow-lg border-2 border-gray-300 overflow-hidden hover:scale-105 transition-transform duration-200 cursor-pointer"
+                  className="relative w-full h-full bg-white rounded-lg shadow-lg border-2 border-gray-300 overflow-hidden hover:scale-105 transition-transform duration-200 cursor-pointer flex items-center justify-center"
                   onClick={() => {
                     setSelectedProjectId(project.id);
                     window.dispatchEvent(new CustomEvent('architecture-expanded-open'));
                   }}
                 >
-                  {project.images && project.images.length > 0 && (
+                  {project.icon && (
                     <img
-                      src={project.images[0]}
+                      src={project.icon}
                       alt={project.title}
-                      className="w-full h-full object-cover"
+                      className="w-20 h-20 object-contain"
                     />
                   )}
-                  <div className="absolute bottom-0 left-0 right-0 bg-black bg-opacity-75 text-white p-2">
-                    <h3 className="text-xs font-bold truncate">{project.title}</h3>
-                    <p className="text-xs truncate">{project.city}, {project.country}</p>
-                  </div>
                 </div>
               </div>
             ))}
