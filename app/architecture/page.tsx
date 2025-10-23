@@ -142,21 +142,17 @@ export default function Architecture() {
                 key={project.id}
                 className={`absolute w-32 h-32 transform -translate-x-1/2 -translate-y-1/2 z-10 ${getPositionStyles(project.position || 1)}`}
               >
-                <div 
-                  className="relative w-full h-full bg-white rounded-lg shadow-lg border-2 border-gray-300 overflow-hidden hover:scale-105 transition-transform duration-200 cursor-pointer flex items-center justify-center"
-                  onClick={() => {
-                    setSelectedProjectId(project.id);
-                    window.dispatchEvent(new CustomEvent('architecture-expanded-open'));
-                  }}
-                >
-                  {project.icon && (
-                    <img
-                      src={project.icon}
-                      alt={project.title}
-                      className="w-20 h-20 object-contain"
-                    />
-                  )}
-                </div>
+                {project.icon && (
+                  <img
+                    src={project.icon}
+                    alt={project.title}
+                    className="w-40 h-40 object-contain hover:scale-105 transition-transform duration-200 cursor-pointer"
+                    onClick={() => {
+                      setSelectedProjectId(project.id);
+                      window.dispatchEvent(new CustomEvent('architecture-expanded-open'));
+                    }}
+                  />
+                )}
               </div>
             ))}
           </div>
