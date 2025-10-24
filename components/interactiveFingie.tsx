@@ -11,7 +11,7 @@ export default function InteractiveFingie() {
   };
 
   return (
-    <div className="relative w-auto h-auto">
+    <div className="relative w-auto h-auto scale-[0.6]">
       {/* Base fingerprint image */}
       <img 
         src="/assets/fingie.svg" 
