@@ -43,16 +43,49 @@ export default function About() {
           <span className="text-xl ml-auto">Est. 2025</span>
         </div>
         
-        <p className="text-lg mb-6 leading-relaxed">
+        <p className="text-lg mb-6 leading-relaxed font-electrolize">
           A multi-faceted creative firm founded by Vittorio Cova in 2025.
         </p>
         
-        <ul className="space-y-1 text-lg">
+        <ul className="space-y-1 text-lg font-electrolize">
           <li>- Architect</li>
           <li>- Film director</li>
           <li>- Designer</li>
           <li>- Artist</li>
         </ul>
+      </div>
+
+      {/* Philosophical thoughts in the middle */}
+      <div className="absolute top-[60%] left-[40%] transform -translate-x-1/2 -translate-y-1/2 text-[#fef4dc] font-electrolize max-w-sm px-4 text-center">
+        <h2 className="text-xs font-bold mb-2">
+          Quick thoughts I want to <span className="text-[#fbe147]">share:</span>
+        </h2>
+        <div className="space-y-1 text-xs leading-tight">
+          <p>
+            The greatest moment in human history was not when man walked the Moon, but when <span className="text-[#fbe147] font-bold">God</span> walked the Earth.
+          </p>
+          <p>
+            Tell yourself that pain is a reminder that you live, discomfort is <span className="text-[#fbe147] font-bold">growth</span>, and a privilege.
+          </p>
+          <p>
+            If you have no <span className="text-[#fbe147] font-bold">ideas</span>, there is no project. If you have many ideas, there is still no project.
+          </p>
+          <p>
+            True <span className="text-[#fbe147] font-bold">passion</span> glues together teamwork. Genuine connections are the oxygen that catalyze success.
+          </p>
+          <p>
+            Silence is a <span className="text-[#fbe147] font-bold">beautiful</span> thing.
+          </p>
+          <p>
+            <span className="text-[#fbe147] font-bold">Nature</span> is Mother, it will serve as a <span className="text-[#fbe147] font-bold">sanctuary</span>, offering both mental clarity and a wellspring of inspiration.
+          </p>
+          <p>
+            Let <span className="text-[#fbe147] font-bold">gratitude</span> nourish your passions. <span className="text-[#fbe147] font-bold">Live</span> the world, don't let it live you.
+          </p>
+          <p>
+            Even if it's hard, be the <span className="text-[#fbe147] font-bold">smile</span> that someone may need.
+          </p>
+        </div>
       </div>
     </main>
   );
