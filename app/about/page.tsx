@@ -36,7 +36,7 @@ export default function About() {
       </div>
 
       {/* Text content in upper left */}
-      <div className="absolute top-[10rem] left-[4rem] text-[#fef4dc] font-basica">
+      <div className="absolute top-[10rem] left-[4rem] text-[#fef4dc] font-microextend">
         <div className="flex items-center gap-4 mb-4">
           <span className="text-2xl">©</span>
           <span className="text-2xl font-bold">VITTORIO COVA STUDIO</span>
