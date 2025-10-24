@@ -35,10 +35,25 @@ export default function About() {
         <InteractiveFingie />
       </div>
 
-      {/* 🧱 Content Zone (stacked on top of SVG) */}
-      <section className="relative z-10 px-4 sm:px-6 lg:px-12">
-        {/* 🧬 Add your bio, images, icons, etc. here */}
-      </section>
+      {/* Text content in upper left */}
+      <div className="absolute top-[10rem] left-[4rem] text-[#fef4dc] font-basica">
+        <div className="flex items-center gap-4 mb-4">
+          <span className="text-2xl">©</span>
+          <span className="text-2xl font-bold">VITTORIO COVA STUDIO</span>
+          <span className="text-xl ml-auto">Est. 2025</span>
+        </div>
+        
+        <p className="text-lg mb-6 leading-relaxed">
+          A multi-faceted creative firm founded by Vittorio Cova in 2025.
+        </p>
+        
+        <ul className="space-y-1 text-lg">
+          <li>- Architect</li>
+          <li>- Film director</li>
+          <li>- Designer</li>
+          <li>- Artist</li>
+        </ul>
+      </div>
     </main>
   );
 }
