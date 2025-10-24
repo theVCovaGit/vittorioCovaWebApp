@@ -54,8 +54,8 @@ export default function About() {
         fontSize={labelStyles.fontSize}
         />
 
-      {/* Interactive Fingie SVG - Right side, vertical middle */}
-      <div className="absolute right-[2vw] top-1/2 transform -translate-y-1/2 z-[1002] max-h-[80vh] overflow-visible">
+      {/* Interactive Fingie SVG - Right side, lower position */}
+      <div className="absolute right-[4vw] top-[60%] transform -translate-y-1/2 z-[1002] max-h-[80vh] overflow-visible">
         <InteractiveFingie />
       </div>
 
