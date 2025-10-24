@@ -56,11 +56,11 @@ export default function About() {
       </div>
 
       {/* Philosophical thoughts in the middle */}
-      <div className="absolute top-[60%] left-[40%] transform -translate-x-1/2 -translate-y-1/2 text-[#fef4dc] font-electrolize max-w-sm px-4 text-center">
-        <h2 className="text-xs font-bold mb-2">
-          Quick thoughts I want to <span className="text-[#fbe147]">share:</span>
+      <div className="absolute top-[75%] left-[40%] transform -translate-x-1/2 -translate-y-1/2 text-[#fef4dc] font-electrolize max-w-sm px-4 text-center">
+        <h2 className="text-sm font-bold mb-2 text-[#fef4dc]">
+          Quick thoughts I want to share:
         </h2>
-        <div className="space-y-1 text-xs leading-tight">
+        <div className="space-y-1 text-sm leading-tight">
           <p>
             The greatest moment in human history was not when man walked the Moon, but when <span className="text-[#fbe147] font-bold">God</span> walked the Earth.
           </p>
