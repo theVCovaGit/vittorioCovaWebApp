@@ -26,25 +26,6 @@ export default function About() {
   return (
     <main className="relative min-h-screen bg-[#302120] text-[#fef4dc] font-basica overflow-hidden">
         
-        <div
-          className={`
-            absolute
-            top-0
-            ${frameStyles.top}
-            ${frameStyles.bottom}
-            ${frameStyles.left}
-            ${frameStyles.scale}
-            w-[min(90vw,52vw)]
-            max-w-[1200px]
-            min-w-[320px]
-            aspect-[781/588]
-            transform
-            origin-top-left
-            z-[1000]
-          `}
-        >
-          <AboutFrame />
-        </div>
 
       <AboutLabel
         bottom={labelStyles.bottom}
