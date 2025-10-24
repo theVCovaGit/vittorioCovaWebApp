@@ -1,18 +1,13 @@
 "use client";
 
 import React from "react";
-import AboutFrame from "@/components/aboutFrame";
+
 import AboutLabel from "@/components/aboutLabel";
 import InteractiveFingie from "@/components/interactiveFingie";
 // import AboutNameplate from "@/components/aboutNameplate";
 
 
-const frameStyles = {
-  top: "mt-[11rem] md:mt-[11.77rem]",
-  bottom: "mb-[6rem]",
-  left: "left-[5vw] sm:left-[6vw] xl:left-[6vw]",
-  scale: "scale-[0.85] sm:scale-[0.95] md:scale-[0.85]"
-};
+
 
 const labelStyles = {
     bottom: "bottom-[8vh] sm:bottom-[10vh] md:bottom-[33.2vh]",
