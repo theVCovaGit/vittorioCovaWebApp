@@ -3,6 +3,7 @@
 import React from "react";
 import AboutFrame from "@/components/aboutFrame";
 import AboutLabel from "@/components/aboutLabel";
+import InteractiveFingie from "@/components/interactiveFingie";
 // import AboutNameplate from "@/components/aboutNameplate";
 
 
@@ -53,13 +54,9 @@ export default function About() {
         fontSize={labelStyles.fontSize}
         />
 
-      {/* Fingie SVG - Right side, vertical middle */}
-      <div className="absolute right-[2vw] top-1/2 transform -translate-y-1/2 z-[1002]">
-        <img 
-          src="/assets/fingie.svg" 
-          alt="Fingie" 
-          className="w-auto h-[200px] sm:h-[250px] md:h-[300px]"
-        />
+      {/* Interactive Fingie SVG - Right side, vertical middle */}
+      <div className="absolute right-[2vw] top-1/2 transform -translate-y-1/2 z-[1002] max-h-[80vh] overflow-visible">
+        <InteractiveFingie />
       </div>
 
       {/* 🧱 Content Zone (stacked on top of SVG) */}
