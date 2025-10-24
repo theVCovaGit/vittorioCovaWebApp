@@ -58,7 +58,12 @@ export default function Footer() {
 
           {/* Centered Text */}
           <div className="flex items-center justify-center text-[#fef4dc] text-[4.5vw] sm:text-[3.5vw] md:text-[21px] font-medium leading-none gap-2 mt-2">
-            <span>CONTACT</span>
+            <Link
+              href="/contact"
+              className="cursor-pointer text-[#fef4dc] no-underline hover:opacity-80 transition-opacity duration-200"
+            >
+              CONTACT
+            </Link>
             <span>/</span>
             <Link
               href="/about"
