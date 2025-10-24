@@ -35,6 +35,15 @@ export default function Contact() {
         <InteractiveFingie />
       </div>
 
+      {/* Signature in the center */}
+      <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-[1001]">
+        <img 
+          src="/assets/signatureLight.svg" 
+          alt="Vittorio Cova Signature" 
+          className="w-auto h-32 sm:h-40 md:h-48"
+        />
+      </div>
+
     </main>
   );
 }
