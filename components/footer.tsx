@@ -3,7 +3,6 @@
 import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import SnugBarcode from "@/components/snugBarcode";
 
 export default function Footer() {
   const pathname = usePathname();
