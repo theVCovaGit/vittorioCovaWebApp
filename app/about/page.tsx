@@ -15,9 +15,9 @@ const frameStyles = {
 };
 
 const labelStyles = {
-    bottom: "bottom-[8vh] sm:bottom-[10vh] md:bottom-[20.4vh]",
-    right: "right-[2vw] sm:right-[3vw] md:right-[20vw]",
-    scale: "scale-[0.5] sm:scale-[0.7] md:scale-[.85]",
+    bottom: "bottom-[8vh] sm:bottom-[10vh] md:bottom-[33.2vh]",
+    right: "right-[2vw] sm:right-[3vw] md:right-[13.8vw]",
+    scale: "scale-[0.5] sm:scale-[0.7] md:scale-[0.7]",
     fontSize: "text-[64px] sm:text-[84px] md:text-[117.9px]",
   };
   
