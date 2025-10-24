@@ -80,10 +80,10 @@ export default function About() {
             <span className="text-[#fbe147] font-bold">Nature</span> is Mother, it will serve as a <span className="text-[#fbe147] font-bold">sanctuary</span>, offering both mental clarity and a wellspring of inspiration.
           </p>
           <p>
-            Let <span className="text-[#fbe147] font-bold">gratitude</span> nourish your passions. <span className="text-[#fbe147] font-bold">Live</span> the world, don't let it live you.
+            Let <span className="text-[#fbe147] font-bold">gratitude</span> nourish your passions. <span className="text-[#fbe147] font-bold">Live</span> the world, don&apos;t let it live you.
           </p>
           <p>
-            Even if it's hard, be the <span className="text-[#fbe147] font-bold">smile</span> that someone may need.
+            Even if it&apos;s hard, be the <span className="text-[#fbe147] font-bold">smile</span> that someone may need.
           </p>
         </div>
       </div>
