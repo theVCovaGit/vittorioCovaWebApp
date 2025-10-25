@@ -14,11 +14,8 @@ type Props = {
       <div
         className={`
           absolute
-          ${bottom}
           ${right}
           rotate-[-90deg]
-          transform
-          translate-y-[calc(-1*var(--barcode-height,40px)-5px)]
           ${scale}
           
           ${fontSize}
@@ -29,6 +26,11 @@ type Props = {
           tracking-tight
           z-[1001]
         `}
+        style={{
+          bottom: 'var(--barcode-bottom-offset, 80px)',
+          transform: 'rotate(-90deg)',
+          transformOrigin: 'bottom left'
+        } as React.CSSProperties}
       >
         ABOUT.
       </div>
