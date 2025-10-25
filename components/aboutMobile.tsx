@@ -54,9 +54,6 @@ export default function AboutMobile() {
           </ul>
         </div>
 
-        {/* Divider */}
-        <div className="h-px bg-[#fef4dc] opacity-30 my-3"></div>
-
         {/* Philosophical Thoughts Section */}
         <div className="mb-4">
           <h2 className="text-xs font-bold mb-2 text-[#fef4dc]">
