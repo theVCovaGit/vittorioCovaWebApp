@@ -34,7 +34,7 @@ export default function FooterMobile() {
   }, []);
 
   return (
-    <footer className={`fixed bottom-0 left-0 w-full font-minecraft z-50 px-4 pt-8 pb-4 ${isFooterPage ? 'bg-[#302120]' : 'bg-[#5c4b4a]'}`}>
+    <footer className={`font-minecraft z-50 px-4 pt-8 pb-4 ${isFooterPage ? 'bg-[#302120]' : 'bg-[#5c4b4a]'}`} style={{gridArea: 'footer'}}>
       <div className="flex flex-col items-center space-y-3 scale-[0.8]">
         {/* Barcode - Smaller for mobile */}
         <div ref={barcodeRef}>
