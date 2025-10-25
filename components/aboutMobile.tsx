@@ -3,7 +3,6 @@
 import React, { useEffect } from "react";
 import InteractiveFingie from "@/components/interactiveFingie";
 import AboutLabel from "@/components/aboutLabel";
-import FooterMobile from "@/components/footerMobile";
 
 export default function AboutMobile() {
   // Disable scrolling on mobile about page
@@ -17,9 +16,22 @@ export default function AboutMobile() {
   }, []);
 
   return (
-    <div className="min-h-screen bg-[#302120] text-[#fef4dc] font-basica px-3 py-4 pt-20 grid grid-rows-[1fr_auto] grid-cols-[1fr_auto] gap-0" style={{gridTemplateAreas: '"content about" "footer footer"'}}>
+    <div className="relative min-h-screen bg-[#302120] text-[#fef4dc] font-basica px-3 py-4 pb-20 pt-20">
+      {/* About Label - Right side, rotated - aligned with barcode bottom */}
+      <AboutLabel
+        bottom="bottom-[var(--barcode-bottom-offset,80px)]"
+        right="-right-10"
+        scale="scale-[1]"
+        fontSize="text-[40px]"
+      />
+
+      {/* Fingerprint - Right side, much smaller */}
+      <div className="absolute -right-16 top-1/3 z-10 max-h-[40vh] overflow-visible scale-[0.5]">
+        <InteractiveFingie />
+      </div>
+
       {/* Content - Left side */}
-      <div className="pr-24 pl-8" style={{gridArea: 'content'}}>
+      <div className="pr-24 pl-8">
         {/* Header */}
         <div className="mb-4">
         <div className="flex items-center gap-1 mb-1">
@@ -75,24 +87,6 @@ export default function AboutMobile() {
           </div>
         </div>
       </div>
-
-      {/* About Label - Right side, rotated - aligned with footer */}
-      <div className="flex items-end justify-end" style={{gridArea: 'about'}}>
-        <AboutLabel
-          bottom="bottom-0"
-          right="right-0"
-          scale="scale-[1]"
-          fontSize="text-[40px]"
-        />
-      </div>
-
-      {/* Fingerprint - Right side, much smaller */}
-      <div className="absolute -right-16 top-1/3 z-10 max-h-[40vh] overflow-visible scale-[0.5]">
-        <InteractiveFingie />
-      </div>
-
-      {/* Footer */}
-      <FooterMobile />
     </div>
   );
 }
