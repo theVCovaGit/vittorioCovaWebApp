@@ -13,6 +13,11 @@ export default function FooterMobile() {
     let retryCount = 0;
     const maxRetries = 3;
     
+    // Device detection
+    const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+    const isPhone = isMobile && window.innerWidth < 768; // Phones are typically < 768px
+    const initialDelay = isPhone ? 500 : 200; // 500ms for phones, 200ms for tablets/desktop
+    
     const updateBarcodePosition = () => {
       if (barcodeRef.current) {
         // Use requestAnimationFrame to ensure layout is complete
@@ -35,8 +40,8 @@ export default function FooterMobile() {
       }
     };
 
-    // Initial update with longer delay for slower devices
-    const timeoutId = setTimeout(updateBarcodePosition, 200);
+    // Initial update with device-specific delay
+    const timeoutId = setTimeout(updateBarcodePosition, initialDelay);
 
     // Update on resize and scroll
     window.addEventListener('resize', updateBarcodePosition);
