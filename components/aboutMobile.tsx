@@ -56,9 +56,9 @@ export default function AboutMobile() {
 
         {/* Philosophical Thoughts Section */}
         <div className="mb-4">
-          <h2 className="text-xs mb-2 text-[#fef4dc]">
-            Quick thoughts I want to <span className="text-[#fbe147]">share:</span>
-          </h2>
+            <h2 className="text-xs font-normal mb-2 text-[#fef4dc]">
+              Quick thoughts I want to <span className="text-[#fbe147]">share:</span>
+            </h2>
           <div className="space-y-2 text-[0.65rem] leading-tight font-electrolize">
             <p>
               The greatest moment in human history was not when man walked the Moon, but when <span className="text-[#fbe147] font-bold">God</span> walked the Earth.
