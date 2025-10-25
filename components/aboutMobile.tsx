@@ -31,7 +31,7 @@ export default function AboutMobile() {
       </div>
 
       {/* Content - Left side */}
-      <div className="pr-24">
+      <div className="pr-24 pl-16">
         {/* Header */}
         <div className="mb-4">
           <div className="flex items-center gap-1 mb-1">
