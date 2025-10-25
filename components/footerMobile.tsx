@@ -10,18 +10,33 @@ export default function FooterMobile() {
   const barcodeRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
+    let retryCount = 0;
+    const maxRetries = 3;
+    
     const updateBarcodePosition = () => {
       if (barcodeRef.current) {
-        const barcodeRect = barcodeRef.current.getBoundingClientRect();
-        const bottomOffset = window.innerHeight - barcodeRect.bottom;
-        const barcodeHeight = barcodeRect.height;
-        document.documentElement.style.setProperty('--barcode-bottom-offset', `${bottomOffset}px`);
-        document.documentElement.style.setProperty('--barcode-height', `${barcodeHeight}px`);
+        // Use requestAnimationFrame to ensure layout is complete
+        requestAnimationFrame(() => {
+          const barcodeRect = barcodeRef.current!.getBoundingClientRect();
+          const bottomOffset = window.innerHeight - barcodeRect.bottom;
+          const barcodeHeight = barcodeRect.height;
+          
+          // Only set if measurements seem reasonable
+          if (barcodeHeight > 0 && bottomOffset >= 0) {
+            document.documentElement.style.setProperty('--barcode-bottom-offset', `${bottomOffset}px`);
+            document.documentElement.style.setProperty('--barcode-height', `${barcodeHeight}px`);
+            retryCount = 0; // Reset retry count on success
+          } else if (retryCount < maxRetries) {
+            // Retry if measurements seem wrong
+            retryCount++;
+            setTimeout(updateBarcodePosition, 100 * retryCount);
+          }
+        });
       }
     };
 
-    // Initial updat
-    updateBarcodePosition();
+    // Initial update with longer delay for slower devices
+    const timeoutId = setTimeout(updateBarcodePosition, 200);
 
     // Update on resize and scroll
     window.addEventListener('resize', updateBarcodePosition);
@@ -29,6 +44,7 @@ export default function FooterMobile() {
 
     // Cleanup
     return () => {
+      clearTimeout(timeoutId);
       window.removeEventListener('resize', updateBarcodePosition);
       window.removeEventListener('scroll', updateBarcodePosition);
       document.documentElement.style.removeProperty('--barcode-bottom-offset');
