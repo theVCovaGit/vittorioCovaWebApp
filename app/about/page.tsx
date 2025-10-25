@@ -1,10 +1,10 @@
 "use client";
 
 import React from "react";
-
+import { useIsMobile } from "@/hooks/useMediaQuery";
 import AboutLabel from "@/components/aboutLabel";
 import InteractiveFingie from "@/components/interactiveFingie";
-// import AboutNameplate from "@/components/aboutNameplate";
+import AboutMobile from "@/components/aboutMobile";
 
 
 
@@ -18,6 +18,14 @@ const labelStyles = {
   
   
 export default function About() {
+  const isMobile = useIsMobile();
+
+  // Mobile version
+  if (isMobile) {
+    return <AboutMobile />;
+  }
+
+  // Desktop version (original)
   return (
     <main className="relative min-h-screen bg-[#302120] text-[#fef4dc] font-basica overflow-hidden">
         
