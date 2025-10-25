@@ -19,7 +19,7 @@ export default function AboutMobile() {
     <div className="relative min-h-screen bg-[#302120] text-[#fef4dc] font-basica px-3 py-4 pb-20 pt-20">
       {/* About Label - Right side, rotated */}
       <AboutLabel
-        bottom="bottom-40"
+        bottom="bottom-20"
         right="-right-10"
         scale="scale-[1]"
         fontSize="text-[40px]"
