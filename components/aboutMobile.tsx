@@ -16,10 +16,10 @@ export default function AboutMobile() {
   }, []);
 
   return (
-    <div className="relative min-h-screen bg-[#302120] text-[#fef4dc] font-basica px-3 py-4 pb-20 pt-20" style={{'--footer-height': '80px'} as React.CSSProperties}>
+    <div className="relative min-h-screen bg-[#302120] text-[#fef4dc] font-basica px-3 py-4 pb-20 pt-20">
       {/* About Label - Right side, rotated - aligned with barcode bottom */}
       <AboutLabel
-        bottom="bottom-[calc(var(--footer-height)+1rem)]"
+        bottom="bottom-[var(--barcode-bottom-offset,80px)]"
         right="-right-10"
         scale="scale-[1]"
         fontSize="text-[40px]"
