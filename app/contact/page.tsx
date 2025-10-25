@@ -3,7 +3,6 @@
 import React from "react";
 
 import ContactLabel from "@/components/contactLabel";
-import InteractiveFingie from "@/components/interactiveFingie";
 import InteractiveHand from "@/components/interactiveHand";
 import InteractiveMorse from "@/components/interactiveMorse";
 // import AboutNameplate from "@/components/aboutNameplate";
