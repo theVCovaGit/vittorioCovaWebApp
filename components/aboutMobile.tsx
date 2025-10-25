@@ -34,19 +34,19 @@ export default function AboutMobile() {
       <div className="pr-24 pl-8">
         {/* Header */}
         <div className="mb-4">
-          <div className="flex items-center gap-1 mb-1">
-            <span className="text-xs font-microextend">©</span>
-            <span className="text-xs font-microextend font-bold">VITTORIO COVA STUDIO</span>
-            <span className="text-xs font-microextend ml-auto">Est. 2025</span>
-          </div>
-          
-          {/* Description */}
-          <p className="text-xs mb-3 leading-tight font-electrolize">
-            A multi-faceted creative firm founded by Vittorio Cova in 2025.
-          </p>
-          
-          {/* Roles List */}
-          <ul className="space-y-0.5 text-xs font-electrolize">
+        <div className="flex items-center gap-1 mb-1">
+          <span className="text-[0.65rem] font-microextend">©</span>
+          <span className="text-[0.65rem] font-microextend font-bold">VITTORIO COVA STUDIO</span>
+          <span className="text-[0.65rem] font-microextend ml-auto">Est. 2025</span>
+        </div>
+        
+        {/* Description */}
+        <p className="text-[0.65rem] mb-3 leading-tight font-electrolize">
+          A multi-faceted creative firm founded by Vittorio Cova in 2025.
+        </p>
+        
+        {/* Roles List */}
+        <ul className="space-y-0.5 text-[0.65rem] font-electrolize">
             <li>- Architect</li>
             <li>- Film director</li>
             <li>- Designer</li>
@@ -56,10 +56,10 @@ export default function AboutMobile() {
 
         {/* Philosophical Thoughts Section */}
         <div className="mb-4">
-            <h2 className="text-xs font-normal mb-2 text-[#fef4dc]">
-              Quick thoughts I want to <span className="text-[#fbe147]">share:</span>
-            </h2>
-          <div className="space-y-2 text-[0.65rem] leading-tight font-electrolize">
+          <h2 className="text-[0.65rem] font-normal mb-2 text-[#fef4dc]">
+            Quick thoughts I want to <span className="text-[#fbe147]">share:</span>
+          </h2>
+          <div className="space-y-2 text-[0.5rem] leading-tight font-electrolize">
             <p>
               The greatest moment in human history was not when man walked the Moon, but when <span className="text-[#fbe147] font-bold">God</span> walked the Earth.
             </p>
