@@ -4,9 +4,9 @@ import Link from "next/link";
 
 export default function HeroMobile() {
   return (
-    <div className="min-h-screen bg-[#302120] relative overflow-hidden flex flex-col pt-6">
+    <div className="min-h-screen bg-[#302120] relative overflow-hidden flex flex-col">
       {/* Logo */}
-      <div className="absolute top-14 left-4 px-4">
+      <div className="absolute top-8 left-4 px-4">
         <img 
           src="/logos/logoYellow.png" 
           alt="Vittorio Cova Studio Logo" 
