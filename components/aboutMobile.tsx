@@ -20,13 +20,13 @@ export default function AboutMobile() {
       {/* About Label - Right side, rotated */}
       <AboutLabel
         bottom="bottom-40"
-        right="-right-4"
+        right="-right-10"
         scale="scale-[1]"
         fontSize="text-[40px]"
       />
 
       {/* Fingerprint - Right side, much smaller */}
-      <div className="absolute -right-4 top-1/3 z-10 max-h-[40vh] overflow-visible scale-[0.65]">
+      <div className="absolute -right-16 top-1/3 z-10 max-h-[40vh] overflow-visible scale-[0.5]">
         <InteractiveFingie />
       </div>
 
