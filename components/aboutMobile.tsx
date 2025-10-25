@@ -4,22 +4,22 @@ import React from "react";
 
 export default function AboutMobile() {
   return (
-    <div className="min-h-screen bg-[#302120] text-[#fef4dc] font-basica px-6 py-8 pb-24 pt-20">
+    <div className="min-h-screen bg-[#302120] text-[#fef4dc] font-basica px-3 py-4 pb-20 pt-20">
       {/* Header */}
-      <div className="mb-8">
-        <div className="flex items-center gap-2 mb-2">
-          <span className="text-lg font-microextend">©</span>
-          <span className="text-lg font-microextend font-bold">VITTORIO COVA STUDIO</span>
-          <span className="text-sm font-microextend ml-auto">Est. 2025</span>
+      <div className="mb-4">
+        <div className="flex items-center gap-1 mb-1">
+          <span className="text-xs font-microextend">©</span>
+          <span className="text-xs font-microextend font-bold">VITTORIO COVA STUDIO</span>
+          <span className="text-xs font-microextend ml-auto">Est. 2025</span>
         </div>
         
         {/* Description */}
-        <p className="text-sm mb-6 leading-relaxed font-electrolize">
+        <p className="text-xs mb-3 leading-tight font-electrolize">
           A multi-faceted creative firm founded by Vittorio Cova in 2025.
         </p>
         
         {/* Roles List */}
-        <ul className="space-y-1 text-sm font-electrolize">
+        <ul className="space-y-0.5 text-xs font-electrolize">
           <li>- Architect</li>
           <li>- Film director</li>
           <li>- Designer</li>
@@ -28,14 +28,14 @@ export default function AboutMobile() {
       </div>
 
       {/* Divider */}
-      <div className="h-px bg-[#fef4dc] opacity-30 my-8"></div>
+      <div className="h-px bg-[#fef4dc] opacity-30 my-3"></div>
 
       {/* Philosophical Thoughts Section */}
-      <div className="mb-12">
-        <h2 className="text-sm font-bold mb-4 text-[#fef4dc]">
+      <div className="mb-4">
+        <h2 className="text-xs font-bold mb-2 text-[#fef4dc]">
           Quick thoughts I want to <span className="text-[#fbe147]">share:</span>
         </h2>
-        <div className="space-y-4 text-xs leading-relaxed font-electrolize">
+        <div className="space-y-2 text-[0.65rem] leading-tight font-electrolize">
           <p>
             The greatest moment in human history was not when man walked the Moon, but when <span className="text-[#fbe147] font-bold">God</span> walked the Earth.
           </p>
@@ -63,8 +63,6 @@ export default function AboutMobile() {
         </div>
       </div>
 
-      {/* Barcode */}
-      
     </div>
   );
 }
