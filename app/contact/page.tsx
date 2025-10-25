@@ -33,7 +33,7 @@ export default function Contact() {
         />
 
       {/* Interactive Fingie SVG - Right side, lower position */}
-      <div className="absolute right-[4vw] top-[60%] transform -translate-y-1/2 z-[1002] max-h-[80vh] overflow-visible scale-[0.5]">
+      <div className="absolute right-[7vw] top-[55%] transform -translate-y-1/2 z-[1002] max-h-[80vh] overflow-visible scale-[0.3]">
         <InteractiveHand />
       </div>
 
