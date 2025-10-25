@@ -4,6 +4,8 @@ import React from "react";
 
 import ContactLabel from "@/components/contactLabel";
 import InteractiveFingie from "@/components/interactiveFingie";
+import InteractiveHand from "@/components/interactiveHand";
+import InteractiveMorse from "@/components/interactiveMorse";
 // import AboutNameplate from "@/components/aboutNameplate";
 
 
@@ -31,10 +33,11 @@ export default function Contact() {
         />
 
       {/* Interactive Fingie SVG - Right side, lower position */}
-      <div className="absolute right-[4vw] top-[60%] transform -translate-y-1/2 z-[1002] max-h-[80vh] overflow-visible">
-        <InteractiveFingie />
+      <div className="absolute right-[4vw] top-[60%] transform -translate-y-1/2 z-[1002] max-h-[80vh] overflow-visible scale-[0.5]">
+        <InteractiveHand />
       </div>
 
+      
       {/* Contact Information - Left */}
       <div className="absolute top-[12rem] left-[20rem] text-[#fef4dc] font-electrolize">
         <div className="flex items-center gap-3 mb-4">
