@@ -9,7 +9,7 @@ type Props = {
     fontSize: string;
   };
   
-  export default function AboutLabel({ bottom, right, scale, fontSize }: Props) {
+  export default function AboutLabel({ right, scale, fontSize }: Props) {
     return (
       <div
         className={`
