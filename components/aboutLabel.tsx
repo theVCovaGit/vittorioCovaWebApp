@@ -17,6 +17,8 @@ type Props = {
           ${bottom}
           ${right}
           rotate-[-90deg]
+          transform
+          translate-y-[calc(-1*var(--barcode-height,40px)-5px)]
           ${scale}
           
           ${fontSize}

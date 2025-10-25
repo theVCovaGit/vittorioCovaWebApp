@@ -14,7 +14,9 @@ export default function FooterMobile() {
       if (barcodeRef.current) {
         const barcodeRect = barcodeRef.current.getBoundingClientRect();
         const bottomOffset = window.innerHeight - barcodeRect.bottom;
+        const barcodeHeight = barcodeRect.height;
         document.documentElement.style.setProperty('--barcode-bottom-offset', `${bottomOffset}px`);
+        document.documentElement.style.setProperty('--barcode-height', `${barcodeHeight}px`);
       }
     };
 
@@ -30,6 +32,7 @@ export default function FooterMobile() {
       window.removeEventListener('resize', updateBarcodePosition);
       window.removeEventListener('scroll', updateBarcodePosition);
       document.documentElement.style.removeProperty('--barcode-bottom-offset');
+      document.documentElement.style.removeProperty('--barcode-height');
     };
   }, []);
 

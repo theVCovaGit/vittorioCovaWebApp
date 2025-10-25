@@ -7,19 +7,32 @@ import AboutLabel from "@/components/aboutLabel";
 export default function AboutMobile() {
   // Disable scrolling on mobile about page
   useEffect(() => {
+    // Store original values
+    const originalBodyOverflow = document.body.style.overflow;
+    const originalHtmlOverflow = document.documentElement.style.overflow;
+    const originalBodyHeight = document.body.style.height;
+    const originalHtmlHeight = document.documentElement.style.height;
+    
+    // Set overflow hidden and height 100vh
     document.body.style.overflow = "hidden";
     document.documentElement.style.overflow = "hidden";
+    document.body.style.height = "100vh";
+    document.documentElement.style.height = "100vh";
+    
     return () => {
-      document.body.style.overflow = "";
-      document.documentElement.style.overflow = "";
+      // Restore original values
+      document.body.style.overflow = originalBodyOverflow;
+      document.documentElement.style.overflow = originalHtmlOverflow;
+      document.body.style.height = originalBodyHeight;
+      document.documentElement.style.height = originalHtmlHeight;
     };
   }, []);
 
   return (
-    <div className="relative min-h-screen bg-[#302120] text-[#fef4dc] font-basica px-3 py-4 pb-20 pt-20">
+    <div className="relative h-screen overflow-hidden bg-[#302120] text-[#fef4dc] font-basica px-3 py-4 pb-20 pt-20">
       {/* About Label - Right side, rotated - aligned with barcode bottom */}
       <AboutLabel
-        bottom="bottom-[var(--barcode-bottom-offset,80px)]"
+        bottom="bottom-0"
         right="-right-10"
         scale="scale-[1]"
         fontSize="text-[40px]"
