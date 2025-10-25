@@ -83,7 +83,7 @@ export default function Contact() {
       <div className="absolute top-[78%] left-[24rem] text-[#fef4dc] font-microextend">
         <div className="text-sm">
           © Vittorio Cova Studio<br />
-            All rights reserved.
+          &nbsp;&nbsp;All rights reserved.
         </div>
       </div>
 
