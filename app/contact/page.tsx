@@ -80,10 +80,10 @@ export default function Contact() {
       </div>
 
       {/* Copyright - Left */}
-      <div className="absolute top-[75%] left-[20rem] text-[#fef4dc] font-microextend">
-        <div className="text-base">
+      <div className="absolute top-[78%] left-[24rem] text-[#fef4dc] font-microextend">
+        <div className="text-sm">
           © Vittorio Cova Studio<br />
-          All rights reserved.
+            All rights reserved.
         </div>
       </div>
 
