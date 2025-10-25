@@ -36,6 +36,11 @@ export default function Contact() {
         <InteractiveHand />
       </div>
 
+      {/* Interactive Morse Code SVG - Below InteractiveHand */}
+      <div className="absolute right-[7vw] top-[75%] transform -translate-y-1/2 z-[1002] max-h-[80vh] overflow-visible scale-[1]">
+        <InteractiveMorse />
+      </div>
+
       
       {/* Contact Information - Left */}
       <div className="absolute top-[12rem] left-[20rem] text-[#fef4dc] font-electrolize">
