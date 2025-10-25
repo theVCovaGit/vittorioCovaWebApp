@@ -69,7 +69,7 @@ export default function Contact() {
       </div>
 
       {/* Locations - Left */}
-      <div className="absolute top-[70%] left-[20rem] text-[#fef4dc] font-electrolize">
+      <div className="absolute top-[70%] left-[20rem] text-[#fef4dc] font-microextend">
         <div className="text-lg">
           <span>Mexico City</span>
           <span className="mx-2">|</span>
@@ -80,8 +80,8 @@ export default function Contact() {
       </div>
 
       {/* Copyright - Left */}
-      <div className="absolute bottom-[2rem] left-[20rem] text-[#fef4dc] font-electrolize">
-        <div className="text-sm">
+      <div className="absolute top-[75%] left-[20rem] text-[#fef4dc] font-microextend">
+        <div className="text-base">
           © Vittorio Cova Studio<br />
           All rights reserved.
         </div>
