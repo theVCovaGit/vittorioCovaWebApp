@@ -4,7 +4,7 @@ import React from "react";
 
 export default function AboutMobile() {
   return (
-    <div className="min-h-screen bg-[#302120] text-[#fef4dc] font-basica px-3 py-4 pb-20 pt-20">
+    <div className="min-h-screen bg-[#302120] text-[#fef4dc] font-basica px-3 py-4 pb-20 pt-20 overflow-hidden">
       {/* Header */}
       <div className="mb-4">
         <div className="flex items-center gap-1 mb-1">
