@@ -2,7 +2,7 @@
 
 import React from "react";
 
-import AboutLabel from "@/components/aboutLabel";
+import ContactLabel from "@/components/contactLabel";
 import InteractiveFingie from "@/components/interactiveFingie";
 // import AboutNameplate from "@/components/aboutNameplate";
 
@@ -11,8 +11,8 @@ import InteractiveFingie from "@/components/interactiveFingie";
 
 const labelStyles = {
     bottom: "bottom-[8vh] sm:bottom-[10vh] md:bottom-[33.2vh]",
-    right: "right-[2vw] sm:right-[3vw] md:right-[13.8vw]",
-    scale: "scale-[0.5] sm:scale-[0.7] md:scale-[0.7]",
+    right: "right-[2vw] sm:right-[3vw] md:right-[8vw]",
+    scale: "scale-[0.5] sm:scale-[0.7] md:scale-[0.5]",
     fontSize: "text-[64px] sm:text-[84px] md:text-[117.9px]",
   };
   
@@ -22,7 +22,7 @@ export default function Contact() {
     <main className="relative min-h-screen bg-[#302120] text-[#fef4dc] font-basica overflow-hidden">
         
 
-      <AboutLabel
+      <ContactLabel
         bottom={labelStyles.bottom}
         right={labelStyles.right}
         scale={labelStyles.scale}
