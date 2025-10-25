@@ -1,10 +1,20 @@
 "use client";
 
-import React from "react";
+import React, { useEffect } from "react";
 
 export default function AboutMobile() {
+  // Disable scrolling on mobile about page
+  useEffect(() => {
+    document.body.style.overflow = "hidden";
+    document.documentElement.style.overflow = "hidden";
+    return () => {
+      document.body.style.overflow = "";
+      document.documentElement.style.overflow = "";
+    };
+  }, []);
+
   return (
-    <div className="min-h-screen bg-[#302120] text-[#fef4dc] font-basica px-3 py-4 pb-20 pt-20 overflow-hidden">
+    <div className="min-h-screen bg-[#302120] text-[#fef4dc] font-basica px-3 py-4 pb-20 pt-20">
       {/* Header */}
       <div className="mb-4">
         <div className="flex items-center gap-1 mb-1">
