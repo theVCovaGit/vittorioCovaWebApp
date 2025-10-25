@@ -2,6 +2,7 @@
 
 import React, { useEffect } from "react";
 import InteractiveFingie from "@/components/interactiveFingie";
+import AboutLabel from "@/components/aboutLabel";
 
 export default function AboutMobile() {
   // Disable scrolling on mobile about page
@@ -16,8 +17,16 @@ export default function AboutMobile() {
 
   return (
     <div className="relative min-h-screen bg-[#302120] text-[#fef4dc] font-basica px-3 py-4 pb-20 pt-20">
-      {/* Fingerprint - Right side */}
-      <div className="absolute right-2 top-1/2 transform -translate-y-1/2 z-10 max-h-[60vh] overflow-visible">
+      {/* About Label - Right side, rotated */}
+      <AboutLabel
+        bottom="bottom-40"
+        right="right-6"
+        scale="scale-[1]"
+        fontSize="text-[40px]"
+      />
+
+      {/* Fingerprint - Right side, much smaller */}
+      <div className="absolute right-6 top-1/3 z-10 max-h-[40vh] overflow-visible scale-[0.65]">
         <InteractiveFingie />
       </div>
 
