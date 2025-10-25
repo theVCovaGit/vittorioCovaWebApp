@@ -18,7 +18,7 @@ export default function FooterMobile() {
       }
     };
 
-    // Initial update
+    // Initial updat
     updateBarcodePosition();
 
     // Update on resize and scroll
