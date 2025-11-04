@@ -55,57 +55,57 @@ export default function Hero() {
           
           {/* Routes */}
           <div className="-ml-24 mt-10">
-            <div className="mb-2 group relative">
+            <div className="mb-2 group">
               <Link 
                 href="/architecture" 
-                className="text-[#fef4dc] font-microextend text-sm font-bold uppercase tracking-wide no-underline"
+                className="relative inline-block text-[#fef4dc] font-microextend text-sm font-bold uppercase tracking-wide no-underline"
               >
                 ARCHITECTURE
+                <img 
+                  src="/assets/onHover.png" 
+                  alt="Hover indicator" 
+                  className="absolute left-full ml-1 top-1/2 transform -translate-y-1/2 h-7 w-auto opacity-0 group-hover:opacity-100 transition-opacity duration-200"
+                />
               </Link>
-              <img 
-                src="/assets/onHover.png" 
-                alt="Hover indicator" 
-                className="absolute right-[-28px] top-1/2 transform -translate-y-1/2 h-7 w-auto opacity-0 group-hover:opacity-100 transition-opacity duration-200"
-              />
             </div>
-            <div className="mb-2 group relative">
+            <div className="mb-2 group">
               <Link 
                 href="/productdesign" 
-                className="text-[#fef4dc] font-microextend text-sm font-bold uppercase tracking-wide no-underline"
+                className="relative inline-block text-[#fef4dc] font-microextend text-sm font-bold uppercase tracking-wide no-underline"
               >
                 PRODUCT DESIGN
+                <img 
+                  src="/assets/onHover.png" 
+                  alt="Hover indicator" 
+                  className="absolute left-full ml-1 top-1/2 transform -translate-y-1/2 h-7 w-auto opacity-0 group-hover:opacity-100 transition-opacity duration-200"
+                />
               </Link>
-              <img 
-                src="/assets/onHover.png" 
-                alt="Hover indicator" 
-                className="absolute right-[-28px] top-1/2 transform -translate-y-1/2 h-7 w-auto opacity-0 group-hover:opacity-100 transition-opacity duration-200"
-              />
             </div>
-            <div className="mb-2 group relative">
+            <div className="mb-2 group">
               <Link 
                 href="/film" 
-                className="text-[#fef4dc] font-microextend text-sm font-bold uppercase tracking-wide no-underline"
+                className="relative inline-block text-[#fef4dc] font-microextend text-sm font-bold uppercase tracking-wide no-underline"
               >
                 FILM
+                <img 
+                  src="/assets/onHover.png" 
+                  alt="Hover indicator" 
+                  className="absolute left-full ml-1 top-1/2 transform -translate-y-1/2 h-7 w-auto opacity-0 group-hover:opacity-100 transition-opacity duration-200"
+                />
               </Link>
-              <img 
-                src="/assets/onHover.png" 
-                alt="Hover indicator" 
-                className="absolute right-[-28px] top-1/2 transform -translate-y-1/2 h-7 w-auto opacity-0 group-hover:opacity-100 transition-opacity duration-200"
-              />
             </div>
-            <div className="group relative">
+            <div className="group">
               <Link 
                 href="/art" 
-                className="text-[#fef4dc] font-microextend text-sm font-bold uppercase tracking-wide no-underline"
+                className="relative inline-block text-[#fef4dc] font-microextend text-sm font-bold uppercase tracking-wide no-underline"
               >
                 ART
+                <img 
+                  src="/assets/onHover.png" 
+                  alt="Hover indicator" 
+                  className="absolute left-full ml-1 top-1/2 transform -translate-y-1/2 h-7 w-auto opacity-0 group-hover:opacity-100 transition-opacity duration-200"
+                />
               </Link>
-              <img 
-                src="/assets/onHover.png" 
-                alt="Hover indicator" 
-                className="absolute right-[-28px] top-1/2 transform -translate-y-1/2 h-7 w-auto opacity-0 group-hover:opacity-100 transition-opacity duration-200"
-              />
             </div>
           </div>
         </div>
