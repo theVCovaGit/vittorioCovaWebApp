@@ -113,17 +113,15 @@ export default function ArchitectureProjectExpandedView({
             </div>
           </div>
 
-          {/* Project Name */}
-          <div className="absolute top-12 left-8">
-            <div className="text-[#FFD700] font-bold text-4xl tracking-wider">
-              {project.title.toUpperCase()}
-            </div>
-          </div>
-
-          {/* Year */}
-          <div className="absolute top-20 left-8">
-            <div className="text-[#FFD700] font-bold text-2xl">
-              {project.year || new Date().getFullYear()}
+          {/* Project Name and Year in Yellow Rectangle */}
+          <div className="absolute top-12 left-8 right-[40%]">
+            <div className="bg-[#fbef56] px-8 py-4">
+              <div className="text-black font-microextend font-bold text-2xl tracking-wider uppercase">
+                {project.title.toUpperCase()}
+              </div>
+              <div className="text-black font-microextend font-bold text-xl mt-1">
+                {project.year || new Date().getFullYear()}
+              </div>
             </div>
           </div>
 
