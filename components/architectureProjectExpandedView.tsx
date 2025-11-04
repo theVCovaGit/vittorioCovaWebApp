@@ -108,7 +108,7 @@ export default function ArchitectureProjectExpandedView({
         <div className="absolute top-20 left-0 right-0 bottom-0 pointer-events-none z-20">
           {/* Architecture Text - Top Center */}
           <div className="absolute top-8 left-1/2 transform -translate-x-1/2">
-            <div className="text-[#fbef56] font-microextend text-xl font-bold tracking-wider uppercase">
+            <div className="text-[#fbef56] font-microextend text-lg font-bold tracking-wider uppercase">
               ARCHITECTURE
             </div>
           </div>
