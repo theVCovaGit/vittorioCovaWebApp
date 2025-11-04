@@ -82,18 +82,14 @@ export default function FooterMobile() {
         <div className="flex items-center justify-center text-[#fef4dc] text-sm font-medium leading-none gap-2">
           <Link
             href="/contact"
-            className={`cursor-pointer no-underline transition-colors duration-200 ${
-              pathname === "/contact" ? "text-[#fbe147]" : "text-[#fef4dc] hover:text-[#fbe147]"
-            }`}
+            className="cursor-pointer text-[#fef4dc] no-underline hover:text-[#fdf053] transition-colors duration-200"
           >
             CONTACT
           </Link>
           <span>/</span>
           <Link
             href="/about"
-            className={`cursor-pointer no-underline transition-colors duration-200 ${
-              pathname === "/about" ? "text-[#fbe147]" : "text-[#fef4dc] hover:text-[#fbe147]"
-            }`}
+            className="cursor-pointer text-[#fef4dc] no-underline hover:text-[#fdf053] transition-colors duration-200"
           >
             ABOUT
           </Link>
