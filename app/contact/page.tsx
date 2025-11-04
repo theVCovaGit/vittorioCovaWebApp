@@ -1,10 +1,11 @@
 "use client";
 
 import React from "react";
-
+import { useIsMobile } from "@/hooks/useMediaQuery";
 import ContactLabel from "@/components/contactLabel";
 import InteractiveHand from "@/components/interactiveHand";
 import InteractiveMorse from "@/components/interactiveMorse";
+import ContactMobile from "@/components/contactMobile";
 // import AboutNameplate from "@/components/aboutNameplate";
 
 
@@ -19,6 +20,14 @@ const labelStyles = {
   
   
 export default function Contact() {
+  const isMobile = useIsMobile();
+
+  // Mobile version
+  if (isMobile) {
+    return <ContactMobile />;
+  }
+
+  // Desktop version
   return (
     <main className="relative min-h-screen bg-[#302120] text-[#fef4dc] font-basica overflow-hidden">
         
