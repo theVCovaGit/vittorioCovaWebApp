@@ -10,7 +10,7 @@ import AboutMobile from "@/components/aboutMobile";
 
 
 const labelStyles = {
-    bottom: "bottom-[8vh] sm:bottom-[10vh] md:bottom-[65vh]",
+    bottom: "bottom-[8vh] sm:bottom-[10vh] md:bottom-[70vh]",
     right: "right-[0vw] sm:right-[0vw] md:right-0",
     scale: "scale-[0.5] sm:scale-[0.7] md:scale-[0.7]",
     fontSize: "text-[64px] sm:text-[84px] md:text-[117.9px]",
@@ -30,12 +30,20 @@ export default function About() {
     <main className="relative min-h-screen bg-[#302120] text-[#fef4dc] font-basica overflow-hidden">
         
 
-      <AboutLabel
-        bottom={labelStyles.bottom}
-        right="right-[2vw] sm:right-[1vw] md:-right-[10vw]"
-        scale={labelStyles.scale}
-        fontSize={labelStyles.fontSize}
-      />
+      <div 
+        className="absolute md:-bottom-[0vh]"
+        style={{
+          right: 0,
+          bottom: 'var(--barcode-bottom-offset, 80px)',
+        }}
+      >
+        <AboutLabel
+          bottom=""
+          right="right-[2vw] sm:right-[1vw] md:-right-[8.7vw]"
+          scale={labelStyles.scale}
+          fontSize={labelStyles.fontSize}
+        />
+      </div>
 
       {/* Interactive Fingie SVG - Right side, lower position */}
       <div className="absolute right-[4vw] top-[60%] transform -translate-y-1/2 z-[1002] max-h-[80vh] overflow-visible">
