@@ -10,8 +10,8 @@ import NewsMobile from "@/components/newsMobile";
 
 
 const labelStyles = {
-    bottom: "bottom-[8vh] sm:bottom-[10vh] md:bottom-[40vh]",
-    right: "right-[2vw] sm:right-[3vw] md:right-[6.9vw]",
+    bottom: "bottom-[8vh] sm:bottom-[10vh] md:bottom-[27vh]",
+    right: "right-[8vw] sm:right-[12vw] md:right-[17.18vw]",
     scale: "scale-[0.5] sm:scale-[0.7] md:scale-[0.7]",
     fontSize: "text-[64px] sm:text-[84px] md:text-[117.9px]",
   };
