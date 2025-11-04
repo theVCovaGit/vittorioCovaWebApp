@@ -126,8 +126,8 @@ export default function ArchitectureProjectExpandedView({
           </div>
 
           {/* Location */}
-          <div className="absolute bottom-48 left-8">
-            <div className="text-[#fbef56] font-electrolize font-bold text-2xl">
+          <div className="absolute bottom-60 left-12">
+            <div className="text-[#fbef56] font-electrolize font-bold text-xl">
               {project.city.toUpperCase()}
             </div>
             <div className="text-white font-microextend font-bold text-3xl mt-1">
