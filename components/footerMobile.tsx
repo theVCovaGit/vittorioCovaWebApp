@@ -94,7 +94,12 @@ export default function FooterMobile() {
             ABOUT
           </Link>
           <span>/</span>
-          <span>NEWS</span>
+          <Link
+            href="/news"
+            className="cursor-pointer text-[#fef4dc] no-underline hover:text-[#fdf053] transition-colors duration-200"
+          >
+            NEWS
+          </Link>
         </div>
       </div>
     </footer>
