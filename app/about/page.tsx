@@ -72,7 +72,7 @@ export default function About() {
       </div>
 
       {/* Philosophical thoughts in the middle */}
-      <div className="absolute top-[60%] left-[40%] transform -translate-x-1/2 -translate-y-1/2 text-[#fef4dc] font-electrolize max-w-sm px-4 text-center">
+      <div className="absolute top-[72%] left-[40%] transform -translate-x-1/2 -translate-y-1/2 text-[#fef4dc] font-electrolize max-w-sm px-4 text-center z-[9999]">
         <h2 className="text-sm font-bold mb-2 text-[#fef4dc]">
           Quick thoughts I want to <span className="text-[#fbe147]">share:</span>
         </h2>
