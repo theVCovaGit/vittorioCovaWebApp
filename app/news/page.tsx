@@ -5,6 +5,7 @@ import { useIsMobile } from "@/hooks/useMediaQuery";
 import NewsLabel from "@/components/newsLabel";
 import InteractiveFingie from "@/components/interactiveFingie";
 import NewsMobile from "@/components/newsMobile";
+import InteractiveMosaics from "@/components/interactiveMosaics";
 
 
 
@@ -38,8 +39,8 @@ export default function News() {
       />
 
       {/* Interactive Fingie SVG - Right side, lower position */}
-      <div className="absolute right-[4vw] top-[60%] transform -translate-y-1/2 z-[1002] max-h-[80vh] overflow-visible">
-        <InteractiveFingie />
+      <div className="absolute right-[4vw] top-[55%] transform -translate-y-1/2 z-[1002] max-h-[80vh] overflow-visible">
+        <InteractiveMosaics />
       </div>
 
       {/* Text content in upper left */}
