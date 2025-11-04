@@ -47,55 +47,55 @@ export default function News() {
       <div className="absolute inset-0 flex flex-col items-center justify-center z-[10000]">
         {/* This will be populated dynamically from database */}
         {/* Example structure for news items */}
-        <div className="flex flex-col items-center space-y-12 max-w-xl px-4">
+        <div className="flex flex-col items-center space-y-10 max-w-lg px-4">
           {/* News Item 1 */}
-          <div className="flex flex-col items-center space-y-2 text-left w-full">
-            <div className="text-[#fdf053] font-microextend text-sm font-bold">
+          <div className="flex flex-col items-center space-y-1.5 text-left w-full">
+            <div className="text-[#fdf053] font-electrolize text-xs font-bold">
               January 2026
             </div>
-            <div className="text-[#fef4dc] font-microextend text-lg font-bold">
+            <div className="text-[#fef4dc] font-microextend text-base font-bold">
               VISTA HERMOSA 120
             </div>
-            <div className="text-[#b0a99d] font-microextend text-xs font-normal leading-relaxed">
+            <div className="text-[#b0a99d] font-microextend text-[10px] font-normal leading-relaxed">
               The project is set to break ground in January of 2026.
             </div>
           </div>
 
           {/* News Item 2 */}
-          <div className="flex flex-col items-center space-y-2 text-left w-full">
-            <div className="text-[#fdf053] font-microextend text-sm font-bold">
+          <div className="flex flex-col items-center space-y-1.5 text-left w-full">
+            <div className="text-[#fdf053] font-electrolize text-xs font-bold">
               2025
             </div>
-            <div className="text-[#fef4dc] font-microextend text-lg font-bold">
+            <div className="text-[#fef4dc] font-microextend text-base font-bold">
               FOUNDED
             </div>
-            <div className="text-[#b0a99d] font-microextend text-xs font-normal leading-relaxed">
+            <div className="text-[#b0a99d] font-microextend text-[10px] font-normal leading-relaxed">
               © Vittorio Cova Studio founded.
             </div>
           </div>
 
           {/* News Item 3 */}
-          <div className="flex flex-col items-center space-y-2 text-left w-full">
-            <div className="text-[#fdf053] font-microextend text-sm font-bold">
+          <div className="flex flex-col items-center space-y-1.5 text-left w-full">
+            <div className="text-[#fdf053] font-electrolize text-xs font-bold">
               2024
             </div>
-            <div className="text-[#fef4dc] font-microextend text-lg font-bold">
+            <div className="text-[#fef4dc] font-microextend text-base font-bold">
               AIA FORT WORTH MERIT AWARD 2024
             </div>
-            <div className="text-[#b0a99d] font-microextend text-xs font-normal leading-relaxed">
+            <div className="text-[#b0a99d] font-microextend text-[10px] font-normal leading-relaxed">
               Brickborne is awarded an AIA (American Institute of Architects) Merit Award in a Fort Worth student competition.
             </div>
           </div>
 
           {/* News Item 4 */}
-          <div className="flex flex-col items-center space-y-2 text-left w-full">
-            <div className="text-[#fdf053] font-microextend text-sm font-bold">
+          <div className="flex flex-col items-center space-y-1.5 text-left w-full">
+            <div className="text-[#fdf053] font-electrolize text-xs font-bold">
               2023
             </div>
-            <div className="text-[#fef4dc] font-microextend text-lg font-bold">
+            <div className="text-[#fef4dc] font-microextend text-base font-bold">
               WINECHESTER AWARDS
             </div>
-            <div className="text-[#b0a99d] font-microextend text-xs font-normal leading-relaxed">
+            <div className="text-[#b0a99d] font-microextend text-[10px] font-normal leading-relaxed">
               WINECHESTER (2022) a short film by Vittorio Cova wins numerous international awards including a San Diego Movie Award for best Thriller.
             </div>
           </div>
