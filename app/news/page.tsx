@@ -43,58 +43,58 @@ export default function News() {
       </div>
 
       {/* News Timeline - Centered on vertical axis, positioned to the left */}
-      <div className="absolute inset-0 flex flex-col items-center justify-center z-[10000] left-1/2 -translate-x-[32rem] translate-y-16 sm:-translate-x-[24rem] sm:translate-y-16 md:-translate-x-[32rem] md:translate-y-16">
+      <div className="absolute inset-0 flex flex-col items-center justify-center z-[10000] left-1/2 -translate-x-[32rem] translate-y-10 sm:-translate-x-[24rem] sm:translate-y-10 md:-translate-x-[32rem] md:translate-y-10">
         {/* This will be populated dynamically from database */}
         {/* Example structure for news items */}
         <div className="flex flex-col items-center space-y-10 max-w-lg px-4">
           {/* News Item 1 */}
           <div className="flex flex-col items-center space-y-1.5 text-left w-full">
-            <div className="text-[#fdf053] font-electrolize text-xs font-bold">
+            <div className="text-[#fdf053] font-electrolize text-xs font-bold relative z-[10001]">
               January 2026
             </div>
-            <div className="text-[#fef4dc] font-microextend text-base font-bold">
+            <div className="text-[#fef4dc] font-microextend text-base font-bold relative z-[10001]">
               VISTA HERMOSA 120
             </div>
-            <div className="text-[#b0a99d] font-microextend text-[10px] font-normal leading-relaxed">
+            <div className="text-[#b0a99d] font-microextend text-[10px] font-normal leading-relaxed relative z-[10000]">
               The project is set to break ground in January of 2026.
             </div>
           </div>
 
           {/* News Item 2 */}
           <div className="flex flex-col items-center space-y-1.5 text-left w-full">
-            <div className="text-[#fdf053] font-electrolize text-xs font-bold">
+            <div className="text-[#fdf053] font-electrolize text-xs font-bold relative z-[10001]">
               2025
             </div>
-            <div className="text-[#fef4dc] font-microextend text-base font-bold">
+            <div className="text-[#fef4dc] font-microextend text-base font-bold relative z-[10001]">
               FOUNDED
             </div>
-            <div className="text-[#b0a99d] font-microextend text-[10px] font-normal leading-relaxed">
+            <div className="text-[#b0a99d] font-microextend text-[10px] font-normal leading-relaxed relative z-[10000]">
               © Vittorio Cova Studio founded.
             </div>
           </div>
 
           {/* News Item 3 */}
           <div className="flex flex-col items-center space-y-1.5 text-left w-full">
-            <div className="text-[#fdf053] font-electrolize text-xs font-bold">
+            <div className="text-[#fdf053] font-electrolize text-xs font-bold relative z-[10001]">
               2024
             </div>
-            <div className="text-[#fef4dc] font-microextend text-base font-bold">
+            <div className="text-[#fef4dc] font-microextend text-base font-bold relative z-[10001]">
               AIA FORT WORTH MERIT AWARD 2024
             </div>
-            <div className="text-[#b0a99d] font-microextend text-[10px] font-normal leading-relaxed">
+            <div className="text-[#b0a99d] font-microextend text-[10px] font-normal leading-relaxed relative z-[10000]">
               Brickborne is awarded an AIA (American Institute of Architects) Merit Award in a Fort Worth student competition.
             </div>
           </div>
 
           {/* News Item 4 */}
           <div className="flex flex-col items-center space-y-1.5 text-left w-full">
-            <div className="text-[#fdf053] font-electrolize text-xs font-bold">
+            <div className="text-[#fdf053] font-electrolize text-xs font-bold relative z-[10001]">
               2023
             </div>
-            <div className="text-[#fef4dc] font-microextend text-base font-bold">
+            <div className="text-[#fef4dc] font-microextend text-base font-bold relative z-[10001]">
               WINECHESTER AWARDS
             </div>
-            <div className="text-[#b0a99d] font-microextend text-[10px] font-normal leading-relaxed">
+            <div className="text-[#b0a99d] font-microextend text-[10px] font-normal leading-relaxed relative z-[10000]">
               WINECHESTER (2022) a short film by Vittorio Cova wins numerous international awards including a San Diego Movie Award for best Thriller.
             </div>
           </div>
