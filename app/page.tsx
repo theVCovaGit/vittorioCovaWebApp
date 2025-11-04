@@ -64,7 +64,7 @@ export default function Hero() {
                 <img 
                   src="/assets/onHover.png" 
                   alt="Hover indicator" 
-                  className="absolute left-full ml-1 top-1/2 transform -translate-y-1/2 h-7 w-auto opacity-0 group-hover:opacity-100 transition-opacity duration-200"
+                  className="absolute left-full ml-3 top-1/2 transform -translate-y-1/2 h-7 w-auto opacity-0 group-hover:opacity-100 transition-opacity duration-200"
                 />
               </Link>
             </div>
@@ -77,7 +77,7 @@ export default function Hero() {
                 <img 
                   src="/assets/onHover.png" 
                   alt="Hover indicator" 
-                  className="absolute left-full ml-1 top-1/2 transform -translate-y-1/2 h-7 w-auto opacity-0 group-hover:opacity-100 transition-opacity duration-200"
+                  className="absolute left-full ml-3 top-1/2 transform -translate-y-1/2 h-7 w-auto opacity-0 group-hover:opacity-100 transition-opacity duration-200"
                 />
               </Link>
             </div>
@@ -90,7 +90,7 @@ export default function Hero() {
                 <img 
                   src="/assets/onHover.png" 
                   alt="Hover indicator" 
-                  className="absolute left-full ml-1 top-1/2 transform -translate-y-1/2 h-7 w-auto opacity-0 group-hover:opacity-100 transition-opacity duration-200"
+                  className="absolute left-full ml-3 top-1/2 transform -translate-y-1/2 h-7 w-auto opacity-0 group-hover:opacity-100 transition-opacity duration-200"
                 />
               </Link>
             </div>
@@ -103,7 +103,7 @@ export default function Hero() {
                 <img 
                   src="/assets/onHover.png" 
                   alt="Hover indicator" 
-                  className="absolute left-full ml-1 top-1/2 transform -translate-y-1/2 h-7 w-auto opacity-0 group-hover:opacity-100 transition-opacity duration-200"
+                  className="absolute left-full ml-3 top-1/2 transform -translate-y-1/2 h-7 w-auto opacity-0 group-hover:opacity-100 transition-opacity duration-200"
                 />
               </Link>
             </div>
