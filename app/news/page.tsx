@@ -43,59 +43,59 @@ export default function News() {
         <InteractiveMosaics />
       </div>
 
-      {/* News Timeline - Left side */}
-      <div className="absolute top-[10rem] left-[4rem] max-w-2xl pr-8">
+      {/* News Timeline - Centered on vertical axis */}
+      <div className="absolute inset-0 flex flex-col items-center justify-center">
         {/* This will be populated dynamically from database */}
         {/* Example structure for news items */}
-        <div className="space-y-12">
+        <div className="flex flex-col items-center space-y-16 max-w-2xl px-4">
           {/* News Item 1 */}
-          <div className="space-y-2">
-            <div className="text-[#fdf053] font-microextend text-lg font-medium">
+          <div className="flex flex-col items-center space-y-2 text-left w-full">
+            <div className="text-[#fdf053] font-microextend text-lg font-bold">
               January 2026
             </div>
             <div className="text-[#fef4dc] font-microextend text-2xl font-bold">
               VISTA HERMOSA 120
             </div>
-            <div className="text-[#b0a99d] font-microextend text-base leading-relaxed">
+            <div className="text-[#b0a99d] font-microextend text-base font-normal leading-relaxed">
               The project is set to break ground in January of 2026.
             </div>
           </div>
 
           {/* News Item 2 */}
-          <div className="space-y-2">
-            <div className="text-[#fdf053] font-microextend text-lg font-medium">
+          <div className="flex flex-col items-center space-y-2 text-left w-full">
+            <div className="text-[#fdf053] font-microextend text-lg font-bold">
               2025
             </div>
             <div className="text-[#fef4dc] font-microextend text-2xl font-bold">
               FOUNDED
             </div>
-            <div className="text-[#b0a99d] font-microextend text-base leading-relaxed">
+            <div className="text-[#b0a99d] font-microextend text-base font-normal leading-relaxed">
               © Vittorio Cova Studio founded.
             </div>
           </div>
 
           {/* News Item 3 */}
-          <div className="space-y-2">
-            <div className="text-[#fdf053] font-microextend text-lg font-medium">
+          <div className="flex flex-col items-center space-y-2 text-left w-full">
+            <div className="text-[#fdf053] font-microextend text-lg font-bold">
               2024
             </div>
             <div className="text-[#fef4dc] font-microextend text-2xl font-bold">
               AIA FORT WORTH MERIT AWARD 2024
             </div>
-            <div className="text-[#b0a99d] font-microextend text-base leading-relaxed">
+            <div className="text-[#b0a99d] font-microextend text-base font-normal leading-relaxed">
               Brickborne is awarded an AIA (American Institute of Architects) Merit Award in a Fort Worth student competition.
             </div>
           </div>
 
           {/* News Item 4 */}
-          <div className="space-y-2">
-            <div className="text-[#fdf053] font-microextend text-lg font-medium">
+          <div className="flex flex-col items-center space-y-2 text-left w-full">
+            <div className="text-[#fdf053] font-microextend text-lg font-bold">
               2023
             </div>
             <div className="text-[#fef4dc] font-microextend text-2xl font-bold">
               WINECHESTER AWARDS
             </div>
-            <div className="text-[#b0a99d] font-microextend text-base leading-relaxed">
+            <div className="text-[#b0a99d] font-microextend text-base font-normal leading-relaxed">
               WINECHESTER (2022) a short film by Vittorio Cova wins numerous international awards including a San Diego Movie Award for best Thriller.
             </div>
           </div>
