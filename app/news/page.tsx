@@ -2,9 +2,9 @@
 
 import React from "react";
 import { useIsMobile } from "@/hooks/useMediaQuery";
-import AboutLabel from "@/components/aboutLabel";
+import NewsLabel from "@/components/newsLabel";
 import InteractiveFingie from "@/components/interactiveFingie";
-import AboutMobile from "@/components/aboutMobile";
+import NewsMobile from "@/components/newsMobile";
 
 
 
@@ -17,12 +17,12 @@ const labelStyles = {
   };
   
   
-export default function About() {
+export default function News() {
   const isMobile = useIsMobile();
 
   // Mobile version
   if (isMobile) {
-    return <AboutMobile />;
+    return <NewsMobile />;
   }
 
   // Desktop version (original)
@@ -30,21 +30,12 @@ export default function About() {
     <main className="relative min-h-screen bg-[#302120] text-[#fef4dc] font-basica overflow-hidden">
         
 
-      <div 
-        className="absolute"
-        style={{
-          right: 0,
-          bottom: 'var(--barcode-bottom-offset, 80px)',
-          transform: 'translateY(3vh)',
-        }}
-      >
-        <AboutLabel
-          bottom=""
-          right="right-[2vw] sm:right-[1vw] md:-right-[8.7vw]"
-          scale={labelStyles.scale}
-          fontSize={labelStyles.fontSize}
-        />
-      </div>
+      <NewsLabel
+        bottom={labelStyles.bottom}
+        right={labelStyles.right}
+        scale={labelStyles.scale}
+        fontSize={labelStyles.fontSize}
+      />
 
       {/* Interactive Fingie SVG - Right side, lower position */}
       <div className="absolute right-[4vw] top-[60%] transform -translate-y-1/2 z-[1002] max-h-[80vh] overflow-visible">
