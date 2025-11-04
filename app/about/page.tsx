@@ -10,8 +10,8 @@ import AboutMobile from "@/components/aboutMobile";
 
 
 const labelStyles = {
-    bottom: "bottom-[8vh] sm:bottom-[10vh] md:bottom-[70vh]",
-    right: "right-[0vw] sm:right-[0vw] md:right-0",
+    bottom: "bottom-[8vh] sm:bottom-[10vh] md:bottom-[40vh]",
+    right: "right-[2vw] sm:right-[3vw] md:right-[6.9vw]",
     scale: "scale-[0.5] sm:scale-[0.7] md:scale-[0.7]",
     fontSize: "text-[64px] sm:text-[84px] md:text-[117.9px]",
   };
@@ -31,10 +31,11 @@ export default function About() {
         
 
       <div 
-        className="absolute md:-bottom-[0vh]"
+        className="absolute"
         style={{
           right: 0,
           bottom: 'var(--barcode-bottom-offset, 80px)',
+          transform: 'translateY(3vh)',
         }}
       >
         <AboutLabel
