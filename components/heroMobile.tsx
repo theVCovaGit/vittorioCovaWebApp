@@ -28,23 +28,6 @@ export default function HeroMobile() {
 
       {/* Main Content - Centered */}
       <div className="flex-1 flex flex-col items-center justify-center px-6 pb-20 pt-16">
-        {/* Studio Name */}
-        <div className="flex flex-col items-center mb-12">
-          <div className="flex items-center mb-2">
-            <span className="text-[#fef4dc] font-microextend text-lg font-bold uppercase tracking-wide">
-              VITTORIO COVA
-            </span>
-          </div>
-          <div className="flex items-center">
-            <svg width="60" height="3" viewBox="0 0 60 3" className="mr-2">
-              <rect x="0" y="0" width="60" height="2" fill="#fdf053"/>
-            </svg>
-            <span className="text-[#fdf053] font-microextend text-lg font-bold uppercase tracking-wide">
-              STUDIO
-            </span>
-          </div>
-        </div>
-        
         {/* Navigation Links */}
         <div className="flex flex-col items-center space-y-6 w-full">
           <Link 
