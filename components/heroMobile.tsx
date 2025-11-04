@@ -17,15 +17,6 @@ export default function HeroMobile() {
         </Link>
       </header>
 
-      {/* Logo */}
-      <div className="absolute top-8 left-4 px-4">
-        <img 
-          src="/logos/logoYellow.png" 
-          alt="Vittorio Cova Studio Logo" 
-          className="h-12 w-auto"
-        />
-      </div>
-
       {/* Main Content - Centered */}
       <div className="flex-1 flex flex-col items-center justify-center px-6 pb-20 pt-16">
         {/* Navigation Links */}
