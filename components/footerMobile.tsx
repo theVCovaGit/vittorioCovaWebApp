@@ -80,7 +80,12 @@ export default function FooterMobile() {
 
         {/* Links */}
         <div className="flex items-center justify-center text-[#fef4dc] text-sm font-medium leading-none gap-2">
-          <span>CONTACT</span>
+          <Link
+            href="/contact"
+            className="cursor-pointer text-[#fef4dc] no-underline hover:opacity-80 transition-opacity duration-200"
+          >
+            CONTACT
+          </Link>
           <span>/</span>
           <Link
             href="/about"
