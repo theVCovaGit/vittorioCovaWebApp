@@ -42,8 +42,8 @@ export default function News() {
         <InteractiveMosaics />
       </div>
 
-      {/* News Timeline - Centered on vertical axis */}
-      <div className="absolute inset-0 flex flex-col items-center justify-center z-[10000]">
+      {/* News Timeline - Centered on vertical axis, positioned to the left */}
+      <div className="absolute inset-0 flex flex-col items-center justify-center z-[10000] left-[4rem]">
         {/* This will be populated dynamically from database */}
         {/* Example structure for news items */}
         <div className="flex flex-col items-center space-y-10 max-w-lg px-4">
