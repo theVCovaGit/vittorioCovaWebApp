@@ -13,17 +13,17 @@ export default function Header() {
   }
 
   return (
-    <header className="fixed top-0 left-0 w-full z-50 bg-[#5c4b4a] h-20 flex items-center px-8">
-      <Link href="/" className="flex items-center no-underline cursor-pointer">
-        <span className="text-[#fef4dc] font-microextend text-xl font-bold uppercase tracking-wide">
+    <header className="fixed top-0 left-0 w-full z-[10002] !z-[10002] bg-[#5c4b4a] h-20 flex items-center px-8 pointer-events-auto">
+      <Link href="/" className="flex items-center no-underline cursor-pointer relative z-[10003] !z-[10003] pointer-events-auto">
+        <span className="text-[#fef4dc] font-microextend text-xl font-bold uppercase tracking-wide relative z-[10003] !z-[10003] pointer-events-auto">
           VITTORIO COVA
         </span>
-        <span className="text-[#fdf053] font-microextend text-xl font-bold uppercase tracking-wide mx-2">
+        <span className="text-[#fdf053] font-microextend text-xl font-bold uppercase tracking-wide mx-2 relative z-[10003] !z-[10003] pointer-events-auto">
           <svg width="80" height="4" viewBox="0 0 80 4" className="inline-block">
             <rect x="0" y="0" width="80" height="2" fill="#fdf053"/>
           </svg>
         </span>
-        <span className="text-[#fdf053] font-microextend text-xl font-bold uppercase tracking-wide">
+        <span className="text-[#fdf053] font-microextend text-xl font-bold uppercase tracking-wide relative z-[10003] !z-[10003] pointer-events-auto">
           STUDIO
         </span>
       </Link>

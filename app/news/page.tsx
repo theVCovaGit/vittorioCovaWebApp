@@ -43,7 +43,7 @@ export default function News() {
       </div>
 
       {/* News Timeline - Centered on vertical axis, positioned to the left */}
-      <div className="absolute inset-0 flex flex-col items-center justify-center z-[10000] left-1/2 -translate-x-[32rem] translate-y-10 sm:-translate-x-[24rem] sm:translate-y-10 md:-translate-x-[32rem] md:translate-y-10">
+      <div className="absolute inset-0 flex flex-col items-center justify-center z-[10000] left-1/2 -translate-x-[36rem] translate-y-6 sm:-translate-x-[26rem] sm:translate-y-6 md:-translate-x-[36rem] md:translate-y-6">
         {/* This will be populated dynamically from database */}
         {/* Example structure for news items */}
         <div className="flex flex-col items-center space-y-10 max-w-lg px-4">
