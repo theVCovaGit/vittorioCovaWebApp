@@ -3,7 +3,6 @@
 import React from "react";
 import { useIsMobile } from "@/hooks/useMediaQuery";
 import NewsLabel from "@/components/newsLabel";
-import InteractiveFingie from "@/components/interactiveFingie";
 import NewsMobile from "@/components/newsMobile";
 import InteractiveMosaics from "@/components/interactiveMosaics";
 
