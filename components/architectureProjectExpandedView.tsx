@@ -76,11 +76,11 @@ export default function ArchitectureProjectExpandedView({
 
   return (
     <div 
-      className="fixed inset-0 bg-transparent flex items-center justify-center z-50"
+      className="fixed inset-0 bg-transparent z-50"
       onClick={handleClose}
     >
       <div 
-        className="relative w-full h-full max-w-7xl bg-transparent overflow-hidden"
+        className="relative w-full h-full bg-transparent overflow-hidden"
         onClick={(e) => e.stopPropagation()}
       >
         {/* Instagram-style Image Carousel - Below main header */}
@@ -88,7 +88,7 @@ export default function ArchitectureProjectExpandedView({
           {project.images && project.images.length > 0 ? (
             <div className="flex flex-col">
               {project.images.map((image, index) => (
-                <div key={index} className="w-full h-screen flex-shrink-0">
+                <div key={index} className="w-full h-[calc(100vh-5rem)] flex-shrink-0">
                   <img
                     src={image}
                     alt={`${project.title} - Image ${index + 1}`}
@@ -98,7 +98,7 @@ export default function ArchitectureProjectExpandedView({
               ))}
             </div>
           ) : (
-            <div className="w-full h-full bg-gray-200 flex items-center justify-center">
+            <div className="w-full h-[calc(100vh-5rem)] bg-gray-200 flex items-center justify-center">
               <div className="text-gray-500 text-xl">No images available</div>
             </div>
           )}
