@@ -22,7 +22,10 @@ export default function FooterMobile() {
       if (barcodeRef.current) {
         // Use requestAnimationFrame to ensure layout is complete
         requestAnimationFrame(() => {
-          const barcodeRect = barcodeRef.current!.getBoundingClientRect();
+          // Check again inside the callback in case ref became null
+          if (!barcodeRef.current) return;
+          
+          const barcodeRect = barcodeRef.current.getBoundingClientRect();
           const bottomOffset = window.innerHeight - barcodeRect.bottom;
           const barcodeHeight = barcodeRect.height;
           
