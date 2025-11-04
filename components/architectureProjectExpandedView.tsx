@@ -125,13 +125,6 @@ export default function ArchitectureProjectExpandedView({
             </div>
           </div>
 
-          {/* Category */}
-          <div className="absolute top-12 right-8">
-            <div className="text-[#FFD700] font-bold text-xl tracking-wider">
-              {project.category.toUpperCase()}
-            </div>
-          </div>
-
           {/* Location */}
           <div className="absolute bottom-32 left-8">
             <div className="text-[#FFD700] font-bold text-2xl">
