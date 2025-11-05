@@ -28,25 +28,57 @@ export default function ArchitectureProjectExpandedView({
 }: ArchitectureProjectExpandedViewProps) {
   const [project, setProject] = useState<ArchitectureProject | null>(null);
   const [loading, setLoading] = useState(true);
+  const [imagesPreloaded, setImagesPreloaded] = useState(false);
   const isMobile = useIsMobile();
 
-  // Fetch project data
+  // Helper function to preload images
+  const preloadImages = (imageUrls: string[]): Promise<void> => {
+    return Promise.all(
+      imageUrls.map((url) => {
+        return new Promise<void>((resolve, reject) => {
+          const img = new Image();
+          img.onload = () => resolve();
+          img.onerror = () => resolve(); // Resolve even on error to not block
+          img.src = url;
+        });
+      })
+    ).then(() => {});
+  };
+
+  // Fetch project data and preload images
   useEffect(() => {
     const fetchProject = async () => {
+      setLoading(true);
+      setImagesPreloaded(false);
+      
       try {
         const response = await fetch(`/api/architecture/${projectId}`);
         if (response.ok) {
           const data = await response.json();
-          setProject(data.project);
+          const projectData = data.project;
+          setProject(projectData);
+          
+          // Preload all images before showing them
+          if (projectData.images && projectData.images.length > 0) {
+            await preloadImages(projectData.images);
+          } else {
+            // If no images, mark as preloaded immediately
+            setImagesPreloaded(true);
+            setLoading(false);
+            return;
+          }
+          
+          setImagesPreloaded(true);
+          setLoading(false);
         } else {
           console.error('Error fetching project:', response.statusText);
+          setLoading(false);
           onClose(); // Close if project not found
         }
       } catch (error) {
         console.error('Error fetching project:', error);
-        onClose();
-      } finally {
         setLoading(false);
+        onClose();
       }
     };
 
@@ -55,10 +87,10 @@ export default function ArchitectureProjectExpandedView({
     }
   }, [projectId, onClose]);
 
-  if (loading) {
+  if (loading || !imagesPreloaded) {
     return (
-      <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-        <div className="text-white text-xl">Loading...</div>
+      <div className="fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center z-50">
+        <div className="text-white text-xl font-microextend">Loading ...</div>
       </div>
     );
   }
@@ -95,6 +127,7 @@ export default function ArchitectureProjectExpandedView({
                     src={image}
                     alt={`${project.title} - Image ${index + 1}`}
                     className="w-full h-full object-cover"
+                    loading="eager"
                   />
                 </div>
               ))}
