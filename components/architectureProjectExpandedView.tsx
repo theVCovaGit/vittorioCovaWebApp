@@ -28,9 +28,8 @@ export default function ArchitectureProjectExpandedView({
 }: ArchitectureProjectExpandedViewProps) {
   const [project, setProject] = useState<ArchitectureProject | null>(null);
   const [loading, setLoading] = useState(true);
-  const [imagesPreloaded, setImagesPreloaded] = useState(false);
+  const [loadedImages, setLoadedImages] = useState<Set<number>>(new Set());
   const isMobile = useIsMobile();
-  const imageRefs = useRef<Map<number, HTMLImageElement>>(new Map());
 
   // Helper function to preload images
   const preloadImages = (imageUrls: string[]): Promise<void> => {
@@ -71,11 +70,11 @@ export default function ArchitectureProjectExpandedView({
     });
   };
 
-  // Fetch project data and preload images
+  // Fetch project data and start preloading images
   useEffect(() => {
     const fetchProject = async () => {
       setLoading(true);
-      setImagesPreloaded(false);
+      setLoadedImages(new Set());
       
       try {
         const response = await fetch(`/api/architecture/${projectId}`);
@@ -84,35 +83,15 @@ export default function ArchitectureProjectExpandedView({
           const projectData = data.project;
           setProject(projectData);
           
-          // Preload all images before showing them
-          if (projectData.images && projectData.images.length > 0) {
-            await preloadImages(projectData.images);
-            
-            // Small delay to ensure images are in browser cache and DOM can render them
-            await new Promise(resolve => setTimeout(resolve, 200));
-            
-            // Force all images to be in the DOM and rendered
-            requestAnimationFrame(() => {
-              // Trigger a reflow to force all images to render
-              imageRefs.current.forEach((img) => {
-                if (img) {
-                  // Force browser to render the image
-                  void img.offsetHeight;
-                }
-              });
-            });
-          } else {
-            // If no images, mark as preloaded immediately
-            setImagesPreloaded(true);
-            setLoading(false);
-            return;
-          }
+          // Show the view immediately - don't wait for images
+          setLoading(false);
           
-          setImagesPreloaded(true);
-          // Small additional delay before hiding loading screen to ensure DOM is ready
-          setTimeout(() => {
-            setLoading(false);
-          }, 150);
+          // Preload images in the background (non-blocking)
+          if (projectData.images && projectData.images.length > 0) {
+            preloadImages(projectData.images).catch((error) => {
+              console.error('Error preloading images:', error);
+            });
+          }
         } else {
           console.error('Error fetching project:', response.statusText);
           setLoading(false);
@@ -130,7 +109,8 @@ export default function ArchitectureProjectExpandedView({
     }
   }, [projectId, onClose]);
 
-  if (loading || !imagesPreloaded) {
+  // Show loading screen only while fetching project data
+  if (loading) {
     return (
       <div className="fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center z-50">
         <div className={`text-white font-microextend ${isMobile ? 'text-lg' : 'text-xl'}`}>Loading ...</div>
@@ -178,6 +158,8 @@ export default function ArchitectureProjectExpandedView({
             >
               {project.images.map((image, index) => {
                 const imageHeight = isMobile ? 'calc((100vh - 4rem) / 2)' : 'calc(100vh - 5rem)';
+                const isLoaded = loadedImages.has(index);
+                
                 return (
                   <div 
                     key={`${project.id}-${index}`} 
@@ -185,53 +167,57 @@ export default function ArchitectureProjectExpandedView({
                     style={{ 
                       height: imageHeight,
                       minHeight: imageHeight,
-                      willChange: 'auto',
-                      contain: 'layout style paint',
                       position: 'relative',
-                      display: 'block'
+                      display: 'block',
+                      backgroundColor: '#1a1a1a' // Dark background for placeholder
                     }}
                   >
+                    {/* Blurred placeholder skeleton */}
+                    {!isLoaded && (
+                      <div 
+                        className="absolute inset-0"
+                        style={{
+                          background: 'linear-gradient(90deg, #2a2a2a 0%, #1a1a1a 50%, #2a2a2a 100%)',
+                          backgroundSize: '200% 100%',
+                          animation: 'shimmer 1.5s infinite',
+                        }}
+                      />
+                    )}
+                    
                     {/* eslint-disable-next-line @next/next/no-img-element */}
                     <img
-                      ref={(el) => {
-                        if (el) {
-                          imageRefs.current.set(index, el);
-                        } else {
-                          imageRefs.current.delete(index);
-                        }
-                      }}
                       src={image}
                       alt={`${project.title} - Image ${index + 1}`}
-                      className="w-full h-full object-cover"
                       loading="eager"
-                      decoding="sync"
+                      decoding="async"
                       style={{ 
-                        willChange: 'auto',
-                        backfaceVisibility: 'hidden',
-                        transform: 'translateZ(0)',
-                        display: 'block',
                         position: 'absolute',
                         top: 0,
                         left: 0,
                         width: '100%',
                         height: '100%',
                         objectFit: 'cover',
-                        opacity: 1
+                        opacity: isLoaded ? 1 : 0,
+                        transition: 'opacity 0.3s ease-in-out',
+                        willChange: 'opacity',
+                        backfaceVisibility: 'hidden',
+                        transform: 'translateZ(0)'
                       }}
-                      onLoad={(e) => {
-                        // Ensure image is fully loaded
-                        const img = e.currentTarget;
-                        if (!img.complete || (img.naturalWidth === 0 && img.naturalHeight === 0)) {
-                          // Force reload if not complete
-                          const src = img.src;
-                          img.src = '';
-                          img.src = src;
-                        }
-                        // Force opacity to ensure visibility
-                        img.style.opacity = '1';
+                      onLoad={() => {
+                        setLoadedImages((prev) => {
+                          const newSet = new Set(prev);
+                          newSet.add(index);
+                          return newSet;
+                        });
                       }}
                       onError={() => {
                         console.error(`Failed to display image: ${image}`);
+                        // Mark as loaded even on error to hide placeholder
+                        setLoadedImages((prev) => {
+                          const newSet = new Set(prev);
+                          newSet.add(index);
+                          return newSet;
+                        });
                       }}
                     />
                   </div>
