@@ -35,14 +35,39 @@ export default function ArchitectureProjectExpandedView({
   const preloadImages = (imageUrls: string[]): Promise<void> => {
     return Promise.all(
       imageUrls.map((url) => {
-        return new Promise<void>((resolve) => {
+        return new Promise<void>((resolve, reject) => {
           const img = new Image();
-          img.onload = () => resolve();
-          img.onerror = () => resolve(); // Resolve even on error to not block
+          
+          // Set timeout to avoid infinite waiting
+          const timeout = setTimeout(() => {
+            console.warn(`Image preload timeout: ${url}`);
+            resolve(); // Resolve anyway to not block, but log the issue
+          }, 90000); // 90 second timeout
+          
+          img.onload = () => {
+            clearTimeout(timeout);
+            // Verify image is actually loaded by checking dimensions
+            if (img.complete && (img.naturalWidth > 0 || img.naturalHeight > 0)) {
+              resolve();
+            } else {
+              // If image doesn't have dimensions, wait a bit more
+              setTimeout(() => resolve(), 100);
+            }
+          };
+          
+          img.onerror = () => {
+            clearTimeout(timeout);
+            console.error(`Failed to load image: ${url}`);
+            resolve(); // Still resolve to not block, but log error
+          };
+          
           img.src = url;
         });
       })
-    ).then(() => {});
+    ).then(() => {
+      // Add a small delay to ensure images are in browser cache
+      return new Promise(resolve => setTimeout(resolve, 100));
+    });
   };
 
   // Fetch project data and preload images
@@ -61,6 +86,9 @@ export default function ArchitectureProjectExpandedView({
           // Preload all images before showing them
           if (projectData.images && projectData.images.length > 0) {
             await preloadImages(projectData.images);
+            
+            // Small delay to ensure images are in browser cache and DOM can render them
+            await new Promise(resolve => setTimeout(resolve, 200));
           } else {
             // If no images, mark as preloaded immediately
             setImagesPreloaded(true);
@@ -69,7 +97,10 @@ export default function ArchitectureProjectExpandedView({
           }
           
           setImagesPreloaded(true);
-          setLoading(false);
+          // Small additional delay before hiding loading screen
+          setTimeout(() => {
+            setLoading(false);
+          }, 100);
         } else {
           console.error('Error fetching project:', response.statusText);
           setLoading(false);
@@ -122,12 +153,25 @@ export default function ArchitectureProjectExpandedView({
           {project.images && project.images.length > 0 ? (
             <div className="flex flex-col">
               {project.images.map((image, index) => (
-                <div key={index} className={`w-full ${isMobile ? 'h-[calc((100vh-4rem)/2)]' : 'h-[calc(100vh-5rem)]'} flex-shrink-0 overflow-hidden`}>
+                <div key={index} className={`w-full ${isMobile ? 'h-[calc((100vh-4rem)/2)]' : 'h-[calc(100vh-5rem)]'} flex-shrink-0 overflow-hidden relative`}>
                   <img
                     src={image}
                     alt={`${project.title} - Image ${index + 1}`}
                     className="w-full h-full object-cover"
                     loading="eager"
+                    onLoad={(e) => {
+                      // Ensure image is fully loaded
+                      const img = e.currentTarget;
+                      if (!img.complete || (img.naturalWidth === 0 && img.naturalHeight === 0)) {
+                        // Force reload if not complete
+                        const src = img.src;
+                        img.src = '';
+                        img.src = src;
+                      }
+                    }}
+                    onError={(e) => {
+                      console.error(`Failed to display image: ${image}`);
+                    }}
                   />
                 </div>
               ))}
