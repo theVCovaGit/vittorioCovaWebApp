@@ -131,7 +131,7 @@ export default function ArchitectureProjectExpandedView({
           </div>
 
           {/* Location */}
-          <div className={`absolute ${isMobile ? 'top-[12vh]' : 'bottom-[24.25rem]'} left-12`}>
+          <div className={`absolute ${isMobile ? 'top-[14vh]' : 'bottom-[24.25rem]'} left-12`}>
             <div className={`text-[#fbef56] font-electrolize font-bold ${isMobile ? 'text-sm' : 'text-xl'}`}>
               {project.city.toUpperCase()}
             </div>
