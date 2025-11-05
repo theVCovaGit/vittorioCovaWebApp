@@ -90,7 +90,7 @@ export default function ArchitectureProjectExpandedView({
           {project.images && project.images.length > 0 ? (
             <div className="flex flex-col">
               {project.images.map((image, index) => (
-                <div key={index} className={`w-full ${isMobile ? 'h-[calc(100vh-4rem)]' : 'h-[calc(100vh-5rem)]'} flex-shrink-0 overflow-hidden`}>
+                <div key={index} className={`w-full ${isMobile ? 'h-[calc((100vh-4rem)/2)]' : 'h-[calc(100vh-5rem)]'} flex-shrink-0 overflow-hidden`}>
                   <img
                     src={image}
                     alt={`${project.title} - Image ${index + 1}`}
