@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { useIsMobile } from "@/hooks/useMediaQuery";
 
 interface ArchitectureProject {
@@ -30,6 +30,7 @@ export default function ArchitectureProjectExpandedView({
   const [loading, setLoading] = useState(true);
   const [imagesPreloaded, setImagesPreloaded] = useState(false);
   const isMobile = useIsMobile();
+  const imageRefs = useRef<Map<number, HTMLImageElement>>(new Map());
 
   // Helper function to preload images
   const preloadImages = (imageUrls: string[]): Promise<void> => {
@@ -89,6 +90,17 @@ export default function ArchitectureProjectExpandedView({
             
             // Small delay to ensure images are in browser cache and DOM can render them
             await new Promise(resolve => setTimeout(resolve, 200));
+            
+            // Force all images to be in the DOM and rendered
+            requestAnimationFrame(() => {
+              // Trigger a reflow to force all images to render
+              imageRefs.current.forEach((img) => {
+                if (img) {
+                  // Force browser to render the image
+                  void img.offsetHeight;
+                }
+              });
+            });
           } else {
             // If no images, mark as preloaded immediately
             setImagesPreloaded(true);
@@ -97,10 +109,10 @@ export default function ArchitectureProjectExpandedView({
           }
           
           setImagesPreloaded(true);
-          // Small additional delay before hiding loading screen
+          // Small additional delay before hiding loading screen to ensure DOM is ready
           setTimeout(() => {
             setLoading(false);
-          }, 100);
+          }, 150);
         } else {
           console.error('Error fetching project:', response.statusText);
           setLoading(false);
@@ -149,43 +161,82 @@ export default function ArchitectureProjectExpandedView({
         onClick={(e) => e.stopPropagation()}
       >
         {/* Instagram-style Image Carousel - Below main header */}
-        <div className={`absolute ${isMobile ? 'top-16' : 'top-20'} left-0 right-0 bottom-0 overflow-y-auto scrollbar-hide`}>
+        <div 
+          className={`absolute ${isMobile ? 'top-16' : 'top-20'} left-0 right-0 bottom-0 overflow-y-auto scrollbar-hide`}
+          style={{ 
+            WebkitOverflowScrolling: 'touch',
+            overscrollBehavior: 'contain'
+          }}
+        >
           {project.images && project.images.length > 0 ? (
-            <div className="flex flex-col">
-              {project.images.map((image, index) => (
-                <div 
-                  key={`${project.id}-${index}`} 
-                  className={`w-full ${isMobile ? 'h-[calc((100vh-4rem)/2)]' : 'h-[calc(100vh-5rem)]'} flex-shrink-0 overflow-hidden relative`}
-                  style={{ willChange: 'auto', contain: 'layout style paint' }}
-                >
-                  {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img
-                    src={image}
-                    alt={`${project.title} - Image ${index + 1}`}
-                    className="w-full h-full object-cover"
-                    loading="eager"
-                    decoding="sync"
+            <div 
+              className="flex flex-col"
+              style={{ 
+                minHeight: '100%',
+                willChange: 'auto'
+              }}
+            >
+              {project.images.map((image, index) => {
+                const imageHeight = isMobile ? 'calc((100vh - 4rem) / 2)' : 'calc(100vh - 5rem)';
+                return (
+                  <div 
+                    key={`${project.id}-${index}`} 
+                    className="w-full flex-shrink-0 overflow-hidden relative"
                     style={{ 
+                      height: imageHeight,
+                      minHeight: imageHeight,
                       willChange: 'auto',
-                      backfaceVisibility: 'hidden',
-                      transform: 'translateZ(0)'
+                      contain: 'layout style paint',
+                      position: 'relative',
+                      display: 'block'
                     }}
-                    onLoad={(e) => {
-                      // Ensure image is fully loaded
-                      const img = e.currentTarget;
-                      if (!img.complete || (img.naturalWidth === 0 && img.naturalHeight === 0)) {
-                        // Force reload if not complete
-                        const src = img.src;
-                        img.src = '';
-                        img.src = src;
-                      }
-                    }}
-                    onError={() => {
-                      console.error(`Failed to display image: ${image}`);
-                    }}
-                  />
-                </div>
-              ))}
+                  >
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img
+                      ref={(el) => {
+                        if (el) {
+                          imageRefs.current.set(index, el);
+                        } else {
+                          imageRefs.current.delete(index);
+                        }
+                      }}
+                      src={image}
+                      alt={`${project.title} - Image ${index + 1}`}
+                      className="w-full h-full object-cover"
+                      loading="eager"
+                      decoding="sync"
+                      style={{ 
+                        willChange: 'auto',
+                        backfaceVisibility: 'hidden',
+                        transform: 'translateZ(0)',
+                        display: 'block',
+                        position: 'absolute',
+                        top: 0,
+                        left: 0,
+                        width: '100%',
+                        height: '100%',
+                        objectFit: 'cover',
+                        opacity: 1
+                      }}
+                      onLoad={(e) => {
+                        // Ensure image is fully loaded
+                        const img = e.currentTarget;
+                        if (!img.complete || (img.naturalWidth === 0 && img.naturalHeight === 0)) {
+                          // Force reload if not complete
+                          const src = img.src;
+                          img.src = '';
+                          img.src = src;
+                        }
+                        // Force opacity to ensure visibility
+                        img.style.opacity = '1';
+                      }}
+                      onError={() => {
+                        console.error(`Failed to display image: ${image}`);
+                      }}
+                    />
+                  </div>
+                );
+              })}
             </div>
           ) : (
             <div className={`w-full ${isMobile ? 'h-[calc(100vh-4rem)]' : 'h-[calc(100vh-5rem)]'} bg-gray-200 flex items-center justify-center`}>
