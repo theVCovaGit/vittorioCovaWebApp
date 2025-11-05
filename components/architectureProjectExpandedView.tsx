@@ -70,7 +70,7 @@ export default function ArchitectureProjectExpandedView({
     });
   };
 
-  // Fetch project data and start preloading images
+  // Fetch project data and preload all images before showing
   useEffect(() => {
     const fetchProject = async () => {
       setLoading(true);
@@ -83,15 +83,15 @@ export default function ArchitectureProjectExpandedView({
           const projectData = data.project;
           setProject(projectData);
           
-          // Show the view immediately - don't wait for images
-          setLoading(false);
-          
-          // Preload images in the background (non-blocking)
+          // Preload all images before showing the view
           if (projectData.images && projectData.images.length > 0) {
-            preloadImages(projectData.images).catch((error) => {
-              console.error('Error preloading images:', error);
-            });
+            await preloadImages(projectData.images);
+            // Small delay to ensure images are in browser cache
+            await new Promise(resolve => setTimeout(resolve, 100));
           }
+          
+          // Only hide loading screen after all images are preloaded
+          setLoading(false);
         } else {
           console.error('Error fetching project:', response.statusText);
           setLoading(false);
@@ -109,7 +109,7 @@ export default function ArchitectureProjectExpandedView({
     }
   }, [projectId, onClose]);
 
-  // Show loading screen only while fetching project data
+  // Show loading screen until project data and all images are loaded
   if (loading) {
     return (
       <div className="fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center z-50">
