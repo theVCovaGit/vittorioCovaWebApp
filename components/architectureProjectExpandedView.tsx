@@ -120,11 +120,11 @@ export default function ArchitectureProjectExpandedView({
 
           {/* Project Name and Year in Yellow Rectangle */}
           <div className={`absolute top-14 left-12 ${isMobile ? 'right-0' : 'right-[49%]'}`}>
-            <div className={`bg-[#fbef56] pl-1 py-0.5 ${isMobile ? 'pr-4' : 'pr-8'}`}>
-              <div className="text-black font-microextend font-bold text-lg tracking-wider uppercase leading-tight">
+            <div className={`bg-[#fbef56] pl-1 ${isMobile ? 'py-2 pr-4' : 'py-0.5 pr-8'}`}>
+              <div className={`text-black font-microextend font-bold tracking-wider uppercase leading-tight ${isMobile ? 'text-base' : 'text-lg'}`}>
                 {project.title.toUpperCase()}
               </div>
-              <div className="text-black font-microextend font-bold text-base -mt-1 leading-tight">
+              <div className={`text-black font-microextend font-bold -mt-1 leading-tight ${isMobile ? 'text-sm' : 'text-base'}`}>
                 {project.year || new Date().getFullYear()}
               </div>
             </div>
