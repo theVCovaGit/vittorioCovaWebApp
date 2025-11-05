@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { useIsMobile } from "@/hooks/useMediaQuery";
 
 interface ArchitectureProject {
   id: number;
@@ -27,6 +28,7 @@ export default function ArchitectureProjectExpandedView({
 }: ArchitectureProjectExpandedViewProps) {
   const [project, setProject] = useState<ArchitectureProject | null>(null);
   const [loading, setLoading] = useState(true);
+  const isMobile = useIsMobile();
 
   // Fetch project data
   useEffect(() => {
@@ -84,11 +86,11 @@ export default function ArchitectureProjectExpandedView({
         onClick={(e) => e.stopPropagation()}
       >
         {/* Instagram-style Image Carousel - Below main header */}
-        <div className="absolute top-20 left-0 right-0 bottom-0 overflow-y-auto scrollbar-hide">
+        <div className={`absolute ${isMobile ? 'top-16' : 'top-20'} left-0 right-0 bottom-0 overflow-y-auto scrollbar-hide`}>
           {project.images && project.images.length > 0 ? (
             <div className="flex flex-col">
               {project.images.map((image, index) => (
-                <div key={index} className="w-full h-[calc(100vh-5rem)] flex-shrink-0">
+                <div key={index} className={`w-full ${isMobile ? 'h-[calc(100vh-4rem)]' : 'h-[calc(100vh-5rem)]'} flex-shrink-0 overflow-hidden`}>
                   <img
                     src={image}
                     alt={`${project.title} - Image ${index + 1}`}
@@ -98,14 +100,14 @@ export default function ArchitectureProjectExpandedView({
               ))}
             </div>
           ) : (
-            <div className="w-full h-[calc(100vh-5rem)] bg-gray-200 flex items-center justify-center">
+            <div className={`w-full ${isMobile ? 'h-[calc(100vh-4rem)]' : 'h-[calc(100vh-5rem)]'} bg-gray-200 flex items-center justify-center`}>
               <div className="text-gray-500 text-xl">No images available</div>
             </div>
           )}
         </div>
 
         {/* Project Details Overlay */}
-        <div className="absolute top-20 left-0 right-0 bottom-0 pointer-events-none z-20">
+        <div className={`absolute ${isMobile ? 'top-16' : 'top-20'} left-0 right-0 bottom-0 pointer-events-none z-20`}>
           {/* Architecture Text - Top Center */}
           <div className="absolute top-6 left-[43.5%] transform -translate-x-1/2 pointer-events-auto">
             <div 
