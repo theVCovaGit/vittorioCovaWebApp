@@ -108,10 +108,10 @@ export default function ArchitectureProjectExpandedView({
 
         {/* Project Details Overlay */}
         <div className={`absolute ${isMobile ? 'top-16' : 'top-20'} left-0 right-0 bottom-0 pointer-events-none z-20`}>
-          {/* Architecture Text - Top Center */}
-          <div className="absolute top-6 left-[43.5%] transform -translate-x-1/2 pointer-events-auto">
+          {/* Architecture Text - Top Center on desktop, Right on mobile */}
+          <div className={`absolute top-6 pointer-events-auto ${isMobile ? 'right-2' : 'left-[43.5%] transform -translate-x-1/2'}`}>
             <div 
-              className="text-[#fbef56] font-microextend text-lg font-bold tracking-wider uppercase cursor-pointer hover:text-[#fff5e0] transition-colors"
+              className={`text-[#fbef56] font-microextend font-bold tracking-wider uppercase cursor-pointer hover:text-[#fff5e0] transition-colors ${isMobile ? 'text-base' : 'text-lg'}`}
               onClick={handleClose}
             >
               ARCHITECTURE
