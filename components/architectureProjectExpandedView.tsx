@@ -138,7 +138,7 @@ export default function ArchitectureProjectExpandedView({
             <div className={`text-[#fff5e0] font-microextend font-bold mt-1 transform -translate-y-2 ${isMobile ? 'text-xl' : 'text-3xl'}`}>
               {project.country.toUpperCase()}
             </div>
-            <div className="text-[#fbef56] font-electrolize font-bold text-lg mt-1 transform translate-y-4">
+            <div className={`text-[#fbef56] font-electrolize font-bold transform ${isMobile ? 'mt-0 translate-y-2' : 'mt-1 translate-y-4'} ${isMobile ? 'text-xs' : 'text-lg'}`}>
               {project.category.toUpperCase()}
             </div>
           </div>
