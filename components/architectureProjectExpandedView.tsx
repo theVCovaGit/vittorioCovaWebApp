@@ -35,7 +35,7 @@ export default function ArchitectureProjectExpandedView({
   const preloadImages = (imageUrls: string[]): Promise<void> => {
     return Promise.all(
       imageUrls.map((url) => {
-        return new Promise<void>((resolve, reject) => {
+        return new Promise<void>((resolve) => {
           const img = new Image();
           
           // Set timeout to avoid infinite waiting
@@ -154,6 +154,7 @@ export default function ArchitectureProjectExpandedView({
             <div className="flex flex-col">
               {project.images.map((image, index) => (
                 <div key={index} className={`w-full ${isMobile ? 'h-[calc((100vh-4rem)/2)]' : 'h-[calc(100vh-5rem)]'} flex-shrink-0 overflow-hidden relative`}>
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img
                     src={image}
                     alt={`${project.title} - Image ${index + 1}`}
@@ -169,7 +170,7 @@ export default function ArchitectureProjectExpandedView({
                         img.src = src;
                       }
                     }}
-                    onError={(e) => {
+                    onError={() => {
                       console.error(`Failed to display image: ${image}`);
                     }}
                   />
