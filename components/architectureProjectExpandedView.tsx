@@ -35,7 +35,7 @@ export default function ArchitectureProjectExpandedView({
   const preloadImages = (imageUrls: string[]): Promise<void> => {
     return Promise.all(
       imageUrls.map((url) => {
-        return new Promise<void>((resolve, reject) => {
+        return new Promise<void>((resolve) => {
           const img = new Image();
           img.onload = () => resolve();
           img.onerror = () => resolve(); // Resolve even on error to not block
