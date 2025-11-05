@@ -132,7 +132,7 @@ export default function ArchitectureProjectExpandedView({
 
           {/* Location */}
           <div className={`absolute ${isMobile ? 'top-[12vh]' : 'bottom-[24.25rem]'} left-12`}>
-            <div className="text-[#fbef56] font-electrolize font-bold text-xl">
+            <div className={`text-[#fbef56] font-electrolize font-bold ${isMobile ? 'text-sm' : 'text-xl'}`}>
               {project.city.toUpperCase()}
             </div>
             <div className="text-[#fff5e0] font-microextend font-bold text-3xl mt-1 transform -translate-y-2">
