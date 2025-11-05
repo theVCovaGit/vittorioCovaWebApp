@@ -109,7 +109,7 @@ export default function ArchitectureProjectExpandedView({
           {/* Architecture Text - Top Center */}
           <div className="absolute top-6 left-[43.5%] transform -translate-x-1/2 pointer-events-auto">
             <div 
-              className="text-[#fbef56] font-microextend text-lg font-bold tracking-wider uppercase cursor-pointer hover:opacity-80 transition-opacity"
+              className="text-[#fbef56] font-microextend text-lg font-bold tracking-wider uppercase cursor-pointer hover:text-[#fff5e0] transition-colors"
               onClick={handleClose}
             >
               ARCHITECTURE
