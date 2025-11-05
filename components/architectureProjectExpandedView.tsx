@@ -153,13 +153,23 @@ export default function ArchitectureProjectExpandedView({
           {project.images && project.images.length > 0 ? (
             <div className="flex flex-col">
               {project.images.map((image, index) => (
-                <div key={index} className={`w-full ${isMobile ? 'h-[calc((100vh-4rem)/2)]' : 'h-[calc(100vh-5rem)]'} flex-shrink-0 overflow-hidden relative`}>
+                <div 
+                  key={`${project.id}-${index}`} 
+                  className={`w-full ${isMobile ? 'h-[calc((100vh-4rem)/2)]' : 'h-[calc(100vh-5rem)]'} flex-shrink-0 overflow-hidden relative`}
+                  style={{ willChange: 'auto', contain: 'layout style paint' }}
+                >
                   {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img
                     src={image}
                     alt={`${project.title} - Image ${index + 1}`}
                     className="w-full h-full object-cover"
                     loading="eager"
+                    decoding="sync"
+                    style={{ 
+                      willChange: 'auto',
+                      backfaceVisibility: 'hidden',
+                      transform: 'translateZ(0)'
+                    }}
                     onLoad={(e) => {
                       // Ensure image is fully loaded
                       const img = e.currentTarget;
