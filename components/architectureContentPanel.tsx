@@ -235,7 +235,7 @@ export default function ArchitectureContentPanel({ isActive }: { isActive: boole
       {projects.length > 0 && (
         <div className="mt-6 space-y-4">
           {projects.map((project) => (
-            <div key={project.id} className="bg-gray-800 text-white p-4 rounded-md shadow-md">
+            <div key={project.id} className="bg-transparent text-white p-4 rounded-md border border-gray-300">
               {Array.isArray(project.images) && (
                 <div className="grid grid-cols-2 gap-2 mb-2">
                   {project.images.map((img: string, i: number) => (
