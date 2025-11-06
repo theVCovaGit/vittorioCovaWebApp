@@ -18,9 +18,9 @@ export default function HeroMobile() {
       </header>
 
       {/* Main Content - Centered */}
-      <div className="flex-1 flex flex-col items-center justify-start px-6 pb-20 pt-24">
+      <div className="flex-1 flex flex-col items-center justify-center px-6 pb-20 pt-[104px]">
         {/* Navigation Links */}
-        <div className="flex flex-col items-center space-y-0.5 w-full">
+        <div className="flex flex-col items-center space-y-0.5 w-full -mt-[5.5rem]">
           <Link 
             href="/architecture" 
             className="text-[#fef4dc] font-microextend text-sm font-bold uppercase tracking-wide no-underline
