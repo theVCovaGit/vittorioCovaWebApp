@@ -18,12 +18,12 @@ export default function HeroMobile() {
       </header>
 
       {/* Main Content - Centered */}
-      <div className="flex-1 flex flex-col items-center justify-center px-6 pb-20 pt-[104px]">
+      <div className="flex-1 flex flex-col items-center justify-start px-6 pb-20 pt-24">
         {/* Navigation Links */}
         <div className="flex flex-col items-center space-y-6 w-full">
           <Link 
             href="/architecture" 
-            className="text-[#fef4dc] font-microextend text-xl font-bold uppercase tracking-wide no-underline
+            className="text-[#fef4dc] font-microextend text-sm font-bold uppercase tracking-wide no-underline
               w-full max-w-xs py-4 text-center"
           >
             ARCHITECTURE
@@ -31,7 +31,7 @@ export default function HeroMobile() {
           
           <Link 
             href="/productdesign" 
-            className="text-[#fef4dc] font-microextend text-xl font-bold uppercase tracking-wide no-underline
+            className="text-[#fef4dc] font-microextend text-sm font-bold uppercase tracking-wide no-underline
               w-full max-w-xs py-4 text-center"
           >
             PRODUCT DESIGN
@@ -39,7 +39,7 @@ export default function HeroMobile() {
           
           <Link 
             href="/film" 
-            className="text-[#fef4dc] font-microextend text-xl font-bold uppercase tracking-wide no-underline
+            className="text-[#fef4dc] font-microextend text-sm font-bold uppercase tracking-wide no-underline
               w-full max-w-xs py-4 text-center"
           >
             FILM
@@ -47,7 +47,7 @@ export default function HeroMobile() {
           
           <Link 
             href="/art" 
-            className="text-[#fef4dc] font-microextend text-xl font-bold uppercase tracking-wide no-underline
+            className="text-[#fef4dc] font-microextend text-sm font-bold uppercase tracking-wide no-underline
               w-full max-w-xs py-4 text-center"
           >
             ART
