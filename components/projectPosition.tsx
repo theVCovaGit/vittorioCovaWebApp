@@ -104,7 +104,7 @@ const ProjectPosition = ({
                 className={`relative w-full h-full border border-gray-300 rounded-md flex items-center justify-center cursor-pointer transition-colors ${
                   isSelected 
                     ? 'bg-blue-100 border-blue-400' 
-                    : 'bg-gray-50 hover:bg-gray-100'
+                    : 'bg-gray-transparent hover:bg-gray-100'
                 }`}
                 onClick={() => handlePositionClick(position)}
               >
