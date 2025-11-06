@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 interface ProjectPositionProps {
   onPositionSelect?: (position: number) => void;
@@ -17,6 +17,15 @@ const ProjectPosition = ({
 }: ProjectPositionProps) => {
   const [selectedPosition, setSelectedPosition] = useState<number>(currentPosition);
   const [page, setPage] = useState<number>(currentPage);
+
+  // Sync state with props when they change
+  useEffect(() => {
+    setSelectedPosition(currentPosition);
+  }, [currentPosition]);
+
+  useEffect(() => {
+    setPage(currentPage);
+  }, [currentPage]);
 
   const handlePositionClick = (position: number) => {
     setSelectedPosition(position);
@@ -83,10 +92,10 @@ const ProjectPosition = ({
         </div>
       </div>
       
-      <div className="w-full h-64 border border-gray-300 rounded-md relative">
-        <div className="grid grid-cols-3 grid-rows-3 gap-1 h-full">
-          {Array.from({ length: 9 }, (_, index) => {
-            const position = index + 1;
+      <div className="w-full h-96 border border-gray-300 rounded-md relative overflow-auto">
+        <div className="grid grid-cols-[repeat(13,minmax(0,1fr))] grid-rows-7 gap-1 h-full p-1">
+          {Array.from({ length: 91 }, (_, index) => {
+            const position = (page - 1) * 91 + index + 1;
             const isSelected = selectedPosition === position;
             
             return (
@@ -99,7 +108,7 @@ const ProjectPosition = ({
                 }`}
                 onClick={() => handlePositionClick(position)}
               >
-                <span className={`text-lg font-bold ${
+                <span className={`text-xs font-bold ${
                   isSelected ? 'text-blue-600' : 'text-gray-400'
                 }`}>
                   {position}
