@@ -46,6 +46,7 @@
   --primary: #1a73e8; /* Primary color */
   --secondary: #fbbc05; /* Secondary color */
   --accent: #34d399; /* Accent color */
+  --mobile-header-height: 104px; /* Mobile header height - single source of truth */
 }
 
 @media (prefers-color-scheme: dark) {

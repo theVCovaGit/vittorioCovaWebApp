@@ -142,8 +142,12 @@ export default function ArchitectureProjectExpandedView({
       >
         {/* Instagram-style Image Carousel - Below main header */}
         <div 
-          className={`absolute ${isMobile ? 'top-16' : 'top-20'} left-0 right-0 bottom-0 overflow-y-auto scrollbar-hide`}
-          style={{ 
+          className={`absolute ${isMobile ? '' : 'top-20'} left-0 right-0 bottom-0 overflow-y-auto scrollbar-hide`}
+          style={isMobile ? { 
+            top: 'var(--mobile-header-height)',
+            WebkitOverflowScrolling: 'touch',
+            overscrollBehavior: 'contain'
+          } : { 
             WebkitOverflowScrolling: 'touch',
             overscrollBehavior: 'contain'
           }}
@@ -157,7 +161,7 @@ export default function ArchitectureProjectExpandedView({
               }}
             >
               {project.images.map((image, index) => {
-                const imageHeight = isMobile ? 'calc((100vh - 4rem) / 2)' : 'calc(100vh - 5rem)';
+                const imageHeight = isMobile ? `calc((100vh - var(--mobile-header-height)) / 2)` : 'calc(100vh - 5rem)';
                 const isLoaded = loadedImages.has(index);
                 
                 return (
@@ -225,14 +229,20 @@ export default function ArchitectureProjectExpandedView({
               })}
             </div>
           ) : (
-            <div className={`w-full ${isMobile ? 'h-[calc(100vh-4rem)]' : 'h-[calc(100vh-5rem)]'} bg-gray-200 flex items-center justify-center`}>
+            <div 
+              className={`w-full ${isMobile ? '' : 'h-[calc(100vh-5rem)]'} bg-gray-200 flex items-center justify-center`}
+              style={isMobile ? { height: 'calc(100vh - var(--mobile-header-height))' } : {}}
+            >
               <div className="text-gray-500 text-xl">No images available</div>
             </div>
           )}
         </div>
 
         {/* Project Details Overlay */}
-        <div className={`absolute ${isMobile ? 'top-16' : 'top-20'} left-0 right-0 bottom-0 pointer-events-none z-20`}>
+        <div 
+          className={`absolute ${isMobile ? '' : 'top-20'} left-0 right-0 bottom-0 pointer-events-none z-20`}
+          style={isMobile ? { top: 'var(--mobile-header-height)' } : {}}
+        >
           {/* Architecture Text - Top Center on desktop, Right on mobile */}
           <div className={`absolute top-6 pointer-events-auto ${isMobile ? 'right-2' : 'left-[43.5%] transform -translate-x-1/2'}`}>
             <div 
