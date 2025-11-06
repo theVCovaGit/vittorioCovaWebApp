@@ -13,13 +13,13 @@ export default function HeaderMobile() {
   }
 
   return (
-    <header className="fixed top-0 left-0 w-full z-50 bg-[#5c4b4a] h-16 flex items-center justify-center px-4">
+    <header className="fixed top-0 left-0 w-full z-50 bg-[#5c4b4a] h-[104px] flex items-center justify-center px-4">
       {/* Logo/Brand - Centered */}
       <Link href="/" className="flex flex-col items-center justify-center no-underline leading-none">
-        <span className="text-[#fef4dc] font-microextend text-sm font-bold uppercase tracking-wide">
+        <span className="text-[#fef4dc] font-microextend text-2xl font-bold uppercase tracking-wide">
           VITTORIO COVA
         </span>
-        <span className="text-[#fdf053] font-microextend text-sm font-bold uppercase tracking-wide">
+        <span className="text-[#fdf053] font-microextend text-2xl font-bold uppercase tracking-wide">
           STUDIO
         </span>
       </Link>
