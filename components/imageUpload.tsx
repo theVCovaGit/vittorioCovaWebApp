@@ -238,7 +238,6 @@ const MultipleImagesUpload = ({
               ) : (
                 <div className="pointer-events-none absolute inset-0 flex flex-col items-center justify-center text-gray-500">
                   <span className="text-xl font-semibold">#{displayNumber}</span>
-                  <span className="mt-1 text-lg font-medium">+</span>
                 </div>
               )}
 
