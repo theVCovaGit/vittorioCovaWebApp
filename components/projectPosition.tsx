@@ -7,6 +7,7 @@ interface PositionAssignment {
   title?: string;
   position?: number | null;
   page?: number | null;
+  images?: string[];
 }
 
 interface ProjectPositionProps {
@@ -116,14 +117,17 @@ const ProjectPosition = ({
               occupant?.title?.trim() ||
               (isOccupied ? "Occupied" : `Slot ${position}`);
 
+            const previewUrl = occupant?.images?.[0] || null;
+            const hasPreview = Boolean(previewUrl);
+
             const baseClasses =
-              "relative flex h-full w-full cursor-pointer flex-col items-center justify-center rounded-md border transition-colors";
+              "relative flex h-full w-full cursor-pointer flex-col items-center justify-center overflow-hidden rounded-md border transition-colors";
 
             const variantClasses = isSelected
-              ? "bg-blue-100 border-blue-400"
+              ? "border-2 border-blue-400 shadow-[0_0_0_1px_rgba(59,130,246,0.4)]"
               : isOccupied
-              ? "bg-[#4d3a39] border-[#fdf053]/70 hover:bg-[#5c4543]"
-              : "bg-transparent border-gray-300 hover:bg-gray-100";
+              ? "border-[#fdf053]/70 bg-[#433231] hover:border-[#fdf053]"
+              : "border-gray-300 bg-transparent hover:bg-gray-100";
 
             return (
               <div
@@ -132,7 +136,21 @@ const ProjectPosition = ({
                 onClick={() => handlePositionClick(position)}
                 title={slotLabel}
               >
-                <span className="pointer-events-none absolute left-1 top-1 text-[9px] font-semibold text-gray-300">
+                {hasPreview && (
+                  <>
+                    <div
+                      className="pointer-events-none absolute inset-0 bg-cover bg-center"
+                      style={{ backgroundImage: `url(${previewUrl})` }}
+                    />
+                    <div className="pointer-events-none absolute inset-0 bg-black/45" />
+                  </>
+                )}
+
+                <span
+                  className={`pointer-events-none absolute left-1 top-1 text-[9px] font-semibold ${
+                    hasPreview ? "text-white drop-shadow" : "text-gray-300"
+                  }`}
+                >
                   #{position}
                 </span>
                 <div className="pointer-events-none flex h-full w-full flex-col items-center justify-center px-1 text-center">
@@ -140,13 +158,13 @@ const ProjectPosition = ({
                     <>
                       <span
                         className={`truncate text-[11px] font-semibold leading-tight ${
-                          isSelected ? "text-blue-700" : "text-[#FFF3DF]"
+                          isSelected ? "text-blue-200" : "text-[#FFF3DF]"
                         }`}
                       >
                         {occupant?.title || "Occupied"}
                       </span>
                       {occupant?.page && (
-                        <span className="mt-1 text-[9px] uppercase tracking-wide text-gray-300">
+                        <span className="mt-1 text-[9px] uppercase tracking-wide text-gray-200">
                           Page {occupant.page}
                         </span>
                       )}
