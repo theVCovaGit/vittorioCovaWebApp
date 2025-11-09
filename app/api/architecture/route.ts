@@ -4,7 +4,7 @@ import { sql, ensureTableExists } from "@/lib/db";
 
 interface ArchitectureProject {
   id: number;
-  type: "architecture"; // ✅ REQUIRED for discriminated union
+  type: "architecture";
   title: string;
   country: string;
   city: string;
@@ -12,6 +12,7 @@ interface ArchitectureProject {
   year?: string;
   images: string[];
   icon?: string;
+  iconSecondary?: string;
   position?: number;
   page?: number;
 }
@@ -25,6 +26,7 @@ interface ArchitectureProjectRow {
   year: string;
   images: string[];
   icon: string;
+  icon_secondary: string;
   position: number;
   page: number;
   created_at?: string;
@@ -51,6 +53,7 @@ export async function GET() {
       year: p.year || "",
       images: p.images || [],
       icon: p.icon || "",
+      iconSecondary: p.icon_secondary || "",
       position: p.position || 1,
       page: p.page || 1
     }));
@@ -82,8 +85,8 @@ export async function POST(req: NextRequest) {
     await ensureTableExists('architecture_projects');
 
     const [newProject] = await sql`
-      INSERT INTO architecture_projects (title, country, city, category, year, images, icon, position, page)
-      VALUES (${project.title}, ${project.country}, ${project.city}, ${project.category}, ${project.year || ""}, ${project.images}, ${project.icon || ""}, ${project.position || 1}, ${project.page || 1})
+      INSERT INTO architecture_projects (title, country, city, category, year, images, icon, icon_secondary, position, page)
+      VALUES (${project.title}, ${project.country}, ${project.city}, ${project.category}, ${project.year || ""}, ${project.images}, ${project.icon || ""}, ${project.iconSecondary || ""}, ${project.position || 1}, ${project.page || 1})
       RETURNING *
     `;
 
@@ -97,6 +100,7 @@ export async function POST(req: NextRequest) {
       year: newProject.year || "",
       images: newProject.images || [],
       icon: newProject.icon || "",
+      iconSecondary: newProject.icon_secondary || "",
       position: newProject.position || 1,
       page: newProject.page || 1
     };
@@ -133,8 +137,8 @@ export async function PUT(req: NextRequest) {
     
     for (const project of projects) {
       await sql`
-        INSERT INTO architecture_projects (id, title, country, city, category, year, images, icon)
-        VALUES (${project.id}, ${project.title}, ${project.country}, ${project.city}, ${project.category}, ${project.year || ""}, ${project.images}, ${project.icon || ""})
+        INSERT INTO architecture_projects (id, title, country, city, category, year, images, icon, icon_secondary)
+        VALUES (${project.id}, ${project.title}, ${project.country}, ${project.city}, ${project.category}, ${project.year || ""}, ${project.images}, ${project.icon || ""}, ${project.iconSecondary || ""})
       `;
     }
 
@@ -147,7 +151,7 @@ export async function PUT(req: NextRequest) {
 
 export async function DELETE(req: NextRequest) {
   try {
-    const { id, icon } = await req.json();
+    const { id, icon, iconSecondary } = await req.json();
 
     if (typeof id !== "number") {
       return NextResponse.json({ error: "Invalid project ID" }, { status: 400 });
@@ -155,7 +159,7 @@ export async function DELETE(req: NextRequest) {
 
     // Get project data before deletion for blob cleanup
     const [projectToDelete] = await sql`
-      SELECT images FROM architecture_projects WHERE id = ${id}
+      SELECT images, icon, icon_secondary FROM architecture_projects WHERE id = ${id}
     `;
 
     if (!projectToDelete) {
@@ -175,12 +179,23 @@ export async function DELETE(req: NextRequest) {
     }
 
     // Delete icon
-    if (icon && !icon.includes("/placeholder.png")) {
+    const primaryIconUrl = icon || projectToDelete.icon;
+    if (primaryIconUrl && !primaryIconUrl.includes("/placeholder.png")) {
       try {
-        console.log(`🧹 Deleting icon blob: ${icon}`);
-        await del(icon);
+        console.log(`🧹 Deleting icon blob: ${primaryIconUrl}`);
+        await del(primaryIconUrl);
       } catch (err) {
-        console.warn("❌ Error deleting icon blob:", icon, err);
+        console.warn("❌ Error deleting icon blob:", primaryIconUrl, err);
+      }
+    }
+
+    const secondaryIconUrl = iconSecondary || projectToDelete.icon_secondary;
+    if (secondaryIconUrl && !secondaryIconUrl.includes("/placeholder.png")) {
+      try {
+        console.log(`🧹 Deleting secondary icon blob: ${secondaryIconUrl}`);
+        await del(secondaryIconUrl);
+      } catch (err) {
+        console.warn("❌ Error deleting secondary icon blob:", secondaryIconUrl, err);
       }
     }
 

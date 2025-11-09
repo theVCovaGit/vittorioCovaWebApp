@@ -24,11 +24,16 @@ export async function ensureTableExists(tableName: string) {
             year VARCHAR(10),
             images TEXT[],
             icon VARCHAR(500),
+            icon_secondary VARCHAR(500),
             position INTEGER DEFAULT 1,
             page INTEGER DEFAULT 1,
             created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
             updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
           )
+        `;
+        await sql`
+          ALTER TABLE architecture_projects
+          ADD COLUMN IF NOT EXISTS icon_secondary VARCHAR(500)
         `;
         break;
         

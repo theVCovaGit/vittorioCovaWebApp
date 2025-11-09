@@ -13,6 +13,7 @@ interface ArchitectureProject {
   year?: string;
   images: string[];
   icon?: string;
+  iconSecondary?: string;
   position?: number;
   page?: number;
 }
@@ -25,6 +26,7 @@ export default function ArchitectureContentPanel({ isActive }: { isActive: boole
   const [category, setCategory] = useState("");
   const [year, setYear] = useState("");
   const [icon, setIcon] = useState<string>("");
+  const [iconSecondary, setIconSecondary] = useState<string>("");
   const [images, setImages] = useState<string[]>([]);
   const [projects, setProjects] = useState<ArchitectureProject[]>([]);
   const [editingId, setEditingId] = useState<number | null>(null);
@@ -38,6 +40,8 @@ export default function ArchitectureContentPanel({ isActive }: { isActive: boole
     setCity("");
     setYear("");
     setCategory("");
+    setIcon("");
+    setIconSecondary("");
     setImages([]);
     setPosition(1);
     setPage(1);
@@ -82,6 +86,7 @@ export default function ArchitectureContentPanel({ isActive }: { isActive: boole
       year,
       images,
       icon,
+      iconSecondary,
       position,
       page,
     };
@@ -117,7 +122,7 @@ export default function ArchitectureContentPanel({ isActive }: { isActive: boole
   const handleDelete = async (id: number) => {
     if (!confirm("¿Estás seguro de eliminar este proyecto?")) return;
   
-    const projectToDelete = projects.find((p) => p.id === id); // 👈 grab icon
+    const projectToDelete = projects.find((p) => p.id === id);
   
     try {
       const res = await fetch("/api/architecture", {
@@ -125,7 +130,8 @@ export default function ArchitectureContentPanel({ isActive }: { isActive: boole
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           id,
-          icon: projectToDelete?.icon || "", // ✅ include the icon
+          icon: projectToDelete?.icon || "",
+          iconSecondary: projectToDelete?.iconSecondary || "",
         }),
       });
   
@@ -199,6 +205,12 @@ export default function ArchitectureContentPanel({ isActive }: { isActive: boole
 
         <label className="block mb-1 font-minecraft text-sm text-[#FFF3DF]">Icon #1</label>
         <IconUpload onUpload={setIcon} currentIcon={icon} label="Icon #1" />
+        <label className="block mb-1 font-minecraft text-sm text-[#FFF3DF] mt-4">Icon #2</label>
+        <IconUpload
+          onUpload={setIconSecondary}
+          currentIcon={iconSecondary}
+          label="Icon #2"
+        />
         <label className="block mb-1 font-minecraft text-sm text-[#FFF3DF]">Project images</label>
         <MultipleImagesUpload 
           onUpload={setImages} 
@@ -265,6 +277,7 @@ export default function ArchitectureContentPanel({ isActive }: { isActive: boole
                     setYear(project.year || "");
                     setCategory(project.category);
                     setIcon(project.icon || "");
+                    setIconSecondary(project.iconSecondary || "");
                     setImages(project.images);
                     setEditingId(project.id);
                   }}

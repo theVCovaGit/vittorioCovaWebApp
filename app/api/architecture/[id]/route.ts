@@ -11,6 +11,7 @@ interface ArchitectureProject {
   year?: string;
   images: string[];
   icon?: string;
+  iconSecondary?: string;
   position?: number;
   page?: number;
 }
@@ -24,6 +25,7 @@ interface ArchitectureProjectRow {
   year: string;
   images: string[];
   icon: string;
+  icon_secondary: string;
   position: number;
   page: number;
   created_at?: string;
@@ -67,6 +69,7 @@ export async function GET(
       year: project.year || "",
       images: project.images || [],
       icon: project.icon || "",
+      iconSecondary: project.icon_secondary || "",
       position: project.position || 1,
       page: project.page || 1
     };
