@@ -203,15 +203,45 @@ export default function ArchitectureContentPanel({ isActive }: { isActive: boole
           className="w-full p-2 border border-gray-400 rounded-md mb-2"
         />
 
-        <label className="block mb-1 font-minecraft text-sm text-[#FFF3DF]">Icon #1</label>
+        <div className="mb-1 flex items-center gap-2 font-minecraft text-sm text-[#FFF3DF]">
+          <span>Icon #1</span>
+          <div className="relative group">
+            <span className="flex h-5 w-5 items-center justify-center rounded-full border border-[#FFF3DF]/60 text-xs text-[#FFF3DF]">
+              i
+            </span>
+            <div className="pointer-events-none absolute left-1/2 top-full z-10 mt-2 w-48 -translate-x-1/2 rounded-md bg-black/90 px-3 py-2 text-xs text-white opacity-0 shadow-lg transition-opacity duration-200 group-hover:opacity-100">
+              Add the outline of the icon.
+            </div>
+          </div>
+        </div>
         <IconUpload onUpload={setIcon} currentIcon={icon} label="Icon #1" />
-        <label className="block mb-1 font-minecraft text-sm text-[#FFF3DF] mt-4">Icon #2</label>
+        <div className="mt-4 mb-1 flex items-center gap-2 font-minecraft text-sm text-[#FFF3DF]">
+          <span>Icon #2</span>
+          <div className="relative group">
+            <span className="flex h-5 w-5 items-center justify-center rounded-full border border-[#FFF3DF]/60 text-xs text-[#FFF3DF]">
+              i
+            </span>
+            <div className="pointer-events-none absolute left-1/2 top-full z-10 mt-2 w-48 -translate-x-1/2 rounded-md bg-black/90 px-3 py-2 text-xs text-white opacity-0 shadow-lg transition-opacity duration-200 group-hover:opacity-100">
+              Add the icon&apos;s fill.
+            </div>
+          </div>
+        </div>
         <IconUpload
           onUpload={setIconSecondary}
           currentIcon={iconSecondary}
           label="Icon #2"
         />
-        <label className="block mb-1 font-minecraft text-sm text-[#FFF3DF]">Project images</label>
+        <div className="mt-4 mb-1 flex items-center gap-2 font-minecraft text-sm text-[#FFF3DF]">
+          <span>Project images</span>
+          <div className="relative group">
+            <span className="flex h-5 w-5 items-center justify-center rounded-full border border-[#FFF3DF]/60 text-xs text-[#FFF3DF]">
+              i
+            </span>
+            <div className="pointer-events-none absolute left-1/2 top-full z-10 mt-2 w-56 -translate-x-1/2 rounded-md bg-black/90 px-3 py-2 text-xs text-white opacity-0 shadow-lg transition-opacity duration-200 group-hover:opacity-100">
+              Add the project&apos;s images. Image #1 shows at the top; image #15 sits at the bottom.
+            </div>
+          </div>
+        </div>
         <MultipleImagesUpload 
           onUpload={setImages} 
           currentImages={images} 
@@ -219,7 +249,17 @@ export default function ArchitectureContentPanel({ isActive }: { isActive: boole
           onPageChange={setCurrentPage}
         />
 
-        <label className="block mb-1 font-minecraft text-sm text-[#FFF3DF] mt-4">Project position</label>
+        <div className="mt-4 mb-1 flex items-center gap-2 font-minecraft text-sm text-[#FFF3DF]">
+          <span>Project position</span>
+          <div className="relative group">
+            <span className="flex h-5 w-5 items-center justify-center rounded-full border border-[#FFF3DF]/60 text-xs text-[#FFF3DF]">
+              i
+            </span>
+            <div className="pointer-events-none absolute left-1/2 top-full z-10 mt-2 w-56 -translate-x-1/2 rounded-md bg-black/90 px-3 py-2 text-xs text-white opacity-0 shadow-lg transition-opacity duration-200 group-hover:opacity-100">
+              Choose where this specific project will be positioned.
+            </div>
+          </div>
+        </div>
         <ProjectPosition 
           onPositionSelect={setPosition}
           currentPosition={position}
