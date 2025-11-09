@@ -1,5 +1,6 @@
 "use client";
 import { useEffect, useState } from "react";
+import { InformationCircleIcon } from "@heroicons/react/24/outline";
 import { ImageUpload, MultipleImagesUpload } from "@/components/imageUpload";
 import IconUpload from "@/components/iconUpload";
 import ProjectPosition from "@/components/projectPosition";
@@ -33,6 +34,17 @@ export default function ArchitectureContentPanel({ isActive }: { isActive: boole
   const [currentPage, setCurrentPage] = useState(1);
   const [position, setPosition] = useState<number>(1);
   const [page, setPage] = useState<number>(1);
+
+  const InfoTooltip = ({ message }: { message: string }) => (
+    <div className="relative group">
+      <div className="flex h-5 w-5 items-center justify-center rounded-full border border-[#FFF3DF]/60 bg-transparent text-[#FFF3DF]">
+        <InformationCircleIcon className="h-3.5 w-3.5" />
+      </div>
+      <div className="pointer-events-none absolute left-1/2 top-full z-10 mt-2 w-56 -translate-x-1/2 rounded-md bg-black/90 px-3 py-2 text-xs text-white opacity-0 shadow-lg transition-opacity duration-200 group-hover:opacity-100">
+        {message}
+      </div>
+    </div>
+  );
 
   const resetForm = () => {
     setTitle("");
@@ -205,26 +217,12 @@ export default function ArchitectureContentPanel({ isActive }: { isActive: boole
 
         <div className="mb-1 flex items-center gap-2 font-minecraft text-sm text-[#FFF3DF]">
           <span>Icon #1</span>
-          <div className="relative group">
-            <span className="flex h-5 w-5 items-center justify-center rounded-full border border-[#FFF3DF]/60 text-xs text-[#FFF3DF]">
-              i
-            </span>
-            <div className="pointer-events-none absolute left-1/2 top-full z-10 mt-2 w-48 -translate-x-1/2 rounded-md bg-black/90 px-3 py-2 text-xs text-white opacity-0 shadow-lg transition-opacity duration-200 group-hover:opacity-100">
-              Add the outline of the icon.
-            </div>
-          </div>
+          <InfoTooltip message="Add the outline of the icon." />
         </div>
         <IconUpload onUpload={setIcon} currentIcon={icon} label="Icon #1" />
         <div className="mt-4 mb-1 flex items-center gap-2 font-minecraft text-sm text-[#FFF3DF]">
           <span>Icon #2</span>
-          <div className="relative group">
-            <span className="flex h-5 w-5 items-center justify-center rounded-full border border-[#FFF3DF]/60 text-xs text-[#FFF3DF]">
-              i
-            </span>
-            <div className="pointer-events-none absolute left-1/2 top-full z-10 mt-2 w-48 -translate-x-1/2 rounded-md bg-black/90 px-3 py-2 text-xs text-white opacity-0 shadow-lg transition-opacity duration-200 group-hover:opacity-100">
-              Add the icon&apos;s fill.
-            </div>
-          </div>
+          <InfoTooltip message="Add the icon's fill." />
         </div>
         <IconUpload
           onUpload={setIconSecondary}
@@ -233,14 +231,7 @@ export default function ArchitectureContentPanel({ isActive }: { isActive: boole
         />
         <div className="mt-4 mb-1 flex items-center gap-2 font-minecraft text-sm text-[#FFF3DF]">
           <span>Project images</span>
-          <div className="relative group">
-            <span className="flex h-5 w-5 items-center justify-center rounded-full border border-[#FFF3DF]/60 text-xs text-[#FFF3DF]">
-              i
-            </span>
-            <div className="pointer-events-none absolute left-1/2 top-full z-10 mt-2 w-56 -translate-x-1/2 rounded-md bg-black/90 px-3 py-2 text-xs text-white opacity-0 shadow-lg transition-opacity duration-200 group-hover:opacity-100">
-              Add the project&apos;s images. Image #1 shows at the top; image #15 sits at the bottom.
-            </div>
-          </div>
+          <InfoTooltip message="Add the project's images. Image #1 shows at the top; image #15 sits at the bottom." />
         </div>
         <MultipleImagesUpload 
           onUpload={setImages} 
@@ -251,14 +242,7 @@ export default function ArchitectureContentPanel({ isActive }: { isActive: boole
 
         <div className="mt-4 mb-1 flex items-center gap-2 font-minecraft text-sm text-[#FFF3DF]">
           <span>Project position</span>
-          <div className="relative group">
-            <span className="flex h-5 w-5 items-center justify-center rounded-full border border-[#FFF3DF]/60 text-xs text-[#FFF3DF]">
-              i
-            </span>
-            <div className="pointer-events-none absolute left-1/2 top-full z-10 mt-2 w-56 -translate-x-1/2 rounded-md bg-black/90 px-3 py-2 text-xs text-white opacity-0 shadow-lg transition-opacity duration-200 group-hover:opacity-100">
-              Choose where this specific project will be positioned.
-            </div>
-          </div>
+          <InfoTooltip message="Choose where this specific project will be positioned." />
         </div>
         <ProjectPosition 
           onPositionSelect={setPosition}
