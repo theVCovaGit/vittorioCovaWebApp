@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { ImageUpload, MultipleImagesUpload } from "@/components/imageUpload";
+import IconUpload from "@/components/iconUpload";
 import ProjectPosition from "@/components/projectPosition";
 
 interface FilmProject {
@@ -197,7 +198,7 @@ export default function FilmContentPanel({ isActive }: { isActive: boolean }) {
         />
 
         <label className="block font-minecraft text-sm text-[#FFF3DF] mb-1">Icon</label>
-        <ImageUpload onUpload={setIcon} currentImage={icon} type="icon" />
+        <IconUpload onUpload={setIcon} currentIcon={icon} label="Icon" />
 
         <label className="block font-minecraft text-sm text-[#FFF3DF] mb-1">Images</label>
         <MultipleImagesUpload onUpload={setImages} currentImages={images} />

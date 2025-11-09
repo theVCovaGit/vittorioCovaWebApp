@@ -1,6 +1,7 @@
 "use client";
 import { useEffect, useState } from "react";
 import { ImageUpload, MultipleImagesUpload } from "@/components/imageUpload";
+import IconUpload from "@/components/iconUpload";
 import ProjectPosition from "@/components/projectPosition";
 
 interface ArtProject {
@@ -190,7 +191,7 @@ export default function ArtContentPanel({ isActive }: { isActive: boolean }) {
         />
 
         <label className="block mb-1 font-minecraft text-sm text-[#FFF3DF]">Icon</label>
-        <ImageUpload onUpload={setIcon} currentImage={icon} type="icon" />
+        <IconUpload onUpload={setIcon} currentIcon={icon} label="Icon" />
 
         <label className="block mb-1 font-minecraft text-sm text-[#FFF3DF]">Project Images</label>
         <MultipleImagesUpload onUpload={setImages} currentImages={images} />

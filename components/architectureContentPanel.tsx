@@ -1,6 +1,7 @@
 "use client";
 import { useEffect, useState } from "react";
-import {ImageUpload, MultipleImagesUpload} from "@/components/imageUpload";
+import { ImageUpload, MultipleImagesUpload } from "@/components/imageUpload";
+import IconUpload from "@/components/iconUpload";
 import ProjectPosition from "@/components/projectPosition";
 
 interface ArchitectureProject {
@@ -196,8 +197,8 @@ export default function ArchitectureContentPanel({ isActive }: { isActive: boole
           className="w-full p-2 border border-gray-400 rounded-md mb-2"
         />
 
-        <label className="block mb-1 font-minecraft text-sm text-[#FFF3DF]">Icon</label>
-        <ImageUpload onUpload={setIcon} currentImage={icon} type="icon" />
+        <label className="block mb-1 font-minecraft text-sm text-[#FFF3DF]">Icon #1</label>
+        <IconUpload onUpload={setIcon} currentIcon={icon} label="Icon #1" />
         <label className="block mb-1 font-minecraft text-sm text-[#FFF3DF]">Project images</label>
         <MultipleImagesUpload 
           onUpload={setImages} 
