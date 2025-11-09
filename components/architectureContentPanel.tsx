@@ -1,7 +1,7 @@
 "use client";
 import { useEffect, useState } from "react";
 import { InformationCircleIcon } from "@heroicons/react/24/outline";
-import { ImageUpload, MultipleImagesUpload } from "@/components/imageUpload";
+import { MultipleImagesUpload } from "@/components/imageUpload";
 import IconUpload from "@/components/iconUpload";
 import ProjectPosition from "@/components/projectPosition";
 
@@ -36,14 +36,12 @@ export default function ArchitectureContentPanel({ isActive }: { isActive: boole
   const [page, setPage] = useState<number>(1);
 
   const InfoTooltip = ({ message }: { message: string }) => (
-    <div className="relative group">
-      <div className="flex h-5 w-5 items-center justify-center rounded-full border border-[#FFF3DF]/60 bg-transparent text-[#FFF3DF]">
-        <InformationCircleIcon className="h-3.5 w-3.5" />
-      </div>
-      <div className="pointer-events-none absolute left-1/2 top-full z-10 mt-2 w-56 -translate-x-1/2 rounded-md bg-black/90 px-3 py-2 text-xs text-white opacity-0 shadow-lg transition-opacity duration-200 group-hover:opacity-100">
+    <span className="group relative inline-flex h-5 w-5 items-center justify-center text-[#FFF3DF]">
+      <InformationCircleIcon className="h-5 w-5 cursor-help" />
+      <span className="pointer-events-none absolute left-1/2 top-full z-10 mt-2 w-56 -translate-x-1/2 rounded-md bg-black/90 px-3 py-2 text-xs text-white opacity-0 shadow-lg transition-opacity duration-200 group-hover:opacity-100">
         {message}
-      </div>
-    </div>
+      </span>
+    </span>
   );
 
   const resetForm = () => {
@@ -249,6 +247,7 @@ export default function ArchitectureContentPanel({ isActive }: { isActive: boole
           currentPosition={position}
           currentPage={page}
           onPageChange={setPage}
+          projects={projects}
         />
 
         <div className="flex items-center gap-4 mt-4">
