@@ -176,7 +176,7 @@ export default function Architecture() {
                       <button
                         type="button"
                         className="group relative bg-transparent p-0 border-0"
-                        style={{ width: ICON_SIZE, height: ICON_SIZE }}
+                        style={{ width: ICON_SIZE }}
                         onClick={() => {
                           setSelectedProjectId(project.id);
                           window.dispatchEvent(new CustomEvent("architecture-expanded-open"));
@@ -186,7 +186,7 @@ export default function Architecture() {
                           <img
                             src={project.icon}
                             alt={project.title}
-                            className="h-full w-full object-contain transition-transform duration-200 group-hover:scale-105"
+                            className="h-auto w-full object-contain transition-transform duration-200 group-hover:scale-105"
                           />
                         )}
                         {project.iconSecondary && (
