@@ -34,6 +34,7 @@ export default function ArchitectureContentPanel({ isActive }: { isActive: boole
   const [currentPage, setCurrentPage] = useState(1);
   const [position, setPosition] = useState<number>(1);
   const [page, setPage] = useState<number>(1);
+  const [selectedProject, setSelectedProject] = useState<ArchitectureProject | null>(null);
 
   const InfoTooltip = ({ message }: { message: string }) => (
     <span className="group relative inline-flex h-5 w-5 items-center justify-center text-[#FFF3DF]">
@@ -69,6 +70,11 @@ export default function ArchitectureContentPanel({ isActive }: { isActive: boole
         const data = await res.json();
         if (res.ok && Array.isArray(data.projects)) {
           setProjects(data.projects);
+          const currentSelection = data.projects.find(
+            (project: ArchitectureProject) =>
+              project.position === position && (project.page || 1) === page
+          );
+          setSelectedProject(currentSelection ?? null);
         } else {
           console.error("❌ Unexpected response:", data);
         }
@@ -79,6 +85,14 @@ export default function ArchitectureContentPanel({ isActive }: { isActive: boole
 
     fetchProjects();
   }, [isActive]);
+
+  useEffect(() => {
+    const match = projects.find(
+      (project) =>
+        project.position === position && (project.page || 1) === page
+    );
+    setSelectedProject(match ?? null);
+  }, [projects, position, page]);
 
   // POST or PUT
   const handleSubmit = async () => {
@@ -112,9 +126,16 @@ export default function ArchitectureContentPanel({ isActive }: { isActive: boole
       if (res.ok) {
         alert(editingId ? "Proyecto actualizado" : "Proyecto publicado");
         setProjects((prev) => {
-          return editingId
+          const updated = editingId
             ? prev.map((p) => (p.id === editingId ? project : p))
             : [...prev, project];
+
+          const match = updated.find(
+            (p) =>
+              p.position === project.position && (p.page || 1) === (project.page || 1)
+          );
+          setSelectedProject(match ?? null);
+          return updated;
         });
         resetForm();
       } else {
@@ -147,7 +168,13 @@ export default function ArchitectureContentPanel({ isActive }: { isActive: boole
   
       if (res.ok) {
         alert("Proyecto eliminado");
-        setProjects((prev) => prev.filter((p) => p.id !== id));
+        setProjects((prev) => {
+          const filtered = prev.filter((p) => p.id !== id);
+          if (selectedProject?.id === id) {
+            setSelectedProject(null);
+          }
+          return filtered;
+        });
         if (editingId === id) resetForm();
       } else {
         const err = await res.json();
@@ -243,10 +270,24 @@ export default function ArchitectureContentPanel({ isActive }: { isActive: boole
           <InfoTooltip message="Choose where this specific project will be positioned." />
         </div>
         <ProjectPosition 
-          onPositionSelect={setPosition}
+          onPositionSelect={(selectedPos) => {
+            setPosition(selectedPos);
+            const associated = projects.find(
+              (proj) =>
+                proj.position === selectedPos && (proj.page || 1) === page
+            );
+            setSelectedProject(associated ?? null);
+          }}
           currentPosition={position}
           currentPage={page}
-          onPageChange={setPage}
+          onPageChange={(newPage) => {
+            setPage(newPage);
+            const associated = projects.find(
+              (proj) =>
+                proj.position === position && (proj.page || 1) === newPage
+            );
+            setSelectedProject(associated ?? null);
+          }}
           projects={projects}
         />
 
@@ -268,56 +309,60 @@ export default function ArchitectureContentPanel({ isActive }: { isActive: boole
         </div>
       </div>
 
-      {projects.length > 0 && (
-        <div className="mt-6 space-y-4">
-          {projects.map((project) => (
-            <div key={project.id} className="bg-transparent text-white p-4 rounded-md border border-gray-300">
-              {Array.isArray(project.images) && (
-                <div className="grid grid-cols-2 gap-2 mb-2">
-                  {project.images.map((img: string, i: number) => (
-                    <img
-                      key={i}
-                      src={img}
-                      alt={`imagen ${i}`}
-                      className="w-full h-32 object-cover rounded-md"
-                    />
-                  ))}
-                </div>
-              )}
-              <h4 className="text-lg font-bold font-microextend">{project.title}</h4>
-              <p className="text-sm text-gray-400">{project.category}</p>
-              <p className="text-gray-300 mt-2">
-                {project.city}, {project.country} {project.year && `· ${project.year}`}
-              </p>
-              <div className="flex gap-2 mt-3">
-                <button
-                  className="bg-yellow-400 text-black py-1 px-3 rounded-md font-microextend"
-                  onClick={() => {
-                    setTitle(project.title);
-                    setCountry(project.country);
-                    setCity(project.city);
-                    setCategory(project.category);
-                    setYear(project.year || "");
-                    setCategory(project.category);
-                    setIcon(project.icon || "");
-                    setIconSecondary(project.iconSecondary || "");
-                    setImages(project.images);
-                    setEditingId(project.id);
-                  }}
-                >
-                  Edit
-                </button>
-                <button
-                  className="bg-red-600 text-white py-1 px-3 rounded-md font-microextend"
-                  onClick={() => handleDelete(project.id)}
-                >
-                  Delete
-                </button>
+      <div className="mt-6">
+        {selectedProject ? (
+          <div className="bg-transparent text-white p-4 rounded-md border border-gray-300">
+            {Array.isArray(selectedProject.images) && (
+              <div className="grid grid-cols-2 gap-2 mb-2">
+                {selectedProject.images.map((img: string, i: number) => (
+                  <img
+                    key={i}
+                    src={img}
+                    alt={`imagen ${i}`}
+                    className="w-full h-32 object-cover rounded-md"
+                  />
+                ))}
               </div>
+            )}
+            <h4 className="text-lg font-bold font-microextend">{selectedProject.title}</h4>
+            <p className="text-sm text-gray-400">{selectedProject.category}</p>
+            <p className="text-gray-300 mt-2">
+              {selectedProject.city}, {selectedProject.country}{" "}
+              {selectedProject.year && `· ${selectedProject.year}`}
+            </p>
+            <div className="flex gap-2 mt-3">
+              <button
+                className="bg-yellow-400 text-black py-1 px-3 rounded-md font-microextend"
+                onClick={() => {
+                  setTitle(selectedProject.title);
+                  setCountry(selectedProject.country);
+                  setCity(selectedProject.city);
+                  setCategory(selectedProject.category);
+                  setYear(selectedProject.year || "");
+                  setIcon(selectedProject.icon || "");
+                  setIconSecondary(selectedProject.iconSecondary || "");
+                  setImages(selectedProject.images);
+                  setPosition(selectedProject.position || 1);
+                  setPage(selectedProject.page || 1);
+                  setEditingId(selectedProject.id);
+                }}
+              >
+                Edit
+              </button>
+              <button
+                className="bg-red-600 text-white py-1 px-3 rounded-md font-microextend"
+                onClick={() => handleDelete(selectedProject.id)}
+              >
+                Delete
+              </button>
             </div>
-          ))}
-        </div>
-      )}
+          </div>
+        ) : (
+          <div className="rounded-md border border-dashed border-gray-500/60 p-6 text-center text-sm text-gray-400">
+            Select a slot on the map to view project details.
+          </div>
+        )}
+      </div>
     </div>
   );
 }
