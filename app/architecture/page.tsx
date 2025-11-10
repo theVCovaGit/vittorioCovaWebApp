@@ -17,20 +17,28 @@ interface ArchitectureProject {
   page?: number;
 }
 
-// Position mapping for 3x3 grid inside the scroll with symmetric spacing
-const getPositionStyles = (position: number) => {
-  const positions = {
-    1: "top-[20%] left-[15%]",      // Top-left
-    2: "top-[20%] left-[50%]",      // Top-center  
-    3: "top-[20%] right-[5%]",     // Top-right
-    4: "top-[50%] left-[15%]",      // Middle-left
-    5: "top-[50%] left-[50%]",      // Center
-    6: "top-[50%] right-[5%]",     // Middle-right
-    7: "top-[80%] left-[15%]",      // Bottom-left
-    8: "top-[80%] left-[50%]",      // Bottom-center
-    9: "top-[80%] right-[5%]"      // Bottom-right
+const GRID_COLUMNS = 13;
+const GRID_ROWS = 7;
+
+const SCROLL_GRID_BOUNDS = {
+  top: "13%",
+  left: "6%",
+  width: "88%",
+  height: "74%",
+};
+
+const getGridPlacement = (position?: number) => {
+  const safeIndex = Math.max(0, (position ?? 1) - 1);
+  const column = (safeIndex % GRID_COLUMNS) + 1;
+  const row = Math.min(
+    GRID_ROWS,
+    Math.floor(safeIndex / GRID_COLUMNS) + 1
+  );
+
+  return {
+    gridColumnStart: column,
+    gridRowStart: row,
   };
-  return positions[position as keyof typeof positions] || positions[1];
 };
 
 export default function Architecture() {
@@ -54,7 +62,9 @@ export default function Architecture() {
   }, []);
 
   // Get projects for current page
-  const currentPageProjects = projects.filter(project => (project.page || 1) === currentPage);
+  const currentPageProjects = projects
+    .filter((project) => (project.page || 1) === currentPage)
+    .sort((a, b) => (a.position || 0) - (b.position || 0));
 
   return (
     <div className="min-h-screen bg-[#fff5e0] relative overflow-visible">
@@ -136,25 +146,52 @@ export default function Architecture() {
               className="absolute bottom-[-20px] left-[85%] w-48 h-16 opacity-80 transform rotate-[3deg] z-[9999]"
             />
 
-            {/* Architecture Projects positioned INSIDE the scroll based on their position data */}
-            {currentPageProjects.map((project) => (
+            {/* Architecture Projects positioned inside the scroll based on their position data */}
+            <div
+              className="pointer-events-none absolute"
+              style={{
+                top: SCROLL_GRID_BOUNDS.top,
+                left: SCROLL_GRID_BOUNDS.left,
+                width: SCROLL_GRID_BOUNDS.width,
+                height: SCROLL_GRID_BOUNDS.height,
+              }}
+            >
               <div
-                key={project.id}
-                className={`absolute w-32 h-32 transform -translate-x-1/2 -translate-y-1/2 z-10 ${getPositionStyles(project.position || 1)}`}
+                className="grid h-full w-full"
+                style={{
+                  gridTemplateColumns: `repeat(${GRID_COLUMNS}, minmax(0, 1fr))`,
+                  gridTemplateRows: `repeat(${GRID_ROWS}, minmax(0, 1fr))`,
+                  gap: "1.5%",
+                }}
               >
-                {project.icon && (
-                  <img
-                    src={project.icon}
-                    alt={project.title}
-                    className="w-40 h-40 object-contain hover:scale-105 transition-transform duration-200 cursor-pointer"
-                    onClick={() => {
-                      setSelectedProjectId(project.id);
-                      window.dispatchEvent(new CustomEvent('architecture-expanded-open'));
-                    }}
-                  />
-                )}
+                {currentPageProjects.map((project) => {
+                  const { gridColumnStart, gridRowStart } = getGridPlacement(project.position);
+
+                  return (
+                    <div
+                      key={project.id}
+                      className="pointer-events-auto flex items-center justify-center"
+                      style={{
+                        gridColumnStart,
+                        gridRowStart,
+                      }}
+                    >
+                      {project.icon && (
+                        <img
+                          src={project.icon}
+                          alt={project.title}
+                          className="h-28 w-28 max-w-full object-contain transition-transform duration-200 hover:scale-105 cursor-pointer"
+                          onClick={() => {
+                            setSelectedProjectId(project.id);
+                            window.dispatchEvent(new CustomEvent("architecture-expanded-open"));
+                          }}
+                        />
+                      )}
+                    </div>
+                  );
+                })}
               </div>
-            ))}
+            </div>
           </div>
           
           <img 
