@@ -28,19 +28,21 @@ const SCROLL_GRID_BOUNDS = {
   height: "74%",
 };
 
-const getGridPlacement = (position?: number) => {
+const getAbsolutePlacement = (position?: number) => {
   const safeIndex = Math.max(0, (position ?? 1) - 1);
   const column = (safeIndex % GRID_COLUMNS) + 1;
-  const row = Math.min(
-    GRID_ROWS,
-    Math.floor(safeIndex / GRID_COLUMNS) + 1
-  );
+  const row = Math.floor(safeIndex / GRID_COLUMNS) + 1;
+
+  const leftPercent = ((column - 0.5) / GRID_COLUMNS) * 100;
+  const topPercent = ((row - 0.5) / GRID_ROWS) * 100;
 
   return {
-    gridColumnStart: column,
-    gridRowStart: row,
+    left: `${leftPercent}%`,
+    top: `${topPercent}%`,
   };
 };
+
+const ICON_SIZE = 180;
 
 export default function Architecture() {
   const [projects, setProjects] = useState<ArchitectureProject[]>([]);
@@ -157,55 +159,48 @@ export default function Architecture() {
                 height: SCROLL_GRID_BOUNDS.height,
               }}
             >
-              <div
-                className="grid h-full w-full"
-                style={{
-                  gridTemplateColumns: `repeat(${GRID_COLUMNS}, minmax(0, 1fr))`,
-                  gridTemplateRows: `repeat(${GRID_ROWS}, minmax(0, 1fr))`,
-                  gap: "1.5%",
-                }}
-              >
-                {currentPageProjects.map((project) => {
-                  const { gridColumnStart, gridRowStart } = getGridPlacement(project.position);
+              {currentPageProjects.map((project) => {
+                const { left, top } = getAbsolutePlacement(project.position);
 
-                  return (
-                    <div
-                      key={project.id}
-                      className="pointer-events-auto flex items-center justify-center"
-                      style={{
-                        gridColumnStart,
-                        gridRowStart,
-                      }}
-                    >
-                      {(project.icon || project.iconSecondary) && (
-                        <button
-                          type="button"
-                          className="group relative h-28 w-28 max-w-full bg-transparent p-0 border-0"
-                          onClick={() => {
-                            setSelectedProjectId(project.id);
-                            window.dispatchEvent(new CustomEvent("architecture-expanded-open"));
-                          }}
-                        >
-                          {project.icon && (
-                            <img
-                              src={project.icon}
-                              alt={project.title}
-                              className="h-full w-full object-contain transition-transform duration-200 group-hover:scale-105"
-                            />
-                          )}
-                          {project.iconSecondary && (
-                            <img
-                              src={project.iconSecondary}
-                              alt={`${project.title} secondary`}
-                              className="absolute inset-0 h-full w-full object-contain opacity-0 transition-opacity duration-200 group-hover:opacity-100 group-hover:scale-105"
-                            />
-                          )}
-                        </button>
-                      )}
-                    </div>
-                  );
-                })}
-              </div>
+                return (
+                  <div
+                    key={project.id}
+                    className="pointer-events-auto absolute flex items-center justify-center"
+                    style={{
+                      left,
+                      top,
+                      transform: "translate(-50%, -50%)",
+                    }}
+                  >
+                    {(project.icon || project.iconSecondary) && (
+                      <button
+                        type="button"
+                        className="group relative bg-transparent p-0 border-0"
+                        style={{ width: ICON_SIZE, height: ICON_SIZE }}
+                        onClick={() => {
+                          setSelectedProjectId(project.id);
+                          window.dispatchEvent(new CustomEvent("architecture-expanded-open"));
+                        }}
+                      >
+                        {project.icon && (
+                          <img
+                            src={project.icon}
+                            alt={project.title}
+                            className="h-full w-full object-contain transition-transform duration-200 group-hover:scale-105"
+                          />
+                        )}
+                        {project.iconSecondary && (
+                          <img
+                            src={project.iconSecondary}
+                            alt={`${project.title} secondary`}
+                            className="absolute inset-0 h-full w-full object-contain opacity-0 transition-opacity duration-200 group-hover:opacity-100 group-hover:scale-105"
+                          />
+                        )}
+                      </button>
+                    )}
+                  </div>
+                );
+              })}
             </div>
           </div>
           
