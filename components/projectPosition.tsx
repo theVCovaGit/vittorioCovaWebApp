@@ -72,8 +72,24 @@ const ProjectPosition = ({
       }
     });
 
+    for (let row = 0; row < GRID_ROWS; row++) {
+      for (let col = 0; col < GRID_COLUMNS; col++) {
+        if (
+          row === 0 ||
+          row === GRID_ROWS - 1 ||
+          col === 0 ||
+          col === GRID_COLUMNS - 1
+        ) {
+          const edgePosition = (page - 1) * SLOTS_PER_PAGE + row * GRID_COLUMNS + col + 1;
+          if (!pageAssignments.has(edgePosition)) {
+            blocked.add(edgePosition);
+          }
+        }
+      }
+    }
+
     return blocked;
-  }, [pageAssignments]);
+  }, [pageAssignments, page]);
 
   useEffect(() => {
     setSelectedPosition(currentPosition);
