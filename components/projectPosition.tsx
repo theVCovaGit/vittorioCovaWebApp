@@ -19,6 +19,8 @@ interface ProjectPositionProps {
 }
 
 const SLOTS_PER_PAGE = 91;
+const GRID_COLUMNS = 13;
+const GRID_ROWS = 7;
 
 const ProjectPosition = ({
   onPositionSelect,
@@ -30,15 +32,48 @@ const ProjectPosition = ({
   const [selectedPosition, setSelectedPosition] = useState<number>(currentPosition);
   const [page, setPage] = useState<number>(currentPage);
 
-  const assignments = useMemo(() => {
+  const pageAssignments = useMemo(() => {
     const map = new Map<number, PositionAssignment>();
     projects.forEach((project) => {
-      if (project && typeof project.position === "number") {
+      if (
+        project &&
+        typeof project.position === "number" &&
+        (project.page ?? 1) === page
+      ) {
         map.set(project.position, project);
       }
     });
     return map;
-  }, [projects]);
+  }, [projects, page]);
+
+  const blockedPositions = useMemo(() => {
+    const blocked = new Set<number>();
+
+    pageAssignments.forEach((project, positionKey) => {
+      if (typeof positionKey !== "number") return;
+
+      const positionIndex = positionKey - 1;
+      const baseRow = Math.floor(positionIndex / GRID_COLUMNS);
+      const baseCol = positionIndex % GRID_COLUMNS;
+
+      for (let rowOffset = -1; rowOffset <= 1; rowOffset++) {
+        const targetRow = baseRow + rowOffset;
+        if (targetRow < 0 || targetRow >= GRID_ROWS) continue;
+
+        for (let colOffset = -2; colOffset <= 2; colOffset++) {
+          const targetCol = baseCol + colOffset;
+          if (targetCol < 0 || targetCol >= GRID_COLUMNS) continue;
+
+          const targetPosition = targetRow * GRID_COLUMNS + targetCol + 1;
+          if (targetPosition === positionKey) continue;
+
+          blocked.add(targetPosition);
+        }
+      }
+    });
+
+    return blocked;
+  }, [pageAssignments]);
 
   useEffect(() => {
     setSelectedPosition(currentPosition);
@@ -50,6 +85,13 @@ const ProjectPosition = ({
 
   const handlePositionClick = (position: number) => {
     setSelectedPosition(position);
+    const isBlocked =
+      blockedPositions.has(position) && !pageAssignments.has(position);
+
+    if (isBlocked) {
+      return;
+    }
+
     if (onPositionSelect) {
       onPositionSelect(position);
     }
@@ -76,7 +118,7 @@ const ProjectPosition = ({
     }
   };
 
-  const selectedAssignment = assignments.get(selectedPosition);
+  const selectedAssignment = pageAssignments.get(selectedPosition);
 
   return (
     <div className="mt-4">
@@ -111,11 +153,17 @@ const ProjectPosition = ({
           {Array.from({ length: SLOTS_PER_PAGE }, (_, index) => {
             const position = (page - 1) * SLOTS_PER_PAGE + index + 1;
             const isSelected = selectedPosition === position;
-            const occupant = assignments.get(position);
+            const occupant = pageAssignments.get(position);
             const isOccupied = Boolean(occupant);
+            const isBlocked =
+              !isOccupied && blockedPositions.has(position);
             const slotLabel =
               occupant?.title?.trim() ||
-              (isOccupied ? "Occupied" : `Slot ${position}`);
+              (isOccupied
+                ? "Occupied"
+                : isBlocked
+                ? "Reserved buffer"
+                : `Slot ${position}`);
 
             const previewUrl = occupant?.images?.[0] || null;
             const hasPreview = Boolean(previewUrl);
@@ -127,6 +175,8 @@ const ProjectPosition = ({
               ? "border-2 border-blue-400 shadow-[0_0_0_1px_rgba(59,130,246,0.4)]"
               : isOccupied
               ? "border-[#fdf053]/70 bg-[#433231] hover:border-[#fdf053]"
+              : isBlocked
+              ? "border-gray-500/60 bg-gray-500/30 cursor-not-allowed text-gray-300"
               : "border-gray-300 bg-transparent hover:bg-gray-100";
 
             return (
