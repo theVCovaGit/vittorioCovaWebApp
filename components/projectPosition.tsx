@@ -21,6 +21,8 @@ interface ProjectPositionProps {
 const SLOTS_PER_PAGE = 91;
 const GRID_COLUMNS = 13;
 const GRID_ROWS = 7;
+const HORIZONTAL_BUFFER = 4;
+const VERTICAL_BUFFER = 1;
 
 const ProjectPosition = ({
   onPositionSelect,
@@ -56,11 +58,11 @@ const ProjectPosition = ({
       const baseRow = Math.floor(positionIndex / GRID_COLUMNS);
       const baseCol = positionIndex % GRID_COLUMNS;
 
-      for (let rowOffset = -1; rowOffset <= 1; rowOffset++) {
+      for (let rowOffset = -VERTICAL_BUFFER; rowOffset <= VERTICAL_BUFFER; rowOffset++) {
         const targetRow = baseRow + rowOffset;
         if (targetRow < 0 || targetRow >= GRID_ROWS) continue;
 
-        for (let colOffset = -2; colOffset <= 2; colOffset++) {
+        for (let colOffset = -HORIZONTAL_BUFFER; colOffset <= HORIZONTAL_BUFFER; colOffset++) {
           const targetCol = baseCol + colOffset;
           if (targetCol < 0 || targetCol >= GRID_COLUMNS) continue;
 
@@ -171,7 +173,8 @@ const ProjectPosition = ({
             const isOccupied = Boolean(occupant);
             const isBlocked =
               !isOccupied && blockedPositions.has(position);
-            const canSelect = !isBlocked;
+            const isAvailable = !isOccupied && !isBlocked;
+            const canSelect = isAvailable;
             const isSelected = canSelect && selectedPosition === position;
             const slotLabel =
               occupant?.title?.trim() ||
@@ -179,6 +182,8 @@ const ProjectPosition = ({
                 ? "Occupied"
                 : isBlocked
                 ? "Reserved buffer"
+                : isAvailable
+                ? "Available"
                 : `Slot ${position}`);
 
             const previewUrl = occupant?.images?.[0] || null;
@@ -193,7 +198,7 @@ const ProjectPosition = ({
               ? "cursor-pointer border-[#fdf053]/70 bg-[#433231] hover:border-[#fdf053]"
               : isBlocked
               ? "cursor-not-allowed border-gray-500/60 bg-gray-500/30 text-gray-300"
-              : "cursor-pointer border-gray-300 bg-transparent hover:bg-gray-100";
+              : "cursor-pointer border-green-400/60 bg-green-500/20 hover:border-green-300 hover:bg-green-500/30";
 
             return (
               <div
@@ -236,13 +241,17 @@ const ProjectPosition = ({
                       )}
                     </>
                   ) : (
-                    <span
-                      className={`text-xs font-bold ${
-                        isSelected ? "text-blue-600" : "text-gray-400"
-                      }`}
-                    >
-                      {position}
-                    </span>
+                <span
+                  className={`text-xs font-bold ${
+                    isSelected
+                      ? "text-blue-600"
+                      : isAvailable
+                      ? "text-green-200"
+                      : "text-gray-400"
+                  }`}
+                >
+                  {position}
+                </span>
                   )}
                 </div>
               </div>
