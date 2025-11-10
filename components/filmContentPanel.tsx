@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { ImageUpload, MultipleImagesUpload } from "@/components/imageUpload";
+import { MultipleImagesUpload } from "@/components/imageUpload";
 import IconUpload from "@/components/iconUpload";
 import ProjectPosition from "@/components/projectPosition";
 
