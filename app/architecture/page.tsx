@@ -13,6 +13,7 @@ interface ArchitectureProject {
   year?: string;
   images: string[];
   icon?: string;
+  iconSecondary?: string;
   position?: number;
   page?: number;
 }
@@ -176,16 +177,30 @@ export default function Architecture() {
                         gridRowStart,
                       }}
                     >
-                      {project.icon && (
-                        <img
-                          src={project.icon}
-                          alt={project.title}
-                          className="h-28 w-28 max-w-full object-contain transition-transform duration-200 hover:scale-105 cursor-pointer"
+                      {(project.icon || project.iconSecondary) && (
+                        <button
+                          type="button"
+                          className="group relative h-28 w-28 max-w-full bg-transparent p-0 border-0"
                           onClick={() => {
                             setSelectedProjectId(project.id);
                             window.dispatchEvent(new CustomEvent("architecture-expanded-open"));
                           }}
-                        />
+                        >
+                          {project.icon && (
+                            <img
+                              src={project.icon}
+                              alt={project.title}
+                              className="h-full w-full object-contain transition-transform duration-200 group-hover:scale-105"
+                            />
+                          )}
+                          {project.iconSecondary && (
+                            <img
+                              src={project.iconSecondary}
+                              alt={`${project.title} secondary`}
+                              className="absolute inset-0 h-full w-full object-contain opacity-0 transition-opacity duration-200 group-hover:opacity-100 group-hover:scale-105"
+                            />
+                          )}
+                        </button>
                       )}
                     </div>
                   );
