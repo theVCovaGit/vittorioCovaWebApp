@@ -265,8 +265,9 @@ export default function Architecture() {
           
           <img 
             src="/assets/scroll.svg" 
-            alt="Architecture Scroll" 
+            alt="Architecture Scroll mirrored" 
             className="h-[500px] w-auto object-contain flex-shrink-0"
+            style={{ transform: "scaleX(-1)" }}
           />
         </div>
       </div>
