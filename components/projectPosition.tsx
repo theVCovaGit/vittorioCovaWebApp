@@ -84,17 +84,16 @@ const ProjectPosition = ({
   }, [currentPage]);
 
   const handlePositionClick = (position: number) => {
-    setSelectedPosition(position);
+    const occupant = pageAssignments.get(position);
     const isBlocked =
-      blockedPositions.has(position) && !pageAssignments.has(position);
+      !occupant && blockedPositions.has(position);
 
     if (isBlocked) {
       return;
     }
 
-    if (onPositionSelect) {
-      onPositionSelect(position);
-    }
+    setSelectedPosition(position);
+    onPositionSelect?.(position);
   };
 
   const handlePrevPage = () => {
@@ -152,11 +151,12 @@ const ProjectPosition = ({
         <div className="grid h-full grid-cols-[repeat(13,minmax(0,1fr))] grid-rows-7 gap-1 p-1">
           {Array.from({ length: SLOTS_PER_PAGE }, (_, index) => {
             const position = (page - 1) * SLOTS_PER_PAGE + index + 1;
-            const isSelected = selectedPosition === position;
             const occupant = pageAssignments.get(position);
             const isOccupied = Boolean(occupant);
             const isBlocked =
               !isOccupied && blockedPositions.has(position);
+            const canSelect = !isBlocked;
+            const isSelected = canSelect && selectedPosition === position;
             const slotLabel =
               occupant?.title?.trim() ||
               (isOccupied
@@ -169,15 +169,15 @@ const ProjectPosition = ({
             const hasPreview = Boolean(previewUrl);
 
             const baseClasses =
-              "relative flex h-full w-full cursor-pointer flex-col items-center justify-center overflow-hidden rounded-md border transition-colors";
+              "relative flex h-full w-full flex-col items-center justify-center overflow-hidden rounded-md border transition-colors";
 
             const variantClasses = isSelected
-              ? "border-2 border-blue-400 shadow-[0_0_0_1px_rgba(59,130,246,0.4)]"
+              ? "cursor-pointer border-2 border-blue-400 shadow-[0_0_0_1px_rgba(59,130,246,0.4)]"
               : isOccupied
-              ? "border-[#fdf053]/70 bg-[#433231] hover:border-[#fdf053]"
+              ? "cursor-pointer border-[#fdf053]/70 bg-[#433231] hover:border-[#fdf053]"
               : isBlocked
-              ? "border-gray-500/60 bg-gray-500/30 cursor-not-allowed text-gray-300"
-              : "border-gray-300 bg-transparent hover:bg-gray-100";
+              ? "cursor-not-allowed border-gray-500/60 bg-gray-500/30 text-gray-300"
+              : "cursor-pointer border-gray-300 bg-transparent hover:bg-gray-100";
 
             return (
               <div
