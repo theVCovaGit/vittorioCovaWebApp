@@ -42,7 +42,7 @@ const getAbsolutePlacement = (position?: number) => {
   };
 };
 
-const ICON_SIZE = 180;
+const ICON_SIZE = 420;
 
 export default function Architecture() {
   const [projects, setProjects] = useState<ArchitectureProject[]>([]);
