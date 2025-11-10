@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import ArchitectureProjectExpandedView from "@/components/architectureProjectExpandedView";
 
 interface ArchitectureProject {
@@ -48,6 +48,50 @@ export default function Architecture() {
   const [projects, setProjects] = useState<ArchitectureProject[]>([]);
   const [currentPage] = useState(1);
   const [selectedProjectId, setSelectedProjectId] = useState<number | null>(null);
+  const [hoveredProjectId, setHoveredProjectId] = useState<number | null>(null);
+  const projectRefs = useRef<Record<number, HTMLButtonElement | null>>({});
+
+  const handlePointerMove = useCallback((event: React.PointerEvent<HTMLDivElement>) => {
+    const pointerX = event.clientX;
+    const pointerY = event.clientY;
+
+    let closestId: number | null = null;
+    let closestDistance = Number.POSITIVE_INFINITY;
+    let closestThreshold = 0;
+
+    for (const [idKey, element] of Object.entries(projectRefs.current)) {
+      if (!element) {
+        continue;
+      }
+
+      const rect = element.getBoundingClientRect();
+      const centerX = rect.left + rect.width / 2;
+      const centerY = rect.top + rect.height / 2;
+      const dx = pointerX - centerX;
+      const dy = pointerY - centerY;
+      const distance = Math.hypot(dx, dy);
+
+      const threshold = Math.min(rect.width, rect.height) * 0.35;
+
+      if (distance < closestDistance) {
+        closestDistance = distance;
+        closestId = Number(idKey);
+        closestThreshold = threshold;
+      }
+    }
+
+    if (closestId !== null && closestDistance <= closestThreshold) {
+      setHoveredProjectId((current) => (current === closestId ? current : closestId));
+    } else if (hoveredProjectId !== null) {
+      setHoveredProjectId(null);
+    }
+  }, [hoveredProjectId]);
+
+  const handlePointerLeave = useCallback(() => {
+    if (hoveredProjectId !== null) {
+      setHoveredProjectId(null);
+    }
+  }, [hoveredProjectId]);
 
   useEffect(() => {
     const html = document.documentElement;
@@ -210,13 +254,15 @@ export default function Architecture() {
 
             {/* Architecture Projects positioned inside the scroll based on their position data */}
             <div
-              className="pointer-events-none absolute"
+              className="absolute"
               style={{
                 top: SCROLL_GRID_BOUNDS.top,
                 left: SCROLL_GRID_BOUNDS.left,
                 width: SCROLL_GRID_BOUNDS.width,
                 height: SCROLL_GRID_BOUNDS.height,
               }}
+              onPointerMove={handlePointerMove}
+              onPointerLeave={handlePointerLeave}
             >
               {currentPageProjects.map((project) => {
                 const { left, top } = getAbsolutePlacement(project.position);
@@ -236,23 +282,34 @@ export default function Architecture() {
                         type="button"
                         className="group relative bg-transparent p-0 border-0"
                         style={{ width: ICON_SIZE }}
+                        ref={(element) => {
+                          projectRefs.current[project.id] = element;
+                        }}
                         onClick={() => {
                           setSelectedProjectId(project.id);
                           window.dispatchEvent(new CustomEvent("architecture-expanded-open"));
                         }}
+                        onMouseEnter={() => setHoveredProjectId(project.id)}
+                        onFocus={() => setHoveredProjectId(project.id)}
+                        onMouseLeave={() => setHoveredProjectId((current) => (current === project.id ? null : current))}
+                        onBlur={() => setHoveredProjectId((current) => (current === project.id ? null : current))}
                       >
                         {project.icon && (
                           <img
                             src={project.icon}
                             alt={project.title}
-                            className="h-auto w-full object-contain transition-transform duration-200 group-hover:scale-105"
+                            className={`h-auto w-full object-contain transition-transform duration-200 ${
+                              hoveredProjectId === project.id ? "scale-105" : ""
+                            }`}
                           />
                         )}
                         {project.iconSecondary && (
                           <img
                             src={project.iconSecondary}
                             alt={`${project.title} secondary`}
-                            className="absolute inset-0 h-full w-full object-contain opacity-0 transition-opacity duration-200 group-hover:opacity-100 group-hover:scale-105"
+                            className={`absolute inset-0 h-full w-full object-contain transition-opacity duration-200 ${
+                              hoveredProjectId === project.id ? "opacity-100" : "opacity-0"
+                            }`}
                           />
                         )}
                       </button>
