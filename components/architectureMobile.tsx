@@ -42,13 +42,13 @@ const getAbsolutePlacement = (position?: number) => {
   };
 };
 
-const MOBILE_ICON_SIZE = 220;
-const MOBILE_SCROLL_HEIGHT = 380;
+const MOBILE_ICON_SIZE = "clamp(140px, 36vw, 220px)";
+const MOBILE_SCROLL_HEIGHT = "clamp(420px, 62vh, 680px)";
 const MOBILE_SCROLL_WIDTH = 1080;
-const MOBILE_HEADER_HEIGHT = 120;
-const MOBILE_FOOTER_HEIGHT = 210;
+const MOBILE_HEADER_OFFSET = "12vh";
+const MOBILE_FOOTER_OFFSET = "24vh";
 const SCROLL_SCALE_Y = 1.4;
-const SCROLL_TRANSLATE_Y = 79;
+const SCROLL_TRANSLATE_Y = "6vh";
 
 export default function ArchitectureMobile() {
   const [projects, setProjects] = useState<ArchitectureProject[]>([]);
@@ -100,8 +100,8 @@ export default function ArchitectureMobile() {
           <div
             className="relative flex h-full items-center"
             style={{
-              paddingTop: MOBILE_HEADER_HEIGHT,
-              paddingBottom: MOBILE_FOOTER_HEIGHT,
+              paddingTop: MOBILE_HEADER_OFFSET,
+              paddingBottom: MOBILE_FOOTER_OFFSET,
             }}
           >
             <div
@@ -114,7 +114,7 @@ export default function ArchitectureMobile() {
                   height: "100%",
                   width: "100%",
                   transformOrigin: "center",
-                  transform: `translateY(${SCROLL_TRANSLATE_Y}px) scaleY(${SCROLL_SCALE_Y})`,
+                  transform: `translateY(${SCROLL_TRANSLATE_Y}) scaleY(${SCROLL_SCALE_Y})`,
                 }}
               >
                 <img
