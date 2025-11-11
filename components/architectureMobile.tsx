@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import ArchitectureProjectExpandedView from "@/components/architectureProjectExpandedView";
 
 interface ArchitectureProject {
@@ -42,13 +42,16 @@ const getAbsolutePlacement = (position?: number) => {
   };
 };
 
-const MOBILE_ICON_WIDTH = "min(50vw, 240px)";
+const MOBILE_ICON_SIZE = 220;
+const MOBILE_SCROLL_HEIGHT = 380;
+const MOBILE_SCROLL_WIDTH = 1080;
 
 export default function ArchitectureMobile() {
   const [projects, setProjects] = useState<ArchitectureProject[]>([]);
   const [currentPage] = useState(1);
   const [selectedProjectId, setSelectedProjectId] = useState<number | null>(null);
   const [hoveredProjectId, setHoveredProjectId] = useState<number | null>(null);
+  const projectRefs = useRef<Record<number, HTMLButtonElement | null>>({});
 
   useEffect(() => {
     const fetchProjects = async () => {
@@ -69,76 +72,85 @@ export default function ArchitectureMobile() {
     .sort((a, b) => (a.position || 0) - (b.position || 0));
 
   return (
-    <div className="relative min-h-screen w-full bg-[#fff5e0] pb-16 pt-10">
-      <div className="relative mx-auto flex w-full max-w-[960px] flex-col items-center px-4">
-        <div
-          className="film-strip-container relative w-full overflow-x-auto overflow-y-hidden rounded-3xl px-1 pb-6 pt-4 scrollbar-hide"
-          style={{
-            scrollBehavior: "smooth",
-            scrollbarWidth: "none",
-            msOverflowStyle: "none",
-            WebkitOverflowScrolling: "touch",
-            overscrollBehavior: "contain",
-            touchAction: "pan-x",
-          }}
-        >
-          <div className="relative w-full">
+    <div className="fixed inset-0 bg-[#fff5e0] overflow-hidden">
+      <div
+        className="film-strip-container absolute left-0 top-1/2 flex h-[420px] w-full -translate-y-1/2 items-center overflow-x-auto overflow-y-hidden px-4 scrollbar-hide"
+        style={{
+          scrollBehavior: "smooth",
+          scrollbarWidth: "none",
+          msOverflowStyle: "none",
+          WebkitOverflowScrolling: "touch",
+          overscrollBehavior: "contain",
+          touchAction: "pan-x",
+        }}
+      >
+        <div className="relative flex items-center gap-6">
+          <div
+            className="relative flex-shrink-0"
+            style={{ width: MOBILE_SCROLL_WIDTH, height: MOBILE_SCROLL_HEIGHT }}
+          >
             <img
               src="/assets/scroll.svg"
               alt="Architecture Scroll"
-              className="w-full max-w-full object-contain"
+              style={{ width: MOBILE_SCROLL_WIDTH, height: MOBILE_SCROLL_HEIGHT }}
+              className="object-contain"
             />
 
             <img
               src="/assets/tape1.svg"
               alt="Tape"
-              className="pointer-events-none absolute -top-3 left-[5%] w-24 opacity-80"
+              className="pointer-events-none absolute -top-3 left-[4%] w-28 opacity-80"
             />
             <img
               src="/assets/tape2.svg"
               alt="Tape"
-              className="pointer-events-none absolute -top-3 left-[25%] w-24 opacity-80"
+              className="pointer-events-none absolute -top-4 left-[22%] w-28 opacity-80"
             />
             <img
               src="/assets/tape3.svg"
               alt="Tape"
-              className="pointer-events-none absolute -top-3 left-[45%] w-24 opacity-80"
+              className="pointer-events-none absolute -top-5 left-[40%] w-28 opacity-80"
             />
             <img
               src="/assets/tape4.svg"
               alt="Tape"
-              className="pointer-events-none absolute -top-3 left-[65%] w-24 opacity-80"
+              className="pointer-events-none absolute -top-4 left-[58%] w-28 opacity-80"
             />
             <img
               src="/assets/tape5.svg"
               alt="Tape"
-              className="pointer-events-none absolute -top-3 left-[85%] w-24 opacity-80"
+              className="pointer-events-none absolute -top-3 left-[76%] w-28 opacity-80"
+            />
+            <img
+              src="/assets/tape6.svg"
+              alt="Tape"
+              className="pointer-events-none absolute -top-6 left-[15%] w-28 opacity-80"
             />
 
             <img
               src="/assets/tape7.svg"
               alt="Tape"
-              className="pointer-events-none absolute bottom-[-12px] left-[8%] w-24 opacity-80"
+              className="pointer-events-none absolute -bottom-6 left-[6%] w-28 opacity-80"
             />
             <img
               src="/assets/tape8.svg"
               alt="Tape"
-              className="pointer-events-none absolute bottom-[-12px] left-[30%] w-24 opacity-80"
+              className="pointer-events-none absolute -bottom-6 left-[26%] w-28 opacity-80"
             />
             <img
               src="/assets/tape9.svg"
               alt="Tape"
-              className="pointer-events-none absolute bottom-[-12px] left-[52%] w-24 opacity-80"
+              className="pointer-events-none absolute -bottom-6 left-[46%] w-28 opacity-80"
             />
             <img
               src="/assets/tape10.svg"
               alt="Tape"
-              className="pointer-events-none absolute bottom-[-12px] left-[74%] w-24 opacity-80"
+              className="pointer-events-none absolute -bottom-6 left-[66%] w-28 opacity-80"
             />
             <img
               src="/assets/tape11.svg"
               alt="Tape"
-              className="pointer-events-none absolute bottom-[-12px] left-[90%] w-24 opacity-80"
+              className="pointer-events-none absolute -bottom-6 left-[84%] w-28 opacity-80"
             />
 
             <div
@@ -167,7 +179,10 @@ export default function ArchitectureMobile() {
                       <button
                         type="button"
                         className="group relative bg-transparent p-0"
-                        style={{ width: MOBILE_ICON_WIDTH }}
+                        style={{ width: MOBILE_ICON_SIZE }}
+                        ref={(element) => {
+                          projectRefs.current[project.id] = element;
+                        }}
                         onClick={() => {
                           setSelectedProjectId(project.id);
                           window.dispatchEvent(new CustomEvent("architecture-expanded-open"));
@@ -208,6 +223,13 @@ export default function ArchitectureMobile() {
               })}
             </div>
           </div>
+
+          <img
+            src="/assets/scroll.svg"
+            alt="Architecture Scroll mirrored"
+            style={{ width: MOBILE_SCROLL_WIDTH, height: MOBILE_SCROLL_HEIGHT }}
+            className="flex-shrink-0 object-contain"
+          />
         </div>
       </div>
 
