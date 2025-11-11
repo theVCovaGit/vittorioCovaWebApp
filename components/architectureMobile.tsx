@@ -126,58 +126,58 @@ export default function ArchitectureMobile() {
                 <img
                   src="/assets/tape1.svg"
                   alt="Tape"
-                  className="pointer-events-none absolute -top-3 left-[4%] w-28 opacity-80"
+                  className="pointer-events-none absolute -top-3 left-[4%] w-[12vw] max-w-[70px] opacity-80"
                 />
                 <img
                   src="/assets/tape2.svg"
                   alt="Tape"
-                  className="pointer-events-none absolute -top-4 left-[22%] w-28 opacity-80"
+                  className="pointer-events-none absolute -top-4 left-[22%] w-[12vw] max-w-[70px] opacity-80"
                 />
                 <img
                   src="/assets/tape3.svg"
                   alt="Tape"
-                  className="pointer-events-none absolute -top-5 left-[40%] w-28 opacity-80"
+                  className="pointer-events-none absolute -top-5 left-[40%] w-[12vw] max-w-[70px] opacity-80"
                 />
                 <img
                   src="/assets/tape4.svg"
                   alt="Tape"
-                  className="pointer-events-none absolute -top-4 left-[58%] w-28 opacity-80"
+                  className="pointer-events-none absolute -top-4 left-[58%] w-[12vw] max-w-[70px] opacity-80"
                 />
                 <img
                   src="/assets/tape5.svg"
                   alt="Tape"
-                  className="pointer-events-none absolute -top-3 left-[76%] w-28 opacity-80"
+                  className="pointer-events-none absolute -top-3 left-[76%] w-[12vw] max-w-[70px] opacity-80"
                 />
                 <img
                   src="/assets/tape6.svg"
                   alt="Tape"
-                  className="pointer-events-none absolute -top-6 left-[15%] w-28 opacity-80"
+                  className="pointer-events-none absolute -top-6 left-[15%] w-[12vw] max-w-[70px] opacity-80"
                 />
 
                 <img
                   src="/assets/tape7.svg"
                   alt="Tape"
-                  className="pointer-events-none absolute -bottom-6 left-[6%] w-28 opacity-80"
+                  className="pointer-events-none absolute -bottom-6 left-[6%] w-[12vw] max-w-[70px] opacity-80"
                 />
                 <img
                   src="/assets/tape8.svg"
                   alt="Tape"
-                  className="pointer-events-none absolute -bottom-6 left-[26%] w-28 opacity-80"
+                  className="pointer-events-none absolute -bottom-6 left-[26%] w-[12vw] max-w-[70px] opacity-80"
                 />
                 <img
                   src="/assets/tape9.svg"
                   alt="Tape"
-                  className="pointer-events-none absolute -bottom-6 left-[46%] w-28 opacity-80"
+                  className="pointer-events-none absolute -bottom-6 left-[46%] w-[12vw] max-w-[70px] opacity-80"
                 />
                 <img
                   src="/assets/tape10.svg"
                   alt="Tape"
-                  className="pointer-events-none absolute -bottom-6 left-[66%] w-28 opacity-80"
+                  className="pointer-events-none absolute -bottom-6 left-[66%] w-[12vw] max-w-[70px] opacity-80"
                 />
                 <img
                   src="/assets/tape11.svg"
                   alt="Tape"
-                  className="pointer-events-none absolute -bottom-6 left-[84%] w-28 opacity-80"
+                  className="pointer-events-none absolute -bottom-6 left-[84%] w-[12vw] max-w-[70px] opacity-80"
                 />
               </div>
 
