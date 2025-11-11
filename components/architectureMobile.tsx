@@ -47,7 +47,8 @@ const MOBILE_SCROLL_HEIGHT = 380;
 const MOBILE_SCROLL_WIDTH = 1080;
 const MOBILE_HEADER_HEIGHT = 120;
 const MOBILE_FOOTER_HEIGHT = 210;
-const SCROLL_SCALE_Y = 1.6;
+const SCROLL_SCALE_Y = 1.4;
+const SCROLL_TRANSLATE_Y = 79;
 
 export default function ArchitectureMobile() {
   const [projects, setProjects] = useState<ArchitectureProject[]>([]);
@@ -113,7 +114,7 @@ export default function ArchitectureMobile() {
                   height: "100%",
                   width: "100%",
                   transformOrigin: "center",
-                  transform: `scaleY(${SCROLL_SCALE_Y})`,
+                  transform: `translateY(${SCROLL_TRANSLATE_Y}px) scaleY(${SCROLL_SCALE_Y})`,
                 }}
               >
                 <img
