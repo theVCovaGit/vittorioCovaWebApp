@@ -17,7 +17,7 @@ interface ArchitectureProject {
   position?: number;
   page?: number;
 }
-//checkpoint
+
 const GRID_COLUMNS = 13;
 const GRID_ROWS = 7;
 
@@ -48,7 +48,7 @@ const MOBILE_SCROLL_WIDTH = 1080;
 const MOBILE_HEADER_OFFSET = "12vh";
 const MOBILE_FOOTER_OFFSET = "24vh";
 const SCROLL_SCALE_Y = 1.3;
-const SCROLL_TRANSLATE_Y = "3.25vh";
+const SCROLL_TRANSLATE_Y = "3.15vh";
 
 export default function ArchitectureMobile() {
   const [projects, setProjects] = useState<ArchitectureProject[]>([]);
