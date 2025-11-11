@@ -1,6 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useRef, useState } from "react";
+import ArchitectureMobile from "@/components/architectureMobile";
 import ArchitectureProjectExpandedView from "@/components/architectureProjectExpandedView";
 
 interface ArchitectureProject {
@@ -44,7 +45,7 @@ const getAbsolutePlacement = (position?: number) => {
 
 const ICON_SIZE = 420;
 
-export default function Architecture() {
+function ArchitectureDesktop() {
   const [projects, setProjects] = useState<ArchitectureProject[]>([]);
   const [currentPage] = useState(1);
   const [selectedProjectId, setSelectedProjectId] = useState<number | null>(null);
@@ -341,4 +342,32 @@ export default function Architecture() {
       )}
     </div>
   );
+}
+
+export default function Architecture() {
+  const [isMobile, setIsMobile] = useState(false);
+  const [hasMounted, setHasMounted] = useState(false);
+
+  useEffect(() => {
+    setHasMounted(true);
+  }, []);
+
+  useEffect(() => {
+    const updateIsMobile = () => {
+      setIsMobile(window.innerWidth <= 768);
+    };
+
+    updateIsMobile();
+    window.addEventListener("resize", updateIsMobile);
+
+    return () => {
+      window.removeEventListener("resize", updateIsMobile);
+    };
+  }, []);
+
+  if (!hasMounted) {
+    return <ArchitectureDesktop />;
+  }
+
+  return isMobile ? <ArchitectureMobile /> : <ArchitectureDesktop />;
 }
