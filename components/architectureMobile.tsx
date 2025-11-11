@@ -45,6 +45,8 @@ const getAbsolutePlacement = (position?: number) => {
 const MOBILE_ICON_SIZE = 220;
 const MOBILE_SCROLL_HEIGHT = 380;
 const MOBILE_SCROLL_WIDTH = 1080;
+const MOBILE_HEADER_HEIGHT = 120;
+const MOBILE_FOOTER_HEIGHT = 210;
 
 export default function ArchitectureMobile() {
   const [projects, setProjects] = useState<ArchitectureProject[]>([]);
@@ -52,6 +54,7 @@ export default function ArchitectureMobile() {
   const [selectedProjectId, setSelectedProjectId] = useState<number | null>(null);
   const [hoveredProjectId, setHoveredProjectId] = useState<number | null>(null);
   const projectRefs = useRef<Record<number, HTMLButtonElement | null>>({});
+  const stripRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
     const fetchProjects = async () => {
@@ -67,6 +70,12 @@ export default function ArchitectureMobile() {
     fetchProjects();
   }, []);
 
+  useEffect(() => {
+    if (stripRef.current) {
+      stripRef.current.scrollLeft = 0;
+    }
+  }, [projects.length]);
+
   const currentPageProjects = projects
     .filter((project) => (project.page || 1) === currentPage)
     .sort((a, b) => (a.position || 0) - (b.position || 0));
@@ -74,162 +83,164 @@ export default function ArchitectureMobile() {
   return (
     <div className="fixed inset-0 bg-[#fff5e0] overflow-hidden">
       <div
-        className="film-strip-container absolute left-0 top-1/2 flex h-[420px] w-full -translate-y-1/2 items-center overflow-x-auto overflow-y-hidden px-4 scrollbar-hide"
+        className="absolute left-0 right-0 flex items-center"
         style={{
-          scrollBehavior: "smooth",
-          scrollbarWidth: "none",
-          msOverflowStyle: "none",
-          WebkitOverflowScrolling: "touch",
-          overscrollBehavior: "contain",
-          touchAction: "pan-x",
+          top: MOBILE_HEADER_HEIGHT,
+          bottom: MOBILE_FOOTER_HEIGHT,
         }}
       >
-        <div className="relative flex items-center gap-6">
-          <div
-            className="relative flex-shrink-0"
-            style={{ width: MOBILE_SCROLL_WIDTH, height: MOBILE_SCROLL_HEIGHT }}
-          >
-            <img
-              src="/assets/scroll.svg"
-              alt="Architecture Scroll"
-              style={{ width: MOBILE_SCROLL_WIDTH, height: MOBILE_SCROLL_HEIGHT }}
-              className="object-contain"
-            />
-
-            <img
-              src="/assets/tape1.svg"
-              alt="Tape"
-              className="pointer-events-none absolute -top-3 left-[4%] w-28 opacity-80"
-            />
-            <img
-              src="/assets/tape2.svg"
-              alt="Tape"
-              className="pointer-events-none absolute -top-4 left-[22%] w-28 opacity-80"
-            />
-            <img
-              src="/assets/tape3.svg"
-              alt="Tape"
-              className="pointer-events-none absolute -top-5 left-[40%] w-28 opacity-80"
-            />
-            <img
-              src="/assets/tape4.svg"
-              alt="Tape"
-              className="pointer-events-none absolute -top-4 left-[58%] w-28 opacity-80"
-            />
-            <img
-              src="/assets/tape5.svg"
-              alt="Tape"
-              className="pointer-events-none absolute -top-3 left-[76%] w-28 opacity-80"
-            />
-            <img
-              src="/assets/tape6.svg"
-              alt="Tape"
-              className="pointer-events-none absolute -top-6 left-[15%] w-28 opacity-80"
-            />
-
-            <img
-              src="/assets/tape7.svg"
-              alt="Tape"
-              className="pointer-events-none absolute -bottom-6 left-[6%] w-28 opacity-80"
-            />
-            <img
-              src="/assets/tape8.svg"
-              alt="Tape"
-              className="pointer-events-none absolute -bottom-6 left-[26%] w-28 opacity-80"
-            />
-            <img
-              src="/assets/tape9.svg"
-              alt="Tape"
-              className="pointer-events-none absolute -bottom-6 left-[46%] w-28 opacity-80"
-            />
-            <img
-              src="/assets/tape10.svg"
-              alt="Tape"
-              className="pointer-events-none absolute -bottom-6 left-[66%] w-28 opacity-80"
-            />
-            <img
-              src="/assets/tape11.svg"
-              alt="Tape"
-              className="pointer-events-none absolute -bottom-6 left-[84%] w-28 opacity-80"
-            />
-
+        <div
+          ref={stripRef}
+          className="film-strip-container flex h-full w-full items-center justify-start overflow-x-auto overflow-y-hidden scrollbar-hide"
+          style={{
+            scrollBehavior: "smooth",
+            scrollbarWidth: "none",
+            msOverflowStyle: "none",
+            WebkitOverflowScrolling: "touch",
+            overscrollBehavior: "contain",
+            touchAction: "pan-x",
+          }}
+        >
+          <div className="relative flex h-full items-center">
             <div
-              className="absolute"
-              style={{
-                top: SCROLL_GRID_BOUNDS.top,
-                left: SCROLL_GRID_BOUNDS.left,
-                width: SCROLL_GRID_BOUNDS.width,
-                height: SCROLL_GRID_BOUNDS.height,
-              }}
+              className="relative flex-shrink-0"
+              style={{ width: MOBILE_SCROLL_WIDTH, height: MOBILE_SCROLL_HEIGHT }}
             >
-              {currentPageProjects.map((project) => {
-                const { left, top } = getAbsolutePlacement(project.position);
+              <img
+                src="/assets/scroll.svg"
+                alt="Architecture Scroll"
+                style={{ width: MOBILE_SCROLL_WIDTH, height: MOBILE_SCROLL_HEIGHT }}
+                className="block object-contain object-left"
+              />
 
-                return (
-                  <div
-                    key={project.id}
-                    className="pointer-events-auto absolute flex items-center justify-center"
-                    style={{
-                      left,
-                      top,
-                      transform: "translate(-50%, -50%)",
-                    }}
-                  >
-                    {(project.icon || project.iconSecondary) && (
-                      <button
-                        type="button"
-                        className="group relative bg-transparent p-0"
-                        style={{ width: MOBILE_ICON_SIZE }}
-                        ref={(element) => {
-                          projectRefs.current[project.id] = element;
-                        }}
-                        onClick={() => {
-                          setSelectedProjectId(project.id);
-                          window.dispatchEvent(new CustomEvent("architecture-expanded-open"));
-                        }}
-                        onMouseEnter={() => setHoveredProjectId(project.id)}
-                        onFocus={() => setHoveredProjectId(project.id)}
-                        onMouseLeave={() =>
-                          setHoveredProjectId((current) => (current === project.id ? null : current))
-                        }
-                        onBlur={() =>
-                          setHoveredProjectId((current) => (current === project.id ? null : current))
-                        }
-                        onTouchStart={() => setHoveredProjectId(project.id)}
-                        onTouchEnd={() => setHoveredProjectId(null)}
-                      >
-                        {project.icon && (
-                          <img
-                            src={project.icon}
-                            alt={project.title}
-                            className={`h-auto w-full object-contain transition-transform duration-200 ${
-                              hoveredProjectId === project.id ? "scale-105" : ""
-                            }`}
-                          />
-                        )}
-                        {project.iconSecondary && (
-                          <img
-                            src={project.iconSecondary}
-                            alt={`${project.title} secondary`}
-                            className={`absolute inset-0 h-full w-full object-contain transition-opacity duration-200 ${
-                              hoveredProjectId === project.id ? "opacity-100" : "opacity-0"
-                            }`}
-                          />
-                        )}
-                      </button>
-                    )}
-                  </div>
-                );
-              })}
+              <img
+                src="/assets/tape1.svg"
+                alt="Tape"
+                className="pointer-events-none absolute -top-3 left-[4%] w-28 opacity-80"
+              />
+              <img
+                src="/assets/tape2.svg"
+                alt="Tape"
+                className="pointer-events-none absolute -top-4 left-[22%] w-28 opacity-80"
+              />
+              <img
+                src="/assets/tape3.svg"
+                alt="Tape"
+                className="pointer-events-none absolute -top-5 left-[40%] w-28 opacity-80"
+              />
+              <img
+                src="/assets/tape4.svg"
+                alt="Tape"
+                className="pointer-events-none absolute -top-4 left-[58%] w-28 opacity-80"
+              />
+              <img
+                src="/assets/tape5.svg"
+                alt="Tape"
+                className="pointer-events-none absolute -top-3 left-[76%] w-28 opacity-80"
+              />
+              <img
+                src="/assets/tape6.svg"
+                alt="Tape"
+                className="pointer-events-none absolute -top-6 left-[15%] w-28 opacity-80"
+              />
+
+              <img
+                src="/assets/tape7.svg"
+                alt="Tape"
+                className="pointer-events-none absolute -bottom-6 left-[6%] w-28 opacity-80"
+              />
+              <img
+                src="/assets/tape8.svg"
+                alt="Tape"
+                className="pointer-events-none absolute -bottom-6 left-[26%] w-28 opacity-80"
+              />
+              <img
+                src="/assets/tape9.svg"
+                alt="Tape"
+                className="pointer-events-none absolute -bottom-6 left-[46%] w-28 opacity-80"
+              />
+              <img
+                src="/assets/tape10.svg"
+                alt="Tape"
+                className="pointer-events-none absolute -bottom-6 left-[66%] w-28 opacity-80"
+              />
+              <img
+                src="/assets/tape11.svg"
+                alt="Tape"
+                className="pointer-events-none absolute -bottom-6 left-[84%] w-28 opacity-80"
+              />
+
+              <div
+                className="absolute"
+                style={{
+                  top: SCROLL_GRID_BOUNDS.top,
+                  left: SCROLL_GRID_BOUNDS.left,
+                  width: SCROLL_GRID_BOUNDS.width,
+                  height: SCROLL_GRID_BOUNDS.height,
+                }}
+              >
+                {currentPageProjects.map((project) => {
+                  const { left, top } = getAbsolutePlacement(project.position);
+
+                  return (
+                    <div
+                      key={project.id}
+                      className="pointer-events-auto absolute flex items-center justify-center"
+                      style={{
+                        left,
+                        top,
+                        transform: "translate(-50%, -50%)",
+                      }}
+                    >
+                      {(project.icon || project.iconSecondary) && (
+                        <button
+                          type="button"
+                          className="group relative bg-transparent p-0"
+                          style={{ width: MOBILE_ICON_SIZE }}
+                          ref={(element) => {
+                            projectRefs.current[project.id] = element;
+                          }}
+                          onClick={() => {
+                            setSelectedProjectId(project.id);
+                            window.dispatchEvent(new CustomEvent("architecture-expanded-open"));
+                          }}
+                          onMouseEnter={() => setHoveredProjectId(project.id)}
+                          onFocus={() => setHoveredProjectId(project.id)}
+                          onMouseLeave={() =>
+                            setHoveredProjectId((current) => (current === project.id ? null : current))
+                          }
+                          onBlur={() =>
+                            setHoveredProjectId((current) => (current === project.id ? null : current))
+                          }
+                          onTouchStart={() => setHoveredProjectId(project.id)}
+                          onTouchEnd={() => setHoveredProjectId(null)}
+                        >
+                          {project.icon && (
+                            <img
+                              src={project.icon}
+                              alt={project.title}
+                              className={`h-auto w-full object-contain transition-transform duration-200 ${
+                                hoveredProjectId === project.id ? "scale-105" : ""
+                              }`}
+                            />
+                          )}
+                          {project.iconSecondary && (
+                            <img
+                              src={project.iconSecondary}
+                              alt={`${project.title} secondary`}
+                              className={`absolute inset-0 h-full w-full object-contain transition-opacity duration-200 ${
+                                hoveredProjectId === project.id ? "opacity-100" : "opacity-0"
+                              }`}
+                            />
+                          )}
+                        </button>
+                      )}
+                    </div>
+                  );
+                })}
+              </div>
             </div>
           </div>
-
-          <img
-            src="/assets/scroll.svg"
-            alt="Architecture Scroll mirrored"
-            style={{ width: MOBILE_SCROLL_WIDTH, height: MOBILE_SCROLL_HEIGHT }}
-            className="flex-shrink-0 object-contain"
-          />
         </div>
       </div>
 
