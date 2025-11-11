@@ -47,8 +47,7 @@ const MOBILE_SCROLL_HEIGHT = 380;
 const MOBILE_SCROLL_WIDTH = 1080;
 const MOBILE_HEADER_HEIGHT = 120;
 const MOBILE_FOOTER_HEIGHT = 210;
-const SCROLL_SCALE_Y = 1.5;
-const SCROLL_VERTICAL_OFFSET = "6vh";
+const SCROLL_SCALE_Y = 1.6;
 
 export default function ArchitectureMobile() {
   const [projects, setProjects] = useState<ArchitectureProject[]>([]);
@@ -84,13 +83,7 @@ export default function ArchitectureMobile() {
 
   return (
     <div className="fixed inset-0 bg-[#fff5e0] overflow-hidden">
-      <div
-        className="absolute left-0 right-0 flex items-center"
-        style={{
-          top: MOBILE_HEADER_HEIGHT,
-          bottom: MOBILE_FOOTER_HEIGHT,
-        }}
-      >
+      <div className="absolute left-0 right-0 flex items-center">
         <div
           ref={stripRef}
           className="film-strip-container flex h-full w-full items-center justify-start overflow-x-auto overflow-y-hidden scrollbar-hide"
@@ -103,15 +96,24 @@ export default function ArchitectureMobile() {
             touchAction: "pan-x",
           }}
         >
-          <div className="relative flex h-full items-center">
+          <div
+            className="relative flex h-full items-center"
+            style={{
+              paddingTop: MOBILE_HEADER_HEIGHT,
+              paddingBottom: MOBILE_FOOTER_HEIGHT,
+            }}
+          >
             <div
               className="relative flex-shrink-0 overflow-visible"
               style={{ width: MOBILE_SCROLL_WIDTH, height: MOBILE_SCROLL_HEIGHT }}
             >
               <div
-                className="pointer-events-none absolute inset-0 origin-left"
+                className="pointer-events-none relative inset-0 block"
                 style={{
-                  transform: `translateY(${SCROLL_VERTICAL_OFFSET}) scaleY(${SCROLL_SCALE_Y})`,
+                  height: "100%",
+                  width: "100%",
+                  transformOrigin: "center",
+                  transform: `scaleY(${SCROLL_SCALE_Y})`,
                 }}
               >
                 <img
