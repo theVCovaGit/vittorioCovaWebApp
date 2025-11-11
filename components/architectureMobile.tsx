@@ -17,7 +17,7 @@ interface ArchitectureProject {
   position?: number;
   page?: number;
 }
-
+//checkpoint
 const GRID_COLUMNS = 13;
 const GRID_ROWS = 7;
 
