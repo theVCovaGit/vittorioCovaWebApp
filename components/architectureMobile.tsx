@@ -22,10 +22,10 @@ const GRID_COLUMNS = 13;
 const GRID_ROWS = 7;
 
 const SCROLL_GRID_BOUNDS = {
-  top: "16%",
-  left: "8%",
-  width: "84%",
-  height: "68%",
+  top: "13%",
+  left: "6%",
+  width: "88%",
+  height: "74%",
 };
 
 const getAbsolutePlacement = (position?: number) => {
@@ -42,13 +42,12 @@ const getAbsolutePlacement = (position?: number) => {
   };
 };
 
-const MOBILE_ICON_SIZE = "clamp(140px, 30vw, 240px)";
-const MOBILE_SCROLL_HEIGHT = "clamp(420px, 70vh, 760px)";
-const MOBILE_SCROLL_WIDTH = "clamp(560px, 130vw, 1040px)";
-const MOBILE_HEADER_OFFSET = "clamp(72px, 12vh, 156px)";
-const MOBILE_FOOTER_OFFSET = "clamp(110px, 22vh, 220px)";
-const SCROLL_SCALE_Y = 1.36;
-const SCROLL_TRANSLATE_Y = "clamp(-3vh, 2.5vh, 4.5vh)";
+const MOBILE_ICON_SIZE = 220;
+const MOBILE_SCROLL_HEIGHT = 380;
+const MOBILE_SCROLL_WIDTH = 1080;
+const MOBILE_HEADER_HEIGHT = 120;
+const MOBILE_FOOTER_HEIGHT = 210;
+const SCROLL_SCALE_Y = 1.35;
 
 export default function ArchitectureMobile() {
   const [projects, setProjects] = useState<ArchitectureProject[]>([]);
@@ -84,7 +83,13 @@ export default function ArchitectureMobile() {
 
   return (
     <div className="fixed inset-0 bg-[#fff5e0] overflow-hidden">
-      <div className="absolute left-0 right-0 flex items-center">
+      <div
+        className="absolute left-0 right-0 flex items-center"
+        style={{
+          top: MOBILE_HEADER_HEIGHT,
+          bottom: MOBILE_FOOTER_HEIGHT,
+        }}
+      >
         <div
           ref={stripRef}
           className="film-strip-container flex h-full w-full items-center justify-start overflow-x-auto overflow-y-hidden scrollbar-hide"
@@ -97,25 +102,14 @@ export default function ArchitectureMobile() {
             touchAction: "pan-x",
           }}
         >
-          <div
-            className="relative flex h-full items-center"
-            style={{
-              paddingTop: MOBILE_HEADER_OFFSET,
-              paddingBottom: MOBILE_FOOTER_OFFSET,
-            }}
-          >
+          <div className="relative flex h-full items-center">
             <div
               className="relative flex-shrink-0 overflow-visible"
               style={{ width: MOBILE_SCROLL_WIDTH, height: MOBILE_SCROLL_HEIGHT }}
             >
               <div
-                className="pointer-events-none relative inset-0 block"
-                style={{
-                  height: "100%",
-                  width: "100%",
-                  transformOrigin: "center",
-                  transform: `translateY(${SCROLL_TRANSLATE_Y}) scaleY(${SCROLL_SCALE_Y})`,
-                }}
+                className="pointer-events-none absolute inset-0 origin-left"
+                style={{ transform: `scaleY(${SCROLL_SCALE_Y})` }}
               >
                 <img
                   src="/assets/scroll.svg"
@@ -124,126 +118,60 @@ export default function ArchitectureMobile() {
                 />
 
                 <img
-                  src="/assets/tape6.svg"
-                  alt="Tape"
-                  className="pointer-events-none absolute opacity-80"
-                  style={{
-                    width: "clamp(52px, 15vw, 96px)",
-                    top: "calc(-4% - 10px)",
-                    left: "15%",
-                    transform: "translateX(-50%) rotate(-4deg)",
-                  }}
-                />
-                <img
                   src="/assets/tape1.svg"
                   alt="Tape"
-                  className="pointer-events-none absolute opacity-80"
-                  style={{
-                    width: "clamp(52px, 15vw, 96px)",
-                    top: "calc(-3% - 10px)",
-                    left: "5%",
-                    transform: "translateX(-50%) rotate(2deg)",
-                  }}
+                  className="pointer-events-none absolute -top-3 left-[4%] w-28 opacity-80"
                 />
                 <img
                   src="/assets/tape2.svg"
                   alt="Tape"
-                  className="pointer-events-none absolute opacity-80"
-                  style={{
-                    width: "clamp(52px, 15vw, 96px)",
-                    top: "calc(-4% - 12px)",
-                    left: "25%",
-                    transform: "translateX(-50%) rotate(-5deg)",
-                  }}
+                  className="pointer-events-none absolute -top-4 left-[22%] w-28 opacity-80"
                 />
                 <img
                   src="/assets/tape3.svg"
                   alt="Tape"
-                  className="pointer-events-none absolute opacity-80"
-                  style={{
-                    width: "clamp(52px, 15vw, 96px)",
-                    top: "calc(-4% - 10px)",
-                    left: "45%",
-                    transform: "translateX(-50%) rotate(4deg)",
-                  }}
+                  className="pointer-events-none absolute -top-5 left-[40%] w-28 opacity-80"
                 />
                 <img
                   src="/assets/tape4.svg"
                   alt="Tape"
-                  className="pointer-events-none absolute opacity-80"
-                  style={{
-                    width: "clamp(52px, 15vw, 96px)",
-                    top: "calc(-4% - 10px)",
-                    left: "65%",
-                    transform: "translateX(-50%) rotate(-2deg)",
-                  }}
+                  className="pointer-events-none absolute -top-4 left-[58%] w-28 opacity-80"
                 />
                 <img
                   src="/assets/tape5.svg"
                   alt="Tape"
-                  className="pointer-events-none absolute opacity-80"
-                  style={{
-                    width: "clamp(52px, 15vw, 96px)",
-                    top: "calc(-3% - 8px)",
-                    left: "85%",
-                    transform: "translateX(-50%) rotate(3deg)",
-                  }}
+                  className="pointer-events-none absolute -top-3 left-[76%] w-28 opacity-80"
+                />
+                <img
+                  src="/assets/tape6.svg"
+                  alt="Tape"
+                  className="pointer-events-none absolute -top-6 left-[15%] w-28 opacity-80"
                 />
 
                 <img
                   src="/assets/tape7.svg"
                   alt="Tape"
-                  className="pointer-events-none absolute opacity-80"
-                  style={{
-                    width: "clamp(52px, 15vw, 96px)",
-                    bottom: "calc(-4% - 10px)",
-                    left: "5%",
-                    transform: "translateX(-50%) rotate(2deg)",
-                  }}
+                  className="pointer-events-none absolute -bottom-6 left-[6%] w-28 opacity-80"
                 />
                 <img
                   src="/assets/tape8.svg"
                   alt="Tape"
-                  className="pointer-events-none absolute opacity-80"
-                  style={{
-                    width: "clamp(52px, 15vw, 96px)",
-                    bottom: "calc(-4% - 12px)",
-                    left: "25%",
-                    transform: "translateX(-50%) rotate(-5deg)",
-                  }}
+                  className="pointer-events-none absolute -bottom-6 left-[26%] w-28 opacity-80"
                 />
                 <img
                   src="/assets/tape9.svg"
                   alt="Tape"
-                  className="pointer-events-none absolute opacity-80"
-                  style={{
-                    width: "clamp(52px, 15vw, 96px)",
-                    bottom: "calc(-4% - 10px)",
-                    left: "45%",
-                    transform: "translateX(-50%) rotate(4deg)",
-                  }}
+                  className="pointer-events-none absolute -bottom-6 left-[46%] w-28 opacity-80"
                 />
                 <img
                   src="/assets/tape10.svg"
                   alt="Tape"
-                  className="pointer-events-none absolute opacity-80"
-                  style={{
-                    width: "clamp(52px, 15vw, 96px)",
-                    bottom: "calc(-4% - 10px)",
-                    left: "65%",
-                    transform: "translateX(-50%) rotate(-2deg)",
-                  }}
+                  className="pointer-events-none absolute -bottom-6 left-[66%] w-28 opacity-80"
                 />
                 <img
                   src="/assets/tape11.svg"
                   alt="Tape"
-                  className="pointer-events-none absolute opacity-80"
-                  style={{
-                    width: "clamp(52px, 15vw, 96px)",
-                    bottom: "calc(-4% - 8px)",
-                    left: "85%",
-                    transform: "translateX(-50%) rotate(3deg)",
-                  }}
+                  className="pointer-events-none absolute -bottom-6 left-[84%] w-28 opacity-80"
                 />
               </div>
 
