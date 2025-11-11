@@ -45,7 +45,7 @@ const getAbsolutePlacement = (position?: number) => {
 const MOBILE_ICON_SIZE = 220;
 const MOBILE_SCROLL_HEIGHT = 380;
 const MOBILE_SCROLL_WIDTH = 1080;
-const MOBILE_HEADER_HEIGHT = 120;
+const MOBILE_HEADER_HEIGHT = 142;
 const MOBILE_FOOTER_HEIGHT = 210;
 const SCROLL_SCALE_Y = 1.35;
 
