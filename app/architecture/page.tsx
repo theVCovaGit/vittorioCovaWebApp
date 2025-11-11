@@ -1,6 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useRef, useState } from "react";
+import { createPortal } from "react-dom";
 import ArchitectureMobile from "@/components/architectureMobile";
 import ArchitectureProjectExpandedView from "@/components/architectureProjectExpandedView";
 
@@ -29,6 +30,25 @@ const SCROLL_GRID_BOUNDS = {
   height: "74%",
 };
 
+const TOP_TAPES = [
+  { src: "/assets/tape1.svg", leftRatio: 0.05, rotate: 2 },
+  { src: "/assets/tape6.svg", leftRatio: 0.15, rotate: -4 },
+  { src: "/assets/tape2.svg", leftRatio: 0.25, rotate: -5 },
+  { src: "/assets/tape3.svg", leftRatio: 0.45, rotate: 4 },
+  { src: "/assets/tape4.svg", leftRatio: 0.65, rotate: -2 },
+  { src: "/assets/tape5.svg", leftRatio: 0.85, rotate: 3 },
+];
+
+const BOTTOM_TAPES = [
+  { src: "/assets/tape7.svg", leftRatio: 0.05, rotate: 2 },
+  { src: "/assets/tape8.svg", leftRatio: 0.25, rotate: -5 },
+  { src: "/assets/tape9.svg", leftRatio: 0.45, rotate: 4 },
+  { src: "/assets/tape10.svg", leftRatio: 0.65, rotate: -2 },
+  { src: "/assets/tape11.svg", leftRatio: 0.85, rotate: 3 },
+];
+
+const clamp = (value: number, min: number, max: number) => Math.min(Math.max(value, min), max);
+
 const getAbsolutePlacement = (position?: number) => {
   const safeIndex = Math.max(0, (position ?? 1) - 1);
   const column = (safeIndex % GRID_COLUMNS) + 1;
@@ -51,6 +71,8 @@ function ArchitectureDesktop() {
   const [selectedProjectId, setSelectedProjectId] = useState<number | null>(null);
   const [hoveredProjectId, setHoveredProjectId] = useState<number | null>(null);
   const projectRefs = useRef<Record<number, HTMLButtonElement | null>>({});
+  const scrollVisualRef = useRef<HTMLDivElement | null>(null);
+  const [scrollRect, setScrollRect] = useState<DOMRect | null>(null);
 
   const handlePointerMove = useCallback((event: React.PointerEvent<HTMLDivElement>) => {
     const pointerX = event.clientX;
@@ -171,7 +193,34 @@ function ArchitectureDesktop() {
     .filter((project) => (project.page || 1) === currentPage)
     .sort((a, b) => (a.position || 0) - (b.position || 0));
 
+  useEffect(() => {
+    const element = scrollVisualRef.current;
+
+    if (!element) {
+      return;
+    }
+
+    const updateRect = () => {
+      setScrollRect(element.getBoundingClientRect());
+    };
+
+    updateRect();
+
+    const resizeObserver = typeof ResizeObserver !== "undefined" ? new ResizeObserver(updateRect) : null;
+    resizeObserver?.observe(element);
+
+    window.addEventListener("resize", updateRect);
+    window.addEventListener("scroll", updateRect, true);
+
+    return () => {
+      resizeObserver?.disconnect();
+      window.removeEventListener("resize", updateRect);
+      window.removeEventListener("scroll", updateRect, true);
+    };
+  }, [currentPageProjects.length, setScrollRect]);
+
   return (
+    <>
     <div className="fixed inset-0 bg-[#fff5e0] overflow-hidden">
       {/* Film Strip Container */}
       <div 
@@ -186,73 +235,16 @@ function ArchitectureDesktop() {
         }}
       >
         {/* Architecture Scroll with Tapes */}
-        <div className="relative w-full h-full flex items-center">
+          <div className="relative w-full h-full flex items-center">
           <div className="relative flex-shrink-0">
-            <img 
-              src="/assets/scroll.svg" 
-              alt="Architecture Scroll" 
-              className="h-[500px] w-auto object-contain"
-            />
+            <div ref={scrollVisualRef} className="pointer-events-none">
+              <img 
+                src="/assets/scroll.svg" 
+                alt="Architecture Scroll" 
+                className="h-[500px] w-auto object-contain"
+              />
+            </div>
             
-            {/* Tapes positioned relative to the scroll - Above */}
-            <img 
-              src="/assets/tape1.svg" 
-              alt="Tape" 
-              className="absolute -top-4 left-[5%] w-48 h-16 opacity-80 transform rotate-[2deg] z-[9999]"
-            />
-            <img 
-              src="/assets/tape2.svg" 
-              alt="Tape" 
-              className="absolute -top-4 left-[25%] w-48 h-16 opacity-80 transform rotate-[-5deg] z-[9999]"
-            />
-            <img 
-              src="/assets/tape3.svg" 
-              alt="Tape" 
-              className="absolute -top-4 left-[45%] w-48 h-16 opacity-80 transform rotate-[4deg] z-[9999]"
-            />
-            <img 
-              src="/assets/tape4.svg" 
-              alt="Tape" 
-              className="absolute -top-4 left-[65%] w-48 h-16 opacity-80 transform rotate-[-2deg] z-[9999]"
-            />
-            <img 
-              src="/assets/tape5.svg" 
-              alt="Tape" 
-              className="absolute -top-4 left-[85%] w-48 h-16 opacity-80 transform rotate-[3deg] z-[9999]"
-            />
-            <img 
-              src="/assets/tape6.svg" 
-              alt="Tape" 
-              className="absolute -top-4 left-[15%] w-48 h-16 opacity-80 transform rotate-[-4deg] z-[9999]"
-            />
-            
-            {/* Tapes positioned relative to the scroll - Below */}
-            <img 
-              src="/assets/tape7.svg" 
-              alt="Tape" 
-              className="absolute bottom-[-20px] left-[5%] w-48 h-16 opacity-80 transform rotate-[2deg] z-[9999]"
-            />
-            <img 
-              src="/assets/tape8.svg" 
-              alt="Tape" 
-              className="absolute bottom-[-20px] left-[25%] w-48 h-16 opacity-80 transform rotate-[-5deg] z-[9999]"
-            />
-            <img 
-              src="/assets/tape9.svg" 
-              alt="Tape" 
-              className="absolute bottom-[-20px] left-[45%] w-48 h-16 opacity-80 transform rotate-[4deg] z-[9999]"
-            />
-            <img 
-              src="/assets/tape10.svg" 
-              alt="Tape" 
-              className="absolute bottom-[-20px] left-[65%] w-48 h-16 opacity-80 transform rotate-[-2deg] z-[9999]"
-            />
-            <img 
-              src="/assets/tape11.svg" 
-              alt="Tape" 
-              className="absolute bottom-[-20px] left-[85%] w-48 h-16 opacity-80 transform rotate-[3deg] z-[9999]"
-            />
-
             {/* Architecture Projects positioned inside the scroll based on their position data */}
             <div
               className="absolute"
@@ -341,6 +333,59 @@ function ArchitectureDesktop() {
         />
       )}
     </div>
+    <DesktopTapesOverlay rect={scrollRect} />
+    </>
+  );
+}
+
+function DesktopTapesOverlay({ rect }: { rect: DOMRect | null }) {
+  if (!rect || typeof document === "undefined") {
+    return null;
+  }
+
+  const tapeWidth = clamp(rect.width * 0.08, 120, 220);
+
+  return createPortal(
+    <div className="pointer-events-none fixed inset-0 z-[2147483000]">
+      {TOP_TAPES.map((tape) => {
+        const left = rect.left + rect.width * tape.leftRatio;
+
+        return (
+          <img
+            key={`desktop-top-${tape.src}`}
+            src={tape.src}
+            alt="Tape"
+            style={{
+              position: "absolute",
+              width: `${tapeWidth}px`,
+              left: `${left}px`,
+              top: rect.top,
+              transform: `translate(-50%, -65%) rotate(${tape.rotate}deg)`,
+            }}
+          />
+        );
+      })}
+
+      {BOTTOM_TAPES.map((tape) => {
+        const left = rect.left + rect.width * tape.leftRatio;
+
+        return (
+          <img
+            key={`desktop-bottom-${tape.src}`}
+            src={tape.src}
+            alt="Tape"
+            style={{
+              position: "absolute",
+              width: `${tapeWidth}px`,
+              left: `${left}px`,
+              top: rect.bottom,
+              transform: `translate(-50%, 65%) rotate(${tape.rotate}deg)`,
+            }}
+          />
+        );
+      })}
+    </div>,
+    document.body
   );
 }
 
