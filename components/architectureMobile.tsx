@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import { createPortal } from "react-dom";
 import ArchitectureProjectExpandedView from "@/components/architectureProjectExpandedView";
 
 interface ArchitectureProject {
@@ -49,21 +50,23 @@ const MOBILE_HEADER_HEIGHT = 142;
 const MOBILE_FOOTER_HEIGHT = 210;
 const SCROLL_SCALE_Y = 1.35;
 
+const clamp = (value: number, min: number, max: number) => Math.min(Math.max(value, min), max);
+
 const TOP_TAPES = [
-  { src: "/assets/tape1.svg", left: "5%", rotate: 2 },
-  { src: "/assets/tape6.svg", left: "15%", rotate: -4 },
-  { src: "/assets/tape2.svg", left: "25%", rotate: -5 },
-  { src: "/assets/tape3.svg", left: "45%", rotate: 4 },
-  { src: "/assets/tape4.svg", left: "65%", rotate: -2 },
-  { src: "/assets/tape5.svg", left: "85%", rotate: 3 },
+  { src: "/assets/tape1.svg", leftRatio: 0.05, rotate: 2 },
+  { src: "/assets/tape6.svg", leftRatio: 0.15, rotate: -4 },
+  { src: "/assets/tape2.svg", leftRatio: 0.25, rotate: -5 },
+  { src: "/assets/tape3.svg", leftRatio: 0.45, rotate: 4 },
+  { src: "/assets/tape4.svg", leftRatio: 0.65, rotate: -2 },
+  { src: "/assets/tape5.svg", leftRatio: 0.85, rotate: 3 },
 ];
 
 const BOTTOM_TAPES = [
-  { src: "/assets/tape7.svg", left: "5%", rotate: 2 },
-  { src: "/assets/tape8.svg", left: "25%", rotate: -5 },
-  { src: "/assets/tape9.svg", left: "45%", rotate: 4 },
-  { src: "/assets/tape10.svg", left: "65%", rotate: -2 },
-  { src: "/assets/tape11.svg", left: "85%", rotate: 3 },
+  { src: "/assets/tape7.svg", leftRatio: 0.05, rotate: 2 },
+  { src: "/assets/tape8.svg", leftRatio: 0.25, rotate: -5 },
+  { src: "/assets/tape9.svg", leftRatio: 0.45, rotate: 4 },
+  { src: "/assets/tape10.svg", leftRatio: 0.65, rotate: -2 },
+  { src: "/assets/tape11.svg", leftRatio: 0.85, rotate: 3 },
 ];
 
 export default function ArchitectureMobile() {
@@ -73,6 +76,8 @@ export default function ArchitectureMobile() {
   const [hoveredProjectId, setHoveredProjectId] = useState<number | null>(null);
   const projectRefs = useRef<Record<number, HTMLButtonElement | null>>({});
   const stripRef = useRef<HTMLDivElement | null>(null);
+  const scrollVisualRef = useRef<HTMLDivElement | null>(null);
+  const [scrollBounds, setScrollBounds] = useState<DOMRect | null>(null);
 
   useEffect(() => {
     const fetchProjects = async () => {
@@ -94,12 +99,43 @@ export default function ArchitectureMobile() {
     }
   }, [projects.length]);
 
+  useEffect(() => {
+    const element = scrollVisualRef.current;
+    const scroller = stripRef.current;
+
+    if (!element) {
+      return;
+    }
+
+    const updateBounds = () => {
+      const rect = element.getBoundingClientRect();
+      setScrollBounds(rect);
+    };
+
+    updateBounds();
+
+    const resizeObserver = typeof ResizeObserver !== "undefined" ? new ResizeObserver(updateBounds) : null;
+    resizeObserver?.observe(element);
+
+    window.addEventListener("resize", updateBounds);
+    window.addEventListener("scroll", updateBounds, true);
+    scroller?.addEventListener("scroll", updateBounds);
+
+    return () => {
+      resizeObserver?.disconnect();
+      window.removeEventListener("resize", updateBounds);
+      window.removeEventListener("scroll", updateBounds, true);
+      scroller?.removeEventListener("scroll", updateBounds);
+    };
+  }, [projects.length]);
+
   const currentPageProjects = projects
     .filter((project) => (project.page || 1) === currentPage)
     .sort((a, b) => (a.position || 0) - (b.position || 0));
 
   return (
-    <div className="fixed inset-0 bg-[#fff5e0] overflow-hidden">
+    <>
+      <div className="fixed inset-0 bg-[#fff5e0] overflow-hidden">
       <div
         className="absolute left-0 right-0 flex items-center"
         style={{
@@ -125,6 +161,7 @@ export default function ArchitectureMobile() {
               style={{ width: MOBILE_SCROLL_WIDTH, height: MOBILE_SCROLL_HEIGHT }}
             >
               <div
+                ref={scrollVisualRef}
                 className="pointer-events-none absolute inset-0 origin-left"
                 style={{ transform: `scaleY(${SCROLL_SCALE_Y})` }}
               >
@@ -133,36 +170,6 @@ export default function ArchitectureMobile() {
                   alt="Architecture Scroll"
                   className="h-full w-full object-contain object-left"
                 />
-
-                {TOP_TAPES.map((tape) => (
-                  <img
-                    key={`top-${tape.src}`}
-                    src={tape.src}
-                    alt="Tape"
-                    className="pointer-events-none absolute opacity-80"
-                    style={{
-                      width: "clamp(44px, 12vw, 82px)",
-                      left: tape.left,
-                      top: 0,
-                      transform: `translate(-50%, -65%) rotate(${tape.rotate}deg)`,
-                    }}
-                  />
-                ))}
-
-                {BOTTOM_TAPES.map((tape) => (
-                  <img
-                    key={`bottom-${tape.src}`}
-                    src={tape.src}
-                    alt="Tape"
-                    className="pointer-events-none absolute opacity-80"
-                    style={{
-                      width: "clamp(44px, 12vw, 82px)",
-                      left: tape.left,
-                      bottom: 0,
-                      transform: `translate(-50%, 65%) rotate(${tape.rotate}deg)`,
-                    }}
-                  />
-                ))}
               </div>
 
               <div
@@ -248,7 +255,61 @@ export default function ArchitectureMobile() {
           }}
         />
       )}
-    </div>
+      </div>
+      <TapesOverlay rect={scrollBounds} />
+    </>
+  );
+}
+
+
+function TapesOverlay({ rect }: { rect: DOMRect | null }) {
+  if (!rect || typeof document === "undefined") {
+    return null;
+  }
+
+  const tapeWidth = clamp(rect.width * 0.075, 44, 96);
+
+  return createPortal(
+    <div className="pointer-events-none fixed inset-0 z-[2147483000]">
+      {TOP_TAPES.map((tape) => {
+        const left = rect.left + rect.width * tape.leftRatio;
+
+        return (
+          <img
+            key={`overlay-top-${tape.src}`}
+            src={tape.src}
+            alt="Tape"
+            style={{
+              position: "absolute",
+              width: `${tapeWidth}px`,
+              left: `${left}px`,
+              top: rect.top,
+              transform: `translate(-50%, -65%) rotate(${tape.rotate}deg)`,
+            }}
+          />
+        );
+      })}
+
+      {BOTTOM_TAPES.map((tape) => {
+        const left = rect.left + rect.width * tape.leftRatio;
+
+        return (
+          <img
+            key={`overlay-bottom-${tape.src}`}
+            src={tape.src}
+            alt="Tape"
+            style={{
+              position: "absolute",
+              width: `${tapeWidth}px`,
+              left: `${left}px`,
+              top: rect.bottom,
+              transform: `translate(-50%, 65%) rotate(${tape.rotate}deg)`,
+            }}
+          />
+        );
+      })}
+    </div>,
+    document.body
   );
 }
 
