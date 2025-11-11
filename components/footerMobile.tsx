@@ -86,7 +86,7 @@ export default function FooterMobile() {
       ? "bg-[#302120]"
       : "bg-[#5c4b4a]";
 
-  const spacingClass = "pt-14 pb-12 min-h-[210px]";
+  const spacingClass = "pt-12 pb-10 min-h-[170px]";
   const layoutClass = "flex flex-col justify-end";
 
   return (
