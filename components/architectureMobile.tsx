@@ -48,7 +48,7 @@ const MOBILE_SCROLL_WIDTH = 1080;
 const MOBILE_HEADER_HEIGHT = 120;
 const MOBILE_FOOTER_HEIGHT = 210;
 const SCROLL_SCALE_Y = 1.5;
-const SCROLL_VERTICAL_OFFSET = "-5vh";
+const SCROLL_VERTICAL_OFFSET = "6vh";
 
 export default function ArchitectureMobile() {
   const [projects, setProjects] = useState<ArchitectureProject[]>([]);
