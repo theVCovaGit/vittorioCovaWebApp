@@ -47,7 +47,8 @@ const MOBILE_SCROLL_HEIGHT = 380;
 const MOBILE_SCROLL_WIDTH = 1080;
 const MOBILE_HEADER_HEIGHT = 120;
 const MOBILE_FOOTER_HEIGHT = 210;
-const SCROLL_SCALE_Y = 1.35;
+const SCROLL_SCALE_Y = 1.5;
+const SCROLL_VERTICAL_OFFSET = "-5vh";
 
 export default function ArchitectureMobile() {
   const [projects, setProjects] = useState<ArchitectureProject[]>([]);
@@ -109,7 +110,9 @@ export default function ArchitectureMobile() {
             >
               <div
                 className="pointer-events-none absolute inset-0 origin-left"
-                style={{ transform: `scaleY(${SCROLL_SCALE_Y})` }}
+                style={{
+                  transform: `translateY(${SCROLL_VERTICAL_OFFSET}) scaleY(${SCROLL_SCALE_Y})`,
+                }}
               >
                 <img
                   src="/assets/scroll.svg"
