@@ -21,8 +21,8 @@ interface ArchitectureProject {
 const GRID_COLUMNS = 13;
 const GRID_ROWS = 7;
 
-const SCROLL_GRID_BOUNDS = {
-  top: "13%",
+const ICON_GRID_BOUNDS = {
+  top: "7%",
   left: "6%",
   width: "88%",
   height: "74%",
@@ -178,10 +178,10 @@ export default function ArchitectureMobile() {
               <div
                 className="absolute"
                 style={{
-                  top: SCROLL_GRID_BOUNDS.top,
-                  left: SCROLL_GRID_BOUNDS.left,
-                  width: SCROLL_GRID_BOUNDS.width,
-                  height: SCROLL_GRID_BOUNDS.height,
+                  top: ICON_GRID_BOUNDS.top,
+                  left: ICON_GRID_BOUNDS.left,
+                  width: ICON_GRID_BOUNDS.width,
+                  height: ICON_GRID_BOUNDS.height,
                 }}
               >
                 {currentPageProjects.map((project) => {
