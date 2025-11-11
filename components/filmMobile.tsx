@@ -1,4 +1,5 @@
 "use client";
+/* eslint-disable @next/next/no-img-element */
 
 import { useEffect, useMemo, useRef, useState } from "react";
 
@@ -22,19 +23,19 @@ const GRID_COLUMNS = 13;
 const GRID_ROWS = 7;
 
 const ICON_GRID_BOUNDS = {
-  top: "11%",
-  left: "7%",
-  width: "86%",
-  height: "76%",
+  top: "14%",
+  left: "9%",
+  width: "82%",
+  height: "68%",
 };
 
 const MOBILE_ICON_SIZE = 220;
-const MOBILE_SCROLL_HEIGHT = 420;
-const MOBILE_SCROLL_WIDTH = 1080;
-const MOBILE_SCROLL_MULTIPLIER = 2;
+const MOBILE_SCROLL_HEIGHT = 360;
+const MOBILE_SCROLL_WIDTH = 980;
+const MOBILE_SCROLL_MULTIPLIER = 1.8;
 const MOBILE_HEADER_HEIGHT = 142;
 const MOBILE_FOOTER_HEIGHT = 210;
-const SCROLL_SCALE_Y = 1.2;
+const SCROLL_SCALE_Y = 0.92;
 
 const getAbsolutePlacement = (zeroBasedIndex: number) => {
   const safeIndex = Math.max(0, zeroBasedIndex);
