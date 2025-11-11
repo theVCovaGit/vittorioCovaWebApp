@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect, useMemo, useRef, useState } from "react";
-import { createPortal } from "react-dom";
 
 interface FilmProject {
   id: number;
@@ -37,25 +36,6 @@ const MOBILE_HEADER_HEIGHT = 142;
 const MOBILE_FOOTER_HEIGHT = 210;
 const SCROLL_SCALE_Y = 1.2;
 
-const TOP_TAPES = [
-  { src: "/assets/tape1.svg", leftRatio: 0.05, rotate: 2 },
-  { src: "/assets/tape6.svg", leftRatio: 0.18, rotate: -4 },
-  { src: "/assets/tape2.svg", leftRatio: 0.32, rotate: -5 },
-  { src: "/assets/tape3.svg", leftRatio: 0.5, rotate: 4 },
-  { src: "/assets/tape4.svg", leftRatio: 0.68, rotate: -2 },
-  { src: "/assets/tape5.svg", leftRatio: 0.82, rotate: 3 },
-];
-
-const BOTTOM_TAPES = [
-  { src: "/assets/tape7.svg", leftRatio: 0.1, rotate: 2 },
-  { src: "/assets/tape8.svg", leftRatio: 0.26, rotate: -5 },
-  { src: "/assets/tape9.svg", leftRatio: 0.44, rotate: 4 },
-  { src: "/assets/tape10.svg", leftRatio: 0.6, rotate: -2 },
-  { src: "/assets/tape11.svg", leftRatio: 0.78, rotate: 3 },
-];
-
-const clamp = (value: number, min: number, max: number) => Math.min(Math.max(value, min), max);
-
 const getAbsolutePlacement = (zeroBasedIndex: number) => {
   const safeIndex = Math.max(0, zeroBasedIndex);
   const column = (safeIndex % GRID_COLUMNS) + 1;
@@ -76,8 +56,6 @@ export default function FilmMobile() {
   const [hoveredProjectId, setHoveredProjectId] = useState<number | null>(null);
   const projectRefs = useRef<Record<number, HTMLButtonElement | null>>({});
   const stripRef = useRef<HTMLDivElement | null>(null);
-  const filmStripRef = useRef<HTMLDivElement | null>(null);
-  const [filmStripBounds, setFilmStripBounds] = useState<DOMRect | null>(null);
 
   useEffect(() => {
     const fetchProjects = async () => {
@@ -102,35 +80,6 @@ export default function FilmMobile() {
     }
 
     stripRef.current.scrollLeft = 0;
-  }, [projects.length]);
-
-  useEffect(() => {
-    const element = filmStripRef.current;
-    const scroller = stripRef.current;
-
-    if (!element) {
-      return;
-    }
-
-    const updateBounds = () => {
-      setFilmStripBounds(element.getBoundingClientRect());
-    };
-
-    updateBounds();
-
-    const resizeObserver = typeof ResizeObserver !== "undefined" ? new ResizeObserver(updateBounds) : null;
-    resizeObserver?.observe(element);
-
-    window.addEventListener("resize", updateBounds);
-    window.addEventListener("scroll", updateBounds, true);
-    scroller?.addEventListener("scroll", updateBounds);
-
-    return () => {
-      resizeObserver?.disconnect();
-      window.removeEventListener("resize", updateBounds);
-      window.removeEventListener("scroll", updateBounds, true);
-      scroller?.removeEventListener("scroll", updateBounds);
-    };
   }, [projects.length]);
 
   const currentPageProjects = useMemo(() => {
@@ -177,7 +126,6 @@ export default function FilmMobile() {
                 }}
               >
                 <div
-                  ref={filmStripRef}
                   className="pointer-events-none absolute inset-0 flex origin-left"
                   style={{
                     transform: `scaleY(${SCROLL_SCALE_Y})`,
@@ -278,59 +226,7 @@ export default function FilmMobile() {
           </div>
         </div>
       </div>
-      <TapesOverlay rect={filmStripBounds} />
     </>
-  );
-}
-
-function TapesOverlay({ rect }: { rect: DOMRect | null }) {
-  if (!rect || typeof document === "undefined") {
-    return null;
-  }
-
-  const tapeWidth = clamp(rect.width * 0.075, 44, 96);
-
-  return createPortal(
-    <div className="pointer-events-none fixed inset-0 z-[2147483000]">
-      {TOP_TAPES.map((tape) => {
-        const left = rect.left + rect.width * tape.leftRatio;
-
-        return (
-          <img
-            key={`film-mobile-top-${tape.src}-${tape.leftRatio}`}
-            src={tape.src}
-            alt="Tape"
-            style={{
-              position: "absolute",
-              width: `${tapeWidth}px`,
-              left: `${left}px`,
-              top: rect.top,
-              transform: `translate(-50%, -65%) rotate(${tape.rotate}deg)`,
-            }}
-          />
-        );
-      })}
-
-      {BOTTOM_TAPES.map((tape) => {
-        const left = rect.left + rect.width * tape.leftRatio;
-
-        return (
-          <img
-            key={`film-mobile-bottom-${tape.src}-${tape.leftRatio}`}
-            src={tape.src}
-            alt="Tape"
-            style={{
-              position: "absolute",
-              width: `${tapeWidth}px`,
-              left: `${left}px`,
-              top: rect.bottom,
-              transform: `translate(-50%, 65%) rotate(${tape.rotate}deg)`,
-            }}
-          />
-        );
-      })}
-    </div>,
-    document.body
   );
 }
 
