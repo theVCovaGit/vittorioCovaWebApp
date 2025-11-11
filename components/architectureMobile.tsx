@@ -49,6 +49,23 @@ const MOBILE_HEADER_HEIGHT = 142;
 const MOBILE_FOOTER_HEIGHT = 210;
 const SCROLL_SCALE_Y = 1.35;
 
+const TOP_TAPES = [
+  { src: "/assets/tape1.svg", left: "5%", rotate: 2 },
+  { src: "/assets/tape6.svg", left: "15%", rotate: -4 },
+  { src: "/assets/tape2.svg", left: "25%", rotate: -5 },
+  { src: "/assets/tape3.svg", left: "45%", rotate: 4 },
+  { src: "/assets/tape4.svg", left: "65%", rotate: -2 },
+  { src: "/assets/tape5.svg", left: "85%", rotate: 3 },
+];
+
+const BOTTOM_TAPES = [
+  { src: "/assets/tape7.svg", left: "5%", rotate: 2 },
+  { src: "/assets/tape8.svg", left: "25%", rotate: -5 },
+  { src: "/assets/tape9.svg", left: "45%", rotate: 4 },
+  { src: "/assets/tape10.svg", left: "65%", rotate: -2 },
+  { src: "/assets/tape11.svg", left: "85%", rotate: 3 },
+];
+
 export default function ArchitectureMobile() {
   const [projects, setProjects] = useState<ArchitectureProject[]>([]);
   const [currentPage] = useState(1);
@@ -117,62 +134,35 @@ export default function ArchitectureMobile() {
                   className="h-full w-full object-contain object-left"
                 />
 
-                <img
-                  src="/assets/tape1.svg"
-                  alt="Tape"
-                  className="pointer-events-none absolute -top-3 left-[4%] w-28 opacity-80"
-                />
-                <img
-                  src="/assets/tape2.svg"
-                  alt="Tape"
-                  className="pointer-events-none absolute -top-4 left-[22%] w-28 opacity-80"
-                />
-                <img
-                  src="/assets/tape3.svg"
-                  alt="Tape"
-                  className="pointer-events-none absolute -top-5 left-[40%] w-28 opacity-80"
-                />
-                <img
-                  src="/assets/tape4.svg"
-                  alt="Tape"
-                  className="pointer-events-none absolute -top-4 left-[58%] w-28 opacity-80"
-                />
-                <img
-                  src="/assets/tape5.svg"
-                  alt="Tape"
-                  className="pointer-events-none absolute -top-3 left-[76%] w-28 opacity-80"
-                />
-                <img
-                  src="/assets/tape6.svg"
-                  alt="Tape"
-                  className="pointer-events-none absolute -top-6 left-[15%] w-28 opacity-80"
-                />
+                {TOP_TAPES.map((tape) => (
+                  <img
+                    key={`top-${tape.src}`}
+                    src={tape.src}
+                    alt="Tape"
+                    className="pointer-events-none absolute opacity-80"
+                    style={{
+                      width: "clamp(44px, 12vw, 82px)",
+                      left: tape.left,
+                      top: 0,
+                      transform: `translate(-50%, -65%) rotate(${tape.rotate}deg)`,
+                    }}
+                  />
+                ))}
 
-                <img
-                  src="/assets/tape7.svg"
-                  alt="Tape"
-                  className="pointer-events-none absolute -bottom-6 left-[6%] w-28 opacity-80"
-                />
-                <img
-                  src="/assets/tape8.svg"
-                  alt="Tape"
-                  className="pointer-events-none absolute -bottom-6 left-[26%] w-28 opacity-80"
-                />
-                <img
-                  src="/assets/tape9.svg"
-                  alt="Tape"
-                  className="pointer-events-none absolute -bottom-6 left-[46%] w-28 opacity-80"
-                />
-                <img
-                  src="/assets/tape10.svg"
-                  alt="Tape"
-                  className="pointer-events-none absolute -bottom-6 left-[66%] w-28 opacity-80"
-                />
-                <img
-                  src="/assets/tape11.svg"
-                  alt="Tape"
-                  className="pointer-events-none absolute -bottom-6 left-[84%] w-28 opacity-80"
-                />
+                {BOTTOM_TAPES.map((tape) => (
+                  <img
+                    key={`bottom-${tape.src}`}
+                    src={tape.src}
+                    alt="Tape"
+                    className="pointer-events-none absolute opacity-80"
+                    style={{
+                      width: "clamp(44px, 12vw, 82px)",
+                      left: tape.left,
+                      bottom: 0,
+                      transform: `translate(-50%, 65%) rotate(${tape.rotate}deg)`,
+                    }}
+                  />
+                ))}
               </div>
 
               <div
