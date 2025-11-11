@@ -47,8 +47,8 @@ const MOBILE_SCROLL_HEIGHT = "clamp(420px, 62vh, 680px)";
 const MOBILE_SCROLL_WIDTH = 1080;
 const MOBILE_HEADER_OFFSET = "12vh";
 const MOBILE_FOOTER_OFFSET = "24vh";
-const SCROLL_SCALE_Y = 1.4;
-const SCROLL_TRANSLATE_Y = "6vh";
+const SCROLL_SCALE_Y = 1.3;
+const SCROLL_TRANSLATE_Y = "3.25vh";
 
 export default function ArchitectureMobile() {
   const [projects, setProjects] = useState<ArchitectureProject[]>([]);
