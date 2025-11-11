@@ -7,6 +7,8 @@ import { usePathname } from "next/navigation";
 export default function FooterMobile() {
   const pathname = usePathname();
   const isFooterPage = ["/", "/about", "/contact", "/news"].includes(pathname);
+  const creativePages = ["/architecture", "/product-design", "/film", "/art"];
+  const isCreativePage = creativePages.includes(pathname);
   const barcodeRef = useRef<HTMLDivElement>(null);
   const [isArchitectureExpanded, setIsArchitectureExpanded] = useState(false);
 
@@ -80,8 +82,19 @@ export default function FooterMobile() {
     };
   }, []);
 
+  const backgroundClass = isArchitectureExpanded
+    ? "bg-transparent"
+    : isFooterPage
+      ? "bg-[#302120]"
+      : "bg-[#5c4b4a]";
+
+  const spacingClass = isCreativePage ? "pt-16 pb-4 min-h-[170px]" : "pt-8 pb-4";
+  const layoutClass = isCreativePage ? "flex flex-col justify-end" : "";
+
   return (
-    <footer className={`fixed bottom-0 left-0 w-full font-minecraft z-50 px-4 pt-8 pb-4 ${isArchitectureExpanded ? 'bg-transparent' : isFooterPage ? 'bg-[#302120]' : 'bg-[#5c4b4a]'}`}>
+    <footer
+      className={`fixed bottom-0 left-0 z-50 w-full px-4 font-minecraft ${backgroundClass} ${spacingClass} ${layoutClass}`}
+    >
       <div className="flex flex-col items-center space-y-3 scale-[0.8]">
         {/* Barcode - Smaller for mobile */}
         <div ref={barcodeRef}>
