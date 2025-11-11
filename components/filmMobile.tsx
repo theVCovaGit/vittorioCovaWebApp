@@ -130,6 +130,7 @@ export default function FilmMobile() {
                   className="pointer-events-none absolute inset-0 flex origin-left"
                   style={{
                     transform: `scaleY(${SCROLL_SCALE_Y})`,
+                    zIndex: 1,
                   }}
                 >
                   <img
@@ -151,6 +152,7 @@ export default function FilmMobile() {
                     left: ICON_GRID_BOUNDS.left,
                     width: ICON_GRID_BOUNDS.width,
                     height: ICON_GRID_BOUNDS.height,
+                    zIndex: 2,
                   }}
                 >
                   {currentPageProjects.map((project, index) => {
