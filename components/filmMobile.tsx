@@ -126,11 +126,12 @@ export default function FilmMobile() {
                   height: MOBILE_SCROLL_HEIGHT,
                 }}
               >
+                <div className="absolute inset-0 z-0 rounded-[32px] bg-[#2d2f38]" />
+
                 <div
-                  className="pointer-events-none absolute inset-0 flex origin-left"
+                  className="pointer-events-none absolute inset-0 z-20 flex origin-left"
                   style={{
                     transform: `scaleY(${SCROLL_SCALE_Y})`,
-                    zIndex: 1,
                   }}
                 >
                   <img
@@ -146,13 +147,12 @@ export default function FilmMobile() {
                 </div>
 
                 <div
-                  className="absolute"
+                  className="absolute z-30"
                   style={{
                     top: ICON_GRID_BOUNDS.top,
                     left: ICON_GRID_BOUNDS.left,
                     width: ICON_GRID_BOUNDS.width,
                     height: ICON_GRID_BOUNDS.height,
-                    zIndex: 2,
                   }}
                 >
                   {currentPageProjects.map((project, index) => {
@@ -205,7 +205,7 @@ export default function FilmMobile() {
                             <img
                               src={project.images[0]}
                               alt={project.title}
-                              className={`h-auto w-full object-cover rounded-md transition-transform duration-200 ${
+                              className={`h-auto w-full rounded-md object-cover transition-transform duration-200 ${
                                 hoveredProjectId === project.id ? "scale-105" : ""
                               }`}
                             />
