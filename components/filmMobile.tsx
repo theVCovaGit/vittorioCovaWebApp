@@ -35,7 +35,7 @@ const MOBILE_SCROLL_WIDTH = 980;
 const MOBILE_SCROLL_MULTIPLIER = 1.8;
 const MOBILE_HEADER_HEIGHT = 142;
 const MOBILE_FOOTER_HEIGHT = 210;
-const SCROLL_SCALE_Y = 0.92;
+const SCROLL_SCALE_Y = 1;
 
 const getAbsolutePlacement = (zeroBasedIndex: number) => {
   const safeIndex = Math.max(0, zeroBasedIndex);
@@ -134,7 +134,7 @@ export default function FilmMobile() {
                     transform: `scaleY(${SCROLL_SCALE_Y})`,
                     backgroundImage: "url('/assets/film.svg')",
                     backgroundRepeat: "repeat-x",
-                    backgroundSize: "contain",
+                    backgroundSize: "auto 100%",
                     backgroundPosition: "center",
                   }}
                 />
