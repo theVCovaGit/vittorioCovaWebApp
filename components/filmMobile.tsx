@@ -32,6 +32,7 @@ const ICON_GRID_BOUNDS = {
 const MOBILE_ICON_SIZE = 220;
 const MOBILE_SCROLL_HEIGHT = 360;
 const MOBILE_SCROLL_WIDTH = 980;
+const MOBILE_SCROLL_ASPECT_RATIO = MOBILE_SCROLL_WIDTH / MOBILE_SCROLL_HEIGHT;
 const MOBILE_SCROLL_MULTIPLIER = 1.8;
 const MOBILE_HEADER_HEIGHT = 142;
 const MOBILE_FOOTER_HEIGHT = 210;
@@ -107,7 +108,7 @@ export default function FilmMobile() {
         >
           <div
             ref={stripRef}
-            className="film-strip-container flex h-full w-full items-center justify-start overflow-x-auto overflow-y-hidden scrollbar-hide"
+          className="film-strip-container flex h-full w-full items-center justify-start overflow-x-auto overflow-y-hidden scrollbar-hide"
             style={{
               scrollBehavior: "smooth",
               scrollbarWidth: "none",
@@ -121,8 +122,9 @@ export default function FilmMobile() {
               <div
                 className="relative flex-shrink-0"
                 style={{
-                  width: MOBILE_SCROLL_WIDTH * MOBILE_SCROLL_MULTIPLIER,
-                  height: MOBILE_SCROLL_HEIGHT,
+                  height: "100%",
+                  width: `calc(100% * ${MOBILE_SCROLL_ASPECT_RATIO * MOBILE_SCROLL_MULTIPLIER})`,
+                  minWidth: MOBILE_SCROLL_WIDTH,
                 }}
               >
                 <div className="absolute inset-0 z-0 bg-[#2d2f38]" />
@@ -130,12 +132,11 @@ export default function FilmMobile() {
                 <div
                   className="pointer-events-none absolute left-0 right-0 z-20"
                   style={{
-                    top: "50%",
-                    height: "160%",
-                    transform: "translateY(-50%)",
+                    top: 0,
+                    bottom: 0,
                     backgroundImage: "url('/assets/film.svg')",
                     backgroundRepeat: "repeat-x",
-                    backgroundSize: "contain",
+                    backgroundSize: "auto 100%",
                     backgroundPosition: "center",
                   }}
                 />
