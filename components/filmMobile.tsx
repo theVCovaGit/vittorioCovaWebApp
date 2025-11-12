@@ -129,22 +129,15 @@ export default function FilmMobile() {
                 <div className="absolute inset-0 z-0 rounded-[32px] bg-[#2d2f38]" />
 
                 <div
-                  className="pointer-events-none absolute inset-0 z-20 flex origin-left"
+                  className="pointer-events-none absolute inset-0 z-20"
                   style={{
                     transform: `scaleY(${SCROLL_SCALE_Y})`,
+                    backgroundImage: "url('/assets/film.svg')",
+                    backgroundRepeat: "repeat-x",
+                    backgroundSize: "contain",
+                    backgroundPosition: "center",
                   }}
-                >
-                  <img
-                    src="/assets/film.svg"
-                    alt="Film strip"
-                    className="h-full w-auto object-contain object-left"
-                  />
-                  <img
-                    src="/assets/film.svg"
-                    alt="Film strip extended"
-                    className="h-full w-auto object-contain object-left"
-                  />
-                </div>
+                />
 
                 <div
                   className="absolute z-30"
