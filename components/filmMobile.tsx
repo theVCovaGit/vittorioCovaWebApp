@@ -35,7 +35,6 @@ const MOBILE_SCROLL_WIDTH = 980;
 const MOBILE_SCROLL_MULTIPLIER = 1.8;
 const MOBILE_HEADER_HEIGHT = 142;
 const MOBILE_FOOTER_HEIGHT = 210;
-const SCROLL_SCALE_Y = 1;
 
 const getAbsolutePlacement = (zeroBasedIndex: number) => {
   const safeIndex = Math.max(0, zeroBasedIndex);
@@ -120,21 +119,23 @@ export default function FilmMobile() {
           >
             <div className="relative flex h-full items-center">
               <div
-                className="relative flex-shrink-0 overflow-visible"
+                className="relative flex-shrink-0"
                 style={{
                   width: MOBILE_SCROLL_WIDTH * MOBILE_SCROLL_MULTIPLIER,
                   height: MOBILE_SCROLL_HEIGHT,
                 }}
               >
-                <div className="absolute inset-0 z-0 rounded-[32px] bg-[#2d2f38]" />
+                <div className="absolute inset-0 z-0 bg-[#2d2f38]" />
 
                 <div
-                  className="pointer-events-none absolute inset-0 z-20"
+                  className="pointer-events-none absolute left-0 right-0 z-20"
                   style={{
-                    transform: `scaleY(${SCROLL_SCALE_Y})`,
+                    top: "50%",
+                    height: "160%",
+                    transform: "translateY(-50%)",
                     backgroundImage: "url('/assets/film.svg')",
                     backgroundRepeat: "repeat-x",
-                    backgroundSize: "auto 100%",
+                    backgroundSize: "contain",
                     backgroundPosition: "center",
                   }}
                 />
