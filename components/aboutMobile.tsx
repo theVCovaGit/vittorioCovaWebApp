@@ -29,7 +29,7 @@ export default function AboutMobile() {
   }, []);
 
   return (
-    <div className="relative h-screen overflow-hidden bg-[#302120] text-[#fef4dc] font-basica px-3" style={{ paddingTop: 'calc(var(--mobile-header-height) + 20px)', paddingBottom: '200px' }}>
+    <div className="relative h-screen overflow-hidden bg-[#302120] text-[#fef4dc] font-basica">
       {/* About Label - Right side, rotated - aligned with barcode bottom */}
       <AboutLabel
         bottom="bottom-0"
@@ -43,8 +43,15 @@ export default function AboutMobile() {
         <InteractiveFingie />
       </div>
 
-      {/* Content - Left side */}
-      <div className="pr-24 pl-8">
+      {/* Content - Left side - Constrained between header and footer */}
+      <div 
+        className="absolute left-0 right-0 px-3 pr-24 pl-8 overflow-y-auto"
+        style={{
+          top: 'calc(var(--mobile-header-height) + 16px)',
+          bottom: '180px',
+          maxHeight: 'calc(100vh - var(--mobile-header-height) - 180px)'
+        }}
+      >
         {/* Header */}
         <div className="mb-4">
         <div className="flex items-center gap-1 mb-1">
