@@ -77,7 +77,7 @@ export default function ArchitectureMobile() {
   const projectRefs = useRef<Record<number, HTMLButtonElement | null>>({});
   const stripRef = useRef<HTMLDivElement | null>(null);
   const scrollVisualRef = useRef<HTMLDivElement | null>(null);
-  const [scrollBounds, setScrollBounds] = useState<DOMRect | null>(null);
+  const [scrollMetrics, setScrollMetrics] = useState<{ rect: DOMRect; scrollLeft: number } | null>(null);
 
   useEffect(() => {
     const fetchProjects = async () => {
@@ -109,7 +109,8 @@ export default function ArchitectureMobile() {
 
     const updateBounds = () => {
       const rect = element.getBoundingClientRect();
-      setScrollBounds(rect);
+      const scrollLeft = scroller?.scrollLeft ?? 0;
+      setScrollMetrics({ rect, scrollLeft });
     };
 
     updateBounds();
@@ -256,23 +257,24 @@ export default function ArchitectureMobile() {
         />
       )}
       </div>
-      <TapesOverlay rect={scrollBounds} />
+      <TapesOverlay metrics={scrollMetrics} />
     </>
   );
 }
 
 
-function TapesOverlay({ rect }: { rect: DOMRect | null }) {
-  if (!rect || typeof document === "undefined") {
+function TapesOverlay({ metrics }: { metrics: { rect: DOMRect; scrollLeft: number } | null }) {
+  if (!metrics || typeof document === "undefined") {
     return null;
   }
 
+  const { rect, scrollLeft } = metrics;
   const tapeWidth = clamp(rect.width * 0.075, 44, 96);
 
   return createPortal(
     <div className="pointer-events-none fixed inset-0 z-[2147483000]">
       {TOP_TAPES.map((tape) => {
-        const left = rect.left + rect.width * tape.leftRatio;
+        const left = rect.left + scrollLeft + rect.width * tape.leftRatio;
 
         return (
           <img
@@ -291,7 +293,7 @@ function TapesOverlay({ rect }: { rect: DOMRect | null }) {
       })}
 
       {BOTTOM_TAPES.map((tape) => {
-        const left = rect.left + rect.width * tape.leftRatio;
+        const left = rect.left + scrollLeft + rect.width * tape.leftRatio;
 
         return (
           <img

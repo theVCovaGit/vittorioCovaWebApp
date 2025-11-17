@@ -71,8 +71,9 @@ function ArchitectureDesktop() {
   const [selectedProjectId, setSelectedProjectId] = useState<number | null>(null);
   const [hoveredProjectId, setHoveredProjectId] = useState<number | null>(null);
   const projectRefs = useRef<Record<number, HTMLButtonElement | null>>({});
+  const filmStripRef = useRef<HTMLDivElement | null>(null);
   const scrollVisualRef = useRef<HTMLDivElement | null>(null);
-  const [scrollRect, setScrollRect] = useState<DOMRect | null>(null);
+  const [scrollMetrics, setScrollMetrics] = useState<{ rect: DOMRect; scrollLeft: number } | null>(null);
 
   const handlePointerMove = useCallback((event: React.PointerEvent<HTMLDivElement>) => {
     const pointerX = event.clientX;
@@ -195,13 +196,16 @@ function ArchitectureDesktop() {
 
   useEffect(() => {
     const element = scrollVisualRef.current;
+    const scroller = filmStripRef.current;
 
     if (!element) {
       return;
     }
 
     const updateRect = () => {
-      setScrollRect(element.getBoundingClientRect());
+      const rect = element.getBoundingClientRect();
+      const scrollLeft = scroller?.scrollLeft ?? 0;
+      setScrollMetrics({ rect, scrollLeft });
     };
 
     updateRect();
@@ -211,19 +215,22 @@ function ArchitectureDesktop() {
 
     window.addEventListener("resize", updateRect);
     window.addEventListener("scroll", updateRect, true);
+    scroller?.addEventListener("scroll", updateRect);
 
     return () => {
       resizeObserver?.disconnect();
       window.removeEventListener("resize", updateRect);
       window.removeEventListener("scroll", updateRect, true);
+      scroller?.removeEventListener("scroll", updateRect);
     };
-  }, [currentPageProjects.length, setScrollRect]);
+  }, [currentPageProjects.length]);
 
   return (
     <>
     <div className="fixed inset-0 bg-[#fff5e0] overflow-hidden">
       {/* Film Strip Container */}
       <div 
+        ref={filmStripRef}
         className="film-strip-container absolute top-[48.3%] left-0 transform -translate-y-1/2 w-screen h-[700px] overflow-x-scroll overflow-y-hidden scrollbar-hide"
         style={{ 
           scrollBehavior: 'smooth',
@@ -333,22 +340,23 @@ function ArchitectureDesktop() {
         />
       )}
     </div>
-    <DesktopTapesOverlay rect={scrollRect} />
+    <DesktopTapesOverlay metrics={scrollMetrics} />
     </>
   );
 }
 
-function DesktopTapesOverlay({ rect }: { rect: DOMRect | null }) {
-  if (!rect || typeof document === "undefined") {
+function DesktopTapesOverlay({ metrics }: { metrics: { rect: DOMRect; scrollLeft: number } | null }) {
+  if (!metrics || typeof document === "undefined") {
     return null;
   }
 
+  const { rect, scrollLeft } = metrics;
   const tapeWidth = clamp(rect.width * 0.08, 120, 220);
 
   return createPortal(
     <div className="pointer-events-none fixed inset-0 z-[2147483000]">
       {TOP_TAPES.map((tape) => {
-        const left = rect.left + rect.width * tape.leftRatio;
+        const left = rect.left + scrollLeft + rect.width * tape.leftRatio;
 
         return (
           <img
@@ -367,7 +375,7 @@ function DesktopTapesOverlay({ rect }: { rect: DOMRect | null }) {
       })}
 
       {BOTTOM_TAPES.map((tape) => {
-        const left = rect.left + rect.width * tape.leftRatio;
+        const left = rect.left + scrollLeft + rect.width * tape.leftRatio;
 
         return (
           <img
