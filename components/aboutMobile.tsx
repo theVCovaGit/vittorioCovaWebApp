@@ -47,9 +47,9 @@ export default function AboutMobile() {
       <div 
         className="absolute left-0 right-0 px-3 pr-24 pl-8 overflow-y-auto"
         style={{
-          top: 'calc(var(--mobile-header-height) + 16px)',
-          bottom: '180px',
-          maxHeight: 'calc(100vh - var(--mobile-header-height) - 180px)'
+          top: 'calc(var(--mobile-header-height) + 3vh)',
+          bottom: '21vh',
+          maxHeight: 'calc(100vh - var(--mobile-header-height) - 24vh)'
         }}
       >
         {/* Header */}
