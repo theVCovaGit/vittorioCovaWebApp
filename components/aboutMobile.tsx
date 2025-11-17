@@ -69,7 +69,7 @@ export default function AboutMobile() {
 
         {/* Philosophical Thoughts Section */}
         <div className="mb-4">
-          <h2 className="text-[0.65rem] font-microextend mb-2 text-[#fef4dc]">
+          <h2 className="text-[0.65rem] font-electrolize mb-2 text-[#fef4dc]">
             Quick thoughts I want to <span className="text-[#fbe147]">share:</span>
           </h2>
           <div className="space-y-2 text-[0.5rem] leading-tight font-electrolize">
