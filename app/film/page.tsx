@@ -61,17 +61,17 @@ function FilmDesktop() {
               className="h-full w-auto object-contain"
             />
             {/* Poster overlays for first strip - calculated from Illustrator dimensions */}
-            {/* Film strip: 15.0312in x 6.2393in, Poster: 2.8252in x 4.2379in, Gap: 3in */}
+            {/* Film strip: 15.0312in x 6.2393in, Poster: 2.8252in x 4.2379in, Gap: 0.3in */}
             {/* Poster as % of strip: ~18.8% width, ~67.9% height */}
             <div className="absolute inset-0">
               {PLACEHOLDER_PROJECTS.slice(0, 2).map((project, index) => {
                 // Calculate frame positions based on proportions
-                // First frame starts after left border (~8% from left)
-                // Gap between frames is 3in / 15.0312in ≈ 20% of strip width
+                // First frame starts after left border (2% from left - same as gap between projects)
+                // Gap between frames is 0.3in / 15.0312in ≈ 2% of strip width
                 const posterWidthPercent = 18.8; // Poster width as % of strip
                 const posterHeightPercent = 67.9; // Poster height as % of strip
-                const leftBorderPercent = 8; // Left border/padding
-                const gapPercent = 20; // Gap between frames as % of strip
+                const leftBorderPercent = 2; // Left border/padding (0.3in / 15.0312in ≈ 2%)
+                const gapPercent = 2; // Gap between frames as % of strip (0.3in / 15.0312in)
                 const topMarginPercent = (100 - posterHeightPercent) / 2; // Center vertically
                 
                 const leftPosition = leftBorderPercent + (index * (posterWidthPercent + gapPercent));
@@ -143,8 +143,8 @@ function FilmDesktop() {
               {PLACEHOLDER_PROJECTS.slice(2, 4).map((project, index) => {
                 const posterWidthPercent = 18.8;
                 const posterHeightPercent = 67.9;
-                const leftBorderPercent = 8;
-                const gapPercent = 20;
+                const leftBorderPercent = 2; // 0.3in / 15.0312in ≈ 2% (same as gap between projects)
+                const gapPercent = 2; // 0.3in / 15.0312in ≈ 2%
                 const topMarginPercent = (100 - posterHeightPercent) / 2;
                 
                 const leftPosition = leftBorderPercent + (index * (posterWidthPercent + gapPercent));

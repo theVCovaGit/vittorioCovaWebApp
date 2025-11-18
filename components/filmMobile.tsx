@@ -95,7 +95,7 @@ export default function FilmMobile() {
                 />
 
                 {/* Poster overlays inside film strip frames - using Illustrator proportions */}
-                {/* Film strip: 15.0312in x 6.2393in, Poster: 2.8252in x 4.2379in, Gap: 3in */}
+                {/* Film strip: 15.0312in x 6.2393in, Poster: 2.8252in x 4.2379in, Gap: 0.3in */}
                 <div className="absolute z-30 inset-0">
                   {PLACEHOLDER_PROJECTS.map((project, index) => {
                     if (!project.images[0]) return null;
@@ -103,8 +103,8 @@ export default function FilmMobile() {
                     // Same proportions as desktop
                     const posterWidthPercent = 18.8;
                     const posterHeightPercent = 67.9;
-                    const leftBorderPercent = 8;
-                    const gapPercent = 20;
+                    const leftBorderPercent = 2; // 0.3in / 15.0312in ≈ 2% (same as gap between projects)
+                    const gapPercent = 2; // 0.3in / 15.0312in ≈ 2%
                     const topMarginPercent = (100 - posterHeightPercent) / 2;
                     
                     const leftPosition = leftBorderPercent + (index * (posterWidthPercent + gapPercent));
