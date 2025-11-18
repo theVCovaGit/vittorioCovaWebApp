@@ -34,7 +34,7 @@ export default function AboutMobile() {
       <div style={{ 
         position: 'absolute', 
         right: '-8rem', 
-        bottom: 'var(--barcode-bottom-offset, 80px)'
+        bottom: 'calc(var(--barcode-bottom-offset, 80px) - 2rem)'
       }}>
         <AboutLabel
           bottom="bottom-0"
