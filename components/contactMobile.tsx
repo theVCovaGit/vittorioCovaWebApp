@@ -34,7 +34,7 @@ export default function ContactMobile() {
       <div style={{ 
         position: 'absolute', 
         right: '-7.2rem', 
-        bottom: 'calc(var(--barcode-bottom-offset, 80px) + 28vh)'
+        bottom: 'calc(var(--barcode-bottom-offset, 80px) + 30vh)'
       }}>
         <ContactLabel
           bottom="bottom-0"
@@ -45,7 +45,7 @@ export default function ContactMobile() {
       </div>
 
       {/* Interactive Hand - Right side, much smaller */}
-      <div className="absolute -right-16 top-1/4 z-10 max-h-[30vh] overflow-visible scale-[0.15]">
+      <div className="absolute -right-16 z-10 max-h-[30vh] overflow-visible scale-[0.15]" style={{ top: '15vh' }}>
         <InteractiveHand />
       </div>
 
