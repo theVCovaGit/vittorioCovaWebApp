@@ -103,7 +103,7 @@ export default function FilmMobile() {
                     // Same proportions as desktop
                     const posterWidthPercent = 18.8;
                     const posterHeightPercent = 67.9;
-                    const leftBorderPercent = 2; // 0.3in / 15.0312in ≈ 2% (same as gap between projects)
+                    const leftBorderPercent = 3; // Left border/padding
                     const gapPercent = 2; // 0.3in / 15.0312in ≈ 2%
                     const topMarginPercent = (100 - posterHeightPercent) / 2;
                     

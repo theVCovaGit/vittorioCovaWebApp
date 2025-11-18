@@ -66,12 +66,12 @@ function FilmDesktop() {
             <div className="absolute inset-0">
               {PLACEHOLDER_PROJECTS.slice(0, 2).map((project, index) => {
                 // Calculate frame positions based on proportions
-                // First frame starts after left border (2% from left - same as gap between projects)
+                // First frame starts after left border (3% from left)
                 // Gap between frames is 0.3in / 15.0312in ≈ 2% of strip width
                 const posterWidthPercent = 18.8; // Poster width as % of strip
                 const posterHeightPercent = 67.9; // Poster height as % of strip
-                const leftBorderPercent = 2; // Left border/padding (0.3in / 15.0312in ≈ 2%)
-                const gapPercent = 2; // Gap between frames as % of strip (0.3in / 15.0312in)
+                const leftBorderPercent = 3.8; // Left border/padding
+                const gapPercent = 5.7; // Gap between frames as % of strip (0.3in / 15.0312in)
                 const topMarginPercent = (100 - posterHeightPercent) / 2; // Center vertically
                 
                 const leftPosition = leftBorderPercent + (index * (posterWidthPercent + gapPercent));
@@ -143,7 +143,7 @@ function FilmDesktop() {
               {PLACEHOLDER_PROJECTS.slice(2, 4).map((project, index) => {
                 const posterWidthPercent = 18.8;
                 const posterHeightPercent = 67.9;
-                const leftBorderPercent = 2; // 0.3in / 15.0312in ≈ 2% (same as gap between projects)
+                const leftBorderPercent = 3; // Left border/padding
                 const gapPercent = 2; // 0.3in / 15.0312in ≈ 2%
                 const topMarginPercent = (100 - posterHeightPercent) / 2;
                 
