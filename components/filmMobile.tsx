@@ -1,35 +1,44 @@
 "use client";
 /* eslint-disable @next/next/no-img-element */
 
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useRef } from "react";
 
-interface FilmProject {
-  id: number;
-  type: "film";
-  title: string;
-  icon?: string;
-  iconSecondary?: string;
-  images: string[];
-  releaseYear?: string;
-  countries?: string[];
-  cities?: string[];
-  genre?: string;
-  category?: string;
-  position?: number;
-  page?: number;
-}
+// Placeholder film projects data
+const PLACEHOLDER_PROJECTS = [
+  {
+    id: 1,
+    title: "WINCHESTER",
+    images: ["/images/1.png"], // Using placeholder image
+    genre: "Drama",
+    category: "Short Film",
+    releaseYear: "2024",
+  },
+  {
+    id: 2,
+    title: "PROJECT 2",
+    images: ["/images/1.png"],
+    genre: "Thriller",
+    category: "Feature Film",
+    releaseYear: "2024",
+  },
+  {
+    id: 3,
+    title: "PROJECT 3",
+    images: ["/images/1.png"],
+    genre: "Comedy",
+    category: "Short Film",
+    releaseYear: "2023",
+  },
+  {
+    id: 4,
+    title: "PROJECT 4",
+    images: ["/images/1.png"],
+    genre: "Action",
+    category: "Feature Film",
+    releaseYear: "2024",
+  },
+];
 
-const GRID_COLUMNS = 13;
-const GRID_ROWS = 7;
-
-const ICON_GRID_BOUNDS = {
-  top: "14%",
-  left: "9%",
-  width: "82%",
-  height: "68%",
-};
-
-const MOBILE_ICON_SIZE = 220;
 const MOBILE_SCROLL_HEIGHT = 360;
 const MOBILE_SCROLL_WIDTH = 980;
 const MOBILE_SCROLL_ASPECT_RATIO = MOBILE_SCROLL_WIDTH / MOBILE_SCROLL_HEIGHT;
@@ -37,64 +46,8 @@ const MOBILE_SCROLL_MULTIPLIER = 1.8;
 const MOBILE_HEADER_HEIGHT = 142;
 const MOBILE_FOOTER_HEIGHT = 210;
 
-const getAbsolutePlacement = (zeroBasedIndex: number) => {
-  const safeIndex = Math.max(0, zeroBasedIndex);
-  const column = (safeIndex % GRID_COLUMNS) + 1;
-  const row = Math.floor(safeIndex / GRID_COLUMNS) + 1;
-
-  const leftPercent = ((column - 0.5) / GRID_COLUMNS) * 100;
-  const topPercent = ((row - 0.5) / GRID_ROWS) * 100;
-
-  return {
-    left: `${leftPercent}%`,
-    top: `${topPercent}%`,
-  };
-};
-
 export default function FilmMobile() {
-  const [projects, setProjects] = useState<FilmProject[]>([]);
-  const [currentPage] = useState(1);
-  const [hoveredProjectId, setHoveredProjectId] = useState<number | null>(null);
-  const projectRefs = useRef<Record<number, HTMLButtonElement | null>>({});
   const stripRef = useRef<HTMLDivElement | null>(null);
-
-  useEffect(() => {
-    const fetchProjects = async () => {
-      try {
-        const response = await fetch("/api/film");
-        if (!response.ok) {
-          throw new Error(`Unexpected status ${response.status}`);
-        }
-        const data = await response.json();
-        setProjects(Array.isArray(data.projects) ? data.projects : []);
-      } catch (error) {
-        console.error("Error fetching film projects:", error);
-      }
-    };
-
-    fetchProjects();
-  }, []);
-
-  useEffect(() => {
-    if (!stripRef.current) {
-      return;
-    }
-
-    stripRef.current.scrollLeft = 0;
-  }, [projects.length]);
-
-  const currentPageProjects = useMemo(() => {
-    return projects
-      .filter((project) => (project.page || 1) === currentPage)
-      .sort((a, b) => {
-        const aPosition = a.position ?? 0;
-        const bPosition = b.position ?? 0;
-        if (aPosition === bPosition) {
-          return a.id - b.id;
-        }
-        return aPosition - bPosition;
-      });
-  }, [projects, currentPage]);
 
   return (
     <>
@@ -108,7 +61,7 @@ export default function FilmMobile() {
         >
           <div
             ref={stripRef}
-          className="film-strip-container flex h-full w-full items-center justify-start overflow-x-auto overflow-y-hidden scrollbar-hide"
+            className="film-strip-container flex h-full w-full items-center justify-start overflow-x-auto overflow-y-hidden scrollbar-hide"
             style={{
               scrollBehavior: "smooth",
               scrollbarWidth: "none",
@@ -141,80 +94,68 @@ export default function FilmMobile() {
                   }}
                 />
 
-                <div
-                  className="absolute z-30"
-                  style={{
-                    top: ICON_GRID_BOUNDS.top,
-                    left: ICON_GRID_BOUNDS.left,
-                    width: ICON_GRID_BOUNDS.width,
-                    height: ICON_GRID_BOUNDS.height,
-                  }}
-                >
-                  {currentPageProjects.map((project, index) => {
-                    const placementIndex = (project.position ?? 0) > 0 ? (project.position as number) - 1 : index;
-                    const { left, top } = getAbsolutePlacement(placementIndex);
+                {/* Poster overlays inside film strip frames - using Illustrator proportions */}
+                {/* Film strip: 15.0312in x 6.2393in, Poster: 2.8252in x 4.2379in, Gap: 3in */}
+                <div className="absolute z-30 inset-0">
+                  {PLACEHOLDER_PROJECTS.map((project, index) => {
+                    if (!project.images[0]) return null;
 
-                    const hasVisual = project.icon || project.images?.[0];
-                    if (!hasVisual) {
-                      return null;
-                    }
+                    // Same proportions as desktop
+                    const posterWidthPercent = 18.8;
+                    const posterHeightPercent = 67.9;
+                    const leftBorderPercent = 8;
+                    const gapPercent = 20;
+                    const topMarginPercent = (100 - posterHeightPercent) / 2;
+                    
+                    const leftPosition = leftBorderPercent + (index * (posterWidthPercent + gapPercent));
 
                     return (
                       <div
                         key={project.id}
-                        className="pointer-events-auto absolute flex items-center justify-center"
+                        className="absolute"
                         style={{
-                          left,
-                          top,
-                          transform: "translate(-50%, -50%)",
+                          width: `${posterWidthPercent}%`,
+                          height: `${posterHeightPercent}%`,
+                          left: `${leftPosition}%`,
+                          top: `${topMarginPercent}%`,
                         }}
                       >
-                        <button
-                          type="button"
-                          className="group relative bg-transparent p-0"
-                          style={{ width: MOBILE_ICON_SIZE }}
-                          ref={(element) => {
-                            projectRefs.current[project.id] = element;
-                          }}
-                          onMouseEnter={() => setHoveredProjectId(project.id)}
-                          onFocus={() => setHoveredProjectId(project.id)}
-                          onMouseLeave={() =>
-                            setHoveredProjectId((current) => (current === project.id ? null : current))
-                          }
-                          onBlur={() =>
-                            setHoveredProjectId((current) => (current === project.id ? null : current))
-                          }
-                          onTouchStart={() => setHoveredProjectId(project.id)}
-                          onTouchEnd={() => setHoveredProjectId(null)}
-                        >
-                          {project.icon && (
-                            <img
-                              src={project.icon}
-                              alt={project.title}
-                              className={`h-auto w-full object-contain transition-transform duration-200 ${
-                                hoveredProjectId === project.id ? "scale-105" : ""
-                              }`}
-                            />
-                          )}
-                          {!project.icon && project.images?.[0] && (
-                            <img
-                              src={project.images[0]}
-                              alt={project.title}
-                              className={`h-auto w-full rounded-md object-cover transition-transform duration-200 ${
-                                hoveredProjectId === project.id ? "scale-105" : ""
-                              }`}
-                            />
-                          )}
-                          {project.iconSecondary && (
-                            <img
-                              src={project.iconSecondary}
-                              alt={`${project.title} secondary`}
-                              className={`absolute inset-0 h-full w-full object-contain transition-opacity duration-200 ${
-                                hoveredProjectId === project.id ? "opacity-100" : "opacity-0"
-                              }`}
-                            />
-                          )}
-                        </button>
+                        <div className="relative w-full h-full bg-[#f5f0e8] rounded-sm overflow-hidden" style={{ boxShadow: 'inset 0 0 15px rgba(0,0,0,0.1)' }}>
+                          <img
+                            src={project.images[0]}
+                            alt={project.title}
+                            className="w-full h-full object-cover"
+                          />
+                          <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-black/40" />
+                          <div className="absolute top-2 left-2 right-2">
+                            <h3 className="font-bold text-black text-lg uppercase tracking-tight" style={{ 
+                              fontFamily: 'serif',
+                              textShadow: '2px 2px 4px rgba(255,255,255,0.8)'
+                            }}>
+                              {project.title}
+                            </h3>
+                          </div>
+                          <div className="absolute bottom-1 left-1 right-1">
+                            <p className="text-white text-[7px] uppercase tracking-wide" style={{ 
+                              textShadow: '1px 1px 2px rgba(0,0,0,0.8)',
+                              fontFamily: 'monospace'
+                            }}>
+                              {project.genre} · {project.category}
+                            </p>
+                            <p className="text-white text-[5px] mt-0.5" style={{ 
+                              textShadow: '1px 1px 2px rgba(0,0,0,0.8)',
+                              fontFamily: 'monospace'
+                            }}>
+                              {project.releaseYear} · VITTORIO COVA
+                            </p>
+                          </div>
+                          <div className="absolute bottom-0.5 left-1 text-white text-[7px] font-bold" style={{ 
+                            textShadow: '1px 1px 2px rgba(0,0,0,0.8)',
+                            fontFamily: 'monospace'
+                          }}>
+                            {index === 0 ? '2A' : index === 1 ? '3' : index === 2 ? '3A' : '4'}
+                          </div>
+                        </div>
                       </div>
                     );
                   })}
