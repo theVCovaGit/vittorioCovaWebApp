@@ -2,7 +2,6 @@
 
 import React, { useEffect } from "react";
 import InteractiveHand from "@/components/interactiveHand";
-import InteractiveMorse from "@/components/interactiveMorse";
 import ContactLabel from "@/components/contactLabel";
 
 export default function ContactMobile() {
@@ -42,11 +41,6 @@ export default function ContactMobile() {
       {/* Interactive Hand - Right side, much smaller */}
       <div className="absolute -right-16 top-1/4 z-10 max-h-[30vh] overflow-visible scale-[0.15]">
         <InteractiveHand />
-      </div>
-
-      {/* Interactive Morse Code - Below InteractiveHand */}
-      <div className="absolute -right-16 top-2/5 z-10 max-h-[20vh] overflow-visible scale-[0.5]">
-        <InteractiveMorse />
       </div>
 
       {/* Content - Centered */}
