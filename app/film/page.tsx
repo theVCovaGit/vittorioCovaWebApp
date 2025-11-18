@@ -38,6 +38,38 @@ const PLACEHOLDER_PROJECTS = [
     category: "Feature Film",
     releaseYear: "2024",
   },
+  {
+    id: 5,
+    title: "PROJECT 5",
+    images: ["/images/1.png"],
+    genre: "Horror",
+    category: "Short Film",
+    releaseYear: "2024",
+  },
+  {
+    id: 6,
+    title: "PROJECT 6",
+    images: ["/images/1.png"],
+    genre: "Sci-Fi",
+    category: "Feature Film",
+    releaseYear: "2023",
+  },
+  {
+    id: 7,
+    title: "PROJECT 7",
+    images: ["/images/1.png"],
+    genre: "Documentary",
+    category: "Short Film",
+    releaseYear: "2024",
+  },
+  {
+    id: 8,
+    title: "PROJECT 8",
+    images: ["/images/1.png"],
+    genre: "Romance",
+    category: "Feature Film",
+    releaseYear: "2024",
+  },
 ];
 
 function FilmDesktop() {
