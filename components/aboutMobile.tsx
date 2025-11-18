@@ -45,7 +45,7 @@ export default function AboutMobile() {
       </div>
 
       {/* Fingerprint - Right side, much smaller */}
-      <div className="absolute -right-16 top-1/3 z-10 max-h-[40vh] overflow-visible scale-[0.5]">
+      <div className="absolute -right-16 z-10 max-h-[40vh] overflow-visible scale-[0.5]" style={{ top: '15vh' }}>
         <InteractiveFingie />
       </div>
 
