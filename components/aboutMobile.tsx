@@ -33,14 +33,14 @@ export default function AboutMobile() {
       {/* About Label - Right side, rotated - aligned with barcode bottom - always to the right of barcode */}
       <div style={{ 
         position: 'absolute', 
-        right: '-8rem', 
+        right: '-13rem', 
         bottom: 'calc(var(--barcode-bottom-offset, 80px) - 2rem)'
       }}>
         <AboutLabel
           bottom="bottom-0"
           right="right-0"
           scale="scale-[1]"
-          fontSize="text-[40px]"
+          fontSize="text-[60px] sm:text-[70px] md:text-[80px]"
         />
       </div>
 
