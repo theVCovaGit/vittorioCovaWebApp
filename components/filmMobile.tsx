@@ -7,7 +7,7 @@ import { useRef } from "react";
 const PLACEHOLDER_PROJECTS = [
   {
     id: 1,
-    title: "WINCHESTER",
+    title: "WINECHESTER",
     images: ["/images/1.png"], // Using placeholder image
     genre: "Drama",
     category: "Short Film",
