@@ -30,13 +30,19 @@ export default function ContactMobile() {
 
   return (
     <div className="relative h-screen overflow-hidden bg-[#302120] text-[#fef4dc] font-basica px-3 py-4 pb-20 pt-20">
-      {/* Contact Label - Right side, rotated - aligned with barcode bottom */}
-      <ContactLabel
-        bottom="bottom-0"
-        right="-right-10"
-        scale="scale-[1]"
-        fontSize="text-[40px]"
-      />
+      {/* Contact Label - Right side, rotated - aligned with barcode bottom - always to the right of barcode */}
+      <div style={{ 
+        position: 'absolute', 
+        right: '-7.2rem', 
+        bottom: 'calc(var(--barcode-bottom-offset, 80px) + 18vh)'
+      }}>
+        <ContactLabel
+          bottom="bottom-0"
+          right="right-0"
+          scale="scale-[1]"
+          fontSize="text-[60px] sm:text-[70px] md:text-[80px]"
+        />
+      </div>
 
       {/* Interactive Hand - Right side, much smaller */}
       <div className="absolute -right-16 top-1/4 z-10 max-h-[30vh] overflow-visible scale-[0.15]">
