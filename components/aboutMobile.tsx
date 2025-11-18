@@ -30,13 +30,19 @@ export default function AboutMobile() {
 
   return (
     <div className="relative h-screen overflow-hidden bg-[#302120] text-[#fef4dc] font-basica">
-      {/* About Label - Right side, rotated - aligned with barcode bottom */}
-      <AboutLabel
-        bottom="bottom-0"
-        right="-right-10"
-        scale="scale-[1]"
-        fontSize="text-[40px]"
-      />
+      {/* About Label - Right side, rotated - aligned with barcode bottom - always to the right of barcode */}
+      <div style={{ 
+        position: 'absolute', 
+        right: '-35vw', 
+        bottom: 'var(--barcode-bottom-offset, 80px)'
+      }}>
+        <AboutLabel
+          bottom="bottom-0"
+          right="right-0"
+          scale="scale-[1]"
+          fontSize="text-[40px]"
+        />
+      </div>
 
       {/* Fingerprint - Right side, much smaller */}
       <div className="absolute -right-16 top-1/3 z-10 max-h-[40vh] overflow-visible scale-[0.5]">
