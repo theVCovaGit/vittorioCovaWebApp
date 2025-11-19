@@ -351,7 +351,7 @@ function DesktopTapesOverlay({ metrics }: { metrics: { rect: DOMRect; scrollLeft
   }
 
   const { rect, scrollLeft } = metrics;
-  const tapeWidth = clamp(rect.width * 0.08, 120, 220);
+  const tapeWidth = clamp(rect.width * 0.03, 50, 90);
 
   return createPortal(
     <div className="pointer-events-none fixed inset-0 z-[2147483000]">
