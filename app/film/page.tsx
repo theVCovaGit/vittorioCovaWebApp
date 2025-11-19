@@ -19,8 +19,6 @@ interface FilmProject {
   page?: number;
 }
 
-const PROJECTS_PER_STRIP = 4;
-
 function FilmDesktop() {
   const [projects, setProjects] = useState<FilmProject[]>([]);
 
@@ -41,19 +39,50 @@ function FilmDesktop() {
     fetchProjects();
   }, []);
 
-  // Group projects into strips of 4, always add one extra empty strip
+  // Group projects into strips based on page and position
   const projectStrips = useMemo(() => {
-    const strips: FilmProject[][] = [];
-    for (let i = 0; i < projects.length; i += PROJECTS_PER_STRIP) {
-      strips.push(projects.slice(i, i + PROJECTS_PER_STRIP));
+    // Sort projects by page first, then by position
+    const sortedProjects = [...projects].sort((a, b) => {
+      const pageA = a.page ?? 1;
+      const pageB = b.page ?? 1;
+      if (pageA !== pageB) {
+        return pageA - pageB;
+      }
+      const posA = a.position ?? 1;
+      const posB = b.position ?? 1;
+      return posA - posB;
+    });
+
+    // Find the maximum page number
+    const maxPage = sortedProjects.length > 0
+      ? sortedProjects.reduce((max, p) => {
+          const page = p.page ?? 1;
+          return page > max ? page : max;
+        }, 1)
+      : 1;
+
+    // Create strips for each page
+    const strips: (FilmProject | null)[][] = [];
+    for (let pageNum = 1; pageNum <= maxPage; pageNum++) {
+      // Initialize strip with 4 empty slots
+      const strip: (FilmProject | null)[] = [null, null, null, null];
+      
+      // Fill in projects for this page
+      sortedProjects.forEach((project) => {
+        const projectPage = project.page ?? 1;
+        const projectPosition = project.position ?? 1;
+        
+        if (projectPage === pageNum && projectPosition >= 1 && projectPosition <= 4) {
+          strip[projectPosition - 1] = project; // position 1-4 maps to index 0-3
+        }
+      });
+      
+      strips.push(strip);
     }
-    // Always add one more empty strip than needed
-    const stripsNeeded = Math.ceil(projects.length / PROJECTS_PER_STRIP);
-    const totalStrips = stripsNeeded + 1;
-    // Ensure we have the extra strip even if it's empty
-    while (strips.length < totalStrips) {
-      strips.push([]);
-    }
+    
+    // Always add one more empty strip
+    strips.push([null, null, null, null]);
+    
     return strips;
   }, [projects]);
   return (
@@ -87,7 +116,7 @@ function FilmDesktop() {
                   
                   const leftPosition = leftBorderPercent + (localIndex * (posterWidthPercent + gapPercent));
                   
-                  if (!project.icon) return null;
+                  if (!project || !project.icon) return null;
                   
                   return (
                     <div
