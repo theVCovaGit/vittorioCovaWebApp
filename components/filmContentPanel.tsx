@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import { MultipleImagesUpload } from "@/components/imageUpload";
 import IconUpload from "@/components/iconUpload";
-import ProjectPosition from "@/components/projectPosition";
+import FilmProjectPosition from "@/components/filmProjectPosition";
 
 interface FilmProject {
   id: number;
@@ -16,6 +16,8 @@ interface FilmProject {
   cities: string;
   genre: string;
   category: string; // e.g. "short film", "full film"
+  position?: number;
+  page?: number;
 }
 
 export default function FilmContentPanel({ isActive }: { isActive: boolean }) {
@@ -29,6 +31,9 @@ export default function FilmContentPanel({ isActive }: { isActive: boolean }) {
   const [category, setCategory] = useState("");
   const [projects, setProjects] = useState<FilmProject[]>([]);
   const [editingId, setEditingId] = useState<number | null>(null);
+  const [position, setPosition] = useState<number>(1);
+  const [page, setPage] = useState<number>(1);
+  const [selectedProject, setSelectedProject] = useState<FilmProject | null>(null);
 
   const resetForm = () => {
     setTitle("");
@@ -39,6 +44,8 @@ export default function FilmContentPanel({ isActive }: { isActive: boolean }) {
     setCities("");
     setGenre("");
     setCategory("");
+    setPosition(1);
+    setPage(1);
     setEditingId(null);
   };
 
@@ -51,6 +58,11 @@ export default function FilmContentPanel({ isActive }: { isActive: boolean }) {
         const data = await res.json();
         if (res.ok && Array.isArray(data.projects)) {
           setProjects(data.projects);
+          const currentSelection = data.projects.find(
+            (project: FilmProject) =>
+              project.position === position && (project.page || 1) === page
+          );
+          setSelectedProject(currentSelection ?? null);
         } else {
           console.error("❌ Unexpected response:", data);
         }
@@ -61,6 +73,14 @@ export default function FilmContentPanel({ isActive }: { isActive: boolean }) {
 
     fetchProjects();
   }, [isActive]);
+
+  useEffect(() => {
+    const match = projects.find(
+      (project) =>
+        project.position === position && (project.page || 1) === page
+    );
+    setSelectedProject(match ?? null);
+  }, [projects, position, page]);
 
   const handleSubmit = async () => {
     if (!title || images.length === 0 || !countries || !cities || !genre || !category) {
@@ -79,6 +99,8 @@ export default function FilmContentPanel({ isActive }: { isActive: boolean }) {
       cities,
       genre,
       category,
+      position,
+      page,
     };
 
     try {
@@ -90,11 +112,18 @@ export default function FilmContentPanel({ isActive }: { isActive: boolean }) {
 
       if (res.ok) {
         alert(editingId ? "Proyecto actualizado" : "Proyecto publicado");
-        setProjects((prev) =>
-          editingId
+        setProjects((prev) => {
+          const updated = editingId
             ? prev.map((p) => (p.id === editingId ? project : p))
-            : [...prev, project]
-        );
+            : [...prev, project];
+
+          const match = updated.find(
+            (p) =>
+              p.position === project.position && (p.page || 1) === (project.page || 1)
+          );
+          setSelectedProject(match ?? null);
+          return updated;
+        });
         resetForm();
       } else {
         const err = await res.json();
@@ -121,7 +150,13 @@ export default function FilmContentPanel({ isActive }: { isActive: boolean }) {
 
       if (res.ok) {
         alert("Proyecto eliminado");
-        setProjects((prev) => prev.filter((p) => p.id !== id));
+        setProjects((prev) => {
+          const filtered = prev.filter((p) => p.id !== id);
+          if (selectedProject?.id === id) {
+            setSelectedProject(null);
+          }
+          return filtered;
+        });
         if (editingId === id) resetForm();
       } else {
         const err = await res.json();
@@ -204,11 +239,26 @@ export default function FilmContentPanel({ isActive }: { isActive: boolean }) {
         <MultipleImagesUpload onUpload={setImages} currentImages={images} />
 
         <label className="block mb-1 font-minecraft text-sm text-[#FFF3DF] mt-4">Project position</label>
-        <ProjectPosition 
-          onPositionSelect={(position) => console.log('Selected position:', position)}
-          currentPosition={1}
-          currentPage={1}
-          onPageChange={(page) => console.log('Page changed:', page)}
+        <FilmProjectPosition 
+          onPositionSelect={(selectedPos) => {
+            setPosition(selectedPos);
+            const associated = projects.find(
+              (proj) =>
+                proj.position === selectedPos && (proj.page || 1) === page
+            );
+            setSelectedProject(associated ?? null);
+          }}
+          currentPosition={position}
+          currentPage={page}
+          onPageChange={(newPage) => {
+            setPage(newPage);
+            const associated = projects.find(
+              (proj) =>
+                proj.position === position && (proj.page || 1) === newPage
+            );
+            setSelectedProject(associated ?? null);
+          }}
+          projects={projects}
         />
 
         {/* Submit / Cancel */}
@@ -227,51 +277,61 @@ export default function FilmContentPanel({ isActive }: { isActive: boolean }) {
         </div>
       </div>
 
-      {/* List */}
-      {projects.length > 0 && (
-        <div className="mt-6 space-y-4">
-          {projects.map((project) => (
-            <div key={project.id} className="bg-gray-800 text-white p-4 rounded-md shadow-md">
-              {project.images.length > 0 && (
-                <div className="grid grid-cols-2 gap-2 mb-2">
-                  {project.images.map((img, i) => (
-                    <img key={i} src={img} alt={`image ${i}`} className="w-full h-32 object-cover rounded-md" />
-                  ))}
-                </div>
-              )}
-              <h4 className="text-lg font-bold">{project.title}</h4>
-              <p className="text-sm text-gray-300">{project.genre} · {project.category}</p>
-              <p className="text-sm text-gray-400">
-                {project.cities}, {project.countries} {project.year && `· ${project.year}`}
-              </p>
-              <div className="flex gap-2 mt-3">
-                <button
-                  className="bg-yellow-400 text-black py-1 px-3 rounded-md"
-                  onClick={() => {
-                    setTitle(project.title);
-                    setIcon(project.icon || "");
-                    setImages(project.images);
-                    setYear(project.year || "");
-                    setCountries(project.countries);
-                    setCities(project.cities);
-                    setGenre(project.genre);
-                    setCategory(project.category);
-                    setEditingId(project.id);
-                  }}
-                >
-                  Edit
-                </button>
-                <button
-                  className="bg-red-600 text-white py-1 px-3 rounded-md"
-                  onClick={() => handleDelete(project.id)}
-                >
-                  Delete
-                </button>
+      {/* Selected Project Display */}
+      <div className="mt-6">
+        {selectedProject ? (
+          <div className="bg-transparent text-white p-4 rounded-md border border-gray-300">
+            {Array.isArray(selectedProject.images) && selectedProject.images.length > 0 && (
+              <div className="grid grid-cols-2 gap-2 mb-2">
+                {selectedProject.images.map((img: string, i: number) => (
+                  <img
+                    key={i}
+                    src={img}
+                    alt={`imagen ${i}`}
+                    className="w-full h-32 object-cover rounded-md"
+                  />
+                ))}
               </div>
+            )}
+            <h4 className="text-lg font-bold font-microextend">{selectedProject.title}</h4>
+            <p className="text-sm text-gray-400">{selectedProject.genre} · {selectedProject.category}</p>
+            <p className="text-gray-300 mt-2">
+              {selectedProject.cities}, {selectedProject.countries}{" "}
+              {selectedProject.year && `· ${selectedProject.year}`}
+            </p>
+            <div className="flex gap-2 mt-3">
+              <button
+                className="bg-yellow-400 text-black py-1 px-3 rounded-md font-microextend"
+                onClick={() => {
+                  setTitle(selectedProject.title);
+                  setIcon(selectedProject.icon || "");
+                  setImages(selectedProject.images);
+                  setYear(selectedProject.year || "");
+                  setCountries(selectedProject.countries);
+                  setCities(selectedProject.cities);
+                  setGenre(selectedProject.genre);
+                  setCategory(selectedProject.category);
+                  setPosition(selectedProject.position || 1);
+                  setPage(selectedProject.page || 1);
+                  setEditingId(selectedProject.id);
+                }}
+              >
+                Edit
+              </button>
+              <button
+                className="bg-red-600 text-white py-1 px-3 rounded-md font-microextend"
+                onClick={() => handleDelete(selectedProject.id)}
+              >
+                Delete
+              </button>
             </div>
-          ))}
-        </div>
-      )}
+          </div>
+        ) : (
+          <div className="rounded-md border border-dashed border-gray-500/60 p-6 text-center text-sm text-gray-400">
+            Select a slot on the film strip to view project details.
+          </div>
+        )}
+      </div>
     </div>
   );
 }

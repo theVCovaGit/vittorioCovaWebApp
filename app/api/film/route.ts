@@ -13,6 +13,8 @@ interface FilmProject {
   cities?: string[];
   genre?: string;
   category?: string; // e.g. short film, full film, etc.
+  position?: number;
+  page?: number;
 }
 
 interface FilmProjectRow {
@@ -27,6 +29,8 @@ interface FilmProjectRow {
   category: string;
   country?: string;
   city?: string;
+  position?: number;
+  page?: number;
   created_at?: string;
 }
 
@@ -51,7 +55,9 @@ export async function GET() {
       countries: p.countries || [],
       cities: p.cities || [],
       genre: p.genre || "",
-      category: p.category || ""
+      category: p.category || "",
+      position: p.position ?? 1,
+      page: p.page ?? 1,
     }));
     
     return NextResponse.json({ projects: formattedProjects }, { status: 200 });
@@ -74,8 +80,8 @@ export async function POST(req: NextRequest) {
     await ensureTableExists('film_projects');
 
     const [newProject] = await sql`
-      INSERT INTO film_projects (title, country, city, category, year, images, icon)
-      VALUES (${project.title}, ${project.countries?.[0] || ""}, ${project.cities?.[0] || ""}, ${project.category || ""}, ${project.releaseYear || ""}, ${project.images}, ${project.icon || ""})
+      INSERT INTO film_projects (title, country, city, category, year, images, icon, position, page)
+      VALUES (${project.title}, ${project.countries?.[0] || ""}, ${project.cities?.[0] || ""}, ${project.category || ""}, ${project.releaseYear || ""}, ${project.images}, ${project.icon || ""}, ${project.position ?? 1}, ${project.page ?? 1})
       RETURNING *
     `;
 
@@ -89,7 +95,9 @@ export async function POST(req: NextRequest) {
       countries: newProject.country ? [newProject.country] : [],
       cities: newProject.city ? [newProject.city] : [],
       genre: newProject.genre || "",
-      category: newProject.category || ""
+      category: newProject.category || "",
+      position: newProject.position ?? 1,
+      page: newProject.page ?? 1,
     };
 
     return NextResponse.json({ message: "Project added", project: formattedProject }, { status: 200 });
@@ -100,29 +108,81 @@ export async function POST(req: NextRequest) {
 }
 
 
-// PUT: Replace all film projects
+// PUT: Update single project or replace all film projects
 export async function PUT(req: NextRequest) {
   try {
-    const { projects } = await req.json();
+    const body = await req.json();
+    const { project, projects } = body;
 
-    if (
-      !Array.isArray(projects) ||
-      projects.some((p) => !p.id || !p.title || !Array.isArray(p.images))
-    ) {
-      return NextResponse.json({ error: "Invalid project format" }, { status: 400 });
-    }
+    // Handle single project update
+    if (project && !projects) {
+      if (!project.id || !project.title || !Array.isArray(project.images)) {
+        return NextResponse.json({ error: "Invalid project format" }, { status: 400 });
+      }
 
-    // Clear existing projects and insert new ones
-    await sql`DELETE FROM film_projects`;
-    
-    for (const project of projects) {
-      await sql`
-        INSERT INTO film_projects (id, title, country, city, category, year, images, icon)
-        VALUES (${project.id}, ${project.title}, ${project.countries?.[0] || ""}, ${project.cities?.[0] || ""}, ${project.category || ""}, ${project.releaseYear || ""}, ${project.images}, ${project.icon || ""})
+      await ensureTableExists('film_projects');
+
+      const [updatedProject] = await sql`
+        UPDATE film_projects 
+        SET 
+          title = ${project.title},
+          country = ${project.countries?.[0] || ""},
+          city = ${project.cities?.[0] || ""},
+          category = ${project.category || ""},
+          year = ${project.releaseYear || ""},
+          images = ${project.images},
+          icon = ${project.icon || ""},
+          position = ${project.position ?? 1},
+          page = ${project.page ?? 1}
+        WHERE id = ${project.id}
+        RETURNING *
       `;
+
+      if (!updatedProject) {
+        return NextResponse.json({ error: "Project not found" }, { status: 404 });
+      }
+
+      const formattedProject: FilmProject = {
+        id: updatedProject.id,
+        type: "film",
+        title: updatedProject.title,
+        icon: updatedProject.icon || "",
+        images: updatedProject.images || [],
+        releaseYear: updatedProject.year || "",
+        countries: updatedProject.country ? [updatedProject.country] : [],
+        cities: updatedProject.city ? [updatedProject.city] : [],
+        genre: updatedProject.genre || "",
+        category: updatedProject.category || "",
+        position: updatedProject.position ?? 1,
+        page: updatedProject.page ?? 1,
+      };
+
+      return NextResponse.json({ message: "Project updated", project: formattedProject }, { status: 200 });
     }
-    
-    return NextResponse.json({ message: "Projects updated" }, { status: 200 });
+
+    // Handle bulk replace
+    if (projects) {
+      if (
+        !Array.isArray(projects) ||
+        projects.some((p) => !p.id || !p.title || !Array.isArray(p.images))
+      ) {
+        return NextResponse.json({ error: "Invalid project format" }, { status: 400 });
+      }
+
+      // Clear existing projects and insert new ones
+      await sql`DELETE FROM film_projects`;
+      
+      for (const proj of projects) {
+        await sql`
+          INSERT INTO film_projects (id, title, country, city, category, year, images, icon, position, page)
+          VALUES (${proj.id}, ${proj.title}, ${proj.countries?.[0] || ""}, ${proj.cities?.[0] || ""}, ${proj.category || ""}, ${proj.releaseYear || ""}, ${proj.images}, ${proj.icon || ""}, ${proj.position ?? 1}, ${proj.page ?? 1})
+        `;
+      }
+      
+      return NextResponse.json({ message: "Projects updated" }, { status: 200 });
+    }
+
+    return NextResponse.json({ error: "Invalid request body" }, { status: 400 });
   } catch (error) {
     console.error("❌ Error in PUT:", error);
     return NextResponse.json({ error: "Failed to update projects" }, { status: 500 });
