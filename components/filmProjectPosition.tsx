@@ -121,7 +121,7 @@ const FilmProjectPosition = ({
       </div>
 
       {/* Film strip visualization with 4 slots */}
-      <div className="relative w-full overflow-hidden rounded-md border border-gray-300 bg-[#2d2f38]">
+      <div className="relative w-full overflow-hidden rounded-md border border-gray-300 bg-transparent">
         <div className="grid grid-cols-4 gap-2 p-4 h-64">
           {Array.from({ length: SLOTS_PER_PAGE }, (_, index) => {
             const position = index + 1; // Positions 1-4 per page
