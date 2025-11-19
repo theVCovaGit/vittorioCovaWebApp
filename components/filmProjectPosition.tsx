@@ -54,7 +54,7 @@ const FilmProjectPosition = ({
   }, [currentPage]);
 
   const handlePositionClick = (position: number) => {
-    const occupant = pageAssignments.get(position);
+    //const occupant = pageAssignments.get(position);
     
     setSelectedPosition(position);
     onPositionSelect?.(position);
