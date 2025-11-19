@@ -41,11 +41,18 @@ function FilmDesktop() {
     fetchProjects();
   }, []);
 
-  // Group projects into strips of 4
+  // Group projects into strips of 4, always add one extra empty strip
   const projectStrips = useMemo(() => {
     const strips: FilmProject[][] = [];
     for (let i = 0; i < projects.length; i += PROJECTS_PER_STRIP) {
       strips.push(projects.slice(i, i + PROJECTS_PER_STRIP));
+    }
+    // Always add one more empty strip than needed
+    const stripsNeeded = Math.ceil(projects.length / PROJECTS_PER_STRIP);
+    const totalStrips = stripsNeeded + 1;
+    // Ensure we have the extra strip even if it's empty
+    while (strips.length < totalStrips) {
+      strips.push([]);
     }
     return strips;
   }, [projects]);
