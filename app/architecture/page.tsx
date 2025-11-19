@@ -387,7 +387,7 @@ function DesktopTapesOverlay({ metrics }: { metrics: { rect: DOMRect; scrollLeft
               width: `${tapeWidth}px`,
               left: `${left}px`,
               top: rect.bottom,
-              transform: `translate(-50%, 65%) rotate(${tape.rotate}deg)`,
+              transform: `translate(-50%, -30%) rotate(${tape.rotate}deg)`,
             }}
           />
         );
