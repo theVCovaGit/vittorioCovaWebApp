@@ -19,10 +19,6 @@ interface FilmProject {
 }
 
 const PROJECTS_PER_STRIP = 4;
-const MOBILE_SCROLL_HEIGHT = 360;
-const MOBILE_SCROLL_WIDTH = 980;
-const MOBILE_SCROLL_ASPECT_RATIO = MOBILE_SCROLL_WIDTH / MOBILE_SCROLL_HEIGHT;
-const MOBILE_SCROLL_MULTIPLIER = 1.8;
 const MOBILE_HEADER_HEIGHT = 142;
 const MOBILE_FOOTER_HEIGHT = 210;
 
@@ -75,7 +71,7 @@ export default function FilmMobile() {
         >
           <div
             ref={stripRef}
-            className="film-strip-container flex h-full w-full items-center justify-start overflow-x-auto overflow-y-hidden scrollbar-hide"
+            className="film-strip-container flex h-full w-full items-center overflow-x-auto overflow-y-hidden scrollbar-hide"
             style={{
               scrollBehavior: "smooth",
               scrollbarWidth: "none",
@@ -89,41 +85,28 @@ export default function FilmMobile() {
               {projectStrips.map((stripProjects, stripIndex) => (
                 <div
                   key={stripIndex}
-                  className="relative flex-shrink-0"
-                  style={{
-                    height: "100%",
-                    width: `calc(100% * ${MOBILE_SCROLL_ASPECT_RATIO * MOBILE_SCROLL_MULTIPLIER})`,
-                    minWidth: MOBILE_SCROLL_WIDTH,
-                  }}
+                  className="relative h-full flex-shrink-0"
                 >
-                  <div className="absolute inset-0 z-0 bg-[#2d2f38]" />
-
-                  <div
-                    className="pointer-events-none absolute left-0 right-0 z-20"
-                    style={{
-                      top: 0,
-                      bottom: 0,
-                      backgroundImage: "url('/assets/film.svg')",
-                      backgroundRepeat: "no-repeat",
-                      backgroundSize: "auto 100%",
-                      backgroundPosition: "center",
-                    }}
+                  <img
+                    src="/assets/film.svg"
+                    alt="Film Strip"
+                    className="h-full w-auto object-contain"
                   />
 
-                  {/* Poster icons - using Illustrator proportions */}
+                  {/* Poster icons - calculated from Illustrator dimensions */}
                   {/* Film strip: 15.0312in x 6.2393in, Poster: 2.8252in x 4.2379in, Gap: 0.3in */}
-                  <div className="absolute z-30 inset-0">
+                  <div className="absolute inset-0">
                     {stripProjects.map((project, localIndex) => {
-                      if (!project.icon) return null;
-
-                      const posterWidthPercent = 18.8;
-                      const posterHeightPercent = 67.9;
-                      const leftBorderPercent = 3.8; // Same as desktop
-                      const gapPercent = 5.7; // Same as desktop
-                      const topMarginPercent = (100 - posterHeightPercent) / 2;
+                      const posterWidthPercent = 18.8; // Poster width as % of strip
+                      const posterHeightPercent = 67.9; // Poster height as % of strip
+                      const leftBorderPercent = 3.8; // Left border/padding
+                      const gapPercent = 5.7; // Gap between frames as % of strip
+                      const topMarginPercent = (100 - posterHeightPercent) / 2; // Center vertically
                       
                       const leftPosition = leftBorderPercent + (localIndex * (posterWidthPercent + gapPercent));
-
+                      
+                      if (!project.icon) return null;
+                      
                       return (
                         <div
                           key={project.id}
