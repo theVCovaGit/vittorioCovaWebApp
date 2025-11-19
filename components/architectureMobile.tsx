@@ -269,7 +269,7 @@ function TapesOverlay({ metrics }: { metrics: { rect: DOMRect; scrollLeft: numbe
   }
 
   const { rect, scrollLeft } = metrics;
-  const tapeWidth = clamp(rect.width * 0.075, 44, 96);
+  const tapeWidth = clamp(rect.width * 0.028, 45, 85);
 
   return createPortal(
     <div className="pointer-events-none fixed inset-0 z-[2147483000]">
@@ -305,7 +305,7 @@ function TapesOverlay({ metrics }: { metrics: { rect: DOMRect; scrollLeft: numbe
               width: `${tapeWidth}px`,
               left: `${left}px`,
               top: rect.bottom,
-              transform: `translate(-50%, 65%) rotate(${tape.rotate}deg)`,
+              transform: `translate(-50%, -38%) rotate(${tape.rotate}deg)`,
             }}
           />
         );
