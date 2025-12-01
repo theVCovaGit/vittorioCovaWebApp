@@ -38,34 +38,28 @@ const viewBoxes = [
 export default function SignatureAnimation() {
   const isMobile = useIsMobile();
   
-  // Mobile positions: same relative layout as desktop, scaled proportionally (400/700 ≈ 0.571)
-  const mobilePositions = [
-    { left: "calc(50% + 1px)", top: "50%" },    // Component 1: 2px * 0.571 ≈ 1px
-    { left: "50%", top: "50%" },                // Component 2: centered
-    { left: "calc(50% + 34px)", top: "55%" },   // Component 3: 60px * 0.571 ≈ 34px
-    { left: "calc(50% + 143px)", top: "55%" },  // Component 4: 250px * 0.571 ≈ 143px
-  ];
-  
-  const getComponentPosition = (i: number) => {
-    return isMobile ? mobilePositions[i] : componentPositions[i];
-  };
-  
-  const svgWidth = isMobile ? 400 : 700;
-  const svgHeight = isMobile ? 59 : 104;
+  // Scale factor for mobile - scale entire signature uniformly
+  const mobileScale = isMobile ? 0.571 : 1; // 400/700 ≈ 0.571
   
   return (
-    <>
+    <div
+      className="absolute inset-0 flex items-center justify-center"
+      style={{
+        transform: isMobile ? `scale(${mobileScale})` : 'none',
+        transformOrigin: 'center center',
+      }}
+    >
       {signatureComponents.map((Component, i) => {
         // Component 3 (index 2) uses pathLength animation, so skip clipPath
         const useClipPath = i !== 2;
-        const position = getComponentPosition(i);
+        const position = componentPositions[i];
         
         return (
           <motion.svg
             key={i}
             viewBox={viewBoxes[i]}
-            width={svgWidth}
-            height={svgHeight}
+            width={700}
+            height={104}
             className="absolute"
             style={{
               top: position.top,
@@ -81,7 +75,7 @@ export default function SignatureAnimation() {
                   <clipPath id={`clip-signature-${i}`}>
                     <motion.rect
                       initial={{ height: 0 }}
-                      animate={{ height: svgHeight }}
+                      animate={{ height: 104 }}
                       transition={{
                         duration: animationTimings[i].duration,
                         delay: animationTimings[i].delay,
@@ -90,7 +84,7 @@ export default function SignatureAnimation() {
                       x="0"
                       y="0"
                       width="300"
-                      height={svgHeight}
+                      height={104}
                     />
                   </clipPath>
                 </defs>
@@ -104,6 +98,6 @@ export default function SignatureAnimation() {
           </motion.svg>
         );
       })}
-    </>
+    </div>
   );
 }
