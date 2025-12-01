@@ -28,14 +28,6 @@ export default function Hero() {
   // Desktop version (original)
   return (
     <div className="min-h-screen bg-[#302120] relative overflow-hidden">
-      {/* Logo - positioned absolutely so it doesn't affect text flow */}
-      <div className="absolute top-32 left-[12vw] px-8">
-        <img 
-          src="/logos/logoYellow.png" 
-          alt="Vittorio Cova Studio Logo" 
-          className="h-16 w-auto"
-        />
-      </div>
       {/* Main Content */}
       <div className="pt-64 left-30 px-8 relative">
         <div className="flex items-start">
