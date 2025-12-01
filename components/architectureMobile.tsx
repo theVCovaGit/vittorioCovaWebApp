@@ -257,7 +257,8 @@ export default function ArchitectureMobile() {
         />
       )}
       </div>
-      <TapesOverlay metrics={scrollMetrics} />
+      {/* Only show tapes when no project is expanded */}
+      {!selectedProjectId && <TapesOverlay metrics={scrollMetrics} />}
     </>
   );
 }

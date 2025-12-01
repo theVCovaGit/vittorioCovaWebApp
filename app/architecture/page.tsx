@@ -340,7 +340,8 @@ function ArchitectureDesktop() {
         />
       )}
     </div>
-    <DesktopTapesOverlay metrics={scrollMetrics} />
+    {/* Only show tapes when no project is expanded */}
+    {!selectedProjectId && <DesktopTapesOverlay metrics={scrollMetrics} />}
     </>
   );
 }
