@@ -10,8 +10,8 @@ export default function SignatureComponent3() {
       stroke="#FFF3DF"
       strokeWidth={2}
       fill="none"
-      initial={{ pathLength: 0 }}
-      animate={{ pathLength: 1 }}
+      initial={{ pathLength: 0, pathOffset: 1 }}
+      animate={{ pathLength: 1, pathOffset: 0 }}
       transition={{
         duration: 1.8,
         delay: 3.0,
