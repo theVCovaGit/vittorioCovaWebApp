@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { useIsMobile } from "@/hooks/useMediaQuery";
+import SponsoredByLifeAnimation from "./sponsoredByLifeAnimation";
 
 interface ArchitectureProject {
   id: number;
@@ -111,11 +112,7 @@ export default function ArchitectureProjectExpandedView({
 
   // Show loading screen until project data and all images are loaded
   if (loading) {
-    return (
-      <div className="fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center z-50">
-        <div className={`text-white font-microextend ${isMobile ? 'text-lg' : 'text-xl'}`}>Loading ...</div>
-      </div>
-    );
+    return <SponsoredByLifeAnimation />;
   }
 
   if (!project) {
