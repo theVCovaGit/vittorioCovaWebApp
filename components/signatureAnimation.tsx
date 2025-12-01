@@ -1,6 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
+import { useIsMobile } from "@/hooks/useMediaQuery";
 import SignatureComponent1 from "./signatureComponent1";
 import SignatureComponent2 from "./signatureComponent2";
 import SignatureComponent3 from "./signatureComponent3";
@@ -35,22 +36,43 @@ const viewBoxes = [
 ];
 
 export default function SignatureAnimation() {
+  const isMobile = useIsMobile();
+  
+  // Adjust positions and sizes for mobile
+  const getComponentPosition = (i: number) => {
+    if (isMobile) {
+      // On mobile, center all components more tightly
+      const mobilePositions = [
+        { left: "calc(50% - 60px)", top: "50%" },   // Component 1
+        { left: "50%", top: "50%" },                // Component 2
+        { left: "calc(50% + 30px)", top: "50%" },  // Component 3
+        { left: "calc(50% + 100px)", top: "50%" }, // Component 4
+      ];
+      return mobilePositions[i];
+    }
+    return componentPositions[i];
+  };
+  
+  const svgWidth = isMobile ? 400 : 700;
+  const svgHeight = isMobile ? 59 : 104;
+  
   return (
     <>
       {signatureComponents.map((Component, i) => {
         // Component 3 (index 2) uses pathLength animation, so skip clipPath
         const useClipPath = i !== 2;
+        const position = getComponentPosition(i);
         
         return (
           <motion.svg
             key={i}
             viewBox={viewBoxes[i]}
-            width={700}
-            height={104}
+            width={svgWidth}
+            height={svgHeight}
             className="absolute"
             style={{
-              top: componentPositions[i].top,
-              left: componentPositions[i].left,
+              top: position.top,
+              left: position.left,
               transform: "translate(-50%, -50%)",
             }}
             fill="none"
@@ -62,7 +84,7 @@ export default function SignatureAnimation() {
                   <clipPath id={`clip-signature-${i}`}>
                     <motion.rect
                       initial={{ height: 0 }}
-                      animate={{ height: 104 }}
+                      animate={{ height: svgHeight }}
                       transition={{
                         duration: animationTimings[i].duration,
                         delay: animationTimings[i].delay,
@@ -71,7 +93,7 @@ export default function SignatureAnimation() {
                       x="0"
                       y="0"
                       width="300"
-                      height="104"
+                      height={svgHeight}
                     />
                   </clipPath>
                 </defs>
