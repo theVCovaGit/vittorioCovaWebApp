@@ -7,6 +7,7 @@ import { CartProvider } from "../context/CartContext";
 import { IconDisplayProvider } from "@/context/IconDisplayContext";
 import { TransitionProvider } from "@/context/TransitionContext";
 import CartDrawer from "@/components/cartDrawer";
+import IntroWrapper from "@/components/introWrapper";
 
 
 
@@ -34,12 +35,14 @@ export default function RootLayout({
         <TransitionProvider>
           <IconDisplayProvider>
             <CartProvider>
-              <CartDrawer />
-              <HeaderWrapper />
-              <main className="flex-1 flex flex-col overflow-y-auto">
-                {children}
-              </main>
-              <FooterWrapper />
+              <IntroWrapper>
+                <CartDrawer />
+                <HeaderWrapper />
+                <main className="flex-1 flex flex-col overflow-y-auto">
+                  {children}
+                </main>
+                <FooterWrapper />
+              </IntroWrapper>
             </CartProvider>
           </IconDisplayProvider>
         </TransitionProvider>
