@@ -4,21 +4,21 @@ import { motion } from "framer-motion";
 import Image from "next/image";
 
 export default function SponsoredByLifeAnimation() {
-  // Animation timings for each of the 4 parts
+  // Animation timings for each of the 4 objects appearing sequentially
   const timings = [
-    { delay: 0, duration: 0.4 },
-    { delay: 0.6, duration: 0.4 },
-    { delay: 1.2, duration: 0.4 },
-    { delay: 1.8, duration: 0.4 },
+    { delay: 0, duration: 0.4 },    // Object 1 (caterpillar)
+    { delay: 0.6, duration: 0.4 },  // Object 2 (caterpillar climbing)
+    { delay: 1.2, duration: 0.4 },  // Object 3 (chrysalis)
+    { delay: 1.8, duration: 0.4 },  // Object 4 (butterfly)
   ];
 
   // Calculate cycle timing
   const lastAnimationEnds = timings[3].delay + timings[3].duration; // 2.2 seconds
-  const holdDuration = 0.5; // How long to hold after all parts appear
+  const holdDuration = 0.5; // How long to hold after all objects appear
   const fadeOutDuration = 0.3; // Fade out duration
   const cycleDuration = lastAnimationEnds + holdDuration + fadeOutDuration; // ~3 seconds total
 
-  const partWidth = 600 / 4; // Divide width by 4 for 4 parts
+  const partWidth = 600 / 4; // Divide width by 4 for 4 objects
 
   return (
     <div className="fixed inset-0 z-[60000] bg-[#2b1d1d] flex flex-col items-center justify-center">
@@ -27,7 +27,9 @@ export default function SponsoredByLifeAnimation() {
           const leftOffset = i * partWidth;
           const rightOffset = 600 - (i + 1) * partWidth;
           
-          // Calculate when this part should fade out (after all parts appear + hold time)
+          // Calculate when this object should fade in and out
+          const fadeInStart = timings[i].delay;
+          const fadeInEnd = timings[i].delay + timings[i].duration;
           const fadeOutStart = lastAnimationEnds + holdDuration;
           
           return (
@@ -40,7 +42,8 @@ export default function SponsoredByLifeAnimation() {
               animate={{
                 opacity: [
                   0, // Start invisible
-                  1, // Fade in at delay
+                  0, // Stay invisible until fade in
+                  1, // Fade in
                   1, // Stay visible until fade out
                   0, // Fade out
                 ],
@@ -49,7 +52,8 @@ export default function SponsoredByLifeAnimation() {
                 duration: cycleDuration,
                 times: [
                   0,
-                  (timings[i].delay + timings[i].duration) / cycleDuration,
+                  fadeInStart / cycleDuration,
+                  fadeInEnd / cycleDuration,
                   fadeOutStart / cycleDuration,
                   1,
                 ],
