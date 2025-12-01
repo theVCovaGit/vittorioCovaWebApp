@@ -38,19 +38,16 @@ const viewBoxes = [
 export default function SignatureAnimation() {
   const isMobile = useIsMobile();
   
-  // Adjust positions and sizes for mobile
+  // Mobile positions: same relative layout as desktop, scaled proportionally (400/700 ≈ 0.571)
+  const mobilePositions = [
+    { left: "calc(50% + 1px)", top: "50%" },    // Component 1: 2px * 0.571 ≈ 1px
+    { left: "50%", top: "50%" },                // Component 2: centered
+    { left: "calc(50% + 34px)", top: "55%" },   // Component 3: 60px * 0.571 ≈ 34px
+    { left: "calc(50% + 143px)", top: "55%" },  // Component 4: 250px * 0.571 ≈ 143px
+  ];
+  
   const getComponentPosition = (i: number) => {
-    if (isMobile) {
-      // On mobile, center all components more tightly
-      const mobilePositions = [
-        { left: "calc(50% - 60px)", top: "50%" },   // Component 1
-        { left: "50%", top: "50%" },                // Component 2
-        { left: "calc(50% + 30px)", top: "50%" },  // Component 3
-        { left: "calc(50% + 100px)", top: "50%" }, // Component 4
-      ];
-      return mobilePositions[i];
-    }
-    return componentPositions[i];
+    return isMobile ? mobilePositions[i] : componentPositions[i];
   };
   
   const svgWidth = isMobile ? 400 : 700;
