@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
+import { usePathname } from "next/navigation";
 import ArchitectureProjectExpandedView from "@/components/architectureProjectExpandedView";
 
 interface ArchitectureProject {
@@ -265,11 +266,49 @@ export default function ArchitectureMobile() {
 
 
 function TapesOverlay({ metrics }: { metrics: { rect: DOMRect; scrollLeft: number } | null }) {
-  if (!metrics || typeof document === "undefined") {
+  const pathname = usePathname();
+  const [isIntroShowing, setIsIntroShowing] = useState(false);
+  
+  // Check if intro animation is showing (hooks must be called unconditionally)
+  useEffect(() => {
+    if (typeof document === "undefined") return;
+    
+    const checkIntro = () => {
+      const introElement = document.querySelector('[data-intro-animation="true"]');
+      setIsIntroShowing(!!introElement);
+    };
+
+    checkIntro();
+    const interval = setInterval(checkIntro, 100); // Check every 100ms
+
+    return () => clearInterval(interval);
+  }, []);
+
+  // Only render if we're on the architecture page
+  if (pathname !== "/architecture" || !metrics || typeof document === "undefined") {
+    return null;
+  }
+
+  // Don't render if intro animation is showing
+  if (isIntroShowing) {
     return null;
   }
 
   const { rect, scrollLeft } = metrics;
+  
+  // Only show tapes if the scroll element is actually visible and has valid dimensions
+  // Check if rect has valid dimensions and is within viewport
+  if (
+    rect.width === 0 || 
+    rect.height === 0 || 
+    rect.top < -rect.height || 
+    rect.top > window.innerHeight ||
+    rect.left < -rect.width ||
+    rect.left > window.innerWidth
+  ) {
+    return null;
+  }
+  
   const tapeWidth = clamp(rect.width * 0.028, 45, 85);
 
   return createPortal(
@@ -287,7 +326,7 @@ function TapesOverlay({ metrics }: { metrics: { rect: DOMRect; scrollLeft: numbe
               width: `${tapeWidth}px`,
               left: `${left}px`,
               top: rect.top,
-              transform: `translate(-50%, -65%) rotate(${tape.rotate}deg)`,
+              transform: `translate(-50%, -40%) rotate(${tape.rotate}deg)`, // Moved lower on mobile (was -65%)
             }}
           />
         );
@@ -306,7 +345,7 @@ function TapesOverlay({ metrics }: { metrics: { rect: DOMRect; scrollLeft: numbe
               width: `${tapeWidth}px`,
               left: `${left}px`,
               top: rect.bottom,
-              transform: `translate(-50%, -38%) rotate(${tape.rotate}deg)`,
+              transform: `translate(-50%, -60%) rotate(${tape.rotate}deg)`, // Moved higher on mobile (was -38%)
             }}
           />
         );
