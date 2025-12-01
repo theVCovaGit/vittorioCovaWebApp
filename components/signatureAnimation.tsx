@@ -17,7 +17,7 @@ const animationTimings = [
     { delay: 0, duration: 0.4 },  // Component 1
     { delay: 0.75, duration: 1.4 },  // Component 2
     { delay: 3.0, duration: 1.8 },  // Component 3
-    { delay: 4.5, duration: 0.8 },  // Component 4
+    { delay: 5.0, duration: 0.8 },  // Component 4
   ];  
 
 const componentPositions = [

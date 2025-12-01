@@ -8,11 +8,11 @@ export default function IntroWrapper({ children }: { children: React.ReactNode }
   const [showIntro, setShowIntro] = useState(true);
 
   useEffect(() => {
-    // Last component delay (4.5) + duration (0.8) = 5.3s
+    // Last component delay (5.0) + duration (0.8) = 5.8s
     // Wait 1.5 seconds after last animation completes
     const timer = setTimeout(() => {
       setShowIntro(false);
-    }, 5400); // 5.3s + 1.5s = 6.8 seconds total
+    }, 7300); // 5.8s + 1.5s = 7.3 seconds total
 
     return () => clearTimeout(timer);
   }, []);
