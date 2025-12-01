@@ -37,47 +37,54 @@ const viewBoxes = [
 export default function SignatureAnimation() {
   return (
     <>
-      {signatureComponents.map((Component, i) => (
-        <motion.svg
-          key={i}
-          viewBox={viewBoxes[i]}
-          width={700}
-          height={104}
-          className="absolute"
-          style={{
-            top: componentPositions[i].top,
-            left: componentPositions[i].left,
-            transform: "translate(-50%, -50%)",
-          }}
-          fill="none"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <>
-            <defs>
-              <clipPath id={`clip-signature-${i}`}>
-                <motion.rect
-                  initial={{ height: 0 }}
-                  animate={{ height: 104 }}
-                  transition={{
-                    duration: animationTimings[i].duration,
-                    delay: animationTimings[i].delay,
-                    ease: "easeInOut",
-                  }}
-                  x="0"
-                  y="0"
-                  width="300"
-                  height="104"
-                />
-              </clipPath>
-            </defs>
-            <g clipPath={`url(#clip-signature-${i})`}>
+      {signatureComponents.map((Component, i) => {
+        // Component 3 (index 2) uses pathLength animation, so skip clipPath
+        const useClipPath = i !== 2;
+        
+        return (
+          <motion.svg
+            key={i}
+            viewBox={viewBoxes[i]}
+            width={700}
+            height={104}
+            className="absolute"
+            style={{
+              top: componentPositions[i].top,
+              left: componentPositions[i].left,
+              transform: "translate(-50%, -50%)",
+            }}
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            {useClipPath ? (
+              <>
+                <defs>
+                  <clipPath id={`clip-signature-${i}`}>
+                    <motion.rect
+                      initial={{ height: 0 }}
+                      animate={{ height: 104 }}
+                      transition={{
+                        duration: animationTimings[i].duration,
+                        delay: animationTimings[i].delay,
+                        ease: "easeInOut",
+                      }}
+                      x="0"
+                      y="0"
+                      width="300"
+                      height="104"
+                    />
+                  </clipPath>
+                </defs>
+                <g clipPath={`url(#clip-signature-${i})`}>
+                  <Component />
+                </g>
+              </>
+            ) : (
               <Component />
-            </g>
-          </>
-
-
-        </motion.svg>
-      ))}
+            )}
+          </motion.svg>
+        );
+      })}
     </>
   );
 }
