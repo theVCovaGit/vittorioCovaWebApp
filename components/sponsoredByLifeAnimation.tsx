@@ -1,13 +1,9 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { useEffect } from "react";
+import Image from "next/image";
 
-interface SponsoredByLifeAnimationProps {
-  onComplete?: () => void;
-}
-
-export default function SponsoredByLifeAnimation({ onComplete }: SponsoredByLifeAnimationProps) {
+export default function SponsoredByLifeAnimation() {
   // Animation timings for each of the 4 parts
   const timings = [
     { delay: 0, duration: 0.4 },
@@ -62,9 +58,11 @@ export default function SponsoredByLifeAnimation({ onComplete }: SponsoredByLife
                 repeatDelay: 0,
               }}
             >
-              <img
+              <Image
                 src="/assets/sponsoredByLifeAnimation.svg"
                 alt="Sponsored By Life"
+                width={600}
+                height={110}
                 style={{ width: 600, height: 110, objectFit: "contain" }}
               />
             </motion.div>
