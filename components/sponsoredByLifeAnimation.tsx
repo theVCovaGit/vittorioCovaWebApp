@@ -16,17 +16,11 @@ export default function SponsoredByLifeAnimation({ onComplete }: SponsoredByLife
     { delay: 1.8, duration: 0.4 },
   ];
 
-  // Calculate when all animations complete
+  // Calculate cycle timing
   const lastAnimationEnds = timings[3].delay + timings[3].duration; // 2.2 seconds
-
-  useEffect(() => {
-    if (onComplete) {
-      const timer = setTimeout(() => {
-        onComplete();
-      }, lastAnimationEnds * 1000);
-      return () => clearTimeout(timer);
-    }
-  }, [onComplete, lastAnimationEnds]);
+  const holdDuration = 0.5; // How long to hold after all parts appear
+  const fadeOutDuration = 0.3; // Fade out duration
+  const cycleDuration = lastAnimationEnds + holdDuration + fadeOutDuration; // ~3 seconds total
 
   const partWidth = 600 / 4; // Divide width by 4 for 4 parts
 
@@ -37,6 +31,9 @@ export default function SponsoredByLifeAnimation({ onComplete }: SponsoredByLife
           const leftOffset = i * partWidth;
           const rightOffset = 600 - (i + 1) * partWidth;
           
+          // Calculate when this part should fade out (after all parts appear + hold time)
+          const fadeOutStart = lastAnimationEnds + holdDuration;
+          
           return (
             <motion.div
               key={i}
@@ -44,12 +41,25 @@ export default function SponsoredByLifeAnimation({ onComplete }: SponsoredByLife
               style={{
                 clipPath: `inset(0 ${rightOffset}px 0 ${leftOffset}px)`,
               }}
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
+              animate={{
+                opacity: [
+                  0, // Start invisible
+                  1, // Fade in at delay
+                  1, // Stay visible until fade out
+                  0, // Fade out
+                ],
+              }}
               transition={{
-                duration: timings[i].duration,
-                delay: timings[i].delay,
+                duration: cycleDuration,
+                times: [
+                  0,
+                  (timings[i].delay + timings[i].duration) / cycleDuration,
+                  fadeOutStart / cycleDuration,
+                  1,
+                ],
                 ease: "easeInOut",
+                repeat: Infinity,
+                repeatDelay: 0,
               }}
             >
               <img
