@@ -193,17 +193,22 @@ export default function ArtProjectExpandedView({
 
         {/* Right Side - Product Details (Red background extends full width) */}
         <div className="absolute left-0 right-0 top-0 bottom-0 bg-[#895a59] overflow-y-auto">
-          <div className="ml-[35%] h-full p-8 md:p-12">
-          {/* ART Label - Top Right */}
-          <div className="absolute top-6 right-6 md:top-8 md:right-12">
-            <div 
-              className="text-[#fbef56] font-microextend font-bold tracking-wider uppercase cursor-pointer hover:text-[#fff5e0] transition-colors text-lg md:text-xl"
-              onClick={handleClose}
-            >
-              ART
+          {/* ART Label - positioned below header by constraint */}
+          <div className="absolute top-0 right-0 z-20">
+            {/* Spacer matching header height (h-20 = 5rem) */}
+            <div className="h-20"></div>
+            {/* ART Label flows below header by constraint, with additional spacing */}
+            <div className="flex justify-end pr-6 md:pr-12 pt-2">
+              <div 
+                className="text-[#fbef56] font-microextend font-bold tracking-wider uppercase cursor-pointer hover:text-[#fff5e0] transition-colors text-lg md:text-xl"
+                onClick={handleClose}
+              >
+                ART
+              </div>
             </div>
           </div>
 
+          <div className="ml-[35%] h-full p-8 md:p-12">
           {/* Collection Name and For Sale */}
           <div className="mt-12 md:mt-16">
             <h1 className="text-white font-microextend font-bold text-2xl md:text-3xl uppercase tracking-wider mb-2">
