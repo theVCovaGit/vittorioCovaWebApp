@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { useIsMobile } from "@/hooks/useMediaQuery";
 import SponsoredByLifeAnimation from "./sponsoredByLifeAnimation";
 
 interface ArtProject {
@@ -30,9 +29,7 @@ export default function ArtProjectExpandedView({
 }: ArtProjectExpandedViewProps) {
   const [project, setProject] = useState<ArtProject | null>(null);
   const [loading, setLoading] = useState(true);
-  const [loadedImages, setLoadedImages] = useState<Set<number>>(new Set());
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
-  const isMobile = useIsMobile();
 
   // Helper function to preload images
   const preloadImages = (imageUrls: string[]): Promise<void> => {
@@ -73,7 +70,6 @@ export default function ArtProjectExpandedView({
   useEffect(() => {
     const fetchProject = async () => {
       setLoading(true);
-      setLoadedImages(new Set());
       
       try {
         const response = await fetch(`/api/art/${projectId}`);

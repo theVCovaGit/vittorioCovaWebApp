@@ -1,8 +1,6 @@
 "use client";
 
 import { useCallback, useEffect, useRef, useState } from "react";
-import { createPortal } from "react-dom";
-import { usePathname } from "next/navigation";
 import ArtProjectExpandedView from "@/components/artProjectExpandedView";
 
 interface ArtProject {
@@ -54,7 +52,6 @@ function ArtDesktop() {
   const projectRefs = useRef<Record<number, HTMLButtonElement | null>>({});
   const papyrusRef = useRef<HTMLDivElement | null>(null);
   const scrollVisualRef = useRef<HTMLDivElement | null>(null);
-  const [scrollMetrics, setScrollMetrics] = useState<{ rect: DOMRect; scrollLeft: number } | null>(null);
 
   const handlePointerMove = useCallback((event: React.PointerEvent<HTMLDivElement>) => {
     const pointerX = event.clientX;
@@ -184,9 +181,7 @@ function ArtDesktop() {
     }
 
     const updateRect = () => {
-      const rect = element.getBoundingClientRect();
-      const scrollLeft = scroller?.scrollLeft ?? 0;
-      setScrollMetrics({ rect, scrollLeft });
+      // Update scroll metrics if needed in the future
     };
 
     updateRect();
