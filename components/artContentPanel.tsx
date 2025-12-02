@@ -17,6 +17,9 @@ interface ArtProject {
   icon?: string;
   position?: number;
   page?: number;
+  forSale?: boolean;
+  description?: string;
+  price?: string;
 }
 
 export default function ArtContentPanel({ isActive }: { isActive: boolean }) {
@@ -34,6 +37,9 @@ export default function ArtContentPanel({ isActive }: { isActive: boolean }) {
   const [position, setPosition] = useState<number>(1);
   const [page, setPage] = useState<number>(1);
   const [selectedProject, setSelectedProject] = useState<ArtProject | null>(null);
+  const [forSale, setForSale] = useState<boolean>(true);
+  const [description, setDescription] = useState<string>("");
+  const [price, setPrice] = useState<string>("");
 
   const InfoTooltip = ({ message }: { message: string }) => (
     <span className="group relative inline-flex h-5 w-5 items-center justify-center text-[#FFF3DF]">
@@ -57,6 +63,9 @@ export default function ArtContentPanel({ isActive }: { isActive: boolean }) {
     setPage(1);
     setEditingId(null);
     setCurrentPage(1);
+    setForSale(true);
+    setDescription("");
+    setPrice("");
   };
 
   // GET: Fetch all projects
@@ -112,6 +121,9 @@ export default function ArtContentPanel({ isActive }: { isActive: boolean }) {
       icon,
       position,
       page,
+      forSale,
+      description,
+      price,
     };
     
 
@@ -202,6 +214,53 @@ export default function ArtContentPanel({ isActive }: { isActive: boolean }) {
           onChange={(e) => setTitle(e.target.value)}
           className="w-full p-2 border border-gray-400 rounded-md mb-2"
         />
+
+        <div className="mb-4">
+          <label className="block mb-2 font-minecraft text-sm text-[#FFF3DF]">For Sale</label>
+          <div className="flex items-center gap-3">
+            <button
+              type="button"
+              onClick={() => setForSale(true)}
+              className={`px-4 py-2 rounded-md font-microextend transition-colors ${
+                forSale
+                  ? "bg-[#fbef56] text-black"
+                  : "bg-gray-600 text-white"
+              }`}
+            >
+              For Sale
+            </button>
+            <button
+              type="button"
+              onClick={() => setForSale(false)}
+              className={`px-4 py-2 rounded-md font-microextend transition-colors ${
+                !forSale
+                  ? "bg-[#fbef56] text-black"
+                  : "bg-gray-600 text-white"
+              }`}
+            >
+              Not For Sale
+            </button>
+          </div>
+        </div>
+
+        <label className="block mb-1 font-minecraft text-sm text-[#FFF3DF]">Description</label>
+        <textarea
+          placeholder="Enter project description..."
+          value={description}
+          onChange={(e) => setDescription(e.target.value)}
+          className="w-full p-2 border border-gray-400 rounded-md mb-2 min-h-[100px] resize-y"
+          rows={4}
+        />
+
+        <label className="block mb-1 font-minecraft text-sm text-[#FFF3DF]">Price</label>
+        <input
+          type="text"
+          placeholder="e.g. $9,800.00 or Price on Request"
+          value={price}
+          onChange={(e) => setPrice(e.target.value)}
+          className="w-full p-2 border border-gray-400 rounded-md mb-2"
+        />
+
        <label className="block mb-1 font-minecraft text-sm text-[#FFF3DF]">Country</label>
         <input
           type="text"
@@ -342,6 +401,9 @@ export default function ArtContentPanel({ isActive }: { isActive: boolean }) {
                   setImages(selectedProject.images);
                   setPosition(selectedProject.position || 1);
                   setPage(selectedProject.page || 1);
+                  setForSale(selectedProject.forSale ?? true);
+                  setDescription(selectedProject.description || "");
+                  setPrice(selectedProject.price || "");
                   setEditingId(selectedProject.id);
                 }}
               >

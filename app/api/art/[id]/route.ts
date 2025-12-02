@@ -14,6 +14,9 @@ interface ArtProject {
   icon?: string;
   position?: number;
   page?: number;
+  forSale?: boolean;
+  description?: string;
+  price?: string;
 }
 
 interface ArtProjectRow {
@@ -28,6 +31,9 @@ interface ArtProjectRow {
   icon: string;
   position: number;
   page: number;
+  for_sale: boolean;
+  description: string;
+  price: string;
   created_at?: string;
 }
 
@@ -87,7 +93,10 @@ export async function GET(
       images: project.images || [],
       icon: project.icon || "",
       position: project.position || 1,
-      page: project.page || 1
+      page: project.page || 1,
+      forSale: project.for_sale ?? true,
+      description: project.description || "",
+      price: project.price || ""
     };
     
     return NextResponse.json({ project: formattedProject }, { status: 200 });

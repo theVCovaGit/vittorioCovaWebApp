@@ -15,6 +15,9 @@ interface ArtProject {
   collection?: string;
   position?: number;
   page?: number;
+  forSale?: boolean;
+  description?: string;
+  price?: string;
 }
 
 interface ArtProjectRow {
@@ -29,6 +32,9 @@ interface ArtProjectRow {
   collection: string;
   position: number;
   page: number;
+  for_sale: boolean;
+  description: string;
+  price: string;
   created_at?: string;
 }
 
@@ -71,7 +77,10 @@ export async function GET() {
       discipline: p.category, // mapping category to discipline
       collection: p.collection || "",
       position: p.position || 1,
-      page: p.page || 1
+      page: p.page || 1,
+      forSale: p.for_sale ?? true,
+      description: p.description || "",
+      price: p.price || ""
     }));
     
     return NextResponse.json({ projects: formattedProjects }, { status: 200 });
@@ -105,8 +114,8 @@ export async function POST(req: NextRequest) {
     }
 
     const [newProject] = await sql`
-      INSERT INTO art_projects (title, country, city, category, year, images, icon, collection, position, page)
-      VALUES (${project.title}, ${project.country}, ${project.city}, ${project.discipline}, ${project.year || ""}, ${project.images}, ${project.icon || ""}, ${project.collection || ""}, ${project.position || 1}, ${project.page || 1})
+      INSERT INTO art_projects (title, country, city, category, year, images, icon, collection, position, page, for_sale, description, price)
+      VALUES (${project.title}, ${project.country}, ${project.city}, ${project.discipline}, ${project.year || ""}, ${project.images}, ${project.icon || ""}, ${project.collection || ""}, ${project.position || 1}, ${project.page || 1}, ${project.forSale ?? true}, ${project.description || ""}, ${project.price || ""})
       RETURNING *
     `;
 
@@ -122,7 +131,10 @@ export async function POST(req: NextRequest) {
       discipline: newProject.category,
       collection: newProject.collection || "",
       position: newProject.position || 1,
-      page: newProject.page || 1
+      page: newProject.page || 1,
+      forSale: newProject.for_sale ?? true,
+      description: newProject.description || "",
+      price: newProject.price || ""
     };
 
     return NextResponse.json({ message: "Project added", project: formattedProject }, { status: 200 });
@@ -169,6 +181,9 @@ export async function PUT(req: NextRequest) {
         collection = ${project.collection || ""},
         position = ${project.position || 1},
         page = ${project.page || 1},
+        for_sale = ${project.forSale ?? true},
+        description = ${project.description || ""},
+        price = ${project.price || ""},
         updated_at = CURRENT_TIMESTAMP
       WHERE id = ${project.id}
     `;
@@ -190,7 +205,10 @@ export async function PUT(req: NextRequest) {
       discipline: updatedProject.category,
       collection: updatedProject.collection || "",
       position: updatedProject.position || 1,
-      page: updatedProject.page || 1
+      page: updatedProject.page || 1,
+      forSale: updatedProject.for_sale ?? true,
+      description: updatedProject.description || "",
+      price: updatedProject.price || ""
     };
 
     return NextResponse.json({ message: "Project updated", project: formattedProject }, { status: 200 });

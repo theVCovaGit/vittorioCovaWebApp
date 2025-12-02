@@ -82,10 +82,29 @@ export async function ensureTableExists(tableName: string, retries = 2): Promise
               collection VARCHAR(255),
               position INTEGER DEFAULT 1,
               page INTEGER DEFAULT 1,
+              for_sale BOOLEAN DEFAULT true,
+              description TEXT,
+              price VARCHAR(255),
               created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
               updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
             )
           `;
+          // Add new columns if they don't exist
+          try {
+            await sql`ALTER TABLE art_projects ADD COLUMN IF NOT EXISTS for_sale BOOLEAN DEFAULT true`;
+          } catch (alterError) {
+            // Column might already exist, ignore
+          }
+          try {
+            await sql`ALTER TABLE art_projects ADD COLUMN IF NOT EXISTS description TEXT`;
+          } catch (alterError) {
+            // Column might already exist, ignore
+          }
+          try {
+            await sql`ALTER TABLE art_projects ADD COLUMN IF NOT EXISTS price VARCHAR(255)`;
+          } catch (alterError) {
+            // Column might already exist, ignore
+          }
           break;
           
         case 'film_projects':
