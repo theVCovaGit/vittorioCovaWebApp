@@ -159,17 +159,24 @@ export default function ArtProjectExpandedView({
                 <>
                   <button
                     onClick={handlePreviousImage}
-                    className="absolute left-4 z-10 text-white hover:text-[#fbef56] transition-colors"
-                    style={{ fontSize: '2rem' }}
+                    className="absolute left-4 z-10 hover:opacity-80 transition-opacity"
                   >
-                    ‹
+                    <img
+                      src="/assets/onHover.png"
+                      alt="Previous"
+                      className="w-12 h-12 object-contain"
+                    />
                   </button>
                   <button
                     onClick={handleNextImage}
-                    className="absolute right-4 z-10 text-white hover:text-[#fbef56] transition-colors"
-                    style={{ fontSize: '2rem' }}
+                    className="absolute right-4 z-10 hover:opacity-80 transition-opacity"
                   >
-                    ›
+                    <img
+                      src="/assets/onHover.png"
+                      alt="Next"
+                      className="w-12 h-12 object-contain"
+                      style={{ transform: 'scaleX(-1)' }}
+                    />
                   </button>
                 </>
               )}
