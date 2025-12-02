@@ -100,8 +100,6 @@ export async function POST(req: NextRequest) {
       !project ||
       !project.title ||
       !Array.isArray(project.images) ||
-      !project.country ||
-      !project.city ||
       !project.discipline
     ) {
       return NextResponse.json({ error: "Invalid project data" }, { status: 400 });
@@ -115,7 +113,7 @@ export async function POST(req: NextRequest) {
 
     const [newProject] = await sql`
       INSERT INTO art_projects (title, country, city, category, year, images, icon, collection, position, page, for_sale, description, price)
-      VALUES (${project.title}, ${project.country}, ${project.city}, ${project.discipline}, ${project.year || ""}, ${project.images}, ${project.icon || ""}, ${project.collection || ""}, ${project.position || 1}, ${project.page || 1}, ${project.forSale ?? true}, ${project.description || ""}, ${project.price || ""})
+      VALUES (${project.title}, ${project.country || ""}, ${project.city || ""}, ${project.discipline}, ${project.year || ""}, ${project.images}, ${project.icon || ""}, ${project.collection || ""}, ${project.position || 1}, ${project.page || 1}, ${project.forSale ?? true}, ${project.description || ""}, ${project.price || ""})
       RETURNING *
     `;
 
@@ -154,8 +152,6 @@ export async function PUT(req: NextRequest) {
       !project.id ||
       !project.title ||
       !Array.isArray(project.images) ||
-      !project.country ||
-      !project.city ||
       !project.discipline
     ) {
       return NextResponse.json({ error: "Invalid project data" }, { status: 400 });
@@ -172,8 +168,8 @@ export async function PUT(req: NextRequest) {
       UPDATE art_projects
       SET 
         title = ${project.title},
-        country = ${project.country},
-        city = ${project.city},
+        country = ${project.country || ""},
+        city = ${project.city || ""},
         category = ${project.discipline},
         year = ${project.year || ""},
         images = ${project.images},

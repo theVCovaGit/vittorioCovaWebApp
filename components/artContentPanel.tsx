@@ -24,8 +24,6 @@ interface ArtProject {
 
 export default function ArtContentPanel({ isActive }: { isActive: boolean }) {
   const [title, setTitle] = useState("");
-  const [country, setCountry] = useState("");
-  const [city, setCity] = useState("");
   const [discipline, setDiscipline] = useState("");
   const [collection, setCollection] = useState("");
   const [year, setYear] = useState("");
@@ -52,8 +50,6 @@ export default function ArtContentPanel({ isActive }: { isActive: boolean }) {
 
   const resetForm = () => {
     setTitle("");
-    setCountry("");
-    setCity("");
     setDiscipline("");
     setCollection("");
     setYear("");
@@ -104,7 +100,7 @@ export default function ArtContentPanel({ isActive }: { isActive: boolean }) {
 
   // POST or PUT
   const handleSubmit = async () => {
-    if (!title || !country || !city || !discipline || !collection || images.length === 0) {
+    if (!title || !discipline || !collection || images.length === 0) {
       alert("Faltan campos obligatorios");
       return;
     }
@@ -112,8 +108,8 @@ export default function ArtContentPanel({ isActive }: { isActive: boolean }) {
     const project: ArtProject = {
       id: editingId ?? Date.now(),
       title,
-      country,
-      city,
+      country: "", // Keep for backward compatibility
+      city: "", // Keep for backward compatibility
       discipline,
       collection,
       year,
@@ -217,28 +213,19 @@ export default function ArtContentPanel({ isActive }: { isActive: boolean }) {
 
         <div className="mb-4">
           <label className="block mb-2 font-minecraft text-sm text-[#FFF3DF]">For Sale</label>
-          <div className="flex items-center gap-3">
+          <div className="flex items-center">
             <button
               type="button"
-              onClick={() => setForSale(true)}
-              className={`px-4 py-2 rounded-md font-microextend transition-colors ${
-                forSale
-                  ? "bg-[#fbef56] text-black"
-                  : "bg-gray-600 text-white"
+              onClick={() => setForSale(!forSale)}
+              className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 ${
+                forSale ? "bg-teal-500" : "bg-gray-300"
               }`}
             >
-              For Sale
-            </button>
-            <button
-              type="button"
-              onClick={() => setForSale(false)}
-              className={`px-4 py-2 rounded-md font-microextend transition-colors ${
-                !forSale
-                  ? "bg-[#fbef56] text-black"
-                  : "bg-gray-600 text-white"
-              }`}
-            >
-              Not For Sale
+              <span
+                className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform ${
+                  forSale ? "translate-x-6" : "translate-x-1"
+                }`}
+              />
             </button>
           </div>
         </div>
@@ -261,23 +248,6 @@ export default function ArtContentPanel({ isActive }: { isActive: boolean }) {
           className="w-full p-2 border border-gray-400 rounded-md mb-2"
         />
 
-       <label className="block mb-1 font-minecraft text-sm text-[#FFF3DF]">Country</label>
-        <input
-          type="text"
-          placeholder="e.g. Mexico"
-          value={country}
-          onChange={(e) => setCountry(e.target.value)}
-          className="w-full p-2 border border-gray-400 rounded-md mb-2"
-        />
-
-        <label className="block mb-1 font-minecraft text-sm text-[#FFF3DF]">City</label>
-        <input
-          type="text"
-          placeholder="e.g. CDMX"
-          value={city}
-          onChange={(e) => setCity(e.target.value)}
-          className="w-full p-2 border border-gray-400 rounded-md mb-2"
-        />
 
         <label className="block mb-1 font-minecraft text-sm text-[#FFF3DF]">Discipline</label>
         <input
@@ -392,8 +362,6 @@ export default function ArtContentPanel({ isActive }: { isActive: boolean }) {
                 className="bg-yellow-400 text-black py-1 px-3 rounded-md font-microextend"
                 onClick={() => {
                   setTitle(selectedProject.title);
-                  setCountry(selectedProject.country);
-                  setCity(selectedProject.city);
                   setDiscipline(selectedProject.discipline);
                   setCollection(selectedProject.collection);
                   setYear(selectedProject.year || "");
