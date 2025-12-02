@@ -208,7 +208,7 @@ export default function ArtProjectExpandedView({
             </div>
           </div>
 
-          <div className="ml-[35%] h-full p-8 md:p-12">
+          <div className="ml-[35%] h-full pl-28 md:pl-40 pr-8 md:pr-12 pt-8 md:pt-12 pb-8 md:pb-12">
           {/* Collection Name and For Sale */}
           <div className="mt-12 md:mt-16">
             <h1 className="text-white font-microextend font-bold text-2xl md:text-3xl uppercase tracking-wider mb-2">
