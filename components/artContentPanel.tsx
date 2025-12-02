@@ -1,6 +1,7 @@
 "use client";
 import { useEffect, useState } from "react";
 import { InformationCircleIcon } from "@heroicons/react/24/outline";
+import { Switch } from "@headlessui/react";
 import { MultipleImagesUpload } from "@/components/imageUpload";
 import IconUpload from "@/components/iconUpload";
 import ProjectPosition from "@/components/projectPosition";
@@ -213,20 +214,23 @@ export default function ArtContentPanel({ isActive }: { isActive: boolean }) {
 
         <div className="mb-4">
           <label className="block mb-2 font-minecraft text-sm text-[#FFF3DF]">For Sale</label>
-          <div className="flex items-center">
-            <button
-              type="button"
-              onClick={() => setForSale(!forSale)}
-              className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 ${
+          <div className="flex items-center gap-3">
+            <Switch
+              checked={forSale}
+              onChange={setForSale}
+              className={`${
                 forSale ? "bg-teal-500" : "bg-gray-300"
-              }`}
+              } relative inline-flex h-6 w-11 items-center rounded-full transition-colors focus:outline-none focus:ring-2 focus:ring-teal-500 focus:ring-offset-2`}
             >
               <span
-                className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform ${
+                className={`${
                   forSale ? "translate-x-6" : "translate-x-1"
-                }`}
+                } inline-block h-4 w-4 transform rounded-full bg-white transition-transform`}
               />
-            </button>
+            </Switch>
+            <span className="text-sm text-[#FFF3DF] font-minecraft">
+              {forSale ? "For Sale" : "Not For Sale"}
+            </span>
           </div>
         </div>
 
