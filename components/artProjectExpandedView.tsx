@@ -3,7 +3,6 @@
 import { useEffect, useState } from "react";
 import { useIsMobile } from "@/hooks/useMediaQuery";
 import SponsoredByLifeAnimation from "./sponsoredByLifeAnimation";
-import Link from "next/link";
 
 interface ArtProject {
   id: number;
@@ -151,8 +150,8 @@ export default function ArtProjectExpandedView({
         className="relative w-full h-full overflow-hidden"
         onClick={(e) => e.stopPropagation()}
       >
-        {/* Left Side - Artwork Display */}
-        <div className="absolute left-0 top-0 bottom-0 w-1/2 bg-gray-800 overflow-hidden">
+        {/* Left Side - Artwork Display (Smaller) */}
+        <div className="absolute left-0 top-0 bottom-0 w-[35%] bg-gray-800 overflow-hidden z-10">
           {currentImage ? (
             <div className="relative w-full h-full flex items-center justify-center">
               {/* Navigation Arrows */}
@@ -179,7 +178,7 @@ export default function ArtProjectExpandedView({
               <img
                 src={currentImage}
                 alt={project.title}
-                className="max-w-full max-h-full object-contain"
+                className="max-w-[90%] max-h-[90%] object-contain"
                 style={{
                   filter: 'drop-shadow(0 4px 6px rgba(0, 0, 0, 0.3))'
                 }}
@@ -192,8 +191,9 @@ export default function ArtProjectExpandedView({
           )}
         </div>
 
-        {/* Right Side - Product Details */}
-        <div className="absolute right-0 top-0 bottom-0 w-1/2 bg-[#895a59] p-8 md:p-12 overflow-y-auto">
+        {/* Right Side - Product Details (Red background extends full width) */}
+        <div className="absolute left-0 right-0 top-0 bottom-0 bg-[#895a59] overflow-y-auto">
+          <div className="ml-[35%] h-full p-8 md:p-12">
           {/* ART Label - Top Right */}
           <div className="absolute top-6 right-6 md:top-8 md:right-12">
             <div 
@@ -251,7 +251,7 @@ export default function ArtProjectExpandedView({
 
           {/* Thumbnail Navigation - 5 rectangles */}
           {project.images && project.images.length > 0 && (
-            <div className="flex gap-2 mb-6">
+            <div className="flex gap-2">
               {project.images.slice(0, 5).map((img, index) => (
                 <button
                   key={index}
@@ -271,21 +271,6 @@ export default function ArtProjectExpandedView({
               ))}
             </div>
           )}
-
-          {/* Barcode Pattern */}
-          <div className="mb-6">
-            <div className="h-8 bg-black opacity-20" style={{
-              backgroundImage: 'repeating-linear-gradient(90deg, transparent, transparent 2px, #fff 2px, #fff 4px)'
-            }}></div>
-          </div>
-
-          {/* Footer Links */}
-          <div className="text-[#fbef56] font-microextend text-sm md:text-base">
-            <Link href="/contact" className="hover:text-[#fff5e0] transition-colors">CONTACT</Link>
-            {' / '}
-            <Link href="/about" className="hover:text-[#fff5e0] transition-colors">ABOUT</Link>
-            {' / '}
-            <Link href="/news" className="hover:text-[#fff5e0] transition-colors">NEWS</Link>
           </div>
         </div>
       </div>
