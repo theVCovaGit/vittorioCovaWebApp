@@ -44,14 +44,30 @@ export async function GET(
       return NextResponse.json({ error: "Invalid project ID" }, { status: 400 });
     }
 
-    // Ensure table exists before querying
-    await ensureTableExists('art_projects');
+    // Ensure table exists before querying (with retry logic)
+    const tableReady = await ensureTableExists('art_projects');
     
-    const projects = await sql`
-      SELECT * FROM art_projects 
-      WHERE id = ${projectId}
-      LIMIT 1
-    `;
+    if (!tableReady) {
+      console.warn("⚠️ Table creation failed, attempting to query anyway...");
+    }
+    
+    let projects: ArtProjectRow[] = [];
+    try {
+      const result = await sql`
+        SELECT * FROM art_projects 
+        WHERE id = ${projectId}
+        LIMIT 1
+      `;
+      projects = result as ArtProjectRow[];
+    } catch (queryError: any) {
+      const errorMessage = queryError?.message || String(queryError);
+      // If table doesn't exist, return 404 instead of 500
+      if (errorMessage.includes('does not exist') || errorMessage.includes('relation')) {
+        console.warn("⚠️ Table does not exist yet");
+        return NextResponse.json({ error: "Project not found" }, { status: 404 });
+      }
+      throw queryError;
+    }
     
     if (projects.length === 0) {
       return NextResponse.json({ error: "Project not found" }, { status: 404 });

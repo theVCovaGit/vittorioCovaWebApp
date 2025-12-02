@@ -35,15 +35,31 @@ interface ArtProjectRow {
 // GET: Fetch all art projects
 export async function GET() {
   try {
-    // Ensure table exists before querying
-    await ensureTableExists('art_projects');
+    // Ensure table exists before querying (with retry logic)
+    const tableReady = await ensureTableExists('art_projects');
     
-    const projects = await sql`
-      SELECT * FROM art_projects 
-      ORDER BY created_at DESC
-    `;
+    if (!tableReady) {
+      console.warn("⚠️ Table creation failed, attempting to query anyway...");
+    }
     
-    const formattedProjects: ArtProject[] = (projects as ArtProjectRow[]).map((p) => ({
+    let projects: ArtProjectRow[] = [];
+    try {
+      const result = await sql`
+        SELECT * FROM art_projects 
+        ORDER BY created_at DESC
+      `;
+      projects = result as ArtProjectRow[];
+    } catch (queryError: any) {
+      const errorMessage = queryError?.message || String(queryError);
+      // If table doesn't exist, return empty array instead of error
+      if (errorMessage.includes('does not exist') || errorMessage.includes('relation')) {
+        console.warn("⚠️ Table does not exist yet, returning empty projects array");
+        return NextResponse.json({ projects: [] }, { status: 200 });
+      }
+      throw queryError;
+    }
+    
+    const formattedProjects: ArtProject[] = projects.map((p) => ({
       id: p.id,
       type: "art" as const,
       title: p.title,
@@ -61,7 +77,8 @@ export async function GET() {
     return NextResponse.json({ projects: formattedProjects }, { status: 200 });
   } catch (error) {
     console.error("❌ Error fetching art projects:", error);
-    return NextResponse.json({ error: "Failed to fetch projects" }, { status: 500 });
+    // Return empty array instead of error to prevent UI breakage
+    return NextResponse.json({ projects: [] }, { status: 200 });
   }
 }
 
@@ -81,8 +98,11 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: "Invalid project data" }, { status: 400 });
     }
 
-    // Ensure table exists before inserting
-    await ensureTableExists('art_projects');
+    // Ensure table exists before inserting (with retry logic)
+    const tableReady = await ensureTableExists('art_projects');
+    if (!tableReady) {
+      console.warn("⚠️ Table creation failed, but attempting insert anyway...");
+    }
 
     const [newProject] = await sql`
       INSERT INTO art_projects (title, country, city, category, year, images, icon, collection, position, page)
@@ -129,8 +149,11 @@ export async function PUT(req: NextRequest) {
       return NextResponse.json({ error: "Invalid project data" }, { status: 400 });
     }
 
-    // Ensure table exists before updating
-    await ensureTableExists('art_projects');
+    // Ensure table exists before updating (with retry logic)
+    const tableReady = await ensureTableExists('art_projects');
+    if (!tableReady) {
+      console.warn("⚠️ Table creation failed, but attempting update anyway...");
+    }
 
     // Update the project
     await sql`

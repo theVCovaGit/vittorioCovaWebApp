@@ -154,17 +154,51 @@ function ArtDesktop() {
 
   // Fetch projects from API
   useEffect(() => {
+    let retryTimer: NodeJS.Timeout | null = null;
+    
     const fetchProjects = async () => {
       try {
         const response = await fetch('/api/art');
+        if (!response.ok) {
+          console.warn('⚠️ Failed to fetch projects, response not OK:', response.status);
+          setProjects([]);
+          return;
+        }
         const data = await response.json();
-        setProjects(data.projects || []);
+        const fetchedProjects = data.projects || [];
+        setProjects(fetchedProjects);
+        
+        // Retry mechanism - if projects are empty after initial load, retry once after a delay
+        if (fetchedProjects.length === 0) {
+          retryTimer = setTimeout(async () => {
+            console.log('🔄 Retrying project fetch...');
+            try {
+              const retryResponse = await fetch('/api/art');
+              if (retryResponse.ok) {
+                const retryData = await retryResponse.json();
+                if (retryData.projects && retryData.projects.length > 0) {
+                  setProjects(retryData.projects);
+                }
+              }
+            } catch (error) {
+              console.error('❌ Retry failed:', error);
+            }
+          }, 2000); // Retry after 2 seconds
+        }
       } catch (error) {
-        console.error('Error fetching projects:', error);
+        console.error('❌ Error fetching projects:', error);
+        // Set empty array instead of leaving undefined
+        setProjects([]);
       }
     };
 
     fetchProjects();
+    
+    return () => {
+      if (retryTimer) {
+        clearTimeout(retryTimer);
+      }
+    };
   }, []);
 
   // Get projects for current page
