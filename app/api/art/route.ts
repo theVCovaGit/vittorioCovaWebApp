@@ -13,6 +13,8 @@ interface ArtProject {
   city: string;
   discipline: string; // e.g., "painting", "sculpture"
   collection?: string;
+  position?: number;
+  page?: number;
 }
 
 interface ArtProjectRow {
@@ -25,6 +27,8 @@ interface ArtProjectRow {
   city: string;
   category: string;
   collection: string;
+  position: number;
+  page: number;
   created_at?: string;
 }
 
@@ -49,7 +53,9 @@ export async function GET() {
       country: p.country,
       city: p.city,
       discipline: p.category, // mapping category to discipline
-      collection: p.collection || ""
+      collection: p.collection || "",
+      position: p.position || 1,
+      page: p.page || 1
     }));
     
     return NextResponse.json({ projects: formattedProjects }, { status: 200 });
@@ -79,8 +85,8 @@ export async function POST(req: NextRequest) {
     await ensureTableExists('art_projects');
 
     const [newProject] = await sql`
-      INSERT INTO art_projects (title, country, city, category, year, images, icon, collection)
-      VALUES (${project.title}, ${project.country}, ${project.city}, ${project.discipline}, ${project.year || ""}, ${project.images}, ${project.icon || ""}, ${project.collection || ""})
+      INSERT INTO art_projects (title, country, city, category, year, images, icon, collection, position, page)
+      VALUES (${project.title}, ${project.country}, ${project.city}, ${project.discipline}, ${project.year || ""}, ${project.images}, ${project.icon || ""}, ${project.collection || ""}, ${project.position || 1}, ${project.page || 1})
       RETURNING *
     `;
 
@@ -94,7 +100,9 @@ export async function POST(req: NextRequest) {
       country: newProject.country,
       city: newProject.city,
       discipline: newProject.category,
-      collection: newProject.collection || ""
+      collection: newProject.collection || "",
+      position: newProject.position || 1,
+      page: newProject.page || 1
     };
 
     return NextResponse.json({ message: "Project added", project: formattedProject }, { status: 200 });
@@ -104,40 +112,68 @@ export async function POST(req: NextRequest) {
   }
 }
 
-// PUT: Overwrite all art projects
+// PUT: Update a single art project
 export async function PUT(req: NextRequest) {
   try {
-    const { projects } = await req.json();
+    const { project } = await req.json();
 
     if (
-      !Array.isArray(projects) ||
-      projects.some(
-        (p) =>
-          !p.id ||
-          !p.title ||
-          !Array.isArray(p.images) ||
-          !p.country ||
-          !p.city ||
-          !p.discipline
-      )
+      !project ||
+      !project.id ||
+      !project.title ||
+      !Array.isArray(project.images) ||
+      !project.country ||
+      !project.city ||
+      !project.discipline
     ) {
-      return NextResponse.json({ error: "Invalid project format" }, { status: 400 });
+      return NextResponse.json({ error: "Invalid project data" }, { status: 400 });
     }
 
-    // Clear existing projects and insert new ones
-    await sql`DELETE FROM art_projects`;
-    
-    for (const project of projects) {
-      await sql`
-        INSERT INTO art_projects (id, title, country, city, category, year, images, icon, collection)
-        VALUES (${project.id}, ${project.title}, ${project.country}, ${project.city}, ${project.discipline}, ${project.year || ""}, ${project.images}, ${project.icon || ""}, ${project.collection || ""})
-      `;
-    }
+    // Ensure table exists before updating
+    await ensureTableExists('art_projects');
 
-    return NextResponse.json({ message: "Projects updated" }, { status: 200 });
+    // Update the project
+    await sql`
+      UPDATE art_projects
+      SET 
+        title = ${project.title},
+        country = ${project.country},
+        city = ${project.city},
+        category = ${project.discipline},
+        year = ${project.year || ""},
+        images = ${project.images},
+        icon = ${project.icon || ""},
+        collection = ${project.collection || ""},
+        position = ${project.position || 1},
+        page = ${project.page || 1},
+        updated_at = CURRENT_TIMESTAMP
+      WHERE id = ${project.id}
+    `;
+
+    // Fetch the updated project
+    const [updatedProject] = await sql`
+      SELECT * FROM art_projects WHERE id = ${project.id}
+    `;
+
+    const formattedProject: ArtProject = {
+      id: updatedProject.id,
+      type: "art",
+      title: updatedProject.title,
+      icon: updatedProject.icon || "",
+      images: updatedProject.images || [],
+      year: updatedProject.year || "",
+      country: updatedProject.country,
+      city: updatedProject.city,
+      discipline: updatedProject.category,
+      collection: updatedProject.collection || "",
+      position: updatedProject.position || 1,
+      page: updatedProject.page || 1
+    };
+
+    return NextResponse.json({ message: "Project updated", project: formattedProject }, { status: 200 });
   } catch (error) {
     console.error("❌ Error in PUT:", error);
-    return NextResponse.json({ error: "Failed to update projects" }, { status: 500 });
+    return NextResponse.json({ error: "Failed to update project" }, { status: 500 });
   }
 }
 
