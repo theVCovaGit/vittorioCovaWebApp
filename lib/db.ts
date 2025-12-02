@@ -89,21 +89,38 @@ export async function ensureTableExists(tableName: string, retries = 2): Promise
               updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
             )
           `;
-          // Add new columns if they don't exist
-          try {
-            await sql`ALTER TABLE art_projects ADD COLUMN IF NOT EXISTS for_sale BOOLEAN DEFAULT true`;
-          } catch (alterError) {
-            // Column might already exist, ignore
-          }
-          try {
-            await sql`ALTER TABLE art_projects ADD COLUMN IF NOT EXISTS description TEXT`;
-          } catch (alterError) {
-            // Column might already exist, ignore
-          }
-          try {
-            await sql`ALTER TABLE art_projects ADD COLUMN IF NOT EXISTS price VARCHAR(255)`;
-          } catch (alterError) {
-            // Column might already exist, ignore
+          // Automatically add missing columns (schema migration)
+          const columnsToAdd = [
+            { name: 'for_sale', type: 'BOOLEAN DEFAULT true' },
+            { name: 'description', type: 'TEXT' },
+            { name: 'price', type: 'VARCHAR(255)' },
+          ];
+          
+          for (const col of columnsToAdd) {
+            try {
+              // Check if column exists
+              const columnCheck = await sql`
+                SELECT EXISTS (
+                  SELECT FROM information_schema.columns 
+                  WHERE table_schema = 'public' 
+                  AND table_name = 'art_projects' 
+                  AND column_name = ${col.name}
+                ) as exists
+              `;
+              
+              const exists = columnCheck[0]?.exists === true;
+              
+              if (!exists) {
+                await sql.unsafe(`ALTER TABLE art_projects ADD COLUMN ${col.name} ${col.type}`);
+                console.log(`✅ Added column ${col.name} to art_projects`);
+              }
+            } catch (alterError: any) {
+              // Column might already exist or other error, log but continue
+              const errorMsg = alterError?.message || String(alterError);
+              if (!errorMsg.includes('already exists') && !errorMsg.includes('duplicate') && !errorMsg.includes('column') && !errorMsg.includes('42701')) {
+                console.warn(`⚠️ Could not add column ${col.name}:`, errorMsg);
+              }
+            }
           }
           break;
           
