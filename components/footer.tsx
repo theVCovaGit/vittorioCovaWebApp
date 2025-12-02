@@ -8,39 +8,57 @@ export default function Footer() {
   const pathname = usePathname();
   const isFooterPage = ["/about", "/contact", "/news"].includes(pathname);
   const isArchitecturePage = pathname === "/architecture";
+  const isArtPage = pathname === "/art";
   const isMainPage = pathname === "/";
   const [isExpandedViewOpen, setIsExpandedViewOpen] = useState(false);
 
   // Listen for custom events to track expanded view state
   useEffect(() => {
-    const handleExpandedViewOpen = () => {
+    const handleArchitectureExpandedViewOpen = () => {
       // Only set to true if we're on the architecture page
       if (isArchitecturePage) {
         setIsExpandedViewOpen(true);
       }
     };
-    const handleExpandedViewClose = () => {
-      setIsExpandedViewOpen(false);
+    const handleArchitectureExpandedViewClose = () => {
+      if (isArchitecturePage) {
+        setIsExpandedViewOpen(false);
+      }
+    };
+    const handleArtExpandedViewOpen = () => {
+      // Only set to true if we're on the art page
+      if (isArtPage) {
+        setIsExpandedViewOpen(true);
+      }
+    };
+    const handleArtExpandedViewClose = () => {
+      if (isArtPage) {
+        setIsExpandedViewOpen(false);
+      }
     };
 
-    window.addEventListener('architecture-expanded-open', handleExpandedViewOpen);
-    window.addEventListener('architecture-expanded-close', handleExpandedViewClose);
+    window.addEventListener('architecture-expanded-open', handleArchitectureExpandedViewOpen);
+    window.addEventListener('architecture-expanded-close', handleArchitectureExpandedViewClose);
+    window.addEventListener('art-expanded-open', handleArtExpandedViewOpen);
+    window.addEventListener('art-expanded-close', handleArtExpandedViewClose);
 
     return () => {
-      window.removeEventListener('architecture-expanded-open', handleExpandedViewOpen);
-      window.removeEventListener('architecture-expanded-close', handleExpandedViewClose);
+      window.removeEventListener('architecture-expanded-open', handleArchitectureExpandedViewOpen);
+      window.removeEventListener('architecture-expanded-close', handleArchitectureExpandedViewClose);
+      window.removeEventListener('art-expanded-open', handleArtExpandedViewOpen);
+      window.removeEventListener('art-expanded-close', handleArtExpandedViewClose);
     };
-  }, [isArchitecturePage]);
+  }, [isArchitecturePage, isArtPage]);
 
-  // Reset expanded view state when leaving architecture page
+  // Reset expanded view state when leaving architecture or art page
   useEffect(() => {
-    if (!isArchitecturePage) {
+    if (!isArchitecturePage && !isArtPage) {
       setIsExpandedViewOpen(false);
     }
-  }, [isArchitecturePage]);
+  }, [isArchitecturePage, isArtPage]);
 
   return (
-    <footer className={`fixed bottom-0 left-0 w-full font-minecraft z-50 pointer-events-auto px-4 sm:px-6 md:px-[4vw] pt-12 sm:pt-16 md:pt-20 pb-4 sm:pb-5 md:pb-6 ${(isArchitecturePage && isExpandedViewOpen) ? 'bg-transparent' : isMainPage ? 'bg-[#302120]' : isFooterPage ? 'bg-[#302120]' : 'bg-[#5c4b4a]'}`}>
+    <footer className={`fixed bottom-0 left-0 w-full font-minecraft z-50 pointer-events-auto px-4 sm:px-6 md:px-[4vw] pt-12 sm:pt-16 md:pt-20 pb-4 sm:pb-5 md:pb-6 ${((isArchitecturePage || isArtPage) && isExpandedViewOpen) ? 'bg-transparent' : isMainPage ? 'bg-[#302120]' : isFooterPage ? 'bg-[#302120]' : 'bg-[#5c4b4a]'}`}>
       <div className="absolute bottom-4 right-6 flex flex-col items-center space-y-2">
         <div className="flex flex-col items-center">
           {/* Barcode */}

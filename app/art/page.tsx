@@ -269,6 +269,7 @@ function ArtDesktop() {
                         }}
                         onClick={() => {
                           setSelectedProjectId(project.id);
+                          window.dispatchEvent(new CustomEvent("art-expanded-open"));
                         }}
                         onMouseEnter={() => setHoveredProjectId(project.id)}
                         onFocus={() => setHoveredProjectId(project.id)}
