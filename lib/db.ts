@@ -89,11 +89,11 @@ export async function ensureTableExists(tableName: string, retries = 2): Promise
               updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
             )
           `;
-          // Automatically add missing columns (schema migration)
+          // Automatically add missing columns (schema migration) - always check even if table exists
           const columnsToAdd = [
-            { name: 'for_sale', type: 'BOOLEAN DEFAULT true' },
-            { name: 'description', type: 'TEXT' },
-            { name: 'price', type: 'VARCHAR(255)' },
+            { name: 'for_sale', sql: sql`ALTER TABLE art_projects ADD COLUMN for_sale BOOLEAN DEFAULT true` },
+            { name: 'description', sql: sql`ALTER TABLE art_projects ADD COLUMN description TEXT` },
+            { name: 'price', sql: sql`ALTER TABLE art_projects ADD COLUMN price VARCHAR(255)` },
           ];
           
           for (const col of columnsToAdd) {
@@ -111,13 +111,18 @@ export async function ensureTableExists(tableName: string, retries = 2): Promise
               const exists = columnCheck[0]?.exists === true;
               
               if (!exists) {
-                await sql.unsafe(`ALTER TABLE art_projects ADD COLUMN ${col.name} ${col.type}`);
+                await col.sql;
                 console.log(`✅ Added column ${col.name} to art_projects`);
               }
             } catch (alterError: any) {
-              // Column might already exist or other error, log but continue
+              // Column might already exist (error code 42701) or other error
               const errorMsg = alterError?.message || String(alterError);
-              if (!errorMsg.includes('already exists') && !errorMsg.includes('duplicate') && !errorMsg.includes('column') && !errorMsg.includes('42701')) {
+              const errorCode = alterError?.code;
+              // PostgreSQL error code 42701 = duplicate_column
+              if (errorCode === '42701' || errorMsg.includes('already exists') || errorMsg.includes('duplicate')) {
+                // Column already exists, that's fine
+                console.log(`ℹ️ Column ${col.name} already exists`);
+              } else {
                 console.warn(`⚠️ Could not add column ${col.name}:`, errorMsg);
               }
             }

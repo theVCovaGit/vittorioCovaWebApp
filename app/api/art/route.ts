@@ -105,10 +105,46 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: "Invalid project data" }, { status: 400 });
     }
 
-    // Ensure table exists before inserting (with retry logic)
+    // Ensure table exists and has all required columns before inserting
     const tableReady = await ensureTableExists('art_projects');
     if (!tableReady) {
       console.warn("⚠️ Table creation failed, but attempting insert anyway...");
+    }
+    
+    // Double-check that required columns exist (safety net)
+    try {
+      const columnCheck = await sql`
+        SELECT column_name 
+        FROM information_schema.columns 
+        WHERE table_schema = 'public' 
+        AND table_name = 'art_projects' 
+        AND column_name IN ('for_sale', 'description', 'price')
+      `;
+      const existingColumns = columnCheck.map((row: any) => row.column_name);
+      const requiredColumns = ['for_sale', 'description', 'price'];
+      const missingColumns = requiredColumns.filter(col => !existingColumns.includes(col));
+      
+      if (missingColumns.length > 0) {
+        console.log(`⚠️ Missing columns detected: ${missingColumns.join(', ')}, adding them now...`);
+        for (const col of missingColumns) {
+          try {
+            if (col === 'for_sale') {
+              await sql`ALTER TABLE art_projects ADD COLUMN for_sale BOOLEAN DEFAULT true`;
+            } else if (col === 'description') {
+              await sql`ALTER TABLE art_projects ADD COLUMN description TEXT`;
+            } else if (col === 'price') {
+              await sql`ALTER TABLE art_projects ADD COLUMN price VARCHAR(255)`;
+            }
+            console.log(`✅ Added missing column ${col}`);
+          } catch (err: any) {
+            if (err?.code !== '42701') { // 42701 = duplicate column
+              console.error(`❌ Failed to add column ${col}:`, err);
+            }
+          }
+        }
+      }
+    } catch (checkError) {
+      console.warn("⚠️ Could not verify columns, proceeding anyway:", checkError);
     }
 
     const [newProject] = await sql`
