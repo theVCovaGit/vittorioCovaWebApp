@@ -182,9 +182,6 @@ export default function ArtProjectExpandedView({
                 src={currentImage}
                 alt={project.title}
                 className="max-w-[90%] max-h-[90%] object-contain"
-                style={{
-                  filter: 'drop-shadow(0 4px 6px rgba(0, 0, 0, 0.3))'
-                }}
               />
             </div>
           ) : (
