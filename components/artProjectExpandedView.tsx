@@ -159,7 +159,7 @@ export default function ArtProjectExpandedView({
                 <>
                   <button
                     onClick={handlePreviousImage}
-                    className="absolute left-4 z-10 hover:opacity-80 transition-opacity"
+                    className="absolute left-4 z-10 hover:opacity-80 transition-opacity bg-transparent border-0 p-0"
                   >
                     <img
                       src="/assets/onHover.png"
@@ -169,7 +169,7 @@ export default function ArtProjectExpandedView({
                   </button>
                   <button
                     onClick={handleNextImage}
-                    className="absolute right-4 z-10 hover:opacity-80 transition-opacity"
+                    className="absolute right-4 z-10 hover:opacity-80 transition-opacity bg-transparent border-0 p-0"
                   >
                     <img
                       src="/assets/onHover.png"
