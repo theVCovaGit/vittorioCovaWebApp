@@ -43,7 +43,7 @@ const getAbsolutePlacement = (position?: number) => {
   };
 };
 
-const ICON_SIZE = 420;
+const ICON_SIZE = 150; // Much smaller icons for art page
 
 function ArtDesktop() {
   const [projects, setProjects] = useState<ArtProject[]>([]);
