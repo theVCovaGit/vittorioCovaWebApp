@@ -3,6 +3,7 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import { usePathname } from "next/navigation";
+import ArtProjectExpandedView from "@/components/artProjectExpandedView";
 
 interface ArtProject {
   id: number;
@@ -298,20 +299,15 @@ function ArtDesktop() {
         </div>
       </div>
 
-      {/* Expanded Project View - TODO: Create ArtProjectExpandedView component */}
+      {/* Expanded Project View */}
       {selectedProjectId && (
-        <div className="fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center z-50">
-          <div className="bg-white p-8 rounded-lg max-w-4xl">
-            <button
-              onClick={() => setSelectedProjectId(null)}
-              className="mb-4 text-black"
-            >
-              Close
-            </button>
-            <p className="text-black">Project ID: {selectedProjectId}</p>
-            {/* TODO: Add expanded view component */}
-          </div>
-        </div>
+        <ArtProjectExpandedView
+          projectId={selectedProjectId}
+          onClose={() => {
+            setSelectedProjectId(null);
+            window.dispatchEvent(new CustomEvent('art-expanded-close'));
+          }}
+        />
       )}
     </div>
     </>
