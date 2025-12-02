@@ -151,7 +151,7 @@ export default function ArtProjectExpandedView({
         onClick={(e) => e.stopPropagation()}
       >
         {/* Left Side - Artwork Display (Smaller) */}
-        <div className="absolute left-0 top-0 bottom-0 w-[35%] bg-gray-800 overflow-hidden z-10">
+        <div className="absolute left-0 top-0 bottom-0 w-[35%] bg-transparent overflow-hidden z-10">
           {currentImage ? (
             <div className="relative w-full h-full flex items-center justify-center">
               {/* Navigation Arrows */}
