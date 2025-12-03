@@ -62,7 +62,7 @@ export async function ensureTableExists(tableName: string, retries = 2): Promise
               ALTER TABLE architecture_projects
               ADD COLUMN IF NOT EXISTS icon_secondary VARCHAR(500)
             `;
-          } catch (alterError) {
+          } catch {
             // Column might already exist, ignore
             console.warn('⚠️ Could not add icon_secondary column (might already exist)');
           }
@@ -114,10 +114,11 @@ export async function ensureTableExists(tableName: string, retries = 2): Promise
                 await col.sql;
                 console.log(`✅ Added column ${col.name} to art_projects`);
               }
-            } catch (alterError: any) {
+            } catch (alterError: unknown) {
               // Column might already exist (error code 42701) or other error
-              const errorMsg = alterError?.message || String(alterError);
-              const errorCode = alterError?.code;
+              const error = alterError as { message?: string; code?: string };
+              const errorMsg = error?.message || String(alterError);
+              const errorCode = error?.code;
               // PostgreSQL error code 42701 = duplicate_column
               if (errorCode === '42701' || errorMsg.includes('already exists') || errorMsg.includes('duplicate')) {
                 // Column already exists, that's fine
@@ -191,8 +192,9 @@ export async function ensureTableExists(tableName: string, retries = 2): Promise
         console.log(`✅ Table ${tableName} created/verified successfully`);
         return true;
       }
-    } catch (error: any) {
-      const errorMessage = error?.message || String(error);
+    } catch (error: unknown) {
+      const err = error as { message?: string };
+      const errorMessage = err?.message || String(error);
       const isTableExistsError = errorMessage.includes('already exists') || 
                                  errorMessage.includes('duplicate') ||
                                  errorMessage.includes('relation') && errorMessage.includes('already');
