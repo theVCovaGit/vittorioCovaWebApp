@@ -225,7 +225,7 @@ export default function ArtProjectExpandedView({
 
           {/* Description */}
           {project.description && project.description.trim() && (
-            <div className="text-[#fff5e0] font-basica text-sm md:text-base leading-relaxed mb-8 max-w-lg">
+            <div className="text-[#fff5e0] font-electrolize text-sm md:text-base leading-relaxed mb-8 max-w-lg">
               <p>{project.description}</p>
             </div>
           )}
