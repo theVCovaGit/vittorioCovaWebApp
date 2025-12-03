@@ -253,7 +253,7 @@ export default function ArtProjectExpandedView({
                 <button
                   key={index}
                   onClick={() => setCurrentImageIndex(index)}
-                  className={`w-16 h-16 border-2 ${
+                  className={`w-16 h-16 border-2 bg-transparent ${
                     currentImageIndex === index 
                       ? 'border-[#fbef56]' 
                       : 'border-[#fbef56]/30'
