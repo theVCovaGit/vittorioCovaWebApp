@@ -224,23 +224,11 @@ export default function ArtProjectExpandedView({
           </div>
 
           {/* Description */}
-          <div className="text-[#fff5e0] font-basica text-sm md:text-base leading-relaxed mb-8 max-w-lg">
-            {project.discipline && (
-              <p className="mb-4">
-                <span className="font-bold">{project.discipline.toUpperCase()}</span>
-                {project.collection && ` · ${project.collection.toUpperCase()}`}
-              </p>
-            )}
-            <p className="mb-4">
-              {project.title}
-            </p>
-            {project.city && project.country && (
-              <p className="mb-4">
-                {project.city}, {project.country}
-                {project.year && ` · ${project.year}`}
-              </p>
-            )}
-          </div>
+          {project.description && project.description.trim() && (
+            <div className="text-[#fff5e0] font-basica text-sm md:text-base leading-relaxed mb-8 max-w-lg">
+              <p>{project.description}</p>
+            </div>
+          )}
 
           {/* Price */}
           <div className="text-white font-microextend font-bold text-2xl md:text-3xl mb-8">
