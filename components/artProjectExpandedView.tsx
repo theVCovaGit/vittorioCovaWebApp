@@ -16,6 +16,9 @@ interface ArtProject {
   icon?: string;
   position?: number;
   page?: number;
+  forSale?: boolean;
+  description?: string;
+  price?: string;
 }
 
 interface ArtProjectExpandedViewProps {
@@ -239,9 +242,9 @@ export default function ArtProjectExpandedView({
             )}
           </div>
 
-          {/* Price - Placeholder for now */}
+          {/* Price */}
           <div className="text-white font-microextend font-bold text-2xl md:text-3xl mb-8">
-            Price on Request
+            {project.price && project.price.trim() ? project.price : "Price on Request"}
           </div>
 
           {/* I want it Button */}
