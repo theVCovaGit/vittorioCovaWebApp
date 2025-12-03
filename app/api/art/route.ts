@@ -121,7 +121,7 @@ export async function POST(req: NextRequest) {
         AND table_name = 'art_projects' 
         AND column_name IN ('for_sale', 'description', 'price')
       `;
-      const existingColumns = columnCheck.map((row: { column_name: string }) => row.column_name);
+      const existingColumns = (columnCheck as Array<{ column_name: string }>).map((row) => row.column_name);
       const requiredColumns = ['for_sale', 'description', 'price'];
       const missingColumns = requiredColumns.filter(col => !existingColumns.includes(col));
       
