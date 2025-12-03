@@ -237,7 +237,7 @@ export default function ArtProjectExpandedView({
 
           {/* I want it Button */}
           <button
-            className="bg-gray-700 hover:bg-gray-600 text-white font-microextend py-3 px-8 rounded-sm transition-colors mb-8"
+            className="bg-[#5a4c4a] hover:bg-[#4a3d3b] text-white font-microextend py-3 px-8 rounded-sm transition-colors mb-8"
             onClick={() => {
               // TODO: Handle purchase intent
               alert('Contact us for purchase information');
