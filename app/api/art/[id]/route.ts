@@ -65,8 +65,9 @@ export async function GET(
         LIMIT 1
       `;
       projects = result as ArtProjectRow[];
-    } catch (queryError: any) {
-      const errorMessage = queryError?.message || String(queryError);
+    } catch (queryError: unknown) {
+      const error = queryError as { message?: string };
+      const errorMessage = error?.message || String(queryError);
       // If table doesn't exist, return 404 instead of 500
       if (errorMessage.includes('does not exist') || errorMessage.includes('relation')) {
         console.warn("⚠️ Table does not exist yet");

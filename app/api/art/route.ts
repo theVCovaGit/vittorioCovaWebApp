@@ -55,8 +55,9 @@ export async function GET() {
         ORDER BY created_at DESC
       `;
       projects = result as ArtProjectRow[];
-    } catch (queryError: any) {
-      const errorMessage = queryError?.message || String(queryError);
+    } catch (queryError: unknown) {
+      const error = queryError as { message?: string };
+      const errorMessage = error?.message || String(queryError);
       // If table doesn't exist, return empty array instead of error
       if (errorMessage.includes('does not exist') || errorMessage.includes('relation')) {
         console.warn("⚠️ Table does not exist yet, returning empty projects array");
@@ -120,7 +121,7 @@ export async function POST(req: NextRequest) {
         AND table_name = 'art_projects' 
         AND column_name IN ('for_sale', 'description', 'price')
       `;
-      const existingColumns = columnCheck.map((row: any) => row.column_name);
+      const existingColumns = columnCheck.map((row: { column_name: string }) => row.column_name);
       const requiredColumns = ['for_sale', 'description', 'price'];
       const missingColumns = requiredColumns.filter(col => !existingColumns.includes(col));
       
@@ -136,11 +137,12 @@ export async function POST(req: NextRequest) {
               await sql`ALTER TABLE art_projects ADD COLUMN price VARCHAR(255)`;
             }
             console.log(`✅ Added missing column ${col}`);
-          } catch (err: any) {
-            if (err?.code !== '42701') { // 42701 = duplicate column
-              console.error(`❌ Failed to add column ${col}:`, err);
+            } catch (err: unknown) {
+              const error = err as { code?: string };
+              if (error?.code !== '42701') { // 42701 = duplicate column
+                console.error(`❌ Failed to add column ${col}:`, err);
+              }
             }
-          }
         }
       }
     } catch (checkError) {
