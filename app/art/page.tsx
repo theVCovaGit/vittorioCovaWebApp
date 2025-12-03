@@ -2,6 +2,7 @@
 
 import { useCallback, useEffect, useRef, useState } from "react";
 import ArtProjectExpandedView from "@/components/artProjectExpandedView";
+import ArtMobile from "@/components/artMobile";
 
 interface ArtProject {
   id: number;
@@ -369,5 +370,5 @@ export default function Art() {
     return <ArtDesktop />;
   }
 
-  return isMobile ? <div>Mobile view coming soon</div> : <ArtDesktop />;
+  return isMobile ? <ArtMobile /> : <ArtDesktop />;
 }
