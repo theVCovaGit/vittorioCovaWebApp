@@ -231,8 +231,8 @@ export default function ArtProjectExpandedView({
           )}
 
           {/* Price */}
-          <div className="text-white font-microextend font-bold text-2xl md:text-3xl mb-8">
-            {project.price && project.price.trim() ? project.price : "Price on Request"}
+          <div className="text-white font-electrolize font-bold text-2xl md:text-3xl mb-8">
+            {project.price && project.price.trim() ? `$${project.price}` : "Price on Request"}
           </div>
 
           {/* I want it Button */}
