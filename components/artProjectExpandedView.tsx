@@ -184,8 +184,7 @@ export default function ArtProjectExpandedView({
               <img
                 src={currentImage}
                 alt={project.title}
-                className="max-w-[90%] max-h-[70%] object-contain"
-                style={{ transform: 'scale(1.2)' }}
+                className="w-[130%] max-h-[70%] object-contain"
               />
             </div>
           ) : (
