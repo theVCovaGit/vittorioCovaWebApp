@@ -29,7 +29,7 @@ export default function Hero() {
   return (
     <div className="min-h-screen bg-[#302120] relative overflow-hidden">
       {/* Main Content */}
-      <div className="pt-20 left-30 pl-0 -ml-6 relative">
+      <div className="pt-36 left-30 pl-0 -ml-6 relative">
         <div className="flex items-start">
           <div className="flex items-center">
             <span className="text-[#fef4dc] font-microextend text-xl font-bold uppercase tracking-wide">
