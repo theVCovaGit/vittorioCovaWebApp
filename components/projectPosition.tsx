@@ -98,14 +98,7 @@ const ProjectPosition = ({
   }, [currentPage]);
 
   const handlePositionClick = (position: number) => {
-    const occupant = pageAssignments.get(position);
-    const isBlocked =
-      !occupant && blockedPositions.has(position);
-
-    if (isBlocked) {
-      return;
-    }
-
+    // Allow clicking on blocked positions - gray styling is just a visual indicator
     setSelectedPosition(position);
     onPositionSelect?.(position);
   };
@@ -170,14 +163,14 @@ const ProjectPosition = ({
             const isBlocked =
               !isOccupied && blockedPositions.has(position);
             const isAvailable = !isOccupied && !isBlocked;
-            const canSelect = isAvailable;
+            const canSelect = !isOccupied; // Allow selecting blocked positions too
             const isSelected = canSelect && selectedPosition === position;
             const slotLabel =
               occupant?.title?.trim() ||
               (isOccupied
                 ? "Occupied"
                 : isBlocked
-                ? "Reserved buffer"
+                ? "Not recommended"
                 : isAvailable
                 ? "Available"
                 : `Slot ${position}`);
@@ -193,7 +186,7 @@ const ProjectPosition = ({
               : isOccupied
               ? "cursor-pointer border-[#fdf053]/70 bg-[#433231] hover:border-[#fdf053]"
               : isBlocked
-              ? "cursor-not-allowed border-gray-500/60 bg-gray-500/30 text-gray-300"
+              ? "cursor-pointer border-gray-500/60 bg-gray-500/30 text-gray-300 hover:border-gray-400 hover:bg-gray-500/40"
               : "cursor-pointer border-green-400/60 bg-green-500/20 hover:border-green-300 hover:bg-green-500/30";
 
             return (
