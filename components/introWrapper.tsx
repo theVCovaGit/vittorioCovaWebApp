@@ -22,13 +22,13 @@ export default function IntroWrapper({ children }: { children: React.ReactNode }
     // If intro was already shown, don't show it again
     if (!showIntro || !mounted) return;
 
-    // Last component delay (5.0) + duration (0.8) = 5.8s
-    // Wait 1.5 seconds after last animation completes
+    // Last component delay (2.5) + duration (0.4) = 2.9s
+    // Wait 0.5 seconds after last animation completes
     const timer = setTimeout(() => {
       setShowIntro(false);
       // Mark that intro has been shown in this session
       sessionStorage.setItem("signature-animation-shown", "true");
-    }, 7300); // 5.8s + 1.5s = 7.3 seconds total
+    }, 3400); // 2.9s + 0.5s = 3.4 seconds total
 
     return () => clearTimeout(timer);
   }, [showIntro, mounted]);
