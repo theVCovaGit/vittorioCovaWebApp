@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import Link from "next/link";
 
 export default function SlashVPattern() {
   const [patternRows, setPatternRows] = useState<string[]>([]);
@@ -113,7 +114,7 @@ export default function SlashVPattern() {
 
   return (
     <div 
-      className="absolute top-0 w-[50vw] h-full overflow-hidden pointer-events-none z-0"
+      className="absolute top-0 w-[50vw] h-full overflow-hidden z-0"
       style={{
         right: "6rem",
         paddingTop: "12rem",
@@ -133,15 +134,22 @@ export default function SlashVPattern() {
           if (row.includes("ARCHITECTURE")) {
             const parts = row.split("ARCHITECTURE .");
             return (
-              <div key={rowIndex}>
+              <div key={rowIndex} className="pointer-events-auto relative" style={{ zIndex: 20 }}>
                 <span style={{ color: "rgba(254, 244, 220, 0.25)" }}>{parts[0]}</span>
-                <span 
+                <Link 
+                  href="/architecture"
                   style={{ 
                     color: "#000000",
+                    textDecoration: "none",
+                    position: "relative",
+                    zIndex: 2000,
                   }}
+                  className="architecture-link hover:!text-white transition-colors cursor-pointer"
+                  onMouseEnter={(e) => e.currentTarget.style.color = "#ffffff"}
+                  onMouseLeave={(e) => e.currentTarget.style.color = "#000000"}
                 >
                   ARCHITECTURE .
-                </span>
+                </Link>
                 <span style={{ color: "rgba(254, 244, 220, 0.25)" }}>{parts[1]}</span>
               </div>
             );
@@ -150,15 +158,18 @@ export default function SlashVPattern() {
           if (row.includes("FILM")) {
             const parts = row.split("FILM .");
             return (
-              <div key={rowIndex}>
+              <div key={rowIndex} className="pointer-events-auto">
                 <span style={{ color: "rgba(254, 244, 220, 0.25)" }}>{parts[0]}</span>
-                <span 
+                <Link 
+                  href="/film"
                   style={{ 
                     color: "#000000",
+                    textDecoration: "none",
                   }}
+                  className="hover:!text-white transition-colors cursor-pointer"
                 >
                   FILM .
-                </span>
+                </Link>
                 <span style={{ color: "rgba(254, 244, 220, 0.25)" }}>{parts[1]}</span>
               </div>
             );
@@ -167,15 +178,18 @@ export default function SlashVPattern() {
           if (row.includes("ART")) {
             const parts = row.split("ART .");
             return (
-              <div key={rowIndex}>
+              <div key={rowIndex} className="pointer-events-auto">
                 <span style={{ color: "rgba(254, 244, 220, 0.25)" }}>{parts[0]}</span>
-                <span 
+                <Link 
+                  href="/art"
                   style={{ 
                     color: "#000000",
+                    textDecoration: "none",
                   }}
+                  className="hover:!text-white transition-colors cursor-pointer"
                 >
                   ART .
-                </span>
+                </Link>
                 <span style={{ color: "rgba(254, 244, 220, 0.25)" }}>{parts[1]}</span>
               </div>
             );
