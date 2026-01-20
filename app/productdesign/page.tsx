@@ -46,7 +46,7 @@ export default function ProductDesign() {
   const featuredImage = selected?.images?.[0] || "/images/fallback.jpg";
 
   return (
-    <div className="min-h-screen bg-[#5c4b4a]">
+    <div className="min-h-screen bg-[#554943]">
       {!loading && (
         <CreativePageLayout
           heroImage={

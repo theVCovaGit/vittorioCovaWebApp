@@ -27,7 +27,7 @@ export default function News() {
 
   // Desktop version (original)
   return (
-    <main className="relative min-h-screen bg-[#302120] text-[#fef4dc] font-blurlight overflow-hidden">
+    <main className="relative min-h-screen bg-[#554943] text-[#fef4dc] font-blurlight overflow-hidden">
         
 
       <NewsLabel

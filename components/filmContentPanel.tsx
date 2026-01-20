@@ -176,7 +176,7 @@ export default function FilmContentPanel({ isActive }: { isActive: boolean }) {
       <h2 className="text-[#FFF3DF] text-xl font-basica">
         {editingId ? "Edit project" : "Add new project"}
       </h2>
-      <div className="bg-[#5c4b4a] p-4 mt-4 text-black">
+      <div className="bg-[#554943] p-4 mt-4 text-black">
         {/* Inputs */}
         <label className="block font-minecraft text-sm text-[#FFF3DF] mb-1">Title</label>
         <input

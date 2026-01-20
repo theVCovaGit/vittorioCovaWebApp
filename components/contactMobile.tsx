@@ -29,7 +29,7 @@ export default function ContactMobile() {
   }, []);
 
   return (
-    <div className="relative h-screen overflow-hidden bg-[#302120] text-[#fef4dc] font-blurlight px-3 py-4 pb-20 pt-20">
+    <div className="relative h-screen overflow-hidden bg-[#554943] text-[#fef4dc] font-blurlight px-3 py-4 pb-20 pt-20">
       {/* Contact Label - Right side, rotated - aligned with barcode bottom - always to the right of barcode */}
       <div style={{ 
         position: 'absolute', 

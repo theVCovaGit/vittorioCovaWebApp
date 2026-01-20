@@ -4,9 +4,9 @@ import Link from "next/link";
 
 export default function HeroMobile() {
   return (
-    <div className="min-h-screen bg-[#302120] relative overflow-hidden flex flex-col">
+    <div className="min-h-screen bg-[#554943] relative overflow-hidden flex flex-col">
       {/* Header - Fixed at top */}
-      <header className="fixed top-0 left-0 w-full z-50 bg-[#302120] flex items-center justify-center px-4" style={{ height: 'var(--mobile-header-height)' }}>
+      <header className="fixed top-0 left-0 w-full z-50 bg-[#554943] flex items-center justify-center px-4" style={{ height: 'var(--mobile-header-height)' }}>
         <Link href="/" className="flex flex-col items-center justify-center no-underline leading-none">
           <span className="text-[#fef4dc] font-blurlight text-2xl font-bold uppercase tracking-wide">
             VITTORIO COVA

@@ -124,7 +124,7 @@ export default function Hero() {
   
 
   return (
-    <section className="flex-1 w-full bg-[#5c4b4a] text-black font-basica flex items-start justify-start px-10 md:px-24 lg:px-[409px] pt-[160px] sm:pt-[180px] md:pt-[200px]">
+    <section className="flex-1 w-full bg-[#554943] text-black font-basica flex items-start justify-start px-10 md:px-24 lg:px-[409px] pt-[160px] sm:pt-[180px] md:pt-[200px]">
       <div className="flex flex-col space-y-6 absolute top-[10.375rem] left-10 sm:left-20 md:left-[21.65rem] z-[60]">
         <AnimatePresence>
           {["architecture", "product", "film", "art"].map((category) => {

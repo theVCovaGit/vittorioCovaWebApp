@@ -29,7 +29,7 @@ export default function AboutMobile() {
   }, []);
 
   return (
-    <div className="relative h-screen overflow-hidden bg-[#302120] text-[#fef4dc] font-blurlight">
+    <div className="relative h-screen overflow-hidden bg-[#554943] text-[#fef4dc] font-blurlight">
       {/* About Label - Right side, rotated - aligned with barcode bottom - always to the right of barcode */}
       <div style={{ 
         position: 'absolute', 

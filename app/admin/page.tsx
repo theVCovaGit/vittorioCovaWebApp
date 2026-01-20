@@ -46,34 +46,34 @@ const AdminPage = () => {
   }
 
   return (
-    <div className="min-h-screen bg-[#5c4b4a] text-[#19333F] px-6 md:px-12 lg:px-24 mt-[10rem] sm:mt-[12rem] md:mt-[14rem] pb-28 sm:pb-32">
+    <div className="min-h-screen bg-[#554943] text-[#19333F] px-6 md:px-12 lg:px-24 mt-[10rem] sm:mt-[12rem] md:mt-[14rem] pb-28 sm:pb-32">
       <h1 className="font-blurlight text-black text-2xl font-bold">Welcome back Vittorio</h1>
       
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-4">
         <button
           onClick={() => setActivePanel("architecture")}
-          className="font-blurlight bg-[#5c4b4a] border-2 border-black text-black py-3 px-6 rounded-md flex items-center gap-2"
+          className="font-blurlight bg-[#554943] border-2 border-black text-black py-3 px-6 rounded-md flex items-center gap-2"
         >
           <div className="w-3 h-3 rounded-full bg-[#fff5e0]"></div>
           Architecture
         </button>
         <button
           onClick={() => setActivePanel("productdesign")}
-          className="font-blurlight bg-[#5c4b4a] border-2 border-black text-black py-3 px-6 rounded-md flex items-center gap-2"
+          className="font-blurlight bg-[#554943] border-2 border-black text-black py-3 px-6 rounded-md flex items-center gap-2"
         >
           <div className="w-3 h-3 rounded-full bg-white"></div>
           Product Design
         </button>
         <button
           onClick={() => setActivePanel("art")}
-          className="font-blurlight bg-[#5c4b4a] border-2 border-black text-black py-3 px-6 rounded-md flex items-center gap-2"
+          className="font-blurlight bg-[#554943] border-2 border-black text-black py-3 px-6 rounded-md flex items-center gap-2"
         >
           <div className="w-3 h-3 rounded-full bg-[#895a59]"></div>
           Art
         </button>
         <button
           onClick={() => setActivePanel("film")}
-          className="font-blurlight bg-[#5c4b4a] border-2 border-black text-black py-3 px-6 rounded-md flex items-center gap-2"
+          className="font-blurlight bg-[#554943] border-2 border-black text-black py-3 px-6 rounded-md flex items-center gap-2"
         >
           <div className="w-3 h-3 rounded-full bg-[#2d2f38]"></div>
           Film

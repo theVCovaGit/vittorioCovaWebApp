@@ -83,8 +83,8 @@ export default function FooterMobile() {
   const backgroundClass = isArchitectureExpanded
     ? "bg-transparent"
     : isFooterPage
-      ? "bg-[#302120]"
-      : "bg-[#5c4b4a]";
+      ? "bg-[#554943]"
+      : "bg-[#554943]";
 
   const spacingClass = "pt-12 pb-10 min-h-[170px]";
   const layoutClass = "flex flex-col justify-end";

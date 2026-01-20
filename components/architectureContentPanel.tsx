@@ -195,7 +195,7 @@ export default function ArchitectureContentPanel({ isActive }: { isActive: boole
       <h2 className="text-[#FFF3DF] text-xl font-microextend">
         {editingId ? "Edit project" : "Add new project"}
       </h2>
-      <div className="bg-[#5c4b4a] p-4 mt-4 text-black">
+      <div className="bg-[#554943] p-4 mt-4 text-black">
         <label className="block mb-1 font-minecraft text-sm text-[#FFF3DF]">Title</label>
         <input
           type="text"

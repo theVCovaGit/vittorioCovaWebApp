@@ -137,7 +137,7 @@ export default function ProductDesignContentPanel({ isActive }: { isActive: bool
         {editingId ? "Edit Product" : "Add New Product"}
       </h2>
 
-      <div className="bg-[#5c4b4a] p-4 mt-4 text-black">
+      <div className="bg-[#554943] p-4 mt-4 text-black">
         {/* FORM INPUTS */}
         <label className="block mb-1 font-minecraft text-sm text-[#FFF3DF]">Title</label>
         <input

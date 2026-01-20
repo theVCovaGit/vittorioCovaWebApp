@@ -48,7 +48,7 @@
 
 /* CSS Variables for Dark Mode */
 :root {
-  --background: #5c4b4a;
+  --background: #554943;
   --foreground: #171717;
   --primary: #1a73e8; /* Primary color */
   --secondary: #fbbc05; /* Secondary color */
@@ -58,7 +58,7 @@
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --background: #5c4b4a;
+    --background: #554943;
     --foreground: #ededed;
     --primary: #2563eb; /* Adjusted for dark mode */
     --secondary: #facc15; /* Adjusted for dark mode */

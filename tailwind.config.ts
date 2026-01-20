@@ -21,7 +21,7 @@ export default {
         film: "#d7c97c",
         art: "#bc76b1",
         cream: "#fef4dc",
-        brown: "#5c4b4a",    
+        brown: "#554943",    
       },
       fontFamily: {
         basica: ['"Basica"', 'sans-serif'],

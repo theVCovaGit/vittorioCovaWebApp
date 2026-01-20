@@ -27,7 +27,7 @@ export default function Hero() {
 
   // Desktop version (original)
   return (
-    <div className="min-h-screen bg-[#302120] relative overflow-hidden">
+    <div className="min-h-screen bg-[#554943] relative overflow-hidden">
       {/* Main Content */}
       <div className="pt-36 left-30 pl-0 -ml-6 relative">
         <div className="flex items-start">
