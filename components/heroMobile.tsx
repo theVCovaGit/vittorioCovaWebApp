@@ -30,14 +30,6 @@ export default function HeroMobile() {
           </Link>
           
           <Link 
-            href="/productdesign" 
-            className="text-[#fef4dc] font-blurlight text-sm font-bold uppercase tracking-wide no-underline
-              w-full max-w-xs py-4 text-center"
-          >
-            PRODUCT DESIGN
-          </Link>
-          
-          <Link 
             href="/film" 
             className="text-[#fef4dc] font-blurlight text-sm font-bold uppercase tracking-wide no-underline
               w-full max-w-xs py-4 text-center"

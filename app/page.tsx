@@ -62,19 +62,6 @@ export default function Hero() {
             </div>
             <div className="mb-2 group">
               <Link 
-                href="/productdesign" 
-                className="relative inline-block text-[#fef4dc] font-blurlight text-sm font-bold uppercase tracking-wide no-underline"
-              >
-                PRODUCT DESIGN
-                <img 
-                  src="/assets/onHover.png" 
-                  alt="Hover indicator" 
-                  className="absolute left-full ml-3 top-1/2 transform -translate-y-1/2 h-7 w-auto opacity-0 group-hover:opacity-100 transition-opacity duration-200"
-                />
-              </Link>
-            </div>
-            <div className="mb-2 group">
-              <Link 
                 href="/film" 
                 className="relative inline-block text-[#fef4dc] font-blurlight text-sm font-bold uppercase tracking-wide no-underline"
               >
