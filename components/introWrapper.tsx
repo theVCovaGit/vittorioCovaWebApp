@@ -38,7 +38,7 @@ export default function IntroWrapper({ children }: { children: React.ReactNode }
   return (
     <>
       {showIntro && (
-        <div className="fixed inset-0 z-[60000] bg-[#2b1d1d] flex items-center justify-center" data-intro-animation="true">
+        <div className="fixed inset-0 z-[60000] bg-[#554943] flex items-center justify-center" data-intro-animation="true">
           <div className="relative w-full h-full">
             <SignatureAnimation />
           </div>

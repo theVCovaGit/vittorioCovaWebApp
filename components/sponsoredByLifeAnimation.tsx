@@ -21,7 +21,7 @@ export default function SponsoredByLifeAnimation() {
   const partWidth = 600 / 4; // Divide width by 4 for 4 objects
 
   return (
-    <div className="fixed inset-0 z-[60000] bg-[#2b1d1d] flex flex-col items-center justify-center">
+    <div className="fixed inset-0 z-[60000] bg-[#554943] flex flex-col items-center justify-center">
       <div className="relative" style={{ width: 600, height: 110 }}>
         {[0, 1, 2, 3].map((i) => {
           const leftOffset = i * partWidth;

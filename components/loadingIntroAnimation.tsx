@@ -28,7 +28,7 @@ export default function LoadingIntro({ onFinish }: { onFinish: () => void }) {
   }, [step, onFinish]);
 
   return (
-    <div className="fixed inset-0 z-[50000] bg-[#2b1d1d] flex flex-col items-center justify-center">
+    <div className="fixed inset-0 z-[50000] bg-[#554943] flex flex-col items-center justify-center">
       <div className="flex gap-6 mb-6">
         {[0, 1, 2, 3].map((i) => (
           <AnimatePresence key={i}>
