@@ -61,6 +61,16 @@ export default function SlashVPattern() {
         pattern.push(vRow);
       }
       
+      // Add one more /\ row at the bottom with only 13 /\s
+      let finalSlashRow = "";
+      for (let i = 0; i < 13; i++) {
+        finalSlashRow += "/\\";
+        if (charSpacing > 0 && i < 12) {
+          finalSlashRow += " ".repeat(charSpacing);
+        }
+      }
+      pattern.push(finalSlashRow);
+      
       return pattern;
     };
 
