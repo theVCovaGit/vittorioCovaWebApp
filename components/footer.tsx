@@ -78,21 +78,21 @@ export default function Footer() {
           <div className="flex items-center justify-center text-[#fef4dc] text-[4.5vw] sm:text-[3.5vw] md:text-[21px] font-medium leading-none gap-2 mt-2">
             <Link
               href="/contact"
-              className="cursor-pointer text-[#fef4dc] no-underline hover:text-[#fdf053] transition-colors duration-200"
+              className="cursor-pointer text-[#fef4dc] no-underline hover:text-[#fec776] transition-colors duration-200"
             >
               CONTACT
             </Link>
             <span>/</span>
             <Link
               href="/about"
-              className="cursor-pointer text-[#fef4dc] no-underline hover:text-[#fdf053] transition-colors duration-200"
+              className="cursor-pointer text-[#fef4dc] no-underline hover:text-[#fec776] transition-colors duration-200"
             >
               ABOUT
             </Link>
             <span>/</span>
             <Link
               href="/news"
-              className="cursor-pointer text-[#fef4dc] no-underline hover:text-[#fdf053] transition-colors duration-200"
+              className="cursor-pointer text-[#fef4dc] no-underline hover:text-[#fec776] transition-colors duration-200"
             >
               NEWS
             </Link>

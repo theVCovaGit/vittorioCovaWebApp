@@ -49,7 +49,7 @@ export default function News() {
         <div className="flex flex-col items-center space-y-10 max-w-lg px-4">
           {/* News Item 1 */}
           <div className="flex flex-col items-center space-y-1.5 text-left w-full">
-            <div className="text-[#fdf053] font-blurlight text-xs font-bold relative z-[10001]">
+            <div className="text-[#fec776] font-blurlight text-xs font-bold relative z-[10001]">
               January 2026
             </div>
             <div className="text-[#fef4dc] font-blurlight text-base font-bold relative z-[10001]">
@@ -62,7 +62,7 @@ export default function News() {
 
           {/* News Item 2 */}
           <div className="flex flex-col items-center space-y-1.5 text-left w-full">
-            <div className="text-[#fdf053] font-blurlight text-xs font-bold relative z-[10001]">
+            <div className="text-[#fec776] font-blurlight text-xs font-bold relative z-[10001]">
               2025
             </div>
             <div className="text-[#fef4dc] font-blurlight text-base font-bold relative z-[10001]">
@@ -75,7 +75,7 @@ export default function News() {
 
           {/* News Item 3 */}
           <div className="flex flex-col items-center space-y-1.5 text-left w-full">
-            <div className="text-[#fdf053] font-blurlight text-xs font-bold relative z-[10001]">
+            <div className="text-[#fec776] font-blurlight text-xs font-bold relative z-[10001]">
               2024
             </div>
             <div className="text-[#fef4dc] font-blurlight text-base font-bold relative z-[10001]">
@@ -88,7 +88,7 @@ export default function News() {
 
           {/* News Item 4 */}
           <div className="flex flex-col items-center space-y-1.5 text-left w-full">
-            <div className="text-[#fdf053] font-blurlight text-xs font-bold relative z-[10001]">
+            <div className="text-[#fec776] font-blurlight text-xs font-bold relative z-[10001]">
               2023
             </div>
             <div className="text-[#fef4dc] font-blurlight text-base font-bold relative z-[10001]">

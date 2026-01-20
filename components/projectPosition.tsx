@@ -184,7 +184,7 @@ const ProjectPosition = ({
             const variantClasses = isSelected
               ? "cursor-pointer border-2 border-blue-400 shadow-[0_0_0_1px_rgba(59,130,246,0.4)]"
               : isOccupied
-              ? "cursor-pointer border-[#fdf053]/70 bg-[#433231] hover:border-[#fdf053]"
+              ? "cursor-pointer border-[#fec776]/70 bg-[#433231] hover:border-[#fec776]"
               : isBlocked
               ? "cursor-pointer border-gray-500/60 bg-gray-500/30 text-gray-300 hover:border-gray-400 hover:bg-gray-500/40"
               : "cursor-pointer border-green-400/60 bg-green-500/20 hover:border-green-300 hover:bg-green-500/30";

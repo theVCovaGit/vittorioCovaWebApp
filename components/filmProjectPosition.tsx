@@ -138,7 +138,7 @@ const FilmProjectPosition = ({
             const variantClasses = isSelected
               ? "cursor-pointer border-blue-400 shadow-[0_0_0_2px_rgba(59,130,246,0.6)]"
               : isOccupied
-              ? "cursor-pointer border-[#fdf053]/70 bg-[#433231] hover:border-[#fdf053]"
+              ? "cursor-pointer border-[#fec776]/70 bg-[#433231] hover:border-[#fec776]"
               : "cursor-pointer border-gray-500/60 bg-gray-500/20 hover:border-gray-400 hover:bg-gray-500/30";
 
             return (

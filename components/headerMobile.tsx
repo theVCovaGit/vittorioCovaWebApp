@@ -19,7 +19,7 @@ export default function HeaderMobile() {
         <span className="text-[#fef4dc] font-blurlight text-2xl font-bold uppercase tracking-wide">
           VITTORIO COVA
         </span>
-        <span className="text-[#fdf053] font-blurlight text-2xl font-bold uppercase tracking-wide">
+        <span className="text-[#fec776] font-blurlight text-2xl font-bold uppercase tracking-wide">
           STUDIO
         </span>
       </Link>
