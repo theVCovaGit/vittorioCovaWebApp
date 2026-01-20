@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg id="Layer_2" data-name="Layer 2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 13.99 28.16">
+  <defs>
+    <style>
+      .cls-1 {
+        fill: #fff3df;
+        font-family: BlurLight, Blur;
+        font-size: 27px;
+        letter-spacing: -.08em;
+      }
+    </style>
+  </defs>
+  <g id="TEXT">
+    <text class="cls-1" transform="translate(0 21.65)"><tspan x="0" y="0">+</tspan></text>
+  </g>
+</svg>
