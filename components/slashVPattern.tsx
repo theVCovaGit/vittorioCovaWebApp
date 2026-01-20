@@ -10,7 +10,7 @@ export default function SlashVPattern() {
   const cycles = 8; // Number of times to repeat the pattern
   const slashCount = 28; // Number of /\ per row
   const vCount = 34; // Number of V's per row
-  const rowSpacing = 18; // Vertical spacing between rows (shorter)
+  const rowSpacing = 28; // Vertical spacing between rows (bigger, proportional)
   const charSpacing = 0; // No spacing between characters (much closer)
 
   useEffect(() => {
@@ -32,12 +32,30 @@ export default function SlashVPattern() {
         }
         pattern.push(slashRow);
         
-        // Row 2: V x 34
+        // Row 2: V row - special case for first V row (cycle 0)
         let vRow = "";
-        for (let i = 0; i < vCount; i++) {
-          vRow += "V";
-          if (charSpacing > 0 && i < vCount - 1) {
-            vRow += " ".repeat(charSpacing);
+        if (cycle === 0) {
+          // First V row: 13 V's + ARCHITECTURE . + 9 V's
+          for (let i = 0; i < 13; i++) {
+            vRow += "V";
+            if (charSpacing > 0 && i < 12) {
+              vRow += " ".repeat(charSpacing);
+            }
+          }
+          vRow += "ARCHITECTURE .";
+          for (let i = 0; i < 9; i++) {
+            vRow += "V";
+            if (charSpacing > 0 && i < 8) {
+              vRow += " ".repeat(charSpacing);
+            }
+          }
+        } else {
+          // Other V rows: V x 34
+          for (let i = 0; i < vCount; i++) {
+            vRow += "V";
+            if (charSpacing > 0 && i < vCount - 1) {
+              vRow += " ".repeat(charSpacing);
+            }
           }
         }
         pattern.push(vRow);
@@ -66,10 +84,10 @@ export default function SlashVPattern() {
           color: "#fef4dc",
           opacity: 0.25,
           fontFamily: "Blur Light, sans-serif",
-          fontSize: "14px",
+          fontSize: "22px",
           lineHeight: `${rowSpacing}px`,
           whiteSpace: "pre",
-          letterSpacing: "-1.1px", // Minimally tighter spacing
+          letterSpacing: "-1.7px", // Proportional spacing (scaled up)
         }}
       >
         {patternRows.map((row, rowIndex) => (
