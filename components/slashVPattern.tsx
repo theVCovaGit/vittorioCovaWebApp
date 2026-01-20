@@ -10,7 +10,7 @@ export default function SlashVPattern() {
   const cycles = 8; // Number of times to repeat the pattern
   const slashCount = 28; // Number of /\ per row
   const vCount = 34; // Number of V's per row
-  const rowSpacing = 28; // Vertical spacing between rows (bigger)
+  const rowSpacing = 23; // Vertical spacing between rows (minimal)
   const charSpacing = 0; // No spacing between characters (much closer)
 
   useEffect(() => {
