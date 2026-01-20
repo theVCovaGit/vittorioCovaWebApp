@@ -6,10 +6,10 @@ export default function SlashVPattern() {
   const [patternRows, setPatternRows] = useState<string[]>([]);
   const [mounted, setMounted] = useState(false);
 
-  // Pattern: /\ x 28, then V x 37, repeated 8 times = 16 rows
+  // Pattern: /\ x 28, then V x 34, repeated 8 times = 16 rows
   const cycles = 8; // Number of times to repeat the pattern
   const slashCount = 28; // Number of /\ per row
-  const vCount = 37; // Number of V's per row
+  const vCount = 34; // Number of V's per row
   const rowSpacing = 18; // Vertical spacing between rows (shorter)
   const charSpacing = 0; // No spacing between characters (much closer)
 
