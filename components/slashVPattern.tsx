@@ -69,7 +69,7 @@ export default function SlashVPattern() {
           fontSize: "14px",
           lineHeight: `${rowSpacing}px`,
           whiteSpace: "pre",
-          letterSpacing: "0px", // No letter spacing for tight pattern
+          letterSpacing: "-1.1px", // Minimally tighter spacing
         }}
       >
         {patternRows.map((row, rowIndex) => (
