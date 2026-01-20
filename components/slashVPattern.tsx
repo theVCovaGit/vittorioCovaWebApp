@@ -113,10 +113,10 @@ export default function SlashVPattern() {
 
   return (
     <div 
-      className="absolute right-0 top-0 w-[50vw] h-full overflow-hidden pointer-events-none z-0"
+      className="absolute top-0 w-[50vw] h-full overflow-hidden pointer-events-none z-0"
       style={{
-        paddingRight: "3rem",
-        paddingTop: "1rem",
+        right: "6rem",
+        paddingTop: "12rem",
       }}
     >
       <div
