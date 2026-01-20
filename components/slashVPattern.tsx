@@ -81,8 +81,6 @@ export default function SlashVPattern() {
     >
       <div
         style={{
-          color: "#fef4dc",
-          opacity: 0.25,
           fontFamily: "Blur Light, sans-serif",
           fontSize: "22px",
           lineHeight: `${rowSpacing}px`,
@@ -90,11 +88,30 @@ export default function SlashVPattern() {
           letterSpacing: "-1.7px", // Proportional spacing (scaled up)
         }}
       >
-        {patternRows.map((row, rowIndex) => (
-          <div key={rowIndex}>
-            {row}
-          </div>
-        ))}
+        {patternRows.map((row, rowIndex) => {
+          // Check if row contains ARCHITECTURE text
+          if (row.includes("ARCHITECTURE")) {
+            const parts = row.split("ARCHITECTURE .");
+            return (
+              <div key={rowIndex}>
+                <span style={{ color: "rgba(254, 244, 220, 0.25)" }}>{parts[0]}</span>
+                <span 
+                  style={{ 
+                    color: "#000000",
+                  }}
+                >
+                  ARCHITECTURE .
+                </span>
+                <span style={{ color: "rgba(254, 244, 220, 0.25)" }}>{parts[1]}</span>
+              </div>
+            );
+          }
+          return (
+            <div key={rowIndex} style={{ color: "rgba(254, 244, 220, 0.25)" }}>
+              {row}
+            </div>
+          );
+        })}
       </div>
     </div>
   );
