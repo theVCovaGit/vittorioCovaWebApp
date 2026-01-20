@@ -39,6 +39,13 @@
   font-style: normal;
 }
 
+@font-face {
+  font-family: "Blur Light";
+  src: url("/fonts/Blur Light.ttf") format("truetype");
+  font-weight: 400;
+  font-style: normal;
+}
+
 /* CSS Variables for Dark Mode */
 :root {
   --background: #5c4b4a;
@@ -61,7 +68,7 @@
 
 /* Global Styles */
 body {
-  font-family: var(--font-poppins), sans-serif;
+  font-family: "Blur Light", sans-serif;
   @apply text-foreground bg-background;
   margin: 0;
   padding: 0;

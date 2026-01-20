@@ -31,7 +31,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${poppins.variable} min-h-screen flex flex-col font-poppins`}>
+      <body className={`${poppins.variable} min-h-screen flex flex-col font-blurlight`}>
         <TransitionProvider>
           <IconDisplayProvider>
             <CartProvider>

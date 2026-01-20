@@ -27,7 +27,7 @@ export default function About() {
 
   // Desktop version (original)
   return (
-    <main className="relative min-h-screen bg-[#302120] text-[#fef4dc] font-basica overflow-hidden">
+    <main className="relative min-h-screen bg-[#302120] text-[#fef4dc] font-blurlight overflow-hidden">
         
 
       <div 
@@ -52,18 +52,18 @@ export default function About() {
       </div>
 
       {/* Text content in upper left */}
-      <div className="absolute top-[10rem] left-[4rem] text-[#fef4dc] font-microextend">
+      <div className="absolute top-[10rem] left-[4rem] text-[#fef4dc] font-blurlight">
         <div className="flex items-center gap-4 mb-4">
           <span className="text-2xl">©</span>
           <span className="text-2xl font-bold">VITTORIO COVA STUDIO</span>
           <span className="text-xl ml-auto">Est. 2025</span>
         </div>
         
-        <p className="text-lg mb-6 leading-relaxed font-electrolize">
+        <p className="text-lg mb-6 leading-relaxed font-blurlight">
           A multi-faceted creative firm founded by Vittorio Cova in 2025.
         </p>
         
-        <ul className="space-y-1 text-lg font-electrolize">
+        <ul className="space-y-1 text-lg font-blurlight">
           <li>- Architect</li>
           <li>- Film director</li>
           <li>- Designer</li>
@@ -72,7 +72,7 @@ export default function About() {
       </div>
 
       {/* Philosophical thoughts in the middle */}
-      <div className="absolute top-[72%] left-[40%] transform -translate-x-1/2 -translate-y-1/2 text-[#fef4dc] font-electrolize max-w-sm px-4 text-center z-[9999]">
+      <div className="absolute top-[72%] left-[40%] transform -translate-x-1/2 -translate-y-1/2 text-[#fef4dc] font-blurlight max-w-sm px-4 text-center z-[9999]">
         <h2 className="text-sm font-bold mb-2 text-[#fef4dc]">
           Quick thoughts I want to <span className="text-[#fbe147]">share:</span>
         </h2>

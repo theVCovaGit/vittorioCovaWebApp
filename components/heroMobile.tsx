@@ -8,10 +8,10 @@ export default function HeroMobile() {
       {/* Header - Fixed at top */}
       <header className="fixed top-0 left-0 w-full z-50 bg-[#302120] flex items-center justify-center px-4" style={{ height: 'var(--mobile-header-height)' }}>
         <Link href="/" className="flex flex-col items-center justify-center no-underline leading-none">
-          <span className="text-[#fef4dc] font-microextend text-2xl font-bold uppercase tracking-wide">
+          <span className="text-[#fef4dc] font-blurlight text-2xl font-bold uppercase tracking-wide">
             VITTORIO COVA
           </span>
-          <span className="text-[#fdf053] font-microextend text-2xl font-bold uppercase tracking-wide">
+          <span className="text-[#fdf053] font-blurlight text-2xl font-bold uppercase tracking-wide">
             STUDIO
           </span>
         </Link>
@@ -23,7 +23,7 @@ export default function HeroMobile() {
         <div className="flex flex-col items-center space-y-0.5 w-full -mt-[5.5rem]">
           <Link 
             href="/architecture" 
-            className="text-[#fef4dc] font-microextend text-sm font-bold uppercase tracking-wide no-underline
+            className="text-[#fef4dc] font-blurlight text-sm font-bold uppercase tracking-wide no-underline
               w-full max-w-xs py-4 text-center"
           >
             ARCHITECTURE
@@ -31,7 +31,7 @@ export default function HeroMobile() {
           
           <Link 
             href="/productdesign" 
-            className="text-[#fef4dc] font-microextend text-sm font-bold uppercase tracking-wide no-underline
+            className="text-[#fef4dc] font-blurlight text-sm font-bold uppercase tracking-wide no-underline
               w-full max-w-xs py-4 text-center"
           >
             PRODUCT DESIGN
@@ -39,7 +39,7 @@ export default function HeroMobile() {
           
           <Link 
             href="/film" 
-            className="text-[#fef4dc] font-microextend text-sm font-bold uppercase tracking-wide no-underline
+            className="text-[#fef4dc] font-blurlight text-sm font-bold uppercase tracking-wide no-underline
               w-full max-w-xs py-4 text-center"
           >
             FILM
@@ -47,7 +47,7 @@ export default function HeroMobile() {
           
           <Link 
             href="/art" 
-            className="text-[#fef4dc] font-microextend text-sm font-bold uppercase tracking-wide no-underline
+            className="text-[#fef4dc] font-blurlight text-sm font-bold uppercase tracking-wide no-underline
               w-full max-w-xs py-4 text-center"
           >
             ART

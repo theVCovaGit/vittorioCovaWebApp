@@ -55,7 +55,7 @@ export default function LoadingIntro({ onFinish }: { onFinish: () => void }) {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 0.8 }}
-          className="font-electrolize text-[#fef4dc] text-sm tracking-wide"
+          className="font-blurlight text-[#fef4dc] text-sm tracking-wide"
         >
           SPONSORED BY LIFE.
         </motion.p>

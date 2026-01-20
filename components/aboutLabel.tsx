@@ -20,7 +20,7 @@ type Props = {
           
           ${fontSize}
           text-[#F7E32D]
-          font-minecraft
+          font-blurlight
           font-medium
           leading-none
           tracking-tight

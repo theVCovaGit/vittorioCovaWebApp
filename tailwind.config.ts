@@ -29,6 +29,7 @@ export default {
         barrel: ['"Barrel"', 'sans-serif'],
         minecraft: ['"Minecraft"', 'sans-serif'],
         microextend: ['"MicroExtendFLF-Bold"', 'sans-serif'],
+        blurlight: ['"Blur Light"', 'sans-serif'],
       },
       spacing: {
         30: "7.5rem",      // 120px - for left-30

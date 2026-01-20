@@ -23,7 +23,7 @@ export default function AboutNameplate({
         w-[222px]
         h-[23px]
         text-[#FEF4DC]
-        font-basica
+        font-blurlight
         font-normal
         leading-none
         tracking-tight

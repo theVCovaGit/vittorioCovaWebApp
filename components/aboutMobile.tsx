@@ -29,7 +29,7 @@ export default function AboutMobile() {
   }, []);
 
   return (
-    <div className="relative h-screen overflow-hidden bg-[#302120] text-[#fef4dc] font-basica">
+    <div className="relative h-screen overflow-hidden bg-[#302120] text-[#fef4dc] font-blurlight">
       {/* About Label - Right side, rotated - aligned with barcode bottom - always to the right of barcode */}
       <div style={{ 
         position: 'absolute', 
@@ -61,18 +61,18 @@ export default function AboutMobile() {
         {/* Header */}
         <div className="mb-4">
         <div className="flex items-center gap-1 mb-1">
-          <span className="text-[0.55rem] font-microextend">©</span>
-          <span className="text-[0.55rem] font-microextend font-bold">VITTORIO COVA STUDIO</span>
-          <span className="text-[0.55rem] font-microextend ml-auto">Est. 2025</span>
+          <span className="text-[0.55rem] font-blurlight">©</span>
+          <span className="text-[0.55rem] font-blurlight font-bold">VITTORIO COVA STUDIO</span>
+          <span className="text-[0.55rem] font-blurlight ml-auto">Est. 2025</span>
         </div>
         
         {/* Description */}
-        <p className="text-[0.55rem] mb-3 leading-tight font-electrolize">
+        <p className="text-[0.55rem] mb-3 leading-tight font-blurlight">
           A multi-faceted creative firm founded by Vittorio Cova in 2025.
         </p>
         
         {/* Roles List */}
-        <ul className="space-y-0.5 text-[0.55rem] font-electrolize">
+        <ul className="space-y-0.5 text-[0.55rem] font-blurlight">
             <li>- Architect</li>
             <li>- Film director</li>
             <li>- Designer</li>
@@ -82,10 +82,10 @@ export default function AboutMobile() {
 
         {/* Philosophical Thoughts Section */}
         <div className="mb-4">
-          <h2 className="text-[0.55rem] font-electrolize mb-2 text-[#fef4dc]">
+          <h2 className="text-[0.55rem] font-blurlight mb-2 text-[#fef4dc]">
             Quick thoughts I want to <span className="text-[#fbe147]">share:</span>
           </h2>
-          <div className="space-y-2 text-[0.45rem] leading-tight font-electrolize">
+          <div className="space-y-2 text-[0.45rem] leading-tight font-blurlight">
             <p>
               The greatest moment in human history was not when man walked the Moon, but when <span className="text-[#fbe147] font-bold">God</span> walked the Earth.
             </p>

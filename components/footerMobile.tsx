@@ -91,7 +91,7 @@ export default function FooterMobile() {
 
   return (
     <footer
-      className={`fixed bottom-0 left-0 z-50 w-full px-4 font-minecraft ${backgroundClass} ${spacingClass} ${layoutClass}`}
+      className={`fixed bottom-0 left-0 z-50 w-full px-4 font-blurlight ${backgroundClass} ${spacingClass} ${layoutClass}`}
     >
       <div className="flex flex-col items-center space-y-3 scale-[0.8]">
         {/* Barcode - Smaller for mobile */}
