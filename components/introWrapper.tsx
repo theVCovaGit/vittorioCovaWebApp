@@ -10,12 +10,13 @@ export default function IntroWrapper({ children }: { children: React.ReactNode }
 
   useEffect(() => {
     setMounted(true);
-    // Check if intro has already been shown in this session
-    const hasBeenShown = sessionStorage.getItem("signature-animation-shown");
-    if (hasBeenShown) {
-      setShowIntro(false);
-      return;
-    }
+    // COMMENTED OUT: Check if intro has already been shown in this session
+    // This was preventing the animation from showing on every refresh
+    // const hasBeenShown = sessionStorage.getItem("signature-animation-shown");
+    // if (hasBeenShown) {
+    //   setShowIntro(false);
+    //   return;
+    // }
   }, []);
 
   useEffect(() => {
@@ -26,8 +27,9 @@ export default function IntroWrapper({ children }: { children: React.ReactNode }
     // Wait 0.5 seconds after last animation completes
     const timer = setTimeout(() => {
       setShowIntro(false);
-      // Mark that intro has been shown in this session
-      sessionStorage.setItem("signature-animation-shown", "true");
+      // COMMENTED OUT: Mark that intro has been shown in this session
+      // This was preventing the animation from showing on every refresh
+      // sessionStorage.setItem("signature-animation-shown", "true");
     }, 3400); // 2.9s + 0.5s = 3.4 seconds total
 
     return () => clearTimeout(timer);
