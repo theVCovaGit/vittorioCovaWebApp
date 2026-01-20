@@ -32,7 +32,7 @@ export default function SlashVPattern() {
         }
         pattern.push(slashRow);
         
-        // Row 2: V row - special cases for first V row (cycle 0) and 8th row (cycle 3)
+        // Row 2: V row - special cases for first V row (cycle 0), 8th row (cycle 3), and 12th row (cycle 5)
         let vRow = "";
         if (cycle === 0) {
           // First V row (row 2): 13 V's + ARCHITECTURE . + 9 V's
@@ -61,6 +61,21 @@ export default function SlashVPattern() {
           for (let i = 0; i < 4; i++) {
             vRow += "V";
             if (charSpacing > 0 && i < 3) {
+              vRow += " ".repeat(charSpacing);
+            }
+          }
+        } else if (cycle === 5) {
+          // 12th row (cycle 5, second row): 6 V's + ART . + 24 V's
+          for (let i = 0; i < 6; i++) {
+            vRow += "V";
+            if (charSpacing > 0 && i < 5) {
+              vRow += " ".repeat(charSpacing);
+            }
+          }
+          vRow += "ART .";
+          for (let i = 0; i < 24; i++) {
+            vRow += "V";
+            if (charSpacing > 0 && i < 23) {
               vRow += " ".repeat(charSpacing);
             }
           }
@@ -143,6 +158,23 @@ export default function SlashVPattern() {
                   }}
                 >
                   FILM .
+                </span>
+                <span style={{ color: "rgba(254, 244, 220, 0.25)" }}>{parts[1]}</span>
+              </div>
+            );
+          }
+          // Check if row contains ART text
+          if (row.includes("ART")) {
+            const parts = row.split("ART .");
+            return (
+              <div key={rowIndex}>
+                <span style={{ color: "rgba(254, 244, 220, 0.25)" }}>{parts[0]}</span>
+                <span 
+                  style={{ 
+                    color: "#000000",
+                  }}
+                >
+                  ART .
                 </span>
                 <span style={{ color: "rgba(254, 244, 220, 0.25)" }}>{parts[1]}</span>
               </div>
