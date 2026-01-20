@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useIsMobile } from "@/hooks/useMediaQuery";
 import HeroMobile from "@/components/heroMobile";
 import { useEffect } from "react";
+import SlashVPattern from "@/components/slashVPattern";
 
 export default function Hero() {
   const isMobile = useIsMobile();
@@ -28,6 +29,9 @@ export default function Hero() {
   // Desktop version (original)
   return (
     <div className="min-h-screen bg-[#554943] relative overflow-hidden">
+      {/* Slash and V Pattern Background */}
+      <SlashVPattern />
+      
       {/* Main Content */}
       <div className="pt-36 left-30 pl-0 -ml-6 relative">
         <div className="flex items-start">
@@ -46,7 +50,7 @@ export default function Hero() {
           </div>
           
           {/* Routes */}
-          <div className="-ml-24 mt-10">
+          <div className="-ml-24 mt-10 relative z-10">
             <div className="mb-2 group">
               <Link 
                 href="/architecture" 
