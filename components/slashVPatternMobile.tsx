@@ -14,7 +14,6 @@ export default function SlashVPatternMobile() {
   const cycles = 12; // 12 cycles = 24 rows total (12 /\ + 12 V)
   const slashCount = 20;
   const vCount = 24;
-  const rowSpacing = 21; // Reduced vertical spacing between rows
   const charSpacing = 0;
 
   useEffect(() => {
@@ -79,18 +78,42 @@ export default function SlashVPatternMobile() {
   if (!mounted || patternRows.length === 0) return null;
 
   return (
-    <div className="absolute inset-0 overflow-hidden z-0 pt-32 flex items-start justify-center">
-      <div
-        className="max-w-[85%] sm:max-w-[75%] mx-auto"
-        style={{
-          fontFamily: "Blur Light, sans-serif",
-          fontSize: "clamp(18px, 5.5vw, 24px)", // Smaller, properly sized for mobile
-          lineHeight: `${rowSpacing}px`,
-          whiteSpace: "pre",
-          letterSpacing: "-2px",
-          color: "rgba(254, 244, 220, 0.25)",
-        }}
-      >
+    <>
+      <style dangerouslySetInnerHTML={{__html: `
+        .pattern-mobile-container {
+          font-family: "Blur Light", sans-serif;
+          white-space: pre;
+          color: rgba(254, 244, 220, 0.25);
+        }
+        /* Small phones (height < 700px) - make it shorter */
+        @media (max-height: 700px) {
+          .pattern-mobile-container {
+            font-size: clamp(14px, 4.5vw, 18px) !important;
+            line-height: 16px !important;
+            letter-spacing: -1.5px !important;
+          }
+        }
+        /* Medium phones (height 700px - 800px) */
+        @media (min-height: 700px) and (max-height: 800px) {
+          .pattern-mobile-container {
+            font-size: clamp(16px, 5vw, 20px) !important;
+            line-height: 18px !important;
+            letter-spacing: -1.8px !important;
+          }
+        }
+        /* Larger phones (height > 800px) */
+        @media (min-height: 800px) {
+          .pattern-mobile-container {
+            font-size: clamp(18px, 5.5vw, 24px) !important;
+            line-height: 21px !important;
+            letter-spacing: -2px !important;
+          }
+        }
+      `}} />
+      <div className="absolute inset-0 overflow-hidden z-0 pt-32 flex items-start justify-center">
+        <div
+          className="max-w-[85%] sm:max-w-[75%] mx-auto pattern-mobile-container"
+        >
         {patternRows.map((row, i) => {
           // Check if row contains ARCHITECTURE text
           if (row.includes("ARCHITECTURE")) {
@@ -160,7 +183,8 @@ export default function SlashVPatternMobile() {
             </div>
           );
         })}
+        </div>
       </div>
-    </div>
+    </>
   );
 }
