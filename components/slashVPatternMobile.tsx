@@ -79,16 +79,16 @@ export default function SlashVPatternMobile() {
   if (!mounted || patternRows.length === 0) return null;
 
   return (
-    <div className="absolute inset-0 overflow-hidden z-0 flex items-start justify-center pt-32">
+    <div className="absolute inset-0 overflow-hidden z-0 pt-32 flex items-start justify-center">
       <div
+        className="max-w-[85%] sm:max-w-[75%] mx-auto"
         style={{
           fontFamily: "Blur Light, sans-serif",
-          fontSize: "27px", // Scaled up from 18px (1.5x)
+          fontSize: "clamp(18px, 5.5vw, 24px)", // Smaller, properly sized for mobile
           lineHeight: `${rowSpacing}px`,
           whiteSpace: "pre",
-          letterSpacing: "-2.4px", // Scaled up proportionally from -1.6px
+          letterSpacing: "-2px",
           color: "rgba(254, 244, 220, 0.25)",
-          textAlign: "center",
         }}
       >
         {patternRows.map((row, i) => {
