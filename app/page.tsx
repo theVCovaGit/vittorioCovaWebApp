@@ -33,7 +33,7 @@ export default function Hero() {
       <SlashVPattern />
       
       {/* Main Content */}
-      <div className="pt-40 left-30 pl-0 ml-48 relative">
+      <div className="pt-40 left-30 pl-0 ml-8 relative">
         <div className="flex items-start">
           <div className="flex items-center">
             <span className="text-[#fec776] font-blurlight text-3xl font-bold uppercase tracking-wide">
