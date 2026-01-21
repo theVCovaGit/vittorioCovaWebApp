@@ -36,16 +36,14 @@ export default function Hero() {
       <div className="pt-36 left-30 pl-0 -ml-6 relative">
         <div className="flex items-start">
           <div className="flex items-center">
-            <span className="text-[#fef4dc] font-blurlight text-xl font-bold uppercase tracking-wide">
+            <span className="text-[#fec776] font-blurlight text-xl font-bold uppercase tracking-wide">
               VITTORIO COVA
             </span>
-            <span className="text-[#fec776] font-blurlight text-xl font-bold uppercase tracking-wide mx-2">
-              <svg width="80" height="4" viewBox="0 0 80 4" className="inline-block">
-                <rect x="0" y="0" width="80" height="2" fill="#fec776"/>
-              </svg>
-            </span>
-            <span className="text-[#fec776] font-blurlight text-xl font-bold uppercase tracking-wide">
+            <span className="text-[#fec776] font-blurlight text-xl font-bold uppercase tracking-wide ml-4">
               STUDIO
+            </span>
+            <span className="text-[#fec776] font-blurlight text-xl font-bold uppercase tracking-wide ml-1">
+              ©
             </span>
           </div>
         </div>
