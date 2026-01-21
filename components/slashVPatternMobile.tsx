@@ -37,7 +37,7 @@ export default function SlashVPatternMobile() {
   if (!mounted || patternRows.length === 0) return null;
 
   return (
-    <div className="absolute inset-0 overflow-hidden z-0">
+    <div className="absolute inset-0 overflow-hidden z-0 flex items-start justify-center pt-32">
       <div
         style={{
           fontFamily: "Blur Light, sans-serif",
@@ -46,6 +46,7 @@ export default function SlashVPatternMobile() {
           whiteSpace: "pre",
           letterSpacing: "-1.6px",
           color: "rgba(254, 244, 220, 0.25)",
+          textAlign: "center",
         }}
       >
         {patternRows.map((row, i) => (
