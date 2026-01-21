@@ -33,16 +33,16 @@ export default function Hero() {
       <SlashVPattern />
       
       {/* Main Content */}
-      <div className="pt-36 left-30 pl-0 -ml-6 relative">
+      <div className="pt-36 left-30 pl-0 ml-48 relative">
         <div className="flex items-start">
           <div className="flex items-center">
-            <span className="text-[#fec776] font-blurlight text-xl font-bold uppercase tracking-wide">
+            <span className="text-[#fec776] font-blurlight text-3xl font-bold uppercase tracking-wide">
               VITTORIO COVA
             </span>
-            <span className="text-[#fec776] font-blurlight text-xl font-bold uppercase tracking-wide ml-4">
+            <span className="text-[#fec776] font-blurlight text-3xl font-bold uppercase tracking-wide ml-4">
               STUDIO
             </span>
-            <span className="text-[#fec776] font-blurlight text-xs font-bold uppercase tracking-wide ml-1 relative top-1">
+            <span className="text-[#fec776] font-blurlight text-sm font-bold uppercase tracking-wide ml-1 relative top-1">
               ©
             </span>
           </div>
