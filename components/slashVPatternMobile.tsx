@@ -11,7 +11,7 @@ export default function SlashVPatternMobile() {
   const cycles = 12; // 12 cycles = 24 rows total (12 /\ + 12 V)
   const slashCount = 20;
   const vCount = 24;
-  const rowSpacing = 16;
+  const rowSpacing = 24; // Scaled up proportionally
   const charSpacing = 0;
 
   useEffect(() => {
@@ -41,10 +41,10 @@ export default function SlashVPatternMobile() {
       <div
         style={{
           fontFamily: "Blur Light, sans-serif",
-          fontSize: "18px",
+          fontSize: "27px", // Scaled up from 18px (1.5x)
           lineHeight: `${rowSpacing}px`,
           whiteSpace: "pre",
-          letterSpacing: "-1.6px",
+          letterSpacing: "-2.4px", // Scaled up proportionally from -1.6px
           color: "rgba(254, 244, 220, 0.25)",
           textAlign: "center",
         }}
