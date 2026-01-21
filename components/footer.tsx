@@ -96,7 +96,7 @@ export default function Footer() {
           </svg>
 
           {/* Centered Text */}
-          <div className="flex items-center justify-center text-[#fec776] text-[4.5vw] sm:text-[3.5vw] md:text-[21px] font-medium leading-none gap-2 mt-2">
+          <div className="flex items-center justify-center text-[#fec776] text-[5.5vw] sm:text-[4.5vw] md:text-[26px] font-medium leading-none gap-2 mt-2">
             <Link
               href="/contact"
               className="cursor-pointer text-[#fec776] no-underline hover:text-[#fec776] transition-colors duration-200"
