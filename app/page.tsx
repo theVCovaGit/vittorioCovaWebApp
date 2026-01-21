@@ -42,7 +42,7 @@ export default function Hero() {
             <span className="text-[#fec776] font-blurlight text-xl font-bold uppercase tracking-wide ml-4">
               STUDIO
             </span>
-            <span className="text-[#fec776] font-blurlight text-xl font-bold uppercase tracking-wide ml-1">
+            <span className="text-[#fec776] font-blurlight text-xs font-bold uppercase tracking-wide ml-1 relative top-1">
               ©
             </span>
           </div>
