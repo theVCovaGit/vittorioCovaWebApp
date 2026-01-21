@@ -80,11 +80,7 @@ export default function FooterMobile() {
     };
   }, []);
 
-  const backgroundClass = isArchitectureExpanded
-    ? "bg-transparent"
-    : isFooterPage
-      ? "bg-[#554943]"
-      : "bg-[#554943]";
+  const backgroundClass = "bg-transparent";
 
   const spacingClass = "pt-12 pb-10 min-h-[170px]";
   const layoutClass = "flex flex-col justify-end";
