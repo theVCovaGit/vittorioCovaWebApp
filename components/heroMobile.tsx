@@ -10,9 +10,9 @@ export default function HeroMobile() {
       <SlashVPatternMobile />
 
       {/* VITTORIO COVA STUDIO© - Aligned with pattern, right above it */}
-      <div className="absolute top-10 left-0 w-full z-50 flex items-start justify-start">
+      <div className="absolute top-16 left-0 w-full z-50 flex items-start justify-start">
         <div className="ml-9">
-          <Link href="/" className="flex flex-col items-start justify-start no-underline leading-none">
+          <Link href="/" className="flex flex-col items-start justify-start no-underline leading-none -space-y-3">
             <span className="text-[#fec776] font-blurlight text-2xl font-bold uppercase tracking-wide">
               VITTORIO
             </span>
