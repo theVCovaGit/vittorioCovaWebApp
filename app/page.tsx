@@ -37,9 +37,12 @@ export default function Hero() {
         <div className="flex items-start">
           <div className="flex items-center">
             <span className="text-[#fec776] font-blurlight text-3xl font-bold uppercase tracking-wide">
-              VITTORIO COVA
+              VITTORIO
             </span>
-            <span className="text-[#fec776] font-blurlight text-3xl font-bold uppercase tracking-wide ml-4">
+            <span className="text-[#fec776] font-blurlight text-3xl font-bold uppercase tracking-wide ml-24">
+              COVA
+            </span>
+            <span className="text-[#fec776] font-blurlight text-3xl font-bold uppercase tracking-wide ml-24">
               STUDIO
             </span>
             <span className="text-[#fec776] font-blurlight text-sm font-bold uppercase tracking-wide ml-1 relative top-1">
