@@ -76,7 +76,7 @@ export default function Footer() {
 
   return (
     <footer className={`fixed bottom-0 left-0 w-full font-blurlight z-50 pointer-events-auto px-4 sm:px-6 md:px-[4vw] pt-12 sm:pt-16 md:pt-20 pb-4 sm:pb-5 md:pb-6 ${((isArchitecturePage || isArtPage) && isExpandedViewOpen) ? 'bg-transparent' : isMainPage ? 'bg-[#554943]' : isFooterPage ? 'bg-[#554943]' : 'bg-[#554943]'}`}>
-      <div className="absolute flex flex-col items-center space-y-2" style={{ bottom: '68px', right: '120px' }}>
+      <div className="absolute flex flex-col items-center space-y-2" style={{ bottom: isArchitecturePage ? '1rem' : '68px', right: '120px' }}>
         <div className="flex flex-col items-center">
           {/* Barcode */}
           <svg
