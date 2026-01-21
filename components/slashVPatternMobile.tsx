@@ -31,15 +31,15 @@ export default function SlashVPatternMobile() {
       // V row with special cases for rows 4, 10, and 18
       let vRow = "";
       if (cycle === 1) {
-        // Row 4: 7 V's + ARCHITECTURE . + 4 V's
+        // Row 4: 7 V's + ARCHITECTURE . + 5 V's
         for (let i = 0; i < 7; i++) {
           vRow += "V";
           if (charSpacing > 0 && i < 6) vRow += " ".repeat(charSpacing);
         }
         vRow += "ARCHITECTURE .";
-        for (let i = 0; i < 4; i++) {
+        for (let i = 0; i < 5; i++) {
           vRow += "V";
-          if (charSpacing > 0 && i < 3) vRow += " ".repeat(charSpacing);
+          if (charSpacing > 0 && i < 4) vRow += " ".repeat(charSpacing);
         }
       } else if (cycle === 4) {
         // Row 10: 18 V's + FILM . + 2 V's
