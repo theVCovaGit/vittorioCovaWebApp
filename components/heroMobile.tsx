@@ -9,20 +9,22 @@ export default function HeroMobile() {
       {/* Wavy pattern background (desktop-style, scaled for mobile) */}
       <SlashVPatternMobile />
 
-      {/* Header - Fixed at top */}
-      <header className="fixed top-0 left-0 w-full z-50 bg-[#554943] flex items-start justify-start px-4 pt-4" style={{ height: 'var(--mobile-header-height)' }}>
-        <Link href="/" className="flex flex-col items-start justify-start no-underline leading-none">
-          <span className="text-[#fec776] font-blurlight text-2xl font-bold uppercase tracking-wide">
-            VITTORIO
-          </span>
-          <span className="text-[#fec776] font-blurlight text-2xl font-bold uppercase tracking-wide">
-            COVA
-          </span>
-          <span className="text-[#fec776] font-blurlight text-2xl font-bold uppercase tracking-wide">
-            STUDIO©
-          </span>
-        </Link>
-      </header>
+      {/* VITTORIO COVA STUDIO© - Aligned with pattern, right above it */}
+      <div className="absolute top-10 left-0 w-full z-50 flex items-start justify-start">
+        <div className="ml-9">
+          <Link href="/" className="flex flex-col items-start justify-start no-underline leading-none">
+            <span className="text-[#fec776] font-blurlight text-2xl font-bold uppercase tracking-wide">
+              VITTORIO
+            </span>
+            <span className="text-[#fec776] font-blurlight text-2xl font-bold uppercase tracking-wide">
+              COVA
+            </span>
+            <span className="text-[#fec776] font-blurlight text-2xl font-bold uppercase tracking-wide">
+              STUDIO©
+            </span>
+          </Link>
+        </div>
+      </div>
     </div>
   );
 }
