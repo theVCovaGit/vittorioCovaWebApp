@@ -11,7 +11,7 @@ export default function SlashVPatternMobile() {
   const cycles = 12; // 12 cycles = 24 rows total (12 /\ + 12 V)
   const slashCount = 20;
   const vCount = 24;
-  const rowSpacing = 24; // Scaled up proportionally
+  const rowSpacing = 21; // Reduced vertical spacing between rows
   const charSpacing = 0;
 
   useEffect(() => {
