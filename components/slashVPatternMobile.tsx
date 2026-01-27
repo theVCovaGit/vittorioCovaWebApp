@@ -86,14 +86,10 @@ export default function SlashVPatternMobile() {
           color: rgba(254, 244, 220, 0.25);
           width: fit-content;
           display: block;
-          /* Scale only – position unchanged. Responsive units: grows with viewport width. */
           font-size: clamp(14px, 5.25vw, 28px);
           line-height: 0.9em;
           letter-spacing: -0.06em;
         }
-        /* Optional breakpoints for finer tuning (uncomment and adjust as needed): */
-        /* @media (max-width: 380px) { .pattern-mobile-container { font-size: clamp(12px, 4.5vw, 18px); } } */
-        /* @media (min-width: 640px) { .pattern-mobile-container { font-size: clamp(18px, 6vw, 28px); } } */
       `}} />
       <div className="relative w-fit h-full overflow-hidden z-0">
         <div
