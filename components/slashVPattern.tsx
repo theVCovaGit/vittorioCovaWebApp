@@ -116,8 +116,7 @@ export default function SlashVPattern() {
     <div 
       className="absolute top-0 w-[50vw] h-full overflow-hidden z-0"
       style={{
-        left: "50%",
-        transform: "translateX(-50%)",
+        right: "6rem",
         paddingTop: "12rem",
       }}
     >
