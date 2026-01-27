@@ -6,9 +6,9 @@ import SlashVPatternMobile from "./slashVPatternMobile";
 export default function HeroMobile() {
   return (
     <div className="min-h-screen bg-[#554943] relative overflow-hidden">
-      {/* Centered wrapper - this is what gets centered */}
-      <div className="absolute inset-0 flex items-start justify-center">
-        {/* Content container - both pattern and text live here */}
+      {/* Centered wrapper - centers the content container */}
+      <div className="absolute inset-0 flex items-start justify-center overflow-hidden">
+        {/* Content container - centered via flex parent, both pattern and text live here */}
         <div className="relative w-full max-w-[85%] sm:max-w-[75%] h-full">
           {/* Pattern wrapper - absolutely positioned, left: 0 */}
           <div className="absolute top-0 left-0 right-0 bottom-0 pt-32 overflow-hidden z-0">
