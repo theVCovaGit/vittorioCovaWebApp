@@ -80,16 +80,6 @@ export default function SlashVPatternMobile() {
   return (
     <>
       <style dangerouslySetInnerHTML={{__html: `
-        :root {
-          --pattern-mobile-width: 85%;
-          --pattern-mobile-left: calc((100% - var(--pattern-mobile-width)) / 2);
-        }
-        @media (min-width: 640px) {
-          :root {
-            --pattern-mobile-width: 75%;
-            --pattern-mobile-left: calc((100% - var(--pattern-mobile-width)) / 2);
-          }
-        }
         .pattern-mobile-container {
           font-family: "Blur Light", sans-serif;
           white-space: pre;
@@ -122,13 +112,7 @@ export default function SlashVPatternMobile() {
       `}} />
       <div className="absolute inset-0 overflow-hidden z-0 pt-32 flex items-start justify-center">
         <div
-          className="pattern-mobile-container"
-          style={{
-            width: 'var(--pattern-mobile-width, 85%)',
-            maxWidth: 'var(--pattern-mobile-width, 85%)',
-            marginLeft: 'auto',
-            marginRight: 'auto'
-          }}
+          className="max-w-[85%] sm:max-w-[75%] mx-auto pattern-mobile-container"
         >
         {patternRows.map((row, i) => {
           // Check if row contains ARCHITECTURE text
