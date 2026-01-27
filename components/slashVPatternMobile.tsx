@@ -80,6 +80,14 @@ export default function SlashVPatternMobile() {
   return (
     <>
       <style dangerouslySetInnerHTML={{__html: `
+        :root {
+          --pattern-mobile-width: 85%;
+        }
+        @media (min-width: 640px) {
+          :root {
+            --pattern-mobile-width: 75%;
+          }
+        }
         .pattern-mobile-container {
           font-family: "Blur Light", sans-serif;
           white-space: pre;

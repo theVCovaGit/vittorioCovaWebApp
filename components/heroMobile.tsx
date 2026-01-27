@@ -14,13 +14,8 @@ export default function HeroMobile() {
         .vittorio-text-wrapper {
           position: absolute;
           top: 4rem;
-          left: calc((100% - 80%) / 2);
+          left: calc((100% - var(--pattern-mobile-width, 85%)) / 2);
           z-index: 50;
-        }
-        @media (min-width: 640px) {
-          .vittorio-text-wrapper {
-            left: calc((100% - 75%) / 2);
-          }
         }
       `}} />
       <div className="vittorio-text-wrapper">
