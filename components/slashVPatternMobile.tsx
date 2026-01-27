@@ -84,7 +84,7 @@ export default function SlashVPatternMobile() {
           font-family: "Blur Light", sans-serif;
           white-space: pre;
           color: rgba(254, 244, 220, 0.25);
-          width: 100%;
+          width: fit-content;
           display: block;
           /* Scale only – position unchanged. Responsive units: grows with viewport width. */
           font-size: clamp(14px, 5.25vw, 28px);
@@ -95,10 +95,10 @@ export default function SlashVPatternMobile() {
         /* @media (max-width: 380px) { .pattern-mobile-container { font-size: clamp(12px, 4.5vw, 18px); } } */
         /* @media (min-width: 640px) { .pattern-mobile-container { font-size: clamp(18px, 6vw, 28px); } } */
       `}} />
-      <div className="relative w-full h-full overflow-hidden z-0">
+      <div className="relative w-fit h-full overflow-hidden z-0">
         <div
-          className="w-full pattern-mobile-container"
-          style={{ width: '100%', maxWidth: '100%' }}
+          className="w-fit pattern-mobile-container"
+          style={{ width: 'fit-content', maxWidth: '100%' }}
         >
         {patternRows.map((row, i) => {
           // Check if row contains ARCHITECTURE text

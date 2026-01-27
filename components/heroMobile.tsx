@@ -32,11 +32,10 @@ export default function HeroMobile() {
       {/* Flex container - centers with responsive width */}
       <div className="hero-center-wrapper">
         <div className="hero-content-wrapper">
-          {/* Pattern + VCS share same container → left edge aligned, no breakpoint hacks */}
-          <div className="absolute top-0 left-0 right-0 bottom-0 pt-32 overflow-hidden z-0">
-            <SlashVPatternMobile />
-            <div className="absolute top-0 left-0 z-50 pt-16">
-              <Link href="/" className="flex flex-col items-start justify-start no-underline leading-none -space-y-3">
+          {/* Single container: VCS at top, then V's and /\'s below — no overlap */}
+          <div className="absolute top-0 left-0 right-0 bottom-0 pt-32 overflow-auto z-0 flex justify-center items-start">
+            <div className="w-fit flex flex-col">
+              <Link href="/" className="flex flex-col items-start justify-start no-underline leading-none -space-y-3 mb-6">
                 <span className="text-[#fec776] font-blurlight text-2xl font-bold uppercase tracking-wide">
                   VITTORIO
                 </span>
@@ -47,6 +46,7 @@ export default function HeroMobile() {
                   STUDIO©
                 </span>
               </Link>
+              <SlashVPatternMobile />
             </div>
           </div>
         </div>
