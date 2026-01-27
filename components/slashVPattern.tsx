@@ -114,19 +114,35 @@ export default function SlashVPattern() {
 
   return (
     <div 
-      className="absolute top-0 w-[50vw] h-full overflow-hidden z-0"
+      className="absolute top-0 w-[50vw] h-full overflow-hidden z-0 flex flex-col pt-40"
       style={{
         right: "6rem",
-        paddingTop: "12rem",
       }}
     >
+      <Link
+        href="/"
+        className="flex items-center flex-shrink-0 mb-0 no-underline"
+      >
+        <span className="text-[#fec776] font-blurlight text-3xl font-bold uppercase tracking-wide">
+          VITTORIO
+        </span>
+        <span className="text-[#fec776] font-blurlight text-3xl font-bold uppercase tracking-wide ml-24">
+          COVA
+        </span>
+        <span className="text-[#fec776] font-blurlight text-3xl font-bold uppercase tracking-wide ml-24">
+          STUDIO
+        </span>
+        <span className="text-[#fec776] font-blurlight text-sm font-bold uppercase tracking-wide ml-1 relative top-1">
+          ©
+        </span>
+      </Link>
       <div
         style={{
           fontFamily: "Blur Light, sans-serif",
           fontSize: "32px",
           lineHeight: `${rowSpacing}px`,
           whiteSpace: "pre",
-          letterSpacing: "-2.4px", // Proportional spacing (scaled up)
+          letterSpacing: "-2.4px",
         }}
       >
         {patternRows.map((row, rowIndex) => {
