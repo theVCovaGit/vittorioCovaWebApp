@@ -84,6 +84,8 @@ export default function SlashVPatternMobile() {
           font-family: "Blur Light", sans-serif;
           white-space: pre;
           color: rgba(254, 244, 220, 0.25);
+          width: 100%;
+          display: block;
         }
         /* Small phones (height < 700px) - make it shorter */
         @media (max-height: 700px) {
