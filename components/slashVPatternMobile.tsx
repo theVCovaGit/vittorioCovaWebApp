@@ -86,43 +86,26 @@ export default function SlashVPatternMobile() {
           color: rgba(254, 244, 220, 0.25);
           width: 100%;
           display: block;
+          /* Scale only – position unchanged. Responsive units: grows with viewport width. */
+          font-size: clamp(14px, 5.25vw, 28px);
+          line-height: 0.9em;
+          letter-spacing: -0.06em;
         }
-        /* Small phones (height < 700px) - make it shorter */
-        @media (max-height: 700px) {
-          .pattern-mobile-container {
-            font-size: clamp(16px, 5.5vw, 20px) !important;
-            line-height: 16px !important;
-            letter-spacing: -1.2px !important;
-          }
-        }
-        /* Medium phones (height 700px - 800px) */
-        @media (min-height: 700px) and (max-height: 800px) {
-          .pattern-mobile-container {
-            font-size: clamp(18px, 6vw, 22px) !important;
-            line-height: 18px !important;
-            letter-spacing: -1.5px !important;
-          }
-        }
-        /* Larger phones (height > 800px) */
-        @media (min-height: 800px) {
-          .pattern-mobile-container {
-            font-size: clamp(20px, 6.5vw, 26px) !important;
-            line-height: 21px !important;
-            letter-spacing: -1.8px !important;
-          }
-        }
+        /* Optional breakpoints for finer tuning (uncomment and adjust as needed): */
+        /* @media (max-width: 380px) { .pattern-mobile-container { font-size: clamp(12px, 4.5vw, 18px); } } */
+        /* @media (min-width: 640px) { .pattern-mobile-container { font-size: clamp(18px, 6vw, 28px); } } */
       `}} />
       <div className="relative w-full h-full overflow-hidden z-0">
         <div
           className="w-full pattern-mobile-container"
-          style={{ width: '100%', maxWidth: '100%', textAlign: 'center' }}
+          style={{ width: '100%', maxWidth: '100%' }}
         >
         {patternRows.map((row, i) => {
           // Check if row contains ARCHITECTURE text
           if (row.includes("ARCHITECTURE")) {
             const parts = row.split("ARCHITECTURE .");
             return (
-              <div key={i} className="pointer-events-auto relative" style={{ zIndex: 20, textAlign: 'center' }}>
+              <div key={i} className="pointer-events-auto relative" style={{ zIndex: 20 }}>
                 <span style={{ color: "rgba(254, 244, 220, 0.25)" }}>{parts[0]}</span>
                 <Link 
                   href="/architecture"
@@ -144,7 +127,7 @@ export default function SlashVPatternMobile() {
           if (row.includes("FILM")) {
             const parts = row.split("FILM .");
             return (
-              <div key={i} className="pointer-events-auto relative" style={{ zIndex: 20, textAlign: 'center' }}>
+              <div key={i} className="pointer-events-auto relative" style={{ zIndex: 20 }}>
                 <span style={{ color: "rgba(254, 244, 220, 0.25)" }}>{parts[0]}</span>
                 <Link 
                   href="/film"
@@ -164,7 +147,7 @@ export default function SlashVPatternMobile() {
           if (row.includes("ART")) {
             const parts = row.split("ART .");
             return (
-              <div key={i} className="pointer-events-auto relative" style={{ zIndex: 20, textAlign: 'center' }}>
+              <div key={i} className="pointer-events-auto relative" style={{ zIndex: 20 }}>
                 <span style={{ color: "rgba(254, 244, 220, 0.25)" }}>{parts[0]}</span>
                 <Link 
                   href="/art"
@@ -181,7 +164,7 @@ export default function SlashVPatternMobile() {
             );
           }
           return (
-            <div key={i} style={{ color: "rgba(254, 244, 220, 0.25)", textAlign: 'center' }}>
+            <div key={i} style={{ color: "rgba(254, 244, 220, 0.25)" }}>
               {row}
             </div>
           );

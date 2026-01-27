@@ -32,24 +32,22 @@ export default function HeroMobile() {
       {/* Flex container - centers with responsive width */}
       <div className="hero-center-wrapper">
         <div className="hero-content-wrapper">
-          {/* Pattern wrapper - absolutely positioned, left: 0 */}
+          {/* Pattern + VCS share same container → left edge aligned, no breakpoint hacks */}
           <div className="absolute top-0 left-0 right-0 bottom-0 pt-32 overflow-hidden z-0">
             <SlashVPatternMobile />
-          </div>
-          
-          {/* Text - absolutely positioned, left: 0, same parent = guaranteed alignment */}
-          <div className="absolute top-16 left-0 z-50">
-            <Link href="/" className="flex flex-col items-start justify-start no-underline leading-none -space-y-3">
-              <span className="text-[#fec776] font-blurlight text-2xl font-bold uppercase tracking-wide">
-                VITTORIO
-              </span>
-              <span className="text-[#fec776] font-blurlight text-2xl font-bold uppercase tracking-wide">
-                COVA
-              </span>
-              <span className="text-[#fec776] font-blurlight text-2xl font-bold uppercase tracking-wide">
-                STUDIO©
-              </span>
-            </Link>
+            <div className="absolute top-0 left-0 z-50 pt-16">
+              <Link href="/" className="flex flex-col items-start justify-start no-underline leading-none -space-y-3">
+                <span className="text-[#fec776] font-blurlight text-2xl font-bold uppercase tracking-wide">
+                  VITTORIO
+                </span>
+                <span className="text-[#fec776] font-blurlight text-2xl font-bold uppercase tracking-wide">
+                  COVA
+                </span>
+                <span className="text-[#fec776] font-blurlight text-2xl font-bold uppercase tracking-wide">
+                  STUDIO©
+                </span>
+              </Link>
+            </div>
           </div>
         </div>
       </div>
