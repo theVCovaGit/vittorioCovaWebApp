@@ -41,7 +41,7 @@ export default function HeroMobile() {
       <div className="hero-center-wrapper">
         <div className="hero-content-wrapper">
           {/* Single container: VCS at top, pattern below; same size, moved higher, always above footer, no scroll */}
-          <div className="absolute pt-12 z-0 flex justify-center items-start hero-pattern-zone">
+          <div className="absolute pt-6 z-0 flex justify-center items-start hero-pattern-zone">
             <div className="w-fit flex flex-col">
               <Link href="/" className="flex flex-col items-start justify-start no-underline leading-none -space-y-3">
                 <span className="text-[#fec776] font-blurlight text-2xl font-bold uppercase tracking-wide">
