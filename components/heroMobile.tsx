@@ -27,14 +27,22 @@ export default function HeroMobile() {
             max-width: 75vw;
           }
         }
+        /* Content area ends above footer; no scroll, pattern trimmed via overflow hidden */
+        .hero-pattern-zone {
+          top: 0;
+          left: 0;
+          right: 0;
+          bottom: max(12rem, 26vh);
+          overflow: hidden;
+        }
       `}} />
       
       {/* Flex container - centers with responsive width */}
       <div className="hero-center-wrapper">
         <div className="hero-content-wrapper">
-          {/* Single container: VCS at top, then V's and /\'s below — no overlap */}
-          <div className="absolute top-0 left-0 right-0 bottom-0 pt-32 overflow-auto z-0 flex justify-center items-start">
-            <div className="w-fit flex flex-col pb-52">
+          {/* Single container: VCS at top, pattern below; ends above footer, no scroll */}
+          <div className="absolute pt-32 z-0 flex justify-center items-start hero-pattern-zone">
+            <div className="w-fit flex flex-col">
               <Link href="/" className="flex flex-col items-start justify-start no-underline leading-none -space-y-3">
                 <span className="text-[#fec776] font-blurlight text-2xl font-bold uppercase tracking-wide">
                   VITTORIO
