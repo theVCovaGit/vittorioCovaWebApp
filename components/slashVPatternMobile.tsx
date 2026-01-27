@@ -115,14 +115,14 @@ export default function SlashVPatternMobile() {
       <div className="relative w-full h-full overflow-hidden z-0">
         <div
           className="w-full pattern-mobile-container"
-          style={{ width: '100%', maxWidth: '100%' }}
+          style={{ width: '100%', maxWidth: '100%', textAlign: 'center' }}
         >
         {patternRows.map((row, i) => {
           // Check if row contains ARCHITECTURE text
           if (row.includes("ARCHITECTURE")) {
             const parts = row.split("ARCHITECTURE .");
             return (
-              <div key={i} className="pointer-events-auto relative" style={{ zIndex: 20 }}>
+              <div key={i} className="pointer-events-auto relative" style={{ zIndex: 20, textAlign: 'center' }}>
                 <span style={{ color: "rgba(254, 244, 220, 0.25)" }}>{parts[0]}</span>
                 <Link 
                   href="/architecture"
@@ -144,7 +144,7 @@ export default function SlashVPatternMobile() {
           if (row.includes("FILM")) {
             const parts = row.split("FILM .");
             return (
-              <div key={i} className="pointer-events-auto relative" style={{ zIndex: 20 }}>
+              <div key={i} className="pointer-events-auto relative" style={{ zIndex: 20, textAlign: 'center' }}>
                 <span style={{ color: "rgba(254, 244, 220, 0.25)" }}>{parts[0]}</span>
                 <Link 
                   href="/film"
@@ -164,7 +164,7 @@ export default function SlashVPatternMobile() {
           if (row.includes("ART")) {
             const parts = row.split("ART .");
             return (
-              <div key={i} className="pointer-events-auto relative" style={{ zIndex: 20 }}>
+              <div key={i} className="pointer-events-auto relative" style={{ zIndex: 20, textAlign: 'center' }}>
                 <span style={{ color: "rgba(254, 244, 220, 0.25)" }}>{parts[0]}</span>
                 <Link 
                   href="/art"
@@ -181,7 +181,7 @@ export default function SlashVPatternMobile() {
             );
           }
           return (
-            <div key={i} style={{ color: "rgba(254, 244, 220, 0.25)" }}>
+            <div key={i} style={{ color: "rgba(254, 244, 220, 0.25)", textAlign: 'center' }}>
               {row}
             </div>
           );
