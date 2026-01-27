@@ -34,7 +34,7 @@ export default function HeroMobile() {
         <div className="hero-content-wrapper">
           {/* Single container: VCS at top, then V's and /\'s below — no overlap */}
           <div className="absolute top-0 left-0 right-0 bottom-0 pt-32 overflow-auto z-0 flex justify-center items-start">
-            <div className="w-fit flex flex-col">
+            <div className="w-fit flex flex-col pb-52">
               <Link href="/" className="flex flex-col items-start justify-start no-underline leading-none -space-y-3">
                 <span className="text-[#fec776] font-blurlight text-2xl font-bold uppercase tracking-wide">
                   VITTORIO
