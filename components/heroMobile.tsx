@@ -7,11 +7,17 @@ export default function HeroMobile() {
   return (
     <div className="min-h-screen bg-[#554943] relative overflow-hidden">
       <style dangerouslySetInnerHTML={{__html: `
-        .hero-content-container {
+        .hero-wrapper {
           position: absolute;
-          top: 0;
-          left: 50%;
-          transform: translateX(-50%);
+          inset: 0;
+          display: flex;
+          justify-content: center;
+          align-items: flex-start;
+          overflow: hidden;
+        }
+        
+        .hero-content-container {
+          position: relative;
           width: 85%;
           height: 100%;
         }
@@ -20,8 +26,6 @@ export default function HeroMobile() {
         @media (min-width: 375px) and (max-width: 390px) {
           .hero-content-container {
             width: 85%;
-            left: 50%;
-            transform: translateX(-50%);
           }
         }
         
@@ -29,8 +33,6 @@ export default function HeroMobile() {
         @media (min-width: 390px) and (max-width: 428px) {
           .hero-content-container {
             width: 85%;
-            left: 50%;
-            transform: translateX(-50%);
           }
         }
         
@@ -38,8 +40,6 @@ export default function HeroMobile() {
         @media (min-width: 428px) and (max-width: 430px) {
           .hero-content-container {
             width: 85%;
-            left: 50%;
-            transform: translateX(-50%);
           }
         }
         
@@ -47,8 +47,6 @@ export default function HeroMobile() {
         @media (min-width: 640px) and (max-width: 768px) {
           .hero-content-container {
             width: 75%;
-            left: 50%;
-            transform: translateX(-50%);
           }
         }
         
@@ -56,8 +54,6 @@ export default function HeroMobile() {
         @media (min-width: 768px) and (max-width: 834px) {
           .hero-content-container {
             width: 75%;
-            left: 50%;
-            transform: translateX(-50%);
           }
         }
         
@@ -65,8 +61,6 @@ export default function HeroMobile() {
         @media (min-width: 834px) and (max-width: 1024px) {
           .hero-content-container {
             width: 75%;
-            left: 50%;
-            transform: translateX(-50%);
           }
         }
         
@@ -74,14 +68,14 @@ export default function HeroMobile() {
         @media (min-width: 1024px) {
           .hero-content-container {
             width: 75%;
-            left: 50%;
-            transform: translateX(-50%);
           }
         }
       `}} />
       
-      {/* Content container - manually centered with breakpoints */}
-      <div className="hero-content-container">
+      {/* Flex wrapper - centers the content container */}
+      <div className="hero-wrapper">
+        {/* Content container - manually sized with breakpoints */}
+        <div className="hero-content-container">
         {/* Pattern wrapper - absolutely positioned, left: 0 */}
         <div className="absolute top-0 left-0 right-0 bottom-0 pt-32 overflow-hidden z-0">
           <SlashVPatternMobile />
@@ -101,6 +95,7 @@ export default function HeroMobile() {
             </span>
           </Link>
         </div>
+      </div>
       </div>
     </div>
   );

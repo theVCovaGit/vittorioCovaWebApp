@@ -115,6 +115,7 @@ export default function SlashVPatternMobile() {
       <div className="relative w-full h-full overflow-hidden z-0">
         <div
           className="w-full pattern-mobile-container"
+          style={{ width: '100%', maxWidth: '100%' }}
         >
         {patternRows.map((row, i) => {
           // Check if row contains ARCHITECTURE text
