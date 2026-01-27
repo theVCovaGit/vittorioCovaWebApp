@@ -114,29 +114,31 @@ export default function SlashVPattern() {
 
   return (
     <div 
-      className="absolute top-0 w-[50vw] h-full overflow-hidden z-0 flex flex-col pt-40"
-      style={{
-        right: "6rem",
-      }}
+      className="absolute top-0 left-0 right-[6rem] h-full overflow-hidden z-0 flex flex-col pt-40"
     >
       <Link
         href="/"
-        className="flex items-center flex-shrink-0 mb-0 no-underline"
+        className="flex flex-row flex-shrink-0 mb-0 no-underline items-center w-full"
       >
-        <span className="text-[#fec776] font-blurlight text-3xl font-bold uppercase tracking-wide">
-          VITTORIO
-        </span>
-        <span className="text-[#fec776] font-blurlight text-3xl font-bold uppercase tracking-wide ml-24">
-          COVA
-        </span>
-        <span className="text-[#fec776] font-blurlight text-3xl font-bold uppercase tracking-wide ml-24">
-          STUDIO
-        </span>
-        <span className="text-[#fec776] font-blurlight text-sm font-bold uppercase tracking-wide ml-1 relative top-1">
-          ©
-        </span>
+        <div className="flex items-center justify-end flex-shrink-0 pr-6 w-[calc(50vw-6rem)]">
+          <span className="text-[#fec776] font-blurlight text-3xl font-bold uppercase tracking-wide">
+            VITTORIO
+          </span>
+          <span className="text-[#fec776] font-blurlight text-3xl font-bold uppercase tracking-wide ml-24">
+            COVA
+          </span>
+        </div>
+        <div className="flex items-center flex-shrink-0 w-[50vw]">
+          <span className="text-[#fec776] font-blurlight text-3xl font-bold uppercase tracking-wide">
+            STUDIO
+          </span>
+          <span className="text-[#fec776] font-blurlight text-sm font-bold uppercase tracking-wide ml-1 relative top-1">
+            ©
+          </span>
+        </div>
       </Link>
       <div
+        className="ml-auto w-[50vw]"
         style={{
           fontFamily: "Blur Light, sans-serif",
           fontSize: "32px",
