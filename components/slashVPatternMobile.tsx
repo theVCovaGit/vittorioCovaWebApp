@@ -110,9 +110,9 @@ export default function SlashVPatternMobile() {
           }
         }
       `}} />
-      <div className="relative w-full h-full overflow-hidden z-0 pt-32 left-0">
+      <div className="relative w-full h-full overflow-hidden z-0">
         <div
-          className="w-full pattern-mobile-container left-0"
+          className="w-full pattern-mobile-container"
         >
         {patternRows.map((row, i) => {
           // Check if row contains ARCHITECTURE text
