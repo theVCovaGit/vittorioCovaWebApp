@@ -10,6 +10,8 @@ export default function HeroMobile() {
         .hero-content-container {
           position: absolute;
           top: 0;
+          left: 50%;
+          transform: translateX(-50%);
           width: 85%;
           height: 100%;
         }
@@ -17,56 +19,63 @@ export default function HeroMobile() {
         /* iPhone SE (375px) */
         @media (min-width: 375px) and (max-width: 390px) {
           .hero-content-container {
-            left: 7.5%;
             width: 85%;
+            left: 50%;
+            transform: translateX(-50%);
           }
         }
         
         /* iPhone 12/13/14 (390px) */
         @media (min-width: 390px) and (max-width: 428px) {
           .hero-content-container {
-            left: 7.5%;
             width: 85%;
+            left: 50%;
+            transform: translateX(-50%);
           }
         }
         
         /* iPhone 14 Pro Max (428px) */
         @media (min-width: 428px) and (max-width: 430px) {
           .hero-content-container {
-            left: 7.5%;
             width: 85%;
+            left: 50%;
+            transform: translateX(-50%);
           }
         }
         
         /* Small tablets (640px - 768px) */
         @media (min-width: 640px) and (max-width: 768px) {
           .hero-content-container {
-            left: 12.5%;
             width: 75%;
+            left: 50%;
+            transform: translateX(-50%);
           }
         }
         
         /* iPad (768px - 834px) */
         @media (min-width: 768px) and (max-width: 834px) {
           .hero-content-container {
-            left: 12.5%;
             width: 75%;
+            left: 50%;
+            transform: translateX(-50%);
           }
         }
         
         /* iPad Pro (834px - 1024px) */
         @media (min-width: 834px) and (max-width: 1024px) {
           .hero-content-container {
-            left: 12.5%;
             width: 75%;
+            left: 50%;
+            transform: translateX(-50%);
           }
         }
         
         /* Larger tablets and small desktops (1024px+) */
         @media (min-width: 1024px) {
           .hero-content-container {
-            left: 12.5%;
             width: 75%;
+            left: 50%;
+            transform: translateX(-50%);
           }
         }
       `}} />
