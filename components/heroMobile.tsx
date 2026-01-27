@@ -15,24 +15,16 @@ export default function HeroMobile() {
         // Find the actual pattern content (the div with pattern-mobile-container class)
         const patternContent = patternContainerRef.current.querySelector('.pattern-mobile-container') as HTMLElement;
         
-        if (patternContent) {
+        if (patternContent && patternContainerRef.current) {
           const patternRect = patternContent.getBoundingClientRect();
-          const parentRect = patternContainerRef.current.offsetParent?.getBoundingClientRect();
+          const containerRect = patternContainerRef.current.getBoundingClientRect();
           
-          if (parentRect) {
-            // Calculate left position of pattern content relative to parent
-            const left = patternRect.left - parentRect.left;
-            setLeftOffset(left);
-          }
+          // Calculate left position of pattern content relative to its container
+          const left = patternRect.left - containerRect.left;
+          setLeftOffset(left);
         } else {
-          // Fallback: use container's left edge
-          const patternRect = patternContainerRef.current.getBoundingClientRect();
-          const parentRect = patternContainerRef.current.offsetParent?.getBoundingClientRect();
-          
-          if (parentRect) {
-            const left = patternRect.left - parentRect.left;
-            setLeftOffset(left);
-          }
+          // Fallback: if pattern content not found, align to container's left (0)
+          setLeftOffset(0);
         }
       }
     };
@@ -45,6 +37,11 @@ export default function HeroMobile() {
     const resizeObserver = new ResizeObserver(updateAlignment);
     if (patternContainerRef.current) {
       resizeObserver.observe(patternContainerRef.current);
+      // Also observe the pattern content when it's available
+      const patternContent = patternContainerRef.current.querySelector('.pattern-mobile-container');
+      if (patternContent) {
+        resizeObserver.observe(patternContent);
+      }
     }
     
     // Also update after delays to ensure pattern is rendered
@@ -66,12 +63,12 @@ export default function HeroMobile() {
       {/* Shared centered container for pattern and text alignment */}
       <div className="absolute inset-0 flex items-start justify-center overflow-hidden">
         {/* Centered content wrapper - both pattern and text align to this */}
-        <div className="relative w-full max-w-[85%] sm:max-w-[75%] h-full">
+        <div 
+          ref={patternContainerRef}
+          className="relative w-full max-w-[85%] sm:max-w-[75%] h-full"
+        >
           {/* Pattern positioned within shared container */}
-          <div 
-            ref={patternContainerRef}
-            className="absolute inset-0 pt-32 overflow-hidden z-0"
-          >
+          <div className="absolute inset-0 pt-32 overflow-hidden z-0">
             <SlashVPatternMobile />
           </div>
           

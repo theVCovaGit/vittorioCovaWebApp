@@ -110,7 +110,7 @@ export default function SlashVPatternMobile() {
           }
         }
       `}} />
-      <div className="relative w-full h-full overflow-hidden z-0 pt-32 flex items-start justify-start">
+      <div className="relative w-full h-full overflow-hidden z-0 pt-32">
         <div
           className="w-full pattern-mobile-container"
         >
