@@ -161,12 +161,14 @@ export default function SlashVPattern() {
               </div>
               <div key="footer-links" style={rowStyle}>
                 <span style={{ color: "transparent" }}>{ "V".repeat(V_FLAG_COUNT) }</span>
-                <span style={{ color: "#fec776" }}>
-                  <Link href="/contact" className="text-[#fec776] no-underline hover:text-white">CONTACT</Link>
-                  <span> / </span>
-                  <Link href="/about" className="text-[#fec776] no-underline hover:text-white">ABOUT</Link>
-                  <span> / </span>
-                  <Link href="/news" className="text-[#fec776] no-underline hover:text-white">NEWS</Link>
+                <span style={{ display: "inline-block", width: 367, textAlign: "center" }}>
+                  <span style={{ color: "#fec776" }}>
+                    <Link href="/contact" className="text-[#fec776] no-underline hover:text-white">CONTACT</Link>
+                    <span> / </span>
+                    <Link href="/about" className="text-[#fec776] no-underline hover:text-white">ABOUT</Link>
+                    <span> / </span>
+                    <Link href="/news" className="text-[#fec776] no-underline hover:text-white">NEWS</Link>
+                  </span>
                 </span>
               </div>
             </>
