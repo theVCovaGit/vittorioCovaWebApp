@@ -127,7 +127,7 @@ export default function SlashVPattern() {
         href="/"
         className="flex flex-row flex-shrink-0 mb-0 no-underline items-center w-full"
       >
-        <div className="flex items-center justify-end flex-shrink-0 pr-6 w-[calc(50vw-6rem)]">
+        <div className="flex items-center justify-end flex-shrink-0 pr-24 w-[calc(50vw-6rem)]">
           <span className="text-[#fec776] font-blurlight text-3xl font-bold uppercase tracking-wide">
             VITTORIO
           </span>
