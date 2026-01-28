@@ -10,6 +10,7 @@ export default function Footer() {
   const isArchitecturePage = pathname === "/architecture";
   const isArtPage = pathname === "/art";
   const isMainPage = pathname === "/";
+  const isAdminPage = pathname === "/admin";
   // Lower footer position on all pages except hero, contact, about, news
   const shouldLowerFooter = !["/", "/contact", "/about", "/news"].includes(pathname);
   const [isExpandedViewOpen, setIsExpandedViewOpen] = useState(false);
@@ -62,10 +63,10 @@ export default function Footer() {
   /* Main: barcode + links in SlashVPattern. Art/Film: CreativeSectionFooter. No global footer. */
   if (isMainPage || isArtPage || pathname === "/film") return null;
 
-  const footerBg = (isArchitecturePage && isExpandedViewOpen) ? "bg-transparent" : "bg-[#554943]";
+  const footerBg = (isArchitecturePage && isExpandedViewOpen) ? "bg-transparent" : (isAdminPage ? "bg-transparent" : "bg-[#554943]");
 
   /* Architecture: same dimensions & accommodation as /art and /film (367×42 barcode, 367px links, Blur Light 32px, pr-[6rem]). Colors and footer bg unchanged. */
-  if (isArchitecturePage) {
+  if (isArchitecturePage || isAdminPage) {
     return (
       <footer
         className={`fixed bottom-0 left-0 right-0 w-full font-blurlight z-50 pointer-events-auto flex flex-col items-end justify-end pr-[6rem] pb-4 pt-4 ${footerBg}`}
