@@ -9,6 +9,7 @@ interface ArtProject {
   city: string;
   discipline: string;
   collection: string;
+  collectionDescription?: string;
   year?: string;
   images: string[];
   icon?: string;
@@ -27,6 +28,7 @@ interface ArtProjectRow {
   city: string;
   category: string;
   collection: string;
+  collection_description: string;
   year: string;
   images: string[];
   icon: string;
@@ -92,6 +94,7 @@ export async function GET(
       city: project.city,
       discipline: project.category,
       collection: project.collection || "",
+      collectionDescription: project.collection_description || "",
       year: project.year || "",
       images: project.images || [],
       icon: project.icon || "",

@@ -13,6 +13,7 @@ interface ArtProject {
   city: string;
   discipline: string;
   collection: string;
+  collectionDescription?: string;
   year?: string;
   images: string[];
   icon?: string;
@@ -28,6 +29,7 @@ export default function ArtContentPanel({ isActive }: { isActive: boolean }) {
   const [title, setTitle] = useState("");
   const [discipline, setDiscipline] = useState("");
   const [collection, setCollection] = useState("");
+  const [collectionDescription, setCollectionDescription] = useState("");
   const [year, setYear] = useState("");
   const [icon, setIcon] = useState<string>("");
   const [images, setImages] = useState<string[]>([]);
@@ -56,6 +58,7 @@ export default function ArtContentPanel({ isActive }: { isActive: boolean }) {
     setTitle("");
     setDiscipline("");
     setCollection("");
+    setCollectionDescription("");
     setYear("");
     setIcon("");
     setImages([]);
@@ -150,6 +153,7 @@ export default function ArtContentPanel({ isActive }: { isActive: boolean }) {
       city: "", // Keep for backward compatibility
       discipline,
       collection,
+      collectionDescription,
       year,
       images,
       icon,
@@ -283,6 +287,15 @@ export default function ArtContentPanel({ isActive }: { isActive: boolean }) {
             </div>
           )}
         </div>
+
+        <label className="block mb-1 font-minecraft text-sm text-[#FFF3DF]">Collection Description</label>
+        <textarea
+          placeholder="Enter a description for this collection..."
+          value={collectionDescription}
+          onChange={(e) => setCollectionDescription(e.target.value)}
+          className="w-full p-2 border border-gray-400 rounded-md mb-2 min-h-[80px] resize-y"
+          rows={3}
+        />
 
         <label className="block mb-1 font-minecraft text-sm text-[#FFF3DF]">Title</label>
         <input
@@ -457,6 +470,7 @@ export default function ArtContentPanel({ isActive }: { isActive: boolean }) {
                   setTitle(selectedProject.title);
                   setDiscipline(selectedProject.discipline);
                   setCollection(selectedProject.collection);
+                  setCollectionDescription(selectedProject.collectionDescription || "");
                   setYear(selectedProject.year || "");
                   setIcon(selectedProject.icon || "");
                   setImages(selectedProject.images);

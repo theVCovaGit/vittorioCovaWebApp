@@ -13,6 +13,7 @@ interface ArtProject {
   city: string;
   discipline: string; // e.g., "painting", "sculpture"
   collection?: string;
+  collectionDescription?: string;
   position?: number;
   page?: number;
   forSale?: boolean;
@@ -31,6 +32,7 @@ interface ArtProjectRow {
   city: string;
   category: string;
   collection: string;
+  collection_description: string;
   position: number;
   page: number;
   for_sale: boolean;
@@ -79,6 +81,7 @@ export async function GET() {
       city: p.city,
       discipline: p.category, // mapping category to discipline
       collection: p.collection || "",
+      collectionDescription: p.collection_description || "",
       position: p.position || 1,
       page: p.page || 1,
       forSale: p.for_sale ?? true,
@@ -122,10 +125,10 @@ export async function POST(req: NextRequest) {
         FROM information_schema.columns 
         WHERE table_schema = 'public' 
         AND table_name = 'art_projects' 
-        AND column_name IN ('for_sale', 'materials', 'dimensions', 'price')
+        AND column_name IN ('for_sale', 'materials', 'dimensions', 'price', 'collection_description')
       `;
       const existingColumns = (columnCheck as Array<{ column_name: string }>).map((row) => row.column_name);
-      const requiredColumns = ['for_sale', 'materials', 'dimensions', 'price'];
+      const requiredColumns = ['for_sale', 'materials', 'dimensions', 'price', 'collection_description'];
       const missingColumns = requiredColumns.filter(col => !existingColumns.includes(col));
       
       if (missingColumns.length > 0) {
@@ -140,6 +143,8 @@ export async function POST(req: NextRequest) {
               await sql`ALTER TABLE art_projects ADD COLUMN dimensions TEXT`;
             } else if (col === 'price') {
               await sql`ALTER TABLE art_projects ADD COLUMN price VARCHAR(255)`;
+            } else if (col === 'collection_description') {
+              await sql`ALTER TABLE art_projects ADD COLUMN collection_description TEXT`;
             }
             console.log(`✅ Added missing column ${col}`);
             } catch (err: unknown) {
@@ -155,8 +160,8 @@ export async function POST(req: NextRequest) {
     }
 
     const [newProject] = await sql`
-      INSERT INTO art_projects (title, country, city, category, year, images, icon, collection, position, page, for_sale, materials, dimensions, price)
-      VALUES (${project.title}, ${project.country || ""}, ${project.city || ""}, ${project.discipline}, ${project.year || ""}, ${project.images}, ${project.icon || ""}, ${project.collection || ""}, ${project.position || 1}, ${project.page || 1}, ${project.forSale ?? true}, ${project.materials || ""}, ${project.dimensions || ""}, ${project.price || ""})
+      INSERT INTO art_projects (title, country, city, category, year, images, icon, collection, collection_description, position, page, for_sale, materials, dimensions, price)
+      VALUES (${project.title}, ${project.country || ""}, ${project.city || ""}, ${project.discipline}, ${project.year || ""}, ${project.images}, ${project.icon || ""}, ${project.collection || ""}, ${project.collectionDescription || ""}, ${project.position || 1}, ${project.page || 1}, ${project.forSale ?? true}, ${project.materials || ""}, ${project.dimensions || ""}, ${project.price || ""})
       RETURNING *
     `;
 
@@ -171,6 +176,7 @@ export async function POST(req: NextRequest) {
       city: newProject.city,
       discipline: newProject.category,
       collection: newProject.collection || "",
+      collectionDescription: newProject.collection_description || "",
       position: newProject.position || 1,
       page: newProject.page || 1,
       forSale: newProject.for_sale ?? true,
@@ -219,6 +225,7 @@ export async function PUT(req: NextRequest) {
         images = ${project.images},
         icon = ${project.icon || ""},
         collection = ${project.collection || ""},
+        collection_description = ${project.collectionDescription || ""},
         position = ${project.position || 1},
         page = ${project.page || 1},
         for_sale = ${project.forSale ?? true},
@@ -245,6 +252,7 @@ export async function PUT(req: NextRequest) {
       city: updatedProject.city,
       discipline: updatedProject.category,
       collection: updatedProject.collection || "",
+      collectionDescription: updatedProject.collection_description || "",
       position: updatedProject.position || 1,
       page: updatedProject.page || 1,
       forSale: updatedProject.for_sale ?? true,
