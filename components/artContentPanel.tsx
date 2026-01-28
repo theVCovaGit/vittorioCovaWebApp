@@ -100,6 +100,22 @@ export default function ArtContentPanel({ isActive }: { isActive: boolean }) {
     setSelectedProject(match ?? null);
   }, [projects, position, page]);
 
+  // When collection changes, keep selected project in sync with current collection + position (art: positions are per collection)
+  useEffect(() => {
+    if (!collection.trim()) {
+      setSelectedProject(null);
+      return;
+    }
+    const collectionKey = collection.trim().toLowerCase();
+    const inCollection = projects.filter(
+      (p) => (p.collection ?? "").trim().toLowerCase() === collectionKey
+    );
+    const match = inCollection.find(
+      (p) => p.position === position && (p.page || 1) === page
+    );
+    setSelectedProject(match ?? null);
+  }, [collection, projects, position, page]);
+
   // Extract unique collections from projects
   const existingCollections = Array.from(
     new Set(
@@ -108,6 +124,14 @@ export default function ArtContentPanel({ isActive }: { isActive: boolean }) {
         .filter((c): c is string => Boolean(c && c.trim()))
     )
   ).sort();
+
+  // Projects in the current collection only (for position grid – so user sees which of the 4 spots are taken in this collection)
+  const collectionKey = collection.trim().toLowerCase();
+  const projectsInCollection = collectionKey
+    ? projects.filter(
+        (p) => (p.collection ?? "").trim().toLowerCase() === collectionKey
+      )
+    : [];
 
   // POST or PUT
   const handleSubmit = async () => {
@@ -342,31 +366,37 @@ export default function ArtContentPanel({ isActive }: { isActive: boolean }) {
 
         <div className="mt-4 mb-1 flex items-center gap-2 font-minecraft text-sm text-[#FFF3DF]">
           <span>Project position</span>
-          <InfoTooltip message="Choose where this specific project will be positioned." />
+          <InfoTooltip message="Choose where this project appears within its collection. Select or enter a collection above first – positions show which of the 4 spots are taken in that collection." />
         </div>
-        <ProjectPosition 
-          slotsPerPage={4}
-          minimalSlots
-          onPositionSelect={(selectedPos) => {
-            setPosition(selectedPos);
-            const associated = projects.find(
-              (proj) =>
-                proj.position === selectedPos && (proj.page || 1) === page
-            );
-            setSelectedProject(associated ?? null);
-          }}
-          currentPosition={position}
-          currentPage={page}
-          onPageChange={(newPage) => {
-            setPage(newPage);
-            const associated = projects.find(
-              (proj) =>
-                proj.position === position && (proj.page || 1) === newPage
-            );
-            setSelectedProject(associated ?? null);
-          }}
-          projects={projects}
-        />
+        {!collection.trim() ? (
+          <div className="rounded-md border border-dashed border-gray-500/60 p-4 text-sm text-[#FFF3DF]/80 font-minecraft">
+            Select or enter a collection above to choose a position. Positions are per collection so you don’t use a spot already taken.
+          </div>
+        ) : (
+          <ProjectPosition 
+            slotsPerPage={4}
+            minimalSlots
+            onPositionSelect={(selectedPos) => {
+              setPosition(selectedPos);
+              const associated = projectsInCollection.find(
+                (proj) =>
+                  proj.position === selectedPos && (proj.page || 1) === page
+              );
+              setSelectedProject(associated ?? null);
+            }}
+            currentPosition={position}
+            currentPage={page}
+            onPageChange={(newPage) => {
+              setPage(newPage);
+              const associated = projectsInCollection.find(
+                (proj) =>
+                  proj.position === position && (proj.page || 1) === newPage
+              );
+              setSelectedProject(associated ?? null);
+            }}
+            projects={projectsInCollection}
+          />
+        )}
 
         <div className="flex items-center gap-4 mt-4">
           <button
