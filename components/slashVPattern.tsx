@@ -1,11 +1,15 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import Link from "next/link";
+
+const PATTERN_FONT = { fontFamily: "Blur Light, sans-serif", fontSize: "32px", letterSpacing: "-2.4px" };
 
 export default function SlashVPattern() {
   const [patternRows, setPatternRows] = useState<string[]>([]);
   const [mounted, setMounted] = useState(false);
+  const patternRef = useRef<HTMLDivElement>(null);
+  const rulerRef = useRef<HTMLSpanElement>(null);
 
   // Pattern: /\ x 28, then V x 34, repeated 8 times = 16 rows
   const cycles = 8; // Number of times to repeat the pattern
@@ -13,6 +17,29 @@ export default function SlashVPattern() {
   const vCount = 34; // Number of V's per row
   const rowSpacing = 23; // Vertical spacing between rows (minimal)
   const charSpacing = 0; // No spacing between characters (much closer)
+
+  // Use "V" as flag: measure 15 V widths (→ 16th V) and pattern rect; set CSS vars for footer alignment
+  useEffect(() => {
+    const update = () => {
+      if (!rulerRef.current || !patternRef.current) return;
+      const r = rulerRef.current.getBoundingClientRect();
+      const p = patternRef.current.getBoundingClientRect();
+      if (r.width > 0 && p.width > 0) {
+        document.documentElement.style.setProperty("--barcode-v-offset", `${r.width}px`);
+        document.documentElement.style.setProperty("--pattern-left", `${p.left}px`);
+        document.documentElement.style.setProperty("--pattern-width", `${p.width}px`);
+      }
+    };
+    const t = setTimeout(update, 0);
+    window.addEventListener("resize", update);
+    return () => {
+      clearTimeout(t);
+      window.removeEventListener("resize", update);
+      document.documentElement.style.removeProperty("--barcode-v-offset");
+      document.documentElement.style.removeProperty("--pattern-left");
+      document.documentElement.style.removeProperty("--pattern-width");
+    };
+  }, [mounted, patternRows.length]);
 
   useEffect(() => {
     setMounted(true);
@@ -116,6 +143,15 @@ export default function SlashVPattern() {
     <div 
       className="absolute top-0 left-0 right-[6rem] h-full overflow-hidden z-0 flex flex-col pt-40"
     >
+      {/* Hidden "VVV…" ruler: same font as pattern; 15 V's → 16th V. Used as alignment flag for barcode + footer text. */}
+      <span
+        ref={rulerRef}
+        aria-hidden
+        className="absolute opacity-0 pointer-events-none overflow-hidden"
+        style={{ ...PATTERN_FONT, whiteSpace: "pre", top: 0, left: 0 }}
+      >
+        {"V".repeat(15)}
+      </span>
       <Link
         href="/"
         className="flex flex-row flex-shrink-0 mb-0 no-underline items-center w-full"
@@ -138,13 +174,12 @@ export default function SlashVPattern() {
         </div>
       </Link>
       <div
+        ref={patternRef}
         className="ml-auto w-[50vw]"
         style={{
-          fontFamily: "Blur Light, sans-serif",
-          fontSize: "32px",
+          ...PATTERN_FONT,
           lineHeight: `${rowSpacing}px`,
           whiteSpace: "pre",
-          letterSpacing: "-2.4px",
         }}
       >
         {patternRows.map((row, rowIndex) => {
