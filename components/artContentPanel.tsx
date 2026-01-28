@@ -39,6 +39,7 @@ export default function ArtContentPanel({ isActive }: { isActive: boolean }) {
   const [forSale, setForSale] = useState<boolean>(true);
   const [description, setDescription] = useState<string>("");
   const [price, setPrice] = useState<string>("");
+  const [showCollectionDropdown, setShowCollectionDropdown] = useState(false);
 
   const InfoTooltip = ({ message }: { message: string }) => (
     <span className="group relative inline-flex h-5 w-5 items-center justify-center text-[#FFF3DF]">
@@ -98,6 +99,15 @@ export default function ArtContentPanel({ isActive }: { isActive: boolean }) {
     );
     setSelectedProject(match ?? null);
   }, [projects, position, page]);
+
+  // Extract unique collections from projects
+  const existingCollections = Array.from(
+    new Set(
+      projects
+        .map((p) => p.collection)
+        .filter((c): c is string => Boolean(c && c.trim()))
+    )
+  ).sort();
 
   // POST or PUT
   const handleSubmit = async () => {
@@ -263,13 +273,47 @@ export default function ArtContentPanel({ isActive }: { isActive: boolean }) {
         />
 
         <label className="block mb-1 font-minecraft text-sm text-[#FFF3DF]">Collection</label>
-        <input
-          type="text"
-          placeholder="e.g. Private, Museum, Gallery"
-          value={collection}
-          onChange={(e) => setCollection(e.target.value)}
-          className="w-full p-2 border border-gray-400 rounded-md mb-2"
-        />
+        <div className="relative mb-2">
+          <input
+            type="text"
+            placeholder="e.g. Private, Museum, Gallery"
+            value={collection}
+            onChange={(e) => {
+              setCollection(e.target.value);
+              setShowCollectionDropdown(true);
+            }}
+            onFocus={() => setShowCollectionDropdown(true)}
+            onBlur={() => {
+              // Delay hiding dropdown to allow click on option
+              setTimeout(() => setShowCollectionDropdown(false), 200);
+            }}
+            className="w-full p-2 border border-gray-400 rounded-md"
+          />
+          {showCollectionDropdown && existingCollections.length > 0 && (
+            <div className="absolute z-10 w-full mt-1 bg-[#554943] border border-gray-400 rounded-md shadow-lg max-h-60 overflow-auto">
+              {existingCollections
+                .filter((col) =>
+                  collection
+                    ? col.toLowerCase().includes(collection.toLowerCase())
+                    : true
+                )
+                .map((col, index, filteredArray) => (
+                  <div
+                    key={index}
+                    onClick={() => {
+                      setCollection(col);
+                      setShowCollectionDropdown(false);
+                    }}
+                    className={`px-3 py-2 cursor-pointer hover:bg-gray-600 text-[#FFF3DF] font-minecraft text-sm ${
+                      index < filteredArray.length - 1 ? 'border-b border-gray-400' : ''
+                    }`}
+                  >
+                    {col}
+                  </div>
+                ))}
+            </div>
+          )}
+        </div>
 
         <label className="block mb-1 font-minecraft text-sm text-[#FFF3DF]">Year</label>
         <input
