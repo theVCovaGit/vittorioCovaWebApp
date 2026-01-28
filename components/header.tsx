@@ -15,19 +15,21 @@ export default function Header() {
   }
 
   const noLine = CREATIVE_SECTIONS.some((p) => pathname === p || pathname.startsWith(`${p}/`));
+  const isCreative = noLine;
+  const titleSize = isCreative ? "text-3xl" : "text-xl";
 
   return (
     <header className="fixed top-0 left-0 w-full z-[10002] !z-[10002] bg-[#554943] h-20 flex items-center px-8 pointer-events-auto">
       <Link href="/" className="flex items-center no-underline cursor-pointer relative z-[10003] !z-[10003] pointer-events-auto ml-12 sm:ml-8 md:ml-4 lg:ml-0">
         {/* Invisible spacer to shift text right */}
-        <span className="text-transparent font-blurlight text-xl font-bold uppercase tracking-wide pointer-events-none select-none opacity-0">
+        <span className={`text-transparent font-blurlight font-bold uppercase tracking-wide pointer-events-none select-none opacity-0 ${titleSize}`}>
           VITTORIO 
         </span>
-        <span className="text-[#fec776] font-blurlight text-xl font-bold uppercase tracking-wide relative z-[10003] !z-[10003] pointer-events-auto">
+        <span className={`text-[#fec776] font-blurlight font-bold uppercase tracking-wide relative z-[10003] !z-[10003] pointer-events-auto ${titleSize}`}>
           VITTORIO COVA
         </span>
         {noLine ? (
-          <span className="text-[#fec776] font-blurlight text-xl font-bold uppercase tracking-wide ml-2 relative z-[10003] !z-[10003] pointer-events-auto">
+          <span className={`text-[#fec776] font-blurlight font-bold uppercase tracking-wide ml-2 relative z-[10003] !z-[10003] pointer-events-auto ${titleSize}`}>
             STUDIO
           </span>
         ) : (
