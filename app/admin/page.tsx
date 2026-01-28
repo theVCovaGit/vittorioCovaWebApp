@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import ArchitectureContentPanel from "@/components/architectureContentPanel";
-import ProductDesignContentPanel from "@/components/productDesignContentPanel";
+// import ProductDesignContentPanel from "@/components/productDesignContentPanel"; // Section not active
 import ArtContentPanel from "@/components/artContentPanel"; 
 import FilmContentPanel from "@/components/filmContentPanel"; 
 
@@ -10,7 +10,7 @@ import FilmContentPanel from "@/components/filmContentPanel";
 const AdminPage = () => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [password, setPassword] = useState("");
-  const [activePanel, setActivePanel] = useState<"architecture" | "productdesign" | "art" | "film" | null>(null); // ✅ add "art"
+  const [activePanel, setActivePanel] = useState<"architecture" | "art" | "film" | null>(null);
 
   const hardcodedPassword = "123";
 
@@ -57,6 +57,7 @@ const AdminPage = () => {
           <div className="w-3 h-3 rounded-full bg-[#fff5e0]"></div>
           Architecture
         </button>
+        {/* Product Design - section not active
         <button
           onClick={() => setActivePanel("productdesign")}
           className="font-blurlight bg-[#554943] border-2 border-black text-black py-3 px-6 rounded-md flex items-center gap-2"
@@ -64,6 +65,7 @@ const AdminPage = () => {
           <div className="w-3 h-3 rounded-full bg-white"></div>
           Product Design
         </button>
+        */}
         <button
           onClick={() => setActivePanel("art")}
           className="font-blurlight bg-[#554943] border-2 border-black text-black py-3 px-6 rounded-md flex items-center gap-2"
@@ -82,7 +84,7 @@ const AdminPage = () => {
 
       {/* Content Panels */}
       <ArchitectureContentPanel isActive={activePanel === "architecture"} />
-      <ProductDesignContentPanel isActive={activePanel === "productdesign"} />
+      {/* <ProductDesignContentPanel isActive={activePanel === "productdesign"} /> */}
       <ArtContentPanel isActive={activePanel === "art"} />
       <FilmContentPanel isActive={activePanel === "film"} />
     </div>
