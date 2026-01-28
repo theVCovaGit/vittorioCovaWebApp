@@ -16,7 +16,7 @@ export default function HeaderMobile() {
     <header className="fixed top-0 left-0 w-full z-50 bg-[#554943] flex items-center justify-center px-4" style={{ height: 'var(--mobile-header-height)' }}>
       {/* Logo/Brand - Centered */}
       <Link href="/" className="flex flex-col items-center justify-center no-underline leading-none">
-        <span className="text-[#fef4dc] font-blurlight text-2xl font-bold uppercase tracking-wide">
+        <span className="text-[#fec776] font-blurlight text-2xl font-bold uppercase tracking-wide">
           VITTORIO COVA
         </span>
         <span className="text-[#fec776] font-blurlight text-2xl font-bold uppercase tracking-wide">

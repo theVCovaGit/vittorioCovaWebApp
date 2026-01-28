@@ -4,6 +4,8 @@ import React from "react";
 import { usePathname } from "next/navigation";
 import Link from "next/link";
 
+const CREATIVE_SECTIONS = ["/architecture", "/art", "/film"];
+
 export default function Header() {
   const pathname = usePathname();
   
@@ -12,6 +14,8 @@ export default function Header() {
     return null;
   }
 
+  const noLine = CREATIVE_SECTIONS.some((p) => pathname === p || pathname.startsWith(`${p}/`));
+
   return (
     <header className="fixed top-0 left-0 w-full z-[10002] !z-[10002] bg-[#554943] h-20 flex items-center px-8 pointer-events-auto">
       <Link href="/" className="flex items-center no-underline cursor-pointer relative z-[10003] !z-[10003] pointer-events-auto -ml-12 sm:-ml-16 md:-ml-20 lg:-ml-24">
@@ -19,17 +23,25 @@ export default function Header() {
         <span className="text-transparent font-blurlight text-xl font-bold uppercase tracking-wide pointer-events-none select-none opacity-0">
           VITTORIO 
         </span>
-        <span className="text-[#fef4dc] font-blurlight text-xl font-bold uppercase tracking-wide relative z-[10003] !z-[10003] pointer-events-auto">
+        <span className="text-[#fec776] font-blurlight text-xl font-bold uppercase tracking-wide relative z-[10003] !z-[10003] pointer-events-auto">
           VITTORIO COVA
         </span>
-        <span className="text-[#fec776] font-blurlight text-xl font-bold uppercase tracking-wide mx-2 relative z-[10003] !z-[10003] pointer-events-auto">
-          <svg width="80" height="4" viewBox="0 0 80 4" className="inline-block">
-            <rect x="0" y="0" width="80" height="2" fill="#fec776"/>
-          </svg>
-        </span>
-        <span className="text-[#fec776] font-blurlight text-xl font-bold uppercase tracking-wide relative z-[10003] !z-[10003] pointer-events-auto">
-          STUDIO
-        </span>
+        {noLine ? (
+          <span className="text-[#fec776] font-blurlight text-xl font-bold uppercase tracking-wide ml-2 relative z-[10003] !z-[10003] pointer-events-auto">
+            STUDIO
+          </span>
+        ) : (
+          <>
+            <span className="text-[#fec776] font-blurlight text-xl font-bold uppercase tracking-wide mx-2 relative z-[10003] !z-[10003] pointer-events-auto">
+              <svg width="80" height="4" viewBox="0 0 80 4" className="inline-block">
+                <rect x="0" y="0" width="80" height="2" fill="#fec776"/>
+              </svg>
+            </span>
+            <span className="text-[#fec776] font-blurlight text-xl font-bold uppercase tracking-wide relative z-[10003] !z-[10003] pointer-events-auto">
+              STUDIO
+            </span>
+          </>
+        )}
       </Link>
     </header>
   );
