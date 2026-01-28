@@ -144,7 +144,7 @@ export default function SlashVPattern() {
           </span>
         </div>
       </Link>
-      <div className="ml-auto w-[50vw] flex flex-col flex-1 min-h-0 overflow-auto">
+      <div className="ml-auto w-[50vw] flex flex-col flex-1 min-h-0 overflow-hidden">
         <div style={rowStyle}>
         {patternRows.map((row, rowIndex) => {
           const isSecondLastRow = rowIndex === patternRows.length - 2;

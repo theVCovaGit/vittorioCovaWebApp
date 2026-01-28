@@ -8,17 +8,23 @@ import SlashVPattern from "@/components/slashVPattern";
 export default function Hero() {
   const isMobile = useIsMobile();
 
-  // Disable scrolling on mobile main page
+  // Disable all scrolling (horizontal + vertical) on main page
   useEffect(() => {
-    if (isMobile) {
-      document.body.style.overflow = "hidden";
-      document.documentElement.style.overflow = "hidden";
-      return () => {
-        document.body.style.overflow = "";
-        document.documentElement.style.overflow = "";
-      };
-    }
-  }, [isMobile]);
+    const main = document.querySelector("main");
+    const prevBody = document.body.style.overflow;
+    const prevHtml = document.documentElement.style.overflow;
+    const prevMain = main ? main.style.overflow : "";
+
+    document.body.style.overflow = "hidden";
+    document.documentElement.style.overflow = "hidden";
+    if (main) main.style.overflow = "hidden";
+
+    return () => {
+      document.body.style.overflow = prevBody;
+      document.documentElement.style.overflow = prevHtml;
+      if (main) main.style.overflow = prevMain;
+    };
+  }, []);
 
   // Mobile version
   if (isMobile) {
