@@ -59,8 +59,8 @@ export default function Footer() {
     }
   }, [isArchitecturePage, isArtPage]);
 
-  /* On main page desktop, barcode + links are in SlashVPattern. Do not render Footer at all — avoids transparent bar overlaying links and blocking clicks. */
-  if (isMainPage) return null;
+  /* Main: barcode + links in SlashVPattern. Art: barcode + links in ArtDesktopGallery. No global footer. */
+  if (isMainPage || isArtPage) return null;
 
   return (
     <footer className={`fixed bottom-0 left-0 w-full font-blurlight z-50 pointer-events-auto px-4 sm:px-6 md:px-[4vw] pt-12 sm:pt-16 md:pt-20 pb-4 sm:pb-5 md:pb-6 ${((isArchitecturePage || isArtPage) && isExpandedViewOpen) ? 'bg-transparent' : isFooterPage ? 'bg-[#554943]' : 'bg-[#554943]'}`}>
