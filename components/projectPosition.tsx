@@ -16,11 +16,17 @@ interface ProjectPositionProps {
   currentPage?: number;
   onPageChange?: (page: number) => void;
   projects?: PositionAssignment[];
+  /** Override slots per page (e.g. 4 for art). Default 91. */
+  slotsPerPage?: number;
+  /** Grid columns (derived from slotsPerPage if not set). */
+  gridColumns?: number;
+  /** Grid rows (derived from slotsPerPage if not set). */
+  gridRows?: number;
 }
 
-const SLOTS_PER_PAGE = 91;
-const GRID_COLUMNS = 13;
-const GRID_ROWS = 7;
+const DEFAULT_SLOTS_PER_PAGE = 91;
+const DEFAULT_GRID_COLUMNS = 13;
+const DEFAULT_GRID_ROWS = 7;
 const HORIZONTAL_BUFFER = 4;
 const VERTICAL_BUFFER = 1;
 
@@ -30,7 +36,13 @@ const ProjectPosition = ({
   currentPage = 1,
   onPageChange,
   projects = [],
+  slotsPerPage: slotsPerPageProp,
+  gridColumns: gridColumnsProp,
+  gridRows: gridRowsProp,
 }: ProjectPositionProps) => {
+  const slotsPerPage = slotsPerPageProp ?? DEFAULT_SLOTS_PER_PAGE;
+  const gridColumns = gridColumnsProp ?? (slotsPerPage === 4 ? 2 : DEFAULT_GRID_COLUMNS);
+  const gridRows = gridRowsProp ?? (slotsPerPage === 4 ? 2 : DEFAULT_GRID_ROWS);
   const [selectedPosition, setSelectedPosition] = useState<number>(currentPosition);
   const [page, setPage] = useState<number>(currentPage);
 
@@ -55,18 +67,18 @@ const ProjectPosition = ({
       if (typeof positionKey !== "number") return;
 
       const positionIndex = positionKey - 1;
-      const baseRow = Math.floor(positionIndex / GRID_COLUMNS);
-      const baseCol = positionIndex % GRID_COLUMNS;
+      const baseRow = Math.floor(positionIndex / gridColumns);
+      const baseCol = positionIndex % gridColumns;
 
       for (let rowOffset = -VERTICAL_BUFFER; rowOffset <= VERTICAL_BUFFER; rowOffset++) {
         const targetRow = baseRow + rowOffset;
-        if (targetRow < 0 || targetRow >= GRID_ROWS) continue;
+        if (targetRow < 0 || targetRow >= gridRows) continue;
 
         for (let colOffset = -HORIZONTAL_BUFFER; colOffset <= HORIZONTAL_BUFFER; colOffset++) {
           const targetCol = baseCol + colOffset;
-          if (targetCol < 0 || targetCol >= GRID_COLUMNS) continue;
+          if (targetCol < 0 || targetCol >= gridColumns) continue;
 
-          const targetPosition = targetRow * GRID_COLUMNS + targetCol + 1;
+          const targetPosition = targetRow * gridColumns + targetCol + 1;
           if (targetPosition === positionKey) continue;
 
           blocked.add(targetPosition);
@@ -74,20 +86,23 @@ const ProjectPosition = ({
       }
     });
 
-    for (let row = 0; row < GRID_ROWS; row++) {
-      for (let col = 0; col < GRID_COLUMNS; col++) {
-        const isEdgeColumn = col === 0 || col === GRID_COLUMNS - 1;
-        if (isEdgeColumn) {
-          const edgePosition = (page - 1) * SLOTS_PER_PAGE + row * GRID_COLUMNS + col + 1;
-          if (!pageAssignments.has(edgePosition)) {
-            blocked.add(edgePosition);
+    // Only block edge columns when we have a large grid (e.g. 13 columns)
+    if (gridColumns > 2) {
+      for (let row = 0; row < gridRows; row++) {
+        for (let col = 0; col < gridColumns; col++) {
+          const isEdgeColumn = col === 0 || col === gridColumns - 1;
+          if (isEdgeColumn) {
+            const edgePosition = (page - 1) * slotsPerPage + row * gridColumns + col + 1;
+            if (!pageAssignments.has(edgePosition)) {
+              blocked.add(edgePosition);
+            }
           }
         }
       }
     }
 
     return blocked;
-  }, [pageAssignments, page]);
+  }, [pageAssignments, page, gridColumns, gridRows, slotsPerPage]);
 
   useEffect(() => {
     setSelectedPosition(currentPosition);
@@ -155,9 +170,15 @@ const ProjectPosition = ({
       </div>
 
       <div className="relative h-96 w-full overflow-auto rounded-md border border-gray-300">
-        <div className="grid h-full grid-cols-[repeat(13,minmax(0,1fr))] grid-rows-7 gap-1 p-1">
-          {Array.from({ length: SLOTS_PER_PAGE }, (_, index) => {
-            const position = (page - 1) * SLOTS_PER_PAGE + index + 1;
+        <div
+          className="grid h-full gap-1 p-1"
+          style={{
+            gridTemplateColumns: `repeat(${gridColumns}, minmax(0, 1fr))`,
+            gridTemplateRows: `repeat(${gridRows}, minmax(0, 1fr))`,
+          }}
+        >
+          {Array.from({ length: slotsPerPage }, (_, index) => {
+            const position = (page - 1) * slotsPerPage + index + 1;
             const occupant = pageAssignments.get(position);
             const isOccupied = Boolean(occupant);
             const isBlocked =

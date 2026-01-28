@@ -345,6 +345,7 @@ export default function ArtContentPanel({ isActive }: { isActive: boolean }) {
           <InfoTooltip message="Choose where this specific project will be positioned." />
         </div>
         <ProjectPosition 
+          slotsPerPage={4}
           onPositionSelect={(selectedPos) => {
             setPosition(selectedPos);
             const associated = projects.find(
