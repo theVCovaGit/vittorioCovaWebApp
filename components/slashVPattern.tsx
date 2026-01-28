@@ -150,7 +150,7 @@ export default function SlashVPattern() {
           const isSecondLastRow = rowIndex === patternRows.length - 2;
           const isLastRow = rowIndex === patternRows.length - 1;
           const footerBlock = (
-            <>
+            <div key="footer-wrap" className="relative pointer-events-auto" style={{ zIndex: 99999 }}>
               <div key="footer-barcode" style={{ ...rowStyle, marginTop: -10 }}>
                 <span style={{ color: "transparent" }}>{ "V".repeat(V_FLAG_COUNT) }</span>
                 <span style={{ display: "inline-block", verticalAlign: "bottom" }}>
@@ -159,19 +159,19 @@ export default function SlashVPattern() {
                   </svg>
                 </span>
               </div>
-              <div key="footer-links" style={rowStyle}>
+              <div key="footer-links" style={rowStyle} className="pointer-events-auto">
                 <span style={{ color: "transparent" }}>{ "V".repeat(V_FLAG_COUNT) }</span>
                 <span style={{ display: "inline-block", width: 367, textAlign: "center" }}>
                   <span style={{ color: "#fec776" }}>
-                    <Link href="/contact" className="text-[#fec776] no-underline hover:text-white">CONTACT</Link>
+                    <Link href="/contact" className="text-[#fec776] no-underline hover:text-white cursor-pointer relative z-[100000]">CONTACT</Link>
                     <span> / </span>
-                    <Link href="/about" className="text-[#fec776] no-underline hover:text-white">ABOUT</Link>
+                    <Link href="/about" className="text-[#fec776] no-underline hover:text-white cursor-pointer relative z-[100000]">ABOUT</Link>
                     <span> / </span>
-                    <Link href="/news" className="text-[#fec776] no-underline hover:text-white">NEWS</Link>
+                    <Link href="/news" className="text-[#fec776] no-underline hover:text-white cursor-pointer relative z-[100000]">NEWS</Link>
                   </span>
                 </span>
               </div>
-            </>
+            </div>
           );
           const rowDivStyle = { ...rowStyle, color: "rgba(254, 244, 220, 0.25)" };
           // Check if row contains ARCHITECTURE text
