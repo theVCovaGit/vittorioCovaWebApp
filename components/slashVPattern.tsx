@@ -148,8 +148,8 @@ export default function SlashVPattern() {
         <div style={rowStyle}>
         {patternRows.map((row, rowIndex) => {
           const isSecondLastRow = rowIndex === patternRows.length - 2;
-          // Footer (barcode + CONTACT row) right below second‑last row; C aligned with 21st V on same horizontal line
-          const footerBlock = isSecondLastRow && (
+          const isLastRow = rowIndex === patternRows.length - 1;
+          const footerBlock = (
             <>
               <div key="footer-barcode" style={rowStyle}>
                 <span style={{ color: "transparent" }}>{ "V".repeat(V_FLAG_COUNT) }</span>
@@ -176,77 +176,68 @@ export default function SlashVPattern() {
           if (row.includes("ARCHITECTURE")) {
             const parts = row.split("ARCHITECTURE .");
             return (
-              <React.Fragment key={rowIndex}>
-                <div className="pointer-events-auto relative" style={{ ...rowDivStyle, zIndex: 20 }}>
-                  <span style={{ color: "rgba(254, 244, 220, 0.25)" }}>{parts[0]}</span>
-                  <Link 
-                    href="/architecture"
-                    style={{ 
-                      color: "#000000",
-                      textDecoration: "none",
-                      position: "relative",
-                      zIndex: 2000,
-                    }}
-                    className="architecture-link hover:!text-white transition-colors cursor-pointer"
-                    onMouseEnter={(e) => e.currentTarget.style.color = "#ffffff"}
-                    onMouseLeave={(e) => e.currentTarget.style.color = "#000000"}
-                  >
-                    ARCHITECTURE .
-                  </Link>
-                  <span style={{ color: "rgba(254, 244, 220, 0.25)" }}>{parts[1]}</span>
-                </div>
-                {isSecondLastRow && footerBlock}
-              </React.Fragment>
+              <div key={rowIndex} className="pointer-events-auto relative" style={{ ...rowDivStyle, zIndex: 20 }}>
+                <span style={{ color: "rgba(254, 244, 220, 0.25)" }}>{parts[0]}</span>
+                <Link 
+                  href="/architecture"
+                  style={{ 
+                    color: "#000000",
+                    textDecoration: "none",
+                    position: "relative",
+                    zIndex: 2000,
+                  }}
+                  className="architecture-link hover:!text-white transition-colors cursor-pointer"
+                  onMouseEnter={(e) => e.currentTarget.style.color = "#ffffff"}
+                  onMouseLeave={(e) => e.currentTarget.style.color = "#000000"}
+                >
+                  ARCHITECTURE .
+                </Link>
+                <span style={{ color: "rgba(254, 244, 220, 0.25)" }}>{parts[1]}</span>
+              </div>
             );
           }
           // Check if row contains FILM text
           if (row.includes("FILM")) {
             const parts = row.split("FILM .");
             return (
-              <React.Fragment key={rowIndex}>
-                <div className="pointer-events-auto" style={rowDivStyle}>
-                  <span style={{ color: "rgba(254, 244, 220, 0.25)" }}>{parts[0]}</span>
-                  <Link 
-                    href="/film"
-                    style={{ 
-                      color: "#000000",
-                      textDecoration: "none",
-                    }}
-                    className="hover:!text-white transition-colors cursor-pointer"
-                  >
-                    FILM .
-                  </Link>
-                  <span style={{ color: "rgba(254, 244, 220, 0.25)" }}>{parts[1]}</span>
-                </div>
-                {isSecondLastRow && footerBlock}
-              </React.Fragment>
+              <div key={rowIndex} className="pointer-events-auto" style={rowDivStyle}>
+                <span style={{ color: "rgba(254, 244, 220, 0.25)" }}>{parts[0]}</span>
+                <Link 
+                  href="/film"
+                  style={{ 
+                    color: "#000000",
+                    textDecoration: "none",
+                  }}
+                  className="hover:!text-white transition-colors cursor-pointer"
+                >
+                  FILM .
+                </Link>
+                <span style={{ color: "rgba(254, 244, 220, 0.25)" }}>{parts[1]}</span>
+              </div>
             );
           }
           // Check if row contains ART text
           if (row.includes("ART")) {
             const parts = row.split("ART .");
             return (
-              <React.Fragment key={rowIndex}>
-                <div className="pointer-events-auto" style={rowDivStyle}>
-                  <span style={{ color: "rgba(254, 244, 220, 0.25)" }}>{parts[0]}</span>
-                  <Link 
-                    href="/art"
-                    style={{ 
-                      color: "#000000",
-                      textDecoration: "none",
-                    }}
-                    className="hover:!text-white transition-colors cursor-pointer"
-                  >
-                    ART .
-                  </Link>
-                  <span style={{ color: "rgba(254, 244, 220, 0.25)" }}>{parts[1]}</span>
-                </div>
-                {isSecondLastRow && footerBlock}
-              </React.Fragment>
+              <div key={rowIndex} className="pointer-events-auto" style={rowDivStyle}>
+                <span style={{ color: "rgba(254, 244, 220, 0.25)" }}>{parts[0]}</span>
+                <Link 
+                  href="/art"
+                  style={{ 
+                    color: "#000000",
+                    textDecoration: "none",
+                  }}
+                  className="hover:!text-white transition-colors cursor-pointer"
+                >
+                  ART .
+                </Link>
+                <span style={{ color: "rgba(254, 244, 220, 0.25)" }}>{parts[1]}</span>
+              </div>
             );
           }
           // Plain V or /\ row
-          if (isSecondLastRow) {
+          if (isLastRow) {
             return (
               <React.Fragment key={rowIndex}>
                 <div style={rowDivStyle}>{row}</div>
