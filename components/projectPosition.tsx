@@ -204,8 +204,8 @@ const ProjectPosition = ({
             const hasPreview = Boolean(previewUrl);
 
             const baseClasses =
-              "relative flex h-full w-full flex-col items-center justify-center overflow-hidden transition-colors " +
-              (minimalSlots ? "border border-gray-500/40" : "rounded-md border");
+              "relative flex h-full w-full flex-col items-center justify-center overflow-hidden rounded-md transition-colors " +
+              (minimalSlots ? "border border-gray-500/40" : "border");
 
             const variantClasses = minimalSlots
               ? isSelected
