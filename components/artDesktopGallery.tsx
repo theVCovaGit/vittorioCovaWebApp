@@ -70,7 +70,7 @@ export default function ArtDesktopGallery() {
       {/* Spacer for fixed header */}
       <div className="h-20 flex-shrink-0" aria-hidden="true" />
 
-      <div className="flex-1 overflow-y-auto">
+      <div className="flex-1 overflow-y-auto pb-36">
         <div className="max-w-6xl mx-auto px-6 sm:px-8 py-12 md:py-16">
           {byCollection.size === 0 ? (
             <p className="font-blurlight text-[#4A413C] text-center py-16">
@@ -131,32 +131,44 @@ export default function ArtDesktopGallery() {
             ))
           )}
         </div>
+      </div>
 
-        {/* Footer: barcode + links (bottom-right of main content) */}
-        <footer className="mt-16 md:mt-24 pb-12 md:pb-16 flex flex-col items-end max-w-6xl mx-auto px-6 sm:px-8">
+      {/* Fixed footer: always visible at viewport bottom. Dimensions & link positioning match hero. */}
+      <footer
+        className="fixed bottom-0 left-0 right-0 bg-[#554943] font-blurlight z-50 pointer-events-auto flex flex-col items-end justify-end pr-[6rem] pb-4 pt-4"
+        style={{ fontFamily: '"Blur Light", sans-serif', fontSize: "32px", letterSpacing: "-2.4px", lineHeight: "23px" }}
+      >
+        <div style={{ marginTop: -10 }}>
           <svg
             xmlns="http://www.w3.org/2000/svg"
             viewBox="0 0 367 42"
             fill="none"
-            className="block w-full max-w-[280px] md:max-w-[320px] h-auto"
+            width={367}
+            height={42}
+            className="block"
           >
-            <path d={BARCODE_PATH} fill="#4A413C" />
+            <path d={BARCODE_PATH} fill="#a08e80" />
           </svg>
-          <div className="flex items-center gap-2 mt-3 font-blurlight font-bold text-[#4A413C] text-sm md:text-base uppercase tracking-wide">
-            <Link href="/contact" className="text-[#4A413C] no-underline hover:underline">
+        </div>
+        <div
+          style={{ width: 367, textAlign: "center", marginTop: 0 }}
+          className="pointer-events-auto"
+        >
+          <span style={{ color: "#fec776" }}>
+            <Link href="/contact" className="text-[#fec776] no-underline hover:text-white cursor-pointer">
               CONTACT
             </Link>
-            <span className="text-[#4A413C]/70">/</span>
-            <Link href="/about" className="text-[#4A413C] no-underline hover:underline">
+            <span> / </span>
+            <Link href="/about" className="text-[#fec776] no-underline hover:text-white cursor-pointer">
               ABOUT
             </Link>
-            <span className="text-[#4A413C]/70">/</span>
-            <Link href="/news" className="text-[#4A413C] no-underline hover:underline">
+            <span> / </span>
+            <Link href="/news" className="text-[#fec776] no-underline hover:text-white cursor-pointer">
               NEWS
             </Link>
-          </div>
-        </footer>
-      </div>
+          </span>
+        </div>
+      </footer>
 
       {selectedProjectId && (
         <ArtProjectExpandedView
