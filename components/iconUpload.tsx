@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 interface IconUploadProps {
   onUpload: (url: string) => void;
@@ -18,6 +18,16 @@ const IconUpload = ({
   const [loading, setLoading] = useState(false);
   const [preview, setPreview] = useState(currentIcon || "");
   const [file, setFile] = useState<File | null>(null);
+
+  // Update preview when currentIcon prop changes (e.g., when editing a project)
+  useEffect(() => {
+    if (currentIcon) {
+      setPreview(currentIcon);
+    } else if (!file) {
+      // Only clear preview if there's no file selected
+      setPreview("");
+    }
+  }, [currentIcon, file]);
 
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (!event.target.files?.[0]) return;
