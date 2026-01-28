@@ -22,6 +22,8 @@ interface ProjectPositionProps {
   gridColumns?: number;
   /** Grid rows (derived from slotsPerPage if not set). */
   gridRows?: number;
+  /** Minimal styling for art: no gray infill, no spacing between slots. */
+  minimalSlots?: boolean;
 }
 
 const DEFAULT_SLOTS_PER_PAGE = 91;
@@ -39,6 +41,7 @@ const ProjectPosition = ({
   slotsPerPage: slotsPerPageProp,
   gridColumns: gridColumnsProp,
   gridRows: gridRowsProp,
+  minimalSlots = false,
 }: ProjectPositionProps) => {
   const slotsPerPage = slotsPerPageProp ?? DEFAULT_SLOTS_PER_PAGE;
   const gridColumns = gridColumnsProp ?? (slotsPerPage === 4 ? 2 : DEFAULT_GRID_COLUMNS);
@@ -169,9 +172,9 @@ const ProjectPosition = ({
         </div>
       </div>
 
-      <div className="relative h-96 w-full overflow-auto rounded-md border border-gray-300">
+      <div className={`relative h-96 w-full overflow-auto rounded-md ${minimalSlots ? "border-0" : "border border-gray-300"}`}>
         <div
-          className="grid h-full gap-1 p-1"
+          className={`grid h-full ${minimalSlots ? "gap-0 p-0" : "gap-1 p-1"}`}
           style={{
             gridTemplateColumns: `repeat(${gridColumns}, minmax(0, 1fr))`,
             gridTemplateRows: `repeat(${gridRows}, minmax(0, 1fr))`,
@@ -200,9 +203,14 @@ const ProjectPosition = ({
             const hasPreview = Boolean(previewUrl);
 
             const baseClasses =
-              "relative flex h-full w-full flex-col items-center justify-center overflow-hidden rounded-md border transition-colors";
+              "relative flex h-full w-full flex-col items-center justify-center overflow-hidden transition-colors " +
+              (minimalSlots ? "border border-gray-500/40" : "rounded-md border");
 
-            const variantClasses = isSelected
+            const variantClasses = minimalSlots
+              ? isSelected
+                ? "cursor-pointer border-2 border-blue-400 bg-transparent"
+                : "cursor-pointer border-gray-500/40 bg-transparent hover:border-gray-400"
+              : isSelected
               ? "cursor-pointer border-2 border-blue-400 shadow-[0_0_0_1px_rgba(59,130,246,0.4)]"
               : isOccupied
               ? "cursor-pointer border-[#fec776]/70 bg-[#433231] hover:border-[#fec776]"

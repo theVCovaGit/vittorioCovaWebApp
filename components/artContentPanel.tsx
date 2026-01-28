@@ -346,6 +346,7 @@ export default function ArtContentPanel({ isActive }: { isActive: boolean }) {
         </div>
         <ProjectPosition 
           slotsPerPage={4}
+          minimalSlots
           onPositionSelect={(selectedPos) => {
             setPosition(selectedPos);
             const associated = projects.find(
