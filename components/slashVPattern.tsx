@@ -151,7 +151,7 @@ export default function SlashVPattern() {
           const isLastRow = rowIndex === patternRows.length - 1;
           const footerBlock = (
             <>
-              <div key="footer-barcode" style={rowStyle}>
+              <div key="footer-barcode" style={{ ...rowStyle, marginTop: -10 }}>
                 <span style={{ color: "transparent" }}>{ "V".repeat(V_FLAG_COUNT) }</span>
                 <span style={{ display: "inline-block", verticalAlign: "bottom" }}>
                   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 367 42" fill="none" width={367} height={42} className="block">
