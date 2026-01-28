@@ -19,7 +19,8 @@ interface ArtProject {
   position?: number;
   page?: number;
   forSale?: boolean;
-  description?: string;
+  materials?: string;
+  dimensions?: string;
   price?: string;
 }
 
@@ -37,7 +38,8 @@ export default function ArtContentPanel({ isActive }: { isActive: boolean }) {
   const [page, setPage] = useState<number>(1);
   const [selectedProject, setSelectedProject] = useState<ArtProject | null>(null);
   const [forSale, setForSale] = useState<boolean>(true);
-  const [description, setDescription] = useState<string>("");
+  const [materials, setMaterials] = useState<string>("");
+  const [dimensions, setDimensions] = useState<string>("");
   const [price, setPrice] = useState<string>("");
   const [showCollectionDropdown, setShowCollectionDropdown] = useState(false);
 
@@ -62,7 +64,8 @@ export default function ArtContentPanel({ isActive }: { isActive: boolean }) {
     setEditingId(null);
     setCurrentPage(1);
     setForSale(true);
-    setDescription("");
+    setMaterials("");
+    setDimensions("");
     setPrice("");
   };
 
@@ -153,7 +156,8 @@ export default function ArtContentPanel({ isActive }: { isActive: boolean }) {
       position,
       page,
       forSale,
-      description,
+      materials,
+      dimensions,
       price,
     };
     
@@ -289,6 +293,24 @@ export default function ArtContentPanel({ isActive }: { isActive: boolean }) {
           className="w-full p-2 border border-gray-400 rounded-md mb-2"
         />
 
+        <label className="block mb-1 font-minecraft text-sm text-[#FFF3DF]">Materials</label>
+        <input
+          type="text"
+          placeholder="e.g. Oil on canvas, Bronze, Mixed media"
+          value={materials}
+          onChange={(e) => setMaterials(e.target.value)}
+          className="w-full p-2 border border-gray-400 rounded-md mb-2"
+        />
+
+        <label className="block mb-1 font-minecraft text-sm text-[#FFF3DF]">Dimensions</label>
+        <input
+          type="text"
+          placeholder="e.g. 120 x 80 cm, 30 x 20 x 15 inches"
+          value={dimensions}
+          onChange={(e) => setDimensions(e.target.value)}
+          className="w-full p-2 border border-gray-400 rounded-md mb-2"
+        />
+
         <div className="mb-4">
           <label className="block mb-2 font-minecraft text-sm text-[#FFF3DF]">For Sale</label>
           <div className="flex items-center gap-3">
@@ -310,15 +332,6 @@ export default function ArtContentPanel({ isActive }: { isActive: boolean }) {
             </span>
           </div>
         </div>
-
-        <label className="block mb-1 font-minecraft text-sm text-[#FFF3DF]">Description</label>
-        <textarea
-          placeholder="Enter project description..."
-          value={description}
-          onChange={(e) => setDescription(e.target.value)}
-          className="w-full p-2 border border-gray-400 rounded-md mb-2 min-h-[100px] resize-y"
-          rows={4}
-        />
 
         <label className="block mb-1 font-minecraft text-sm text-[#FFF3DF]">Price</label>
         <input
@@ -450,7 +463,8 @@ export default function ArtContentPanel({ isActive }: { isActive: boolean }) {
                   setPosition(selectedProject.position || 1);
                   setPage(selectedProject.page || 1);
                   setForSale(selectedProject.forSale ?? true);
-                  setDescription(selectedProject.description || "");
+                  setMaterials(selectedProject.materials || "");
+                  setDimensions(selectedProject.dimensions || "");
                   setPrice(selectedProject.price || "");
                   setEditingId(selectedProject.id);
                 }}

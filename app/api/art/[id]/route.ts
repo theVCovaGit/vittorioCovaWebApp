@@ -15,7 +15,8 @@ interface ArtProject {
   position?: number;
   page?: number;
   forSale?: boolean;
-  description?: string;
+  materials?: string;
+  dimensions?: string;
   price?: string;
 }
 
@@ -32,7 +33,8 @@ interface ArtProjectRow {
   position: number;
   page: number;
   for_sale: boolean;
-  description: string;
+  materials: string;
+  dimensions: string;
   price: string;
   created_at?: string;
 }
@@ -96,7 +98,8 @@ export async function GET(
       position: project.position || 1,
       page: project.page || 1,
       forSale: project.for_sale ?? true,
-      description: project.description || "",
+      materials: project.materials || "",
+      dimensions: project.dimensions || "",
       price: project.price || ""
     };
     

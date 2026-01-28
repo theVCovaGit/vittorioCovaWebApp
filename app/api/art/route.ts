@@ -16,7 +16,8 @@ interface ArtProject {
   position?: number;
   page?: number;
   forSale?: boolean;
-  description?: string;
+  materials?: string;
+  dimensions?: string;
   price?: string;
 }
 
@@ -33,7 +34,8 @@ interface ArtProjectRow {
   position: number;
   page: number;
   for_sale: boolean;
-  description: string;
+  materials: string;
+  dimensions: string;
   price: string;
   created_at?: string;
 }
@@ -80,7 +82,8 @@ export async function GET() {
       position: p.position || 1,
       page: p.page || 1,
       forSale: p.for_sale ?? true,
-      description: p.description || "",
+      materials: p.materials || "",
+      dimensions: p.dimensions || "",
       price: p.price || ""
     }));
     
@@ -119,10 +122,10 @@ export async function POST(req: NextRequest) {
         FROM information_schema.columns 
         WHERE table_schema = 'public' 
         AND table_name = 'art_projects' 
-        AND column_name IN ('for_sale', 'description', 'price')
+        AND column_name IN ('for_sale', 'materials', 'dimensions', 'price')
       `;
       const existingColumns = (columnCheck as Array<{ column_name: string }>).map((row) => row.column_name);
-      const requiredColumns = ['for_sale', 'description', 'price'];
+      const requiredColumns = ['for_sale', 'materials', 'dimensions', 'price'];
       const missingColumns = requiredColumns.filter(col => !existingColumns.includes(col));
       
       if (missingColumns.length > 0) {
@@ -131,8 +134,10 @@ export async function POST(req: NextRequest) {
           try {
             if (col === 'for_sale') {
               await sql`ALTER TABLE art_projects ADD COLUMN for_sale BOOLEAN DEFAULT true`;
-            } else if (col === 'description') {
-              await sql`ALTER TABLE art_projects ADD COLUMN description TEXT`;
+            } else if (col === 'materials') {
+              await sql`ALTER TABLE art_projects ADD COLUMN materials TEXT`;
+            } else if (col === 'dimensions') {
+              await sql`ALTER TABLE art_projects ADD COLUMN dimensions TEXT`;
             } else if (col === 'price') {
               await sql`ALTER TABLE art_projects ADD COLUMN price VARCHAR(255)`;
             }
@@ -150,8 +155,8 @@ export async function POST(req: NextRequest) {
     }
 
     const [newProject] = await sql`
-      INSERT INTO art_projects (title, country, city, category, year, images, icon, collection, position, page, for_sale, description, price)
-      VALUES (${project.title}, ${project.country || ""}, ${project.city || ""}, ${project.discipline}, ${project.year || ""}, ${project.images}, ${project.icon || ""}, ${project.collection || ""}, ${project.position || 1}, ${project.page || 1}, ${project.forSale ?? true}, ${project.description || ""}, ${project.price || ""})
+      INSERT INTO art_projects (title, country, city, category, year, images, icon, collection, position, page, for_sale, materials, dimensions, price)
+      VALUES (${project.title}, ${project.country || ""}, ${project.city || ""}, ${project.discipline}, ${project.year || ""}, ${project.images}, ${project.icon || ""}, ${project.collection || ""}, ${project.position || 1}, ${project.page || 1}, ${project.forSale ?? true}, ${project.materials || ""}, ${project.dimensions || ""}, ${project.price || ""})
       RETURNING *
     `;
 
@@ -169,7 +174,8 @@ export async function POST(req: NextRequest) {
       position: newProject.position || 1,
       page: newProject.page || 1,
       forSale: newProject.for_sale ?? true,
-      description: newProject.description || "",
+      materials: newProject.materials || "",
+      dimensions: newProject.dimensions || "",
       price: newProject.price || ""
     };
 
@@ -216,7 +222,8 @@ export async function PUT(req: NextRequest) {
         position = ${project.position || 1},
         page = ${project.page || 1},
         for_sale = ${project.forSale ?? true},
-        description = ${project.description || ""},
+        materials = ${project.materials || ""},
+        dimensions = ${project.dimensions || ""},
         price = ${project.price || ""},
         updated_at = CURRENT_TIMESTAMP
       WHERE id = ${project.id}
@@ -241,7 +248,8 @@ export async function PUT(req: NextRequest) {
       position: updatedProject.position || 1,
       page: updatedProject.page || 1,
       forSale: updatedProject.for_sale ?? true,
-      description: updatedProject.description || "",
+      materials: updatedProject.materials || "",
+      dimensions: updatedProject.dimensions || "",
       price: updatedProject.price || ""
     };
 
