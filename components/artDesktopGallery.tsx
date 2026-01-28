@@ -147,23 +147,23 @@ export default function ArtDesktopGallery() {
             height={42}
             className="block"
           >
-            <path d={BARCODE_PATH} fill="#a08e80" />
+            <path d={BARCODE_PATH} fill="#847263" />
           </svg>
         </div>
         <div
           style={{ width: 367, textAlign: "center", marginTop: 0 }}
           className="pointer-events-auto"
         >
-          <span style={{ color: "#fec776" }}>
-            <Link href="/contact" className="text-[#fec776] no-underline hover:text-white cursor-pointer">
+          <span style={{ color: "#847263" }}>
+            <Link href="/contact" className="text-[#847263] no-underline hover:text-white cursor-pointer">
               CONTACT
             </Link>
             <span> / </span>
-            <Link href="/about" className="text-[#fec776] no-underline hover:text-white cursor-pointer">
+            <Link href="/about" className="text-[#847263] no-underline hover:text-white cursor-pointer">
               ABOUT
             </Link>
             <span> / </span>
-            <Link href="/news" className="text-[#fec776] no-underline hover:text-white cursor-pointer">
+            <Link href="/news" className="text-[#847263] no-underline hover:text-white cursor-pointer">
               NEWS
             </Link>
           </span>
