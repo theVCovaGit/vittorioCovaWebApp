@@ -18,7 +18,7 @@ export default function Header() {
 
   return (
     <header className="fixed top-0 left-0 w-full z-[10002] !z-[10002] bg-[#554943] h-20 flex items-center px-8 pointer-events-auto">
-      <Link href="/" className="flex items-center no-underline cursor-pointer relative z-[10003] !z-[10003] pointer-events-auto -ml-12 sm:-ml-16 md:-ml-20 lg:-ml-24">
+      <Link href="/" className="flex items-center no-underline cursor-pointer relative z-[10003] !z-[10003] pointer-events-auto ml-12 sm:ml-8 md:ml-4 lg:ml-0">
         {/* Invisible spacer to shift text right */}
         <span className="text-transparent font-blurlight text-xl font-bold uppercase tracking-wide pointer-events-none select-none opacity-0">
           VITTORIO 
