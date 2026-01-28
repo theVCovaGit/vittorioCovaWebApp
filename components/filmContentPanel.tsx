@@ -173,8 +173,8 @@ export default function FilmContentPanel({ isActive }: { isActive: boolean }) {
 
   return (
     <div className="mt-6">
-      <h2 className="text-[#FFF3DF] text-xl font-basica">
-        {editingId ? "Edit project" : "Add new project"}
+      <h2 className="text-[#FFF3DF] text-xl font-microextend font-bold">
+        {editingId ? "Edit project" : "Add new film project"}
       </h2>
       <div className="bg-[#554943] p-4 mt-4 text-black">
         {/* Inputs */}
