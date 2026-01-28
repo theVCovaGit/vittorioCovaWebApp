@@ -8,6 +8,7 @@ interface PositionAssignment {
   position?: number | null;
   page?: number | null;
   images?: string[];
+  icon?: string;
 }
 
 interface ProjectPositionProps {
@@ -199,7 +200,7 @@ const ProjectPosition = ({
                 ? "Available"
                 : `Slot ${position}`);
 
-            const previewUrl = occupant?.images?.[0] || null;
+            const previewUrl = occupant?.icon || null;
             const hasPreview = Boolean(previewUrl);
 
             const baseClasses =
