@@ -135,7 +135,7 @@ export default function ArtDesktopGallery() {
 
       {/* Fixed footer: always visible at viewport bottom. Dimensions & link positioning match hero. */}
       <footer
-        className="fixed bottom-0 left-0 right-0 bg-[#554943] font-blurlight z-50 pointer-events-auto flex flex-col items-end justify-end pr-[6rem] pb-4 pt-4"
+        className="fixed bottom-0 left-0 right-0 bg-transparent font-blurlight z-50 pointer-events-auto flex flex-col items-end justify-end pr-[6rem] pb-4 pt-4"
         style={{ fontFamily: '"Blur Light", sans-serif', fontSize: "32px", letterSpacing: "-2.4px", lineHeight: "23px" }}
       >
         <div style={{ marginTop: -10 }}>
