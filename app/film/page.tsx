@@ -3,6 +3,7 @@
 
 import { useEffect, useState, useMemo } from "react";
 import FilmMobile from "@/components/filmMobile";
+import CreativeSectionFooter from "@/components/creativeSectionFooter";
 
 interface FilmProject {
   id: number;
@@ -87,6 +88,7 @@ function FilmDesktop() {
   }, [projects]);
   return (
     <div className="min-h-screen bg-[#2d2f38] relative overflow-hidden">
+      <CreativeSectionFooter />
       <div
         className="film-strip-container absolute top-[48.3%] left-0 transform -translate-y-1/2 w-screen h-[500px] overflow-x-scroll overflow-y-hidden scrollbar-hide"
         style={{
