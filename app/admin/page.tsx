@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import ArchitectureContentPanel from "@/components/architectureContentPanel";
 // import ProductDesignContentPanel from "@/components/productDesignContentPanel"; // Section not active
 import ArtContentPanel from "@/components/artContentPanel"; 
@@ -13,6 +13,15 @@ const AdminPage = () => {
   const [activePanel, setActivePanel] = useState<"architecture" | "art" | "film" | null>(null);
 
   const hardcodedPassword = "123";
+
+  // Dispatch events when panels expand/collapse for footer visibility
+  useEffect(() => {
+    if (activePanel !== null) {
+      window.dispatchEvent(new CustomEvent("admin-panel-open"));
+    } else {
+      window.dispatchEvent(new CustomEvent("admin-panel-close"));
+    }
+  }, [activePanel]);
 
   const handleLogin = () => {
     if (password === hardcodedPassword) {
@@ -51,7 +60,7 @@ const AdminPage = () => {
       
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-4">
         <button
-          onClick={() => setActivePanel("architecture")}
+          onClick={() => setActivePanel(activePanel === "architecture" ? null : "architecture")}
           className="font-blurlight bg-[#554943] border-2 border-black text-black py-3 px-6 rounded-md flex items-center gap-2"
         >
           <div className="w-3 h-3 rounded-full bg-[#fff5e0]"></div>
@@ -67,14 +76,14 @@ const AdminPage = () => {
         </button>
         */}
         <button
-          onClick={() => setActivePanel("art")}
+          onClick={() => setActivePanel(activePanel === "art" ? null : "art")}
           className="font-blurlight bg-[#554943] border-2 border-black text-black py-3 px-6 rounded-md flex items-center gap-2"
         >
           <div className="w-3 h-3 rounded-full bg-[#895a59]"></div>
           Art
         </button>
         <button
-          onClick={() => setActivePanel("film")}
+          onClick={() => setActivePanel(activePanel === "film" ? null : "film")}
           className="font-blurlight bg-[#554943] border-2 border-black text-black py-3 px-6 rounded-md flex items-center gap-2"
         >
           <div className="w-3 h-3 rounded-full bg-[#2d2f38]"></div>

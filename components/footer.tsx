@@ -14,6 +14,7 @@ export default function Footer() {
   // Lower footer position on all pages except hero, contact, about, news
   const shouldLowerFooter = !["/", "/contact", "/about", "/news"].includes(pathname);
   const [isExpandedViewOpen, setIsExpandedViewOpen] = useState(false);
+  const [isAdminPanelOpen, setIsAdminPanelOpen] = useState(false);
 
   // Listen for custom events to track expanded view state
   useEffect(() => {
@@ -39,26 +40,43 @@ export default function Footer() {
         setIsExpandedViewOpen(false);
       }
     };
+    const handleAdminPanelOpen = () => {
+      if (isAdminPage) {
+        setIsAdminPanelOpen(true);
+      }
+    };
+    const handleAdminPanelClose = () => {
+      if (isAdminPage) {
+        setIsAdminPanelOpen(false);
+      }
+    };
 
     window.addEventListener('architecture-expanded-open', handleArchitectureExpandedViewOpen);
     window.addEventListener('architecture-expanded-close', handleArchitectureExpandedViewClose);
     window.addEventListener('art-expanded-open', handleArtExpandedViewOpen);
     window.addEventListener('art-expanded-close', handleArtExpandedViewClose);
+    window.addEventListener('admin-panel-open', handleAdminPanelOpen);
+    window.addEventListener('admin-panel-close', handleAdminPanelClose);
 
     return () => {
       window.removeEventListener('architecture-expanded-open', handleArchitectureExpandedViewOpen);
       window.removeEventListener('architecture-expanded-close', handleArchitectureExpandedViewClose);
       window.removeEventListener('art-expanded-open', handleArtExpandedViewOpen);
       window.removeEventListener('art-expanded-close', handleArtExpandedViewClose);
+      window.removeEventListener('admin-panel-open', handleAdminPanelOpen);
+      window.removeEventListener('admin-panel-close', handleAdminPanelClose);
     };
-  }, [isArchitecturePage, isArtPage]);
+  }, [isArchitecturePage, isArtPage, isAdminPage]);
 
-  // Reset expanded view state when leaving architecture or art page
+  // Reset expanded view state when leaving architecture, art, or admin page
   useEffect(() => {
     if (!isArchitecturePage && !isArtPage) {
       setIsExpandedViewOpen(false);
     }
-  }, [isArchitecturePage, isArtPage]);
+    if (!isAdminPage) {
+      setIsAdminPanelOpen(false);
+    }
+  }, [isArchitecturePage, isArtPage, isAdminPage]);
 
   /* Main: barcode + links in SlashVPattern. Art/Film: CreativeSectionFooter. No global footer. */
   if (isMainPage || isArtPage || pathname === "/film") return null;
@@ -66,6 +84,11 @@ export default function Footer() {
   const footerBg = (isArchitecturePage && isExpandedViewOpen) ? "bg-transparent" : (isAdminPage ? "bg-transparent" : "bg-[#554943]");
 
   /* Architecture: same dimensions & accommodation as /art and /film (367×42 barcode, 367px links, Blur Light 32px, pr-[6rem]). Colors and footer bg unchanged. */
+  /* Hide footer on admin page when any panel is expanded */
+  if (isAdminPage && isAdminPanelOpen) {
+    return null;
+  }
+
   if (isArchitecturePage || isAdminPage) {
     return (
       <footer
