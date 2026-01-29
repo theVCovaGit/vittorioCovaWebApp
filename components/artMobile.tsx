@@ -118,7 +118,7 @@ export default function ArtMobile() {
           style={{ minHeight: "100vh" }}
         >
           {/* Left: collection title, collection description, arrow */}
-          <div className="flex-shrink-0 w-[38%] max-w-[160px] pl-4 pr-2 pt-[38vh] pb-4 flex flex-col gap-4">
+          <div className="flex-shrink-0 w-[72%] max-w-[340px] pl-24 pr-8 pt-[38vh] pb-4 flex flex-col gap-4">
             <h2 className="font-blurlight font-bold text-[#4A413C] text-lg uppercase tracking-wide leading-tight">
               {groups.length > 0 ? groups[0].collection : "Collection"}
               <span className="text-[#4A413C]">.</span>
