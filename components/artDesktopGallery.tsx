@@ -53,13 +53,13 @@ function buildPageGrid(projects: ArtProject[]): { collection: string; page: numb
   return out;
 }
 
-function materialLine(p: ArtProject): string {
-  const parts: string[] = [];
-  if ((p.materials || "").trim()) parts.push((p.materials || "").trim().toUpperCase());
-  if ((p.dimensions || "").trim()) parts.push((p.dimensions || "").trim());
-  if (parts.length) return parts.join(" - ");
-  if ((p.description || "").trim()) return p.description!;
-  return p.discipline ? `${p.discipline.toUpperCase()}${p.year ? ` - ${p.year}` : ""}` : "";
+function materialDimensionsLine(p: ArtProject): string {
+  const mat = (p.materials || "").trim();
+  const dim = (p.dimensions || "").trim();
+  if (mat && dim) return `${mat} - ${dim}`;
+  if (mat) return mat;
+  if (dim) return dim;
+  return "";
 }
 
 export default function ArtDesktopGallery() {
@@ -127,13 +127,15 @@ export default function ArtDesktopGallery() {
                           <h3 className="font-blurlight font-bold text-[#4A413C] text-lg md:text-xl uppercase tracking-wide">
                             {p.title}
                           </h3>
-                          <p className="font-blurlight text-[#4A413C]/80 text-sm mt-0.5">
-                            {materialLine(p)}
-                          </p>
+                          {materialDimensionsLine(p) && (
+                            <p className="font-blurlight text-[#4A413C]/80 text-sm mt-0.5">
+                              {materialDimensionsLine(p)}
+                            </p>
+                          )}
                           <p
                             className={`font-blurlight text-sm mt-1 ${p.forSale !== false ? "text-[#C6898F] underline" : "text-[#4A413C]/60"}`}
                           >
-                            {p.forSale !== false ? "AVAILABLE" : "SOLD"}
+                            {p.forSale !== false ? "Available" : "Not available"}
                           </p>
                         </button>
                       ) : (
