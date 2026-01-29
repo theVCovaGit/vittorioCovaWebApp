@@ -43,7 +43,7 @@ export default function ArtInquireForm({ project, onClose }: ArtInquireFormProps
         className="relative w-full flex-1 min-h-0 flex flex-col overflow-hidden"
         onClick={(e) => e.stopPropagation()}
       >
-        <div className="flex flex-wrap gap-4 p-6 pb-4 border-b border-[#4A413C]/20">
+        <div className="flex flex-wrap gap-4 p-6 pb-4">
           <div className="min-w-0 flex-1">
             <p className="text-[#C6898F] font-blurlight text-sm mb-1">Inquire about:</p>
             <h2 className="text-[#4A413C] font-blurlight font-bold text-xl uppercase tracking-wider leading-tight">
