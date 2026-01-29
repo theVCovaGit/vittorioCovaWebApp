@@ -451,11 +451,11 @@ export default function ArtContentPanel({ isActive }: { isActive: boolean }) {
         {selectedProject ? (
           <div className="bg-transparent text-white p-4 rounded-md border border-gray-300">
             {(selectedProject.icon || selectedProject.images?.[0]) && (
-              <div className="mb-3">
+              <div className="mb-3 w-full max-w-[120px]">
                 <img
                   src={selectedProject.icon || selectedProject.images?.[0]}
                   alt={selectedProject.title}
-                  className="w-full aspect-[4/3] object-cover object-center rounded-md"
+                  className="w-full aspect-square object-cover object-center rounded-md"
                 />
               </div>
             )}
