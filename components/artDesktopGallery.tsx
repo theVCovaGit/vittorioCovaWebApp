@@ -83,6 +83,67 @@ export default function ArtDesktopGallery() {
   }, []);
 
   const pageGrids = buildPageGrid(projects);
+  /** Group by collection, flatten all pages into one grid per collection for perfect alignment. */
+  const byCollection = (() => {
+    const m = new Map<string, (ArtProject | null)[]>();
+    for (const row of pageGrids) {
+      const col = row.collection;
+      const existing = m.get(col) ?? [];
+      m.set(col, [...existing, ...row.slots]);
+    }
+    return Array.from(m.entries()).map(([collection, allSlots]) => ({ collection, allSlots }));
+  })();
+
+  const renderGrid = (slots: (ArtProject | null)[], keyPrefix: string) => (
+    <div key={keyPrefix} className="flex-1 order-2 lg:order-1 min-w-0">
+      <div className="grid grid-cols-2 gap-x-8 md:gap-x-10 gap-y-8 md:gap-y-10 items-start w-full max-w-4xl">
+        {slots.map((p, slotIndex) =>
+          p ? (
+            <button
+              key={p.id}
+              type="button"
+              className="group text-left bg-transparent border-0 p-0 cursor-pointer flex flex-col items-stretch w-full"
+              onClick={() => {
+                setSelectedProjectId(p.id);
+                window.dispatchEvent(new CustomEvent("art-expanded-open"));
+              }}
+            >
+              <div className="flex-shrink-0 w-full aspect-[4/3] bg-[#e8e0d5] overflow-hidden rounded-sm mb-3">
+                {(p.icon || p.images?.[0]) ? (
+                  <img
+                    src={p.icon || p.images[0]}
+                    alt={p.title}
+                    className="w-full h-full object-cover object-center transition-transform duration-200 group-hover:scale-[1.02]"
+                  />
+                ) : (
+                  <div className="w-full h-full flex items-center justify-center font-blurlight text-[#4A413C]/50 text-sm">
+                    No image
+                  </div>
+                )}
+              </div>
+              <div className="min-h-0 flex flex-col items-stretch">
+                <h3 className="font-blurlight font-bold text-[#4A413C] text-lg md:text-xl uppercase tracking-wide">
+                  {p.title}
+                </h3>
+                {materialDimensionsLine(p) && (
+                  <p className="font-blurlight text-[#4A413C]/80 text-sm mt-0.5">
+                    {materialDimensionsLine(p)}
+                  </p>
+                )}
+                <p
+                  className={`font-blurlight text-sm mt-1 ${p.forSale !== false ? "text-[#C6898F] underline" : "text-[#4A413C]/60"}`}
+                >
+                  {p.forSale !== false ? "Available" : "Not available"}
+                </p>
+              </div>
+            </button>
+          ) : (
+            <div key={`${keyPrefix}-empty-${slotIndex}`} className="w-full aspect-[4/3] invisible" aria-hidden="true" />
+          )
+        )}
+      </div>
+    </div>
+  );
 
   return (
     <div className="min-h-screen bg-[#F5EFDF] flex flex-col">
@@ -96,55 +157,10 @@ export default function ArtDesktopGallery() {
               No pieces yet.
             </p>
           ) : (
-            pageGrids.map(({ collection, page, slots }, idx) => (
-              <section key={`${collection}-${page}-${idx}`} className="mb-16 md:mb-24">
+            byCollection.map(({ collection, allSlots }) => (
+              <section key={collection} className="mb-16 md:mb-24">
                 <div className="flex flex-col lg:flex-row lg:items-start gap-8 lg:gap-12">
-                  <div className="flex-1 grid grid-cols-2 gap-8 md:gap-10 order-2 lg:order-1 items-start">
-                    {slots.map((p, slotIndex) =>
-                      p ? (
-                        <button
-                          key={p.id}
-                          type="button"
-                          className="group text-left bg-transparent border-0 p-0 cursor-pointer flex flex-col items-stretch w-full"
-                          onClick={() => {
-                            setSelectedProjectId(p.id);
-                            window.dispatchEvent(new CustomEvent("art-expanded-open"));
-                          }}
-                        >
-                          <div className="flex-shrink-0 w-full aspect-[4/3] bg-[#e8e0d5] overflow-hidden rounded-sm mb-3">
-                            {(p.icon || p.images?.[0]) ? (
-                              <img
-                                src={p.icon || p.images[0]}
-                                alt={p.title}
-                                className="w-full h-full object-cover object-center transition-transform duration-200 group-hover:scale-[1.02]"
-                              />
-                            ) : (
-                              <div className="w-full h-full flex items-center justify-center font-blurlight text-[#4A413C]/50 text-sm">
-                                No image
-                              </div>
-                            )}
-                          </div>
-                          <div className="min-h-0 flex flex-col items-stretch">
-                            <h3 className="font-blurlight font-bold text-[#4A413C] text-lg md:text-xl uppercase tracking-wide">
-                              {p.title}
-                            </h3>
-                            {materialDimensionsLine(p) && (
-                              <p className="font-blurlight text-[#4A413C]/80 text-sm mt-0.5">
-                                {materialDimensionsLine(p)}
-                              </p>
-                            )}
-                            <p
-                              className={`font-blurlight text-sm mt-1 ${p.forSale !== false ? "text-[#C6898F] underline" : "text-[#4A413C]/60"}`}
-                            >
-                              {p.forSale !== false ? "Available" : "Not available"}
-                            </p>
-                          </div>
-                        </button>
-                      ) : (
-                        <div key={`${collection}-${page}-${idx}-empty-${slotIndex}`} className="w-full aspect-[4/3] invisible" aria-hidden="true" />
-                      )
-                    )}
-                  </div>
+                  {renderGrid(allSlots, `${collection}-grid`)}
                   <div className="lg:w-56 xl:w-64 flex-shrink-0 order-1 lg:order-2">
                     <h2 className="font-blurlight font-bold text-[#4A413C] text-2xl md:text-3xl uppercase tracking-wide">
                       {collection}
