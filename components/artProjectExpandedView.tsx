@@ -22,6 +22,7 @@ interface ArtProject {
   materials?: string;
   dimensions?: string;
   medium?: string;
+  author?: string;
 }
 
 function materialDimensionsLine(p: ArtProject): string {
@@ -217,6 +218,9 @@ export default function ArtProjectExpandedView({
                 {(project.medium || "").trim() ? (
                   <p className="text-[#4A413C]/80 font-electrolize text-xs m-0 leading-tight">Medium - {(project.medium || "").trim()}</p>
                 ) : null}
+                {(project.author || "").trim() ? (
+                  <p className="text-[#4A413C]/80 font-electrolize text-xs m-0 leading-tight">By {(project.author || "").trim()}</p>
+                ) : null}
               </div>
             </div>
             <button type="button" className="bg-[#524b44] hover:bg-[#48423c] text-[#FFF3DF] font-blurlight py-2 px-10 rounded-sm transition-colors text-sm shrink-0 ml-auto mt-6" onClick={() => alert('Contact us for purchase information')}>Inquire now</button>
@@ -268,6 +272,9 @@ export default function ArtProjectExpandedView({
                   ) : null}
                   {(project.medium || "").trim() ? (
                     <p className="text-[#4A413C]/80 font-electrolize text-xs md:text-sm m-0 leading-tight">Medium - {(project.medium || "").trim()}</p>
+                  ) : null}
+                  {(project.author || "").trim() ? (
+                    <p className="text-[#4A413C]/80 font-electrolize text-xs md:text-sm m-0 leading-tight">By {(project.author || "").trim()}</p>
                   ) : null}
                 </div>
               </div>
