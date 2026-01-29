@@ -123,6 +123,19 @@ export default function ArtMobile() {
     return group.projects.find((p) => (p.collectionDescription || "").trim())?.collectionDescription ?? group.projects[0]?.collectionDescription ?? "";
   }
 
+  /** Split description into two lines (e.g. "Animal Hide Western Art" -> "Animal Hide" / "Western Art") */
+  function descriptionTwoLines(desc: string): { line1: string; line2: string | null } {
+    const words = desc.trim().split(/\s+/).filter(Boolean);
+    if (words.length <= 1) return { line1: desc.trim(), line2: null };
+    if (words.length === 2) return { line1: words[0], line2: words[1] };
+    if (words.length === 3) return { line1: words[0], line2: words[1] + " " + words[2] };
+    const mid = Math.ceil(words.length / 2);
+    return {
+      line1: words.slice(0, mid).join(" "),
+      line2: words.slice(mid).join(" "),
+    };
+  }
+
   return (
     <>
       {/* Vertical scroll: on scroll end snap to nearest section (bounce back or go to next category) */}
@@ -171,11 +184,21 @@ export default function ArtMobile() {
                       <span>{line1}</span>
                       {line2 != null ? <span>{line2}</span> : null}
                     </h2>
-                    {desc ? (
-                      <p className="font-blurlight text-[#4A413C] text-sm leading-relaxed bg-[#facbcc] px-2 py-1 rounded-sm w-fit">
-                        {desc}
-                      </p>
-                    ) : null}
+                    {desc ? (() => {
+                      const { line1, line2 } = descriptionTwoLines(desc);
+                      return (
+                        <div className="flex flex-col gap-1">
+                          <span className="font-blurlight text-[#4A413C] text-sm leading-relaxed bg-[#facbcc] px-2 py-1 rounded-sm w-fit">
+                            {line1}
+                          </span>
+                          {line2 != null ? (
+                            <span className="font-blurlight text-[#4A413C] text-sm leading-relaxed bg-[#facbcc] px-2 py-1 rounded-sm w-fit">
+                              {line2}
+                            </span>
+                          ) : null}
+                        </div>
+                      );
+                    })() : null}
                   </div>
 
                   {/* Projects in a row – scroll with the whole strip */}
