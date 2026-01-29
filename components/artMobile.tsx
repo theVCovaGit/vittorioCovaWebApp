@@ -203,7 +203,7 @@ export default function ArtMobile() {
 
                   {/* Projects: 2 rows × N columns (p1,p3,p5… top; p2,p4,p6… bottom), scroll horizontally */}
                   <div
-                    className="grid grid-rows-2 grid-flow-col auto-cols-[min(72vw,280px)] gap-x-6 gap-y-4 pl-4 pr-[30vw] py-4 items-start w-max"
+                    className="grid grid-rows-2 grid-flow-col auto-cols-[min(48vw,200px)] sm:auto-cols-[min(44vw,200px)] gap-x-4 gap-y-3 sm:gap-x-5 sm:gap-y-4 pl-4 pr-[20vw] sm:pr-[24vw] py-4 items-start w-max"
                   >
                   {group.projects.map((project) => (
                     <button
