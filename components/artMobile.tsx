@@ -215,7 +215,7 @@ export default function ArtMobile() {
                         window.dispatchEvent(new CustomEvent("art-expanded-open"));
                       }}
                     >
-                      <div className="flex-shrink-0 w-full aspect-[4/3] border-4 border-[#4A413C] rounded-sm overflow-hidden bg-[#e8e0d5]">
+                      <div className="flex-shrink-0 w-full aspect-[4/3] rounded-sm overflow-hidden bg-[#e8e0d5]">
                         {(project.icon || project.images?.[0]) ? (
                           <img
                             src={project.icon || project.images[0]}
