@@ -142,7 +142,7 @@ export default function ArtProjectExpandedView({
 
   return (
     <div 
-      className="fixed inset-0 bg-[#895a59] z-50"
+      className="fixed inset-0 bg-[#FFF3DF] z-50"
       onClick={handleClose}
     >
       <div 
@@ -195,7 +195,7 @@ export default function ArtProjectExpandedView({
         </div>
 
         {/* Right Side - Product Details (Red background extends full width) */}
-        <div className="absolute left-0 right-0 top-0 bottom-0 bg-[#895a59] overflow-y-auto">
+        <div className="absolute left-0 right-0 top-0 bottom-0 bg-[#FFF3DF] overflow-y-auto">
           {/* ART Label - positioned below header by constraint */}
           <div className="absolute top-0 right-0 z-20">
             {/* Spacer matching header height (h-20 = 5rem) */}
