@@ -219,7 +219,7 @@ export default function ArtProjectExpandedView({
                   <p className="text-[#4A413C]/80 font-electrolize text-xs m-0 leading-tight">Medium - {(project.medium || "").trim()}</p>
                 ) : null}
                 {(project.author || "").trim() ? (
-                  <p className="text-[#4A413C]/80 font-electrolize text-xs m-0 leading-tight">By {(project.author || "").trim()}</p>
+                  <p className="text-[#4A413C]/80 font-electrolize text-xs m-0 mt-3 leading-tight">By {(project.author || "").trim()}</p>
                 ) : null}
               </div>
             </div>
@@ -274,7 +274,7 @@ export default function ArtProjectExpandedView({
                     <p className="text-[#4A413C]/80 font-electrolize text-xs md:text-sm m-0 leading-tight">Medium - {(project.medium || "").trim()}</p>
                   ) : null}
                   {(project.author || "").trim() ? (
-                    <p className="text-[#4A413C]/80 font-electrolize text-xs md:text-sm m-0 leading-tight">By {(project.author || "").trim()}</p>
+                    <p className="text-[#4A413C]/80 font-electrolize text-xs md:text-sm m-0 mt-3 leading-tight">By {(project.author || "").trim()}</p>
                   ) : null}
                 </div>
               </div>
