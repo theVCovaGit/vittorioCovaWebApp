@@ -221,7 +221,6 @@ export default function ArtProjectExpandedView({
             </div>
             <button type="button" className="bg-[#524b44] hover:bg-[#48423c] text-[#FFF3DF] font-blurlight py-2 px-10 rounded-sm transition-colors text-sm shrink-0 ml-auto mt-6" onClick={() => alert('Contact us for purchase information')}>Inquire now</button>
           </div>
-          <p className="text-[#C6898F] font-microextend text-xs mt-1 mb-4">For Sale</p>
           {project.description && project.description.trim() && (
             <div className="text-[#4A413C] font-electrolize text-xs leading-relaxed max-w-xl"><p className="m-0">{project.description}</p></div>
           )}
@@ -274,7 +273,6 @@ export default function ArtProjectExpandedView({
               </div>
               <button type="button" className="bg-[#524b44] hover:bg-[#48423c] text-[#FFF3DF] font-blurlight py-2 px-10 rounded-sm transition-colors text-sm shrink-0 ml-auto mt-6" onClick={() => alert('Contact us for purchase information')}>Inquire now</button>
             </div>
-            <p className="text-[#C6898F] font-microextend text-xs md:text-sm mt-1 mb-6">For Sale</p>
             {project.description && project.description.trim() && (
               <div className="text-[#4A413C] font-electrolize text-xs md:text-sm leading-relaxed mb-8 max-w-lg"><p className="m-0">{project.description}</p></div>
             )}
