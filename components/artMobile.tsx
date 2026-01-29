@@ -172,7 +172,7 @@ export default function ArtMobile() {
                       {line2 != null ? <span>{line2}</span> : null}
                     </h2>
                     {desc ? (
-                      <p className="font-blurlight text-[#4A413C] text-sm leading-relaxed">
+                      <p className="font-blurlight text-[#4A413C] text-sm leading-relaxed bg-[#facbcc] px-2 py-1 rounded-sm w-fit">
                         {desc}
                       </p>
                     ) : null}
@@ -207,14 +207,14 @@ export default function ArtMobile() {
                         {project.title}
                       </h3>
                       {materialDimensionsLine(project) && (
-                        <p className="font-blurlight text-[#4A413C]/80 text-xs mt-0.5 uppercase">
+                        <p className="font-blurlight text-[#4A413C]/80 text-xs mt-0.5 uppercase bg-[#facbcc] px-2 py-0.5 rounded-sm w-fit">
                           {materialDimensionsLine(project)}
                         </p>
                       )}
                       <p
                         className={`font-blurlight text-xs mt-1 w-fit px-2 py-0.5 rounded-sm ${
                           project.forSale !== false
-                            ? "bg-[#DCBED3] text-[#4A413C]"
+                            ? "bg-[#facbcc] text-[#4A413C]"
                             : "text-[#4A413C]/60"
                         }`}
                       >
