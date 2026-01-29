@@ -18,34 +18,34 @@ export default function SponsoredByLifeAnimation() {
   const fadeOutDuration = 0.3; // Fade out duration
   const cycleDuration = lastAnimationEnds + holdDuration + fadeOutDuration; // ~3 seconds total
 
-  const partWidth = 600 / 4; // Divide width by 4 for 4 objects
-
   return (
-    <div className="fixed inset-0 z-[60000] bg-[#554943] flex flex-col items-center justify-center">
-      <div className="relative" style={{ width: 600, height: 110 }}>
+    <div className="fixed inset-0 z-[60000] bg-[#554943] flex items-center justify-center p-4">
+      <div
+        className="relative max-h-[80vh] aspect-[600/110] shrink-0"
+        style={{ width: "min(600px, 90vw)" }}
+      >
         {[0, 1, 2, 3].map((i) => {
-          const leftOffset = i * partWidth;
-          const rightOffset = 600 - (i + 1) * partWidth;
-          
-          // Calculate when this object should fade in and out
+          const leftPct = i * 25;
+          const rightPct = (3 - i) * 25;
+
           const fadeInStart = timings[i].delay;
           const fadeInEnd = timings[i].delay + timings[i].duration;
           const fadeOutStart = lastAnimationEnds + holdDuration;
-          
+
           return (
             <motion.div
               key={i}
               className="absolute inset-0"
               style={{
-                clipPath: `inset(0 ${rightOffset}px 0 ${leftOffset}px)`,
+                clipPath: `inset(0 ${rightPct}% 0 ${leftPct}%)`,
               }}
               animate={{
                 opacity: [
-                  0, // Start invisible
-                  0, // Stay invisible until fade in
-                  1, // Fade in
-                  1, // Stay visible until fade out
-                  0, // Fade out
+                  0,
+                  0,
+                  1,
+                  1,
+                  0,
                 ],
               }}
               transition={{
@@ -65,9 +65,9 @@ export default function SponsoredByLifeAnimation() {
               <Image
                 src="/assets/sponsoredByLifeAnimation.svg"
                 alt="Sponsored By Life"
-                width={600}
-                height={110}
-                style={{ width: 600, height: 110, objectFit: "contain" }}
+                fill
+                sizes="(max-width: 640px) 90vw, 600px"
+                className="object-contain"
               />
             </motion.div>
           );
