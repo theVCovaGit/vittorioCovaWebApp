@@ -145,12 +145,12 @@ export default function ArtProjectExpandedView({
       className="fixed bg-[#FFF3DF] z-50 art-expanded-below-header"
       onClick={handleClose}
     >
-      {/* Mobile: stacked — image top, text bottom */}
+      {/* Mobile: stacked — image top (full width, flush under header), text bottom */}
       <div 
-        className="md:hidden flex flex-col w-full h-full overflow-hidden"
+        className="md:hidden flex flex-col w-full h-full overflow-hidden pt-0"
         onClick={(e) => e.stopPropagation()}
       >
-        <div className="flex-shrink-0 w-full h-[50vh] min-h-[280px] flex items-center justify-center bg-[#e8e0d5] relative px-4">
+        <div className="flex-shrink-0 w-full h-[50vh] min-h-[280px] flex items-center justify-center bg-[#e8e0d5] relative overflow-hidden">
           {currentImage ? (
             <>
               {project.images.length > 1 && (
@@ -169,7 +169,7 @@ export default function ArtProjectExpandedView({
                   </button>
                 </>
               )}
-              <img src={currentImage} alt={project.title} className="max-w-full max-h-full object-contain" />
+              <img src={currentImage} alt={project.title} className="w-full h-full object-cover" />
             </>
           ) : (
             <div className="text-[#4A413C]/60 font-blurlight text-sm">No image available</div>
