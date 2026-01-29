@@ -283,6 +283,10 @@ export default function ArtContentPanel({ isActive }: { isActive: boolean }) {
                     onClick={() => {
                       setCollection(col);
                       setShowCollectionDropdown(false);
+                      const firstInCollection = projects.find(
+                        (p) => (p.collection ?? "").trim().toLowerCase() === col.trim().toLowerCase()
+                      );
+                      setCollectionDescription(firstInCollection?.collectionDescription ?? "");
                     }}
                     className={`px-3 py-2 cursor-pointer hover:bg-gray-600 text-[#FFF3DF] font-minecraft text-sm ${
                       index < filteredArray.length - 1 ? 'border-b border-gray-400' : ''
