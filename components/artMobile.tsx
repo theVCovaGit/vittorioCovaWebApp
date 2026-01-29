@@ -119,9 +119,22 @@ export default function ArtMobile() {
         >
           {/* Left: collection title, collection description, arrow */}
           <div className="flex-shrink-0 w-[72%] max-w-[340px] pl-24 pr-8 pt-[38vh] pb-4 flex flex-col gap-4">
-            <h2 className="font-blurlight font-bold text-[#4A413C] text-lg uppercase tracking-wide leading-tight">
-              {groups.length > 0 ? groups[0].collection : "Collection"}
-              <span className="text-[#4A413C]">.</span>
+            <h2 className="font-blurlight font-bold text-[#4A413C] text-lg uppercase tracking-wide leading-tight flex flex-col">
+              {(() => {
+                const raw = groups.length > 0 ? groups[0].collection : "Collection";
+                const space = raw.indexOf(" ");
+                if (space === -1) {
+                  return <span>{raw}.</span>;
+                }
+                const line1 = raw.slice(0, space);
+                const line2 = raw.slice(space + 1).trim() + ".";
+                return (
+                  <>
+                    <span>{line1}</span>
+                    <span>{line2}</span>
+                  </>
+                );
+              })()}
             </h2>
             {collectionDescription ? (
               <p className="font-blurlight text-[#4A413C] text-sm leading-relaxed">
