@@ -24,7 +24,7 @@ interface ArtProject {
   dimensions?: string;
 }
 
-/** (collection, page) -> slots[0..3] for positions 1–4. Order: collection asc, page asc. */
+/** (collection, page) -> slots[0..3]. Admin uses global positions (1–4 page 1, 5–8 page 2, …); map to slot index with (position - 1) % 4. */
 function buildPageGrid(projects: ArtProject[]): { collection: string; page: number; slots: (ArtProject | null)[] }[] {
   const byCollection = new Map<string, Map<number, ArtProject[]>>();
   for (const p of projects) {
@@ -44,8 +44,9 @@ function buildPageGrid(projects: ArtProject[]): { collection: string; page: numb
       const list = perPage.get(pg)!;
       const slots: (ArtProject | null)[] = [null, null, null, null];
       for (const p of list) {
-        const pos = Math.max(1, Math.min(4, p.position ?? 1));
-        slots[pos - 1] = p;
+        const pos = p.position ?? 1;
+        const slotIndex = Math.max(0, Math.min(3, (pos - 1) % 4));
+        slots[slotIndex] = p;
       }
       out.push({ collection: col, page: pg, slots });
     }
