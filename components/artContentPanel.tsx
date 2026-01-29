@@ -22,6 +22,7 @@ interface ArtProject {
   forSale?: boolean;
   materials?: string;
   dimensions?: string;
+  medium?: string;
   price?: string;
 }
 
@@ -42,6 +43,7 @@ export default function ArtContentPanel({ isActive }: { isActive: boolean }) {
   const [forSale, setForSale] = useState<boolean>(true);
   const [materials, setMaterials] = useState<string>("");
   const [dimensions, setDimensions] = useState<string>("");
+  const [medium, setMedium] = useState<string>("");
   const [price, setPrice] = useState<string>("");
   const [showCollectionDropdown, setShowCollectionDropdown] = useState(false);
 
@@ -69,6 +71,7 @@ export default function ArtContentPanel({ isActive }: { isActive: boolean }) {
     setForSale(true);
     setMaterials("");
     setDimensions("");
+    setMedium("");
     setPrice("");
   };
 
@@ -162,6 +165,7 @@ export default function ArtContentPanel({ isActive }: { isActive: boolean }) {
       forSale,
       materials,
       dimensions,
+      medium,
       price,
     };
     
@@ -337,6 +341,15 @@ export default function ArtContentPanel({ isActive }: { isActive: boolean }) {
           className="w-full p-2 border border-gray-400 rounded-md mb-2"
         />
 
+        <label className="block mb-1 font-minecraft text-sm text-[#FFF3DF]">Medium</label>
+        <input
+          type="text"
+          placeholder="e.g. Painting, Sculpture, Mixed media"
+          value={medium}
+          onChange={(e) => setMedium(e.target.value)}
+          className="w-full p-2 border border-gray-400 rounded-md mb-2"
+        />
+
         <div className="mb-4">
           <label className="block mb-2 font-minecraft text-sm text-[#FFF3DF]">For Sale</label>
           <div className="flex items-center gap-3">
@@ -485,6 +498,7 @@ export default function ArtContentPanel({ isActive }: { isActive: boolean }) {
                   setForSale(selectedProject.forSale ?? true);
                   setMaterials(selectedProject.materials || "");
                   setDimensions(selectedProject.dimensions || "");
+                  setMedium(selectedProject.medium || "");
                   setPrice(selectedProject.price || "");
                   setEditingId(selectedProject.id);
                 }}
