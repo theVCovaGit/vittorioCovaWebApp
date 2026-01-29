@@ -210,16 +210,16 @@ export default function ArtProjectExpandedView({
         <div className="flex-1 min-h-0 overflow-hidden bg-[#FFF3DF] px-6 py-6">
           <div className="flex flex-wrap items-start justify-between gap-3 mb-0">
             <div className="min-w-0 flex-1">
-              <h1 className="text-[#4A413C] font-microextend font-bold text-lg uppercase tracking-wider leading-tight">{project.title}</h1>
+              <h1 className="text-[#4A413C] font-blurlight font-bold text-lg uppercase tracking-wider leading-tight">{project.title}</h1>
               <div className="leading-tight mt-0.5">
                 {materialDimensionsLine(project) ? (
-                  <p className="text-[#4A413C]/80 font-electrolize text-xs m-0 leading-tight">{materialDimensionsLine(project)}</p>
+                  <p className="text-[#4A413C]/80 font-blurlight text-xs m-0 leading-tight">{materialDimensionsLine(project)}</p>
                 ) : null}
                 {(project.medium || "").trim() ? (
-                  <p className="text-[#4A413C]/80 font-electrolize text-xs m-0 leading-tight">Medium - {(project.medium || "").trim()}</p>
+                  <p className="text-[#4A413C]/80 font-blurlight text-xs m-0 leading-tight">Medium - {(project.medium || "").trim()}</p>
                 ) : null}
                 {(project.author || "").trim() ? (
-                  <p className="text-[#4A413C]/80 font-electrolize text-xs m-0 mt-3 leading-tight">By {(project.author || "").trim()}</p>
+                  <p className="text-[#4A413C]/80 font-blurlight text-xs m-0 mt-4 leading-tight">By {(project.author || "").trim()}</p>
                 ) : null}
               </div>
             </div>
@@ -265,16 +265,16 @@ export default function ArtProjectExpandedView({
           <div className="ml-[35%] h-full pl-28 md:pl-40 pr-8 md:pr-12 pt-8 md:pt-12 pb-8 md:pb-12">
             <div className="mt-12 md:mt-16 flex flex-wrap items-start justify-between gap-4 mb-0">
               <div className="min-w-0 flex-1">
-                <h1 className="text-[#4A413C] font-microextend font-bold text-xl md:text-2xl uppercase tracking-wider leading-tight">{project.title}</h1>
+                <h1 className="text-[#4A413C] font-blurlight font-bold text-xl md:text-2xl uppercase tracking-wider leading-tight">{project.title}</h1>
                 <div className="leading-tight mt-1">
                   {materialDimensionsLine(project) ? (
-                    <p className="text-[#4A413C]/80 font-electrolize text-xs md:text-sm m-0 leading-tight">{materialDimensionsLine(project)}</p>
+                    <p className="text-[#4A413C]/80 font-blurlight text-xs md:text-sm m-0 leading-tight">{materialDimensionsLine(project)}</p>
                   ) : null}
                   {(project.medium || "").trim() ? (
-                    <p className="text-[#4A413C]/80 font-electrolize text-xs md:text-sm m-0 leading-tight">Medium - {(project.medium || "").trim()}</p>
+                    <p className="text-[#4A413C]/80 font-blurlight text-xs md:text-sm m-0 leading-tight">Medium - {(project.medium || "").trim()}</p>
                   ) : null}
                   {(project.author || "").trim() ? (
-                    <p className="text-[#4A413C]/80 font-electrolize text-xs md:text-sm m-0 mt-3 leading-tight">By {(project.author || "").trim()}</p>
+                    <p className="text-[#4A413C]/80 font-blurlight text-xs md:text-sm m-0 mt-4 leading-tight">By {(project.author || "").trim()}</p>
                   ) : null}
                 </div>
               </div>
