@@ -100,10 +100,25 @@ export default function ArtMobile() {
 
   return (
     <>
-      <div className="min-h-screen bg-[#FFF3DF] flex flex-col">
-        <div className="flex-1 flex min-h-0 pt-4 pb-4">
-          {/* Left: collection title, categories, +, arrow */}
-          <div className="flex-shrink-0 w-[38%] max-w-[160px] pl-4 pr-2 flex flex-col gap-4">
+      {/* Fixed viewport "window" – we stay here; content scrolls past (pulled in) */}
+      <div
+        className="fixed left-0 right-0 bottom-0 overflow-x-auto overflow-y-hidden bg-[#FFF3DF] scrollbar-hide"
+        style={{ top: "var(--mobile-header-height, 0)" }}
+        style={{
+          scrollbarWidth: "none",
+          msOverflowStyle: "none",
+          WebkitOverflowScrolling: "touch",
+          overscrollBehavior: "contain",
+          touchAction: "pan-x",
+        }}
+      >
+        {/* One wide treadmill strip – left panel + all cards in a row */}
+        <div
+          className="flex flex-row flex-nowrap items-stretch min-h-full bg-[#FFF3DF] w-max"
+          style={{ minHeight: "100vh" }}
+        >
+          {/* Left: collection title, categories, arrow */}
+          <div className="flex-shrink-0 w-[38%] max-w-[160px] pl-4 pr-2 pt-[38vh] pb-4 flex flex-col gap-4">
             <h2 className="font-blurlight font-bold text-[#4A413C] text-lg uppercase tracking-wide leading-tight">
               {groups.length > 0 ? groups[0].collection : "Collection"}
               <span className="text-[#4A413C]">.</span>
@@ -134,62 +149,71 @@ export default function ArtMobile() {
             </div>
           </div>
 
-          {/* Right: horizontal scroll of art cards */}
-          <div
-            className="flex-1 min-w-0 overflow-x-auto overflow-y-hidden scrollbar-hide -mr-4"
-            style={{
-              scrollbarWidth: "none",
-              msOverflowStyle: "none",
-              WebkitOverflowScrolling: "touch",
-            }}
-          >
-            <div className="flex gap-6 pl-2 pr-6 py-2 h-full items-stretch">
-              {allProjects.map((project) => (
-                <button
-                  key={project.id}
-                  type="button"
-                  className="flex-shrink-0 w-[72vw] max-w-[280px] flex flex-col text-left bg-transparent border-0 p-0 cursor-pointer"
-                  onClick={() => {
-                    setSelectedProjectId(project.id);
-                    window.dispatchEvent(new CustomEvent("art-expanded-open"));
-                  }}
-                >
-                  <div className="flex-shrink-0 w-full aspect-[4/3] border-4 border-[#4A413C] rounded-sm overflow-hidden bg-[#e8e0d5]">
-                    {(project.icon || project.images?.[0]) ? (
-                      <img
-                        src={project.icon || project.images[0]}
-                        alt={project.title}
-                        className="w-full h-full object-cover object-center"
-                      />
-                    ) : (
-                      <div className="w-full h-full flex items-center justify-center font-blurlight text-[#4A413C]/50 text-sm">
-                        No image
-                      </div>
-                    )}
-                  </div>
-                  <h3 className="font-blurlight font-bold text-[#4A413C] text-base uppercase tracking-wide mt-2">
-                    {project.title}
-                  </h3>
-                  {materialDimensionsLine(project) && (
-                    <p className="font-blurlight text-[#4A413C]/80 text-xs mt-0.5 uppercase">
-                      {materialDimensionsLine(project)}
-                    </p>
+          {/* Cards in a single row – pulled into view as you scroll */}
+          <div className="flex flex-row flex-nowrap gap-6 pl-4 pr-[30vw] py-4 items-start">
+            {allProjects.map((project) => (
+              <button
+                key={project.id}
+                type="button"
+                className="flex-shrink-0 w-[72vw] max-w-[280px] flex flex-col text-left bg-transparent border-0 p-0 cursor-pointer"
+                onClick={() => {
+                  setSelectedProjectId(project.id);
+                  window.dispatchEvent(new CustomEvent("art-expanded-open"));
+                }}
+              >
+                <div className="flex-shrink-0 w-full aspect-[4/3] border-4 border-[#4A413C] rounded-sm overflow-hidden bg-[#e8e0d5]">
+                  {(project.icon || project.images?.[0]) ? (
+                    <img
+                      src={project.icon || project.images[0]}
+                      alt={project.title}
+                      className="w-full h-full object-cover object-center"
+                    />
+                  ) : (
+                    <div className="w-full h-full flex items-center justify-center font-blurlight text-[#4A413C]/50 text-sm">
+                      No image
+                    </div>
                   )}
-                  <p
-                    className={`font-blurlight text-xs mt-1 w-fit px-2 py-0.5 rounded-sm ${
-                      project.forSale !== false
-                        ? "bg-[#DCBED3] text-[#4A413C]"
-                        : "text-[#4A413C]/60"
-                    }`}
-                  >
-                    {project.forSale !== false ? "Available" : "Not available"}
+                </div>
+                <h3 className="font-blurlight font-bold text-[#4A413C] text-base uppercase tracking-wide mt-2">
+                  {project.title}
+                </h3>
+                {materialDimensionsLine(project) && (
+                  <p className="font-blurlight text-[#4A413C]/80 text-xs mt-0.5 uppercase">
+                    {materialDimensionsLine(project)}
                   </p>
-                </button>
-              ))}
-            </div>
+                )}
+                <p
+                  className={`font-blurlight text-xs mt-1 w-fit px-2 py-0.5 rounded-sm ${
+                    project.forSale !== false
+                      ? "bg-[#DCBED3] text-[#4A413C]"
+                      : "text-[#4A413C]/60"
+                  }`}
+                >
+                  {project.forSale !== false ? "Available" : "Not available"}
+                </p>
+              </button>
+            ))}
           </div>
         </div>
       </div>
+
+      {/* Edge gradients: content feels pulled in from the right, receding on the left */}
+      <div
+        className="fixed right-0 bottom-0 w-16 pointer-events-none z-10"
+        style={{
+          top: "var(--mobile-header-height, 0)",
+          background: "linear-gradient(to left, rgba(255,243,223,0.7) 0%, transparent 100%)",
+        }}
+        aria-hidden
+      />
+      <div
+        className="fixed left-0 bottom-0 w-12 pointer-events-none z-10"
+        style={{
+          top: "var(--mobile-header-height, 0)",
+          background: "linear-gradient(to right, rgba(255,243,223,0.5) 0%, transparent 100%)",
+        }}
+        aria-hidden
+      />
 
       {selectedProjectId != null && (
         <ArtProjectExpandedView
