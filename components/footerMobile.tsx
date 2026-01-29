@@ -82,13 +82,16 @@ export default function FooterMobile() {
 
   const backgroundClass = "bg-transparent";
 
-  const spacingClass = "pt-12 pb-10 min-h-[170px]";
-  const layoutClass = "flex flex-col justify-end";
+  const spacingClass = "pt-12 flex flex-col justify-end";
+  const layoutClass = "";
 
   return (
     <footer
       className={`fixed bottom-0 left-0 z-50 w-full px-4 font-blurlight touch-none ${backgroundClass} ${spacingClass} ${layoutClass}`}
-      style={{ touchAction: "none" }}
+      style={{
+        touchAction: "none",
+        paddingBottom: "max(0.25rem, env(safe-area-inset-bottom, 0px))",
+      }}
     >
       <div className="flex flex-col items-center space-y-3 scale-[0.8]">
         {/* Barcode - Smaller for mobile */}
