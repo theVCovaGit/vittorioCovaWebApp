@@ -150,9 +150,21 @@ export default function ArtProjectExpandedView({
         className="md:hidden flex flex-col w-full h-full overflow-hidden pt-0"
         onClick={(e) => e.stopPropagation()}
       >
-        <div className="flex-shrink-0 w-full h-[50vh] min-h-[280px] flex items-center justify-center bg-[#e8e0d5] relative overflow-hidden">
+        <div className="flex-shrink-0 w-full min-w-full h-[50vh] min-h-[280px] bg-[#e8e0d5] relative overflow-hidden">
           {currentImage ? (
             <>
+              <img
+                src={currentImage}
+                alt={project.title}
+                className="absolute top-0 bottom-0 object-cover block"
+                style={{
+                  left: -1,
+                  width: "calc(100% + 2px)",
+                  height: "100%",
+                  minWidth: "calc(100% + 2px)",
+                  minHeight: "100%",
+                }}
+              />
               {project.images.length > 1 && (
                 <>
                   <button
@@ -169,10 +181,9 @@ export default function ArtProjectExpandedView({
                   </button>
                 </>
               )}
-              <img src={currentImage} alt={project.title} className="w-full h-full object-cover" />
             </>
           ) : (
-            <div className="text-[#4A413C]/60 font-blurlight text-sm">No image available</div>
+            <div className="absolute inset-0 flex items-center justify-center text-[#4A413C]/60 font-blurlight text-sm">No image available</div>
           )}
         </div>
         <div className="flex-1 overflow-y-auto bg-[#FFF3DF] px-6 py-6">
