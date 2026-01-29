@@ -189,13 +189,20 @@ export default function ArtContentPanel({ isActive }: { isActive: boolean }) {
         });
         resetForm();
       } else {
-        const err = await res.json();
-        console.error(err);
-        alert("Error al guardar el proyecto");
+        let errMessage = "Error al guardar el proyecto";
+        try {
+          const err = await res.json();
+          errMessage = (err && (err.error || err.message)) || errMessage;
+          console.error("API error:", err);
+        } catch {
+          console.error(`Request failed with status ${res.status}`);
+        }
+        alert(errMessage);
       }
     } catch (err) {
-      console.error(err);
-      alert("Error inesperado");
+      const message = err instanceof Error ? err.message : String(err);
+      console.error("Submit error:", message, err);
+      alert("Error inesperado: " + (message || "Error desconocido"));
     }
   };
 

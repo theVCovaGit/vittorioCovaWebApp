@@ -213,6 +213,44 @@ export async function PUT(req: NextRequest) {
       console.warn("⚠️ Table creation failed, but attempting update anyway...");
     }
 
+    // Ensure required columns exist before updating (same as POST)
+    try {
+      const columnCheck = await sql`
+        SELECT column_name 
+        FROM information_schema.columns 
+        WHERE table_schema = 'public' 
+        AND table_name = 'art_projects' 
+        AND column_name IN ('for_sale', 'materials', 'dimensions', 'price', 'collection_description')
+      `;
+      const existingColumns = (columnCheck as Array<{ column_name: string }>).map((row) => row.column_name);
+      const requiredColumns = ['for_sale', 'materials', 'dimensions', 'price', 'collection_description'];
+      const missingColumns = requiredColumns.filter(col => !existingColumns.includes(col));
+      if (missingColumns.length > 0) {
+        for (const col of missingColumns) {
+          try {
+            if (col === 'for_sale') {
+              await sql`ALTER TABLE art_projects ADD COLUMN for_sale BOOLEAN DEFAULT true`;
+            } else if (col === 'materials') {
+              await sql`ALTER TABLE art_projects ADD COLUMN materials TEXT`;
+            } else if (col === 'dimensions') {
+              await sql`ALTER TABLE art_projects ADD COLUMN dimensions TEXT`;
+            } else if (col === 'price') {
+              await sql`ALTER TABLE art_projects ADD COLUMN price VARCHAR(255)`;
+            } else if (col === 'collection_description') {
+              await sql`ALTER TABLE art_projects ADD COLUMN collection_description TEXT`;
+            }
+          } catch (alterErr: unknown) {
+            const e = alterErr as { code?: string };
+            if (e?.code !== '42701') {
+              console.error(`❌ Failed to add column ${col}:`, alterErr);
+            }
+          }
+        }
+      }
+    } catch (checkError) {
+      console.warn("⚠️ Could not verify columns for PUT:", checkError);
+    }
+
     // Update the project
     await sql`
       UPDATE art_projects
@@ -241,6 +279,10 @@ export async function PUT(req: NextRequest) {
       SELECT * FROM art_projects WHERE id = ${project.id}
     `;
 
+    if (!updatedProject) {
+      return NextResponse.json({ error: "Project not found after update" }, { status: 404 });
+    }
+
     const formattedProject: ArtProject = {
       id: updatedProject.id,
       type: "art",
@@ -263,8 +305,9 @@ export async function PUT(req: NextRequest) {
 
     return NextResponse.json({ message: "Project updated", project: formattedProject }, { status: 200 });
   } catch (error) {
+    const message = error instanceof Error ? error.message : "Failed to update project";
     console.error("❌ Error in PUT:", error);
-    return NextResponse.json({ error: "Failed to update project" }, { status: 500 });
+    return NextResponse.json({ error: "Failed to update project", details: message }, { status: 500 });
   }
 }
 
