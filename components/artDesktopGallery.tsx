@@ -12,6 +12,7 @@ interface ArtProject {
   city: string;
   discipline: string;
   collection: string;
+  collectionDescription?: string;
   year?: string;
   images: string[];
   icon?: string;
@@ -158,7 +159,9 @@ export default function ArtDesktopGallery() {
               No pieces yet.
             </p>
           ) : (
-            byCollection.map(({ collection, allSlots }) => (
+            byCollection.map(({ collection, allSlots }) => {
+              const collectionDescription = allSlots.find((p): p is ArtProject => p != null)?.collectionDescription ?? "";
+              return (
               <section key={collection} className="mb-16 md:mb-24">
                 <div className="flex flex-col lg:flex-row lg:items-start gap-8 lg:gap-12">
                   {renderGrid(allSlots, `${collection}-grid`)}
@@ -166,13 +169,16 @@ export default function ArtDesktopGallery() {
                     <h2 className="font-blurlight font-bold text-[#4A413C] text-2xl md:text-3xl uppercase tracking-wide">
                       {collection}
                     </h2>
-                    <p className="font-blurlight text-[#C6898F] text-sm md:text-base mt-1 underline">
-                      Animal Hide Western Art
-                    </p>
+                    {collectionDescription ? (
+                      <p className="font-blurlight text-[#C6898F] text-sm md:text-base mt-1 underline">
+                        {collectionDescription}
+                      </p>
+                    ) : null}
                   </div>
                 </div>
               </section>
-            ))
+            );
+            })
           )}
         </div>
       </div>

@@ -450,16 +450,13 @@ export default function ArtContentPanel({ isActive }: { isActive: boolean }) {
       <div className="mt-6">
         {selectedProject ? (
           <div className="bg-transparent text-white p-4 rounded-md border border-gray-300">
-            {Array.isArray(selectedProject.images) && (
-              <div className="grid grid-cols-2 gap-2 mb-2">
-                {selectedProject.images.map((img: string, i: number) => (
-                  <img
-                    key={i}
-                    src={img}
-                    alt={`imagen ${i}`}
-                    className="w-full h-32 object-cover rounded-md"
-                  />
-                ))}
+            {(selectedProject.icon || selectedProject.images?.[0]) && (
+              <div className="mb-3">
+                <img
+                  src={selectedProject.icon || selectedProject.images?.[0]}
+                  alt={selectedProject.title}
+                  className="w-full aspect-[4/3] object-cover object-center rounded-md"
+                />
               </div>
             )}
             <h4 className="text-lg font-bold font-microextend">{selectedProject.title}</h4>
