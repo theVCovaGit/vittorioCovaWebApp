@@ -94,6 +94,7 @@ export default function ArtMobile() {
         className="fixed left-0 right-0 bottom-0 overflow-y-auto overflow-x-hidden bg-[#FFF3DF] scrollbar-hide"
         style={{
           top: "var(--mobile-header-height, 0)",
+          height: "calc(100vh - var(--mobile-header-height, 0))",
           scrollSnapType: "y mandatory",
           scrollbarWidth: "none",
           msOverflowStyle: "none",
@@ -120,7 +121,6 @@ export default function ArtMobile() {
                   msOverflowStyle: "none",
                   WebkitOverflowScrolling: "touch",
                   overscrollBehaviorX: "contain",
-                  touchAction: "pan-x",
                 }}
               >
                 {/* One horizontal strip: title/description + all projects (whole screen scrolls horizontally) */}
