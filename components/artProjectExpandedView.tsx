@@ -21,6 +21,7 @@ interface ArtProject {
   price?: string;
   materials?: string;
   dimensions?: string;
+  medium?: string;
 }
 
 function materialDimensionsLine(p: ArtProject): string {
@@ -215,6 +216,9 @@ export default function ArtProjectExpandedView({
             </div>
             <button type="button" className="bg-[#4A413C] hover:bg-[#3a332c] text-[#FFF3DF] font-microextend py-2.5 px-6 rounded-sm transition-colors text-sm shrink-0" onClick={() => alert('Contact us for purchase information')}>Inquire now</button>
           </div>
+          {(project.medium || "").trim() ? (
+            <p className="text-[#4A413C]/80 font-electrolize text-sm mb-1">Medium - {(project.medium || "").trim()}</p>
+          ) : null}
           <p className="text-[#C6898F] font-microextend text-sm mb-6">For Sale</p>
           {project.description && project.description.trim() && (
             <div className="text-[#4A413C] font-electrolize text-sm leading-relaxed mb-6 max-w-xl"><p>{project.description}</p></div>
@@ -263,6 +267,9 @@ export default function ArtProjectExpandedView({
               </div>
               <button type="button" className="bg-[#4A413C] hover:bg-[#3a332c] text-[#FFF3DF] font-microextend py-2.5 px-6 rounded-sm transition-colors text-sm shrink-0" onClick={() => alert('Contact us for purchase information')}>Inquire now</button>
             </div>
+            {(project.medium || "").trim() ? (
+              <p className="text-[#4A413C]/80 font-electrolize text-sm md:text-base mb-2">Medium - {(project.medium || "").trim()}</p>
+            ) : null}
             <p className="text-[#C6898F] font-microextend text-sm md:text-base mb-8">For Sale</p>
             {project.description && project.description.trim() && (
               <div className="text-[#4A413C] font-electrolize text-sm md:text-base leading-relaxed mb-8 max-w-lg"><p>{project.description}</p></div>
