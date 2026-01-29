@@ -129,13 +129,6 @@ export default function ArtMobile() {
                   </>
                 )}
             </div>
-            <button
-              type="button"
-              className="w-8 h-8 flex-shrink-0 bg-red-600 rounded flex items-center justify-center text-white text-lg leading-none"
-              aria-label="Add or expand"
-            >
-              +
-            </button>
             <div className="mt-auto pt-2">
               <ArrowRight />
             </div>
