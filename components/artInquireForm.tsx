@@ -31,7 +31,7 @@ export default function ArtInquireForm({ project, onClose }: ArtInquireFormProps
 
   return (
     <div
-      className="fixed left-0 right-0 z-[60] flex items-center justify-center p-4 bg-[#FFF3DF]/90 art-expanded-below-header"
+      className="fixed left-0 right-0 z-[60] flex flex-col w-full art-expanded-below-header bg-[#FFF3DF]"
       onClick={(e) => {
         e.stopPropagation();
         onClose();
@@ -40,7 +40,7 @@ export default function ArtInquireForm({ project, onClose }: ArtInquireFormProps
       aria-label="Inquire about artwork"
     >
       <div
-        className="relative w-full max-w-lg bg-[#FFF3DF] rounded-sm shadow-lg overflow-hidden flex flex-col max-h-[90vh]"
+        className="relative w-full flex-1 min-h-0 flex flex-col overflow-hidden"
         onClick={(e) => e.stopPropagation()}
       >
         <div className="flex flex-wrap gap-4 p-6 pb-4 border-b border-[#4A413C]/20">
