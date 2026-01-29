@@ -219,7 +219,7 @@ export default function ArtProjectExpandedView({
                 ) : null}
               </div>
             </div>
-            <button type="button" className="bg-[#4A413C] hover:bg-[#3a332c] text-[#FFF3DF] font-blurlight py-2 px-5 rounded-sm transition-colors text-xs shrink-0 ml-auto" onClick={() => alert('Contact us for purchase information')}>Inquire now</button>
+            <button type="button" className="bg-[#524b44] hover:bg-[#48423c] text-[#FFF3DF] font-blurlight py-2 px-5 rounded-sm transition-colors text-xs shrink-0 ml-auto" onClick={() => alert('Contact us for purchase information')}>Inquire now</button>
           </div>
           <p className="text-[#C6898F] font-microextend text-xs mt-1 mb-4">For Sale</p>
           {project.description && project.description.trim() && (
@@ -272,7 +272,7 @@ export default function ArtProjectExpandedView({
                   ) : null}
                 </div>
               </div>
-              <button type="button" className="bg-[#4A413C] hover:bg-[#3a332c] text-[#FFF3DF] font-blurlight py-2 px-5 rounded-sm transition-colors text-xs shrink-0 ml-auto" onClick={() => alert('Contact us for purchase information')}>Inquire now</button>
+              <button type="button" className="bg-[#524b44] hover:bg-[#48423c] text-[#FFF3DF] font-blurlight py-2 px-5 rounded-sm transition-colors text-xs shrink-0 ml-auto" onClick={() => alert('Contact us for purchase information')}>Inquire now</button>
             </div>
             <p className="text-[#C6898F] font-microextend text-xs md:text-sm mt-1 mb-6">For Sale</p>
             {project.description && project.description.trim() && (
