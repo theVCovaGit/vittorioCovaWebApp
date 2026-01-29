@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import ArtProjectExpandedView from "@/components/artProjectExpandedView";
 
 interface ArtProject {
@@ -72,6 +72,42 @@ export default function ArtMobile() {
   }, []);
 
   const groups = buildCollectionGroups(projects);
+  const verticalScrollRef = useRef<HTMLDivElement>(null);
+  const snapTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  /** On scroll end: snap to nearest section (no in-between – either next category or bounce back) */
+  useEffect(() => {
+    const el = verticalScrollRef.current;
+    if (!el || groups.length === 0) return;
+
+    const sectionHeight = typeof window !== "undefined" ? window.innerHeight : 800;
+
+    const snapToNearest = () => {
+      const top = el.scrollTop;
+      const index = Math.round(top / sectionHeight);
+      const clamped = Math.max(0, Math.min(index, groups.length - 1));
+      const targetTop = clamped * sectionHeight;
+      if (Math.abs(el.scrollTop - targetTop) > 1) {
+        el.scrollTo({ top: targetTop, behavior: "smooth" });
+      }
+    };
+
+    const scheduleSnap = () => {
+      if (snapTimeoutRef.current) clearTimeout(snapTimeoutRef.current);
+      snapTimeoutRef.current = setTimeout(snapToNearest, 100);
+    };
+
+    el.addEventListener("scroll", scheduleSnap, { passive: true });
+    el.addEventListener("scrollend", snapToNearest);
+    el.addEventListener("touchend", scheduleSnap, { passive: true });
+
+    return () => {
+      el.removeEventListener("scroll", scheduleSnap);
+      el.removeEventListener("scrollend", snapToNearest);
+      el.removeEventListener("touchend", scheduleSnap);
+      if (snapTimeoutRef.current) clearTimeout(snapTimeoutRef.current);
+    };
+  }, [groups.length]);
 
   /** Format collection name as two lines (first word / rest + period) */
   function collectionTitleLines(raw: string) {
@@ -89,8 +125,9 @@ export default function ArtMobile() {
 
   return (
     <>
-      {/* Vertical scroll with snap: one section per collection; a little scroll snaps to next */}
+      {/* Vertical scroll: on scroll end snap to nearest section (bounce back or go to next category) */}
       <div
+        ref={verticalScrollRef}
         className="fixed left-0 right-0 bottom-0 overflow-y-auto overflow-x-hidden bg-[#FFF3DF] scrollbar-hide"
         style={{
           top: "var(--mobile-header-height, 0)",
@@ -112,9 +149,9 @@ export default function ArtMobile() {
             return (
               <section
                 key={group.collection}
-                className="min-h-screen w-full overflow-x-auto overflow-y-hidden scrollbar-hide"
+                className="w-full overflow-x-auto overflow-y-hidden scrollbar-hide flex-shrink-0"
                 style={{
-                  minHeight: "100vh",
+                  height: "100vh",
                   scrollSnapAlign: "start",
                   scrollSnapStop: "always",
                   scrollbarWidth: "none",
@@ -125,7 +162,7 @@ export default function ArtMobile() {
               >
                 {/* One horizontal strip: title/description + all projects (whole screen scrolls horizontally) */}
                 <div
-                  className="flex flex-row flex-nowrap items-stretch min-h-full w-max"
+                  className="flex flex-row flex-nowrap items-stretch h-full w-max"
                   style={{ minHeight: "100vh" }}
                 >
                   {/* Left: this collection's title + description */}
