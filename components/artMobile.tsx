@@ -197,23 +197,6 @@ export default function ArtMobile() {
         </div>
       </div>
 
-      {/* Edge gradients: content feels pulled in from the right, receding on the left */}
-      <div
-        className="fixed right-0 bottom-0 w-16 pointer-events-none z-10"
-        style={{
-          top: "var(--mobile-header-height, 0)",
-          background: "linear-gradient(to left, rgba(255,243,223,0.7) 0%, transparent 100%)",
-        }}
-        aria-hidden
-      />
-      <div
-        className="fixed left-0 bottom-0 w-12 pointer-events-none z-10"
-        style={{
-          top: "var(--mobile-header-height, 0)",
-          background: "linear-gradient(to right, rgba(255,243,223,0.5) 0%, transparent 100%)",
-        }}
-        aria-hidden
-      />
 
       {selectedProjectId != null && (
         <ArtProjectExpandedView
