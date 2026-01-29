@@ -201,13 +201,15 @@ export default function ArtMobile() {
                     })() : null}
                   </div>
 
-                  {/* Projects in a row – scroll with the whole strip */}
-                  <div className="flex flex-row flex-nowrap gap-6 pl-4 pr-[30vw] py-4 items-start">
+                  {/* Projects: 2 rows × N columns (p1,p3,p5… top; p2,p4,p6… bottom), scroll horizontally */}
+                  <div
+                    className="grid grid-rows-2 grid-flow-col auto-cols-[min(72vw,280px)] gap-x-6 gap-y-4 pl-4 pr-[30vw] py-4 items-start w-max"
+                  >
                   {group.projects.map((project) => (
                     <button
                       key={project.id}
                       type="button"
-                      className="flex-shrink-0 w-[72vw] max-w-[280px] flex flex-col text-left bg-transparent border-0 p-0 cursor-pointer"
+                      className="w-full flex flex-col text-left bg-transparent border-0 p-0 cursor-pointer min-w-0"
                       onClick={() => {
                         setSelectedProjectId(project.id);
                         window.dispatchEvent(new CustomEvent("art-expanded-open"));
