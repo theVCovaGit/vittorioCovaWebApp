@@ -173,7 +173,7 @@ export default function ArtProjectExpandedView({
         className="md:hidden flex flex-col w-full h-full min-h-0 overflow-hidden"
         onClick={(e) => e.stopPropagation()}
       >
-        <div className="flex-shrink-0 w-full min-w-full h-[50vh] min-h-[280px] bg-[#e8e0d5] relative overflow-hidden">
+        <div className="flex-shrink-0 w-full min-w-full h-[36vh] min-h-[200px] bg-[#e8e0d5] relative overflow-hidden">
           {currentImage ? (
             <>
               <img
@@ -209,7 +209,7 @@ export default function ArtProjectExpandedView({
             <div className="absolute inset-0 flex items-center justify-center text-[#4A413C]/60 font-blurlight text-sm">No image available</div>
           )}
         </div>
-        <div className="flex-1 min-h-0 overflow-hidden bg-[#FFF3DF] px-6 py-6">
+        <div className="flex-1 min-h-0 overflow-hidden bg-[#FFF3DF] px-6 pt-4 pb-6">
           <div className="flex flex-wrap items-start justify-between gap-3 mb-0">
             <div className="min-w-0 flex-1">
               <h1 className="text-[#4A413C] font-blurlight font-bold text-lg uppercase tracking-wider leading-tight">{project.title}</h1>
@@ -251,7 +251,7 @@ export default function ArtProjectExpandedView({
                   </button>
                 </>
               )}
-              <img src={currentImage} alt={project.title} className="w-[130%] max-h-[70%] object-contain" />
+              <img src={currentImage} alt={project.title} className="w-[130%] max-h-[55%] object-contain" />
             </div>
           ) : (
             <div className="w-full h-full flex items-center justify-center text-[#4A413C]/60 font-blurlight">No image available</div>
@@ -264,8 +264,8 @@ export default function ArtProjectExpandedView({
               <button type="button" className="text-[#4A413C] font-microextend font-bold tracking-wider uppercase cursor-pointer hover:opacity-80 transition-colors text-lg md:text-xl" onClick={handleClose}>ART</button>
             </div>
           </div>
-          <div className="ml-[35%] h-full pl-28 md:pl-40 pr-8 md:pr-12 pt-8 md:pt-12 pb-8 md:pb-12">
-            <div className="mt-12 md:mt-16 flex flex-wrap items-start justify-between gap-4 mb-0">
+          <div className="ml-[35%] h-full pl-28 md:pl-40 pr-8 md:pr-12 pt-6 md:pt-8 pb-8 md:pb-12">
+            <div className="mt-6 md:mt-8 flex flex-wrap items-start justify-between gap-4 mb-0">
               <div className="min-w-0 flex-1">
                 <h1 className="text-[#4A413C] font-blurlight font-bold text-xl md:text-2xl uppercase tracking-wider leading-tight">{project.title}</h1>
                 <div className="leading-tight mt-1">
