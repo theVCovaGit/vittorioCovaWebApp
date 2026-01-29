@@ -19,6 +19,7 @@ interface ArtProject {
   materials?: string;
   dimensions?: string;
   medium?: string;
+  author?: string;
   price?: string;
 }
 
@@ -39,6 +40,7 @@ interface ArtProjectRow {
   materials: string;
   dimensions: string;
   medium: string;
+  author: string;
   price: string;
   created_at?: string;
 }
@@ -106,6 +108,7 @@ export async function GET(
       materials: project.materials || "",
       dimensions: project.dimensions || "",
       medium: project.medium || "",
+      author: project.author || "",
       price: project.price || ""
     };
     

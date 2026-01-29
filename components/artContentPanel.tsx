@@ -23,6 +23,7 @@ interface ArtProject {
   materials?: string;
   dimensions?: string;
   medium?: string;
+  author?: string;
   price?: string;
 }
 
@@ -44,6 +45,7 @@ export default function ArtContentPanel({ isActive }: { isActive: boolean }) {
   const [materials, setMaterials] = useState<string>("");
   const [dimensions, setDimensions] = useState<string>("");
   const [medium, setMedium] = useState<string>("");
+  const [author, setAuthor] = useState<string>("");
   const [price, setPrice] = useState<string>("");
   const [showCollectionDropdown, setShowCollectionDropdown] = useState(false);
 
@@ -72,6 +74,7 @@ export default function ArtContentPanel({ isActive }: { isActive: boolean }) {
     setMaterials("");
     setDimensions("");
     setMedium("");
+    setAuthor("");
     setPrice("");
   };
 
@@ -166,6 +169,7 @@ export default function ArtContentPanel({ isActive }: { isActive: boolean }) {
       materials,
       dimensions,
       medium,
+      author,
       price,
     };
     
@@ -350,6 +354,15 @@ export default function ArtContentPanel({ isActive }: { isActive: boolean }) {
           className="w-full p-2 border border-gray-400 rounded-md mb-2"
         />
 
+        <label className="block mb-1 font-minecraft text-sm text-[#FFF3DF]">Author</label>
+        <input
+          type="text"
+          placeholder="e.g. Artist name"
+          value={author}
+          onChange={(e) => setAuthor(e.target.value)}
+          className="w-full p-2 border border-gray-400 rounded-md mb-2"
+        />
+
         <div className="mb-4">
           <label className="block mb-2 font-minecraft text-sm text-[#FFF3DF]">For Sale</label>
           <div className="flex items-center gap-3">
@@ -499,6 +512,7 @@ export default function ArtContentPanel({ isActive }: { isActive: boolean }) {
                   setMaterials(selectedProject.materials || "");
                   setDimensions(selectedProject.dimensions || "");
                   setMedium(selectedProject.medium || "");
+                  setAuthor(selectedProject.author || "");
                   setPrice(selectedProject.price || "");
                   setEditingId(selectedProject.id);
                 }}

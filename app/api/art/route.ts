@@ -20,6 +20,7 @@ interface ArtProject {
   materials?: string;
   dimensions?: string;
   medium?: string;
+  author?: string;
   price?: string;
 }
 
@@ -40,6 +41,7 @@ interface ArtProjectRow {
   materials: string;
   dimensions: string;
   medium: string;
+  author: string;
   price: string;
   created_at?: string;
 }
@@ -90,6 +92,7 @@ export async function GET() {
       materials: p.materials || "",
       dimensions: p.dimensions || "",
       medium: p.medium || "",
+      author: p.author || "",
       price: p.price || ""
     }));
     
@@ -128,10 +131,10 @@ export async function POST(req: NextRequest) {
         FROM information_schema.columns 
         WHERE table_schema = 'public' 
         AND table_name = 'art_projects' 
-        AND column_name IN ('for_sale', 'materials', 'dimensions', 'medium', 'price', 'collection_description')
+        AND column_name IN ('for_sale', 'materials', 'dimensions', 'medium', 'author', 'price', 'collection_description')
       `;
       const existingColumns = (columnCheck as Array<{ column_name: string }>).map((row) => row.column_name);
-      const requiredColumns = ['for_sale', 'materials', 'dimensions', 'medium', 'price', 'collection_description'];
+      const requiredColumns = ['for_sale', 'materials', 'dimensions', 'medium', 'author', 'price', 'collection_description'];
       const missingColumns = requiredColumns.filter(col => !existingColumns.includes(col));
       
       if (missingColumns.length > 0) {
@@ -146,6 +149,8 @@ export async function POST(req: NextRequest) {
               await sql`ALTER TABLE art_projects ADD COLUMN dimensions TEXT`;
             } else if (col === 'medium') {
               await sql`ALTER TABLE art_projects ADD COLUMN medium TEXT`;
+            } else if (col === 'author') {
+              await sql`ALTER TABLE art_projects ADD COLUMN author TEXT`;
             } else if (col === 'price') {
               await sql`ALTER TABLE art_projects ADD COLUMN price VARCHAR(255)`;
             } else if (col === 'collection_description') {
@@ -165,8 +170,8 @@ export async function POST(req: NextRequest) {
     }
 
     const [newProject] = await sql`
-      INSERT INTO art_projects (title, country, city, category, year, images, icon, collection, collection_description, position, page, for_sale, materials, dimensions, medium, price)
-      VALUES (${project.title}, ${project.country || ""}, ${project.city || ""}, ${project.discipline}, ${project.year || ""}, ${project.images}, ${project.icon || ""}, ${project.collection || ""}, ${project.collectionDescription || ""}, ${project.position || 1}, ${project.page || 1}, ${project.forSale ?? true}, ${project.materials || ""}, ${project.dimensions || ""}, ${project.medium || ""}, ${project.price || ""})
+      INSERT INTO art_projects (title, country, city, category, year, images, icon, collection, collection_description, position, page, for_sale, materials, dimensions, medium, author, price)
+      VALUES (${project.title}, ${project.country || ""}, ${project.city || ""}, ${project.discipline}, ${project.year || ""}, ${project.images}, ${project.icon || ""}, ${project.collection || ""}, ${project.collectionDescription || ""}, ${project.position || 1}, ${project.page || 1}, ${project.forSale ?? true}, ${project.materials || ""}, ${project.dimensions || ""}, ${project.medium || ""}, ${project.author || ""}, ${project.price || ""})
       RETURNING *
     `;
 
@@ -188,6 +193,7 @@ export async function POST(req: NextRequest) {
       materials: newProject.materials || "",
       dimensions: newProject.dimensions || "",
       medium: newProject.medium || "",
+      author: newProject.author || "",
       price: newProject.price || ""
     };
 
@@ -226,10 +232,10 @@ export async function PUT(req: NextRequest) {
         FROM information_schema.columns 
         WHERE table_schema = 'public' 
         AND table_name = 'art_projects' 
-        AND column_name IN ('for_sale', 'materials', 'dimensions', 'medium', 'price', 'collection_description')
+        AND column_name IN ('for_sale', 'materials', 'dimensions', 'medium', 'author', 'price', 'collection_description')
       `;
       const existingColumns = (columnCheck as Array<{ column_name: string }>).map((row) => row.column_name);
-      const requiredColumns = ['for_sale', 'materials', 'dimensions', 'medium', 'price', 'collection_description'];
+      const requiredColumns = ['for_sale', 'materials', 'dimensions', 'medium', 'author', 'price', 'collection_description'];
       const missingColumns = requiredColumns.filter(col => !existingColumns.includes(col));
       if (missingColumns.length > 0) {
         for (const col of missingColumns) {
@@ -242,6 +248,8 @@ export async function PUT(req: NextRequest) {
               await sql`ALTER TABLE art_projects ADD COLUMN dimensions TEXT`;
             } else if (col === 'medium') {
               await sql`ALTER TABLE art_projects ADD COLUMN medium TEXT`;
+            } else if (col === 'author') {
+              await sql`ALTER TABLE art_projects ADD COLUMN author TEXT`;
             } else if (col === 'price') {
               await sql`ALTER TABLE art_projects ADD COLUMN price VARCHAR(255)`;
             } else if (col === 'collection_description') {
@@ -278,6 +286,7 @@ export async function PUT(req: NextRequest) {
         materials = ${project.materials || ""},
         dimensions = ${project.dimensions || ""},
         medium = ${project.medium || ""},
+        author = ${project.author || ""},
         price = ${project.price || ""},
         updated_at = CURRENT_TIMESTAMP
       WHERE id = ${project.id}
@@ -310,6 +319,7 @@ export async function PUT(req: NextRequest) {
       materials: updatedProject.materials || "",
       dimensions: updatedProject.dimensions || "",
       medium: updatedProject.medium || "",
+      author: updatedProject.author || "",
       price: updatedProject.price || ""
     };
 
