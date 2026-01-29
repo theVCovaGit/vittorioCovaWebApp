@@ -19,6 +19,17 @@ interface ArtProject {
   forSale?: boolean;
   description?: string;
   price?: string;
+  materials?: string;
+  dimensions?: string;
+}
+
+function materialDimensionsLine(p: ArtProject): string {
+  const mat = (p.materials || "").trim();
+  const dim = (p.dimensions || "").trim();
+  if (mat && dim) return `${mat} - ${dim}`;
+  if (mat) return mat;
+  if (dim) return dim;
+  return "";
 }
 
 interface ArtProjectExpandedViewProps {
@@ -195,12 +206,19 @@ export default function ArtProjectExpandedView({
           )}
         </div>
         <div className="flex-1 min-h-0 overflow-hidden bg-[#FFF3DF] px-6 py-6">
-          <h1 className="text-[#4A413C] font-microextend font-bold text-2xl uppercase tracking-wider mb-1">{project.collection.toUpperCase()}</h1>
+          <div className="flex flex-wrap items-center justify-between gap-3 mb-1">
+            <div>
+              <h1 className="text-[#4A413C] font-microextend font-bold text-2xl uppercase tracking-wider">{project.title}</h1>
+              {materialDimensionsLine(project) ? (
+                <p className="text-[#4A413C]/80 font-electrolize text-sm mt-0.5">{materialDimensionsLine(project)}</p>
+              ) : null}
+            </div>
+            <button type="button" className="bg-[#4A413C] hover:bg-[#3a332c] text-[#FFF3DF] font-microextend py-2.5 px-6 rounded-sm transition-colors text-sm shrink-0" onClick={() => alert('Contact us for purchase information')}>Inquire now</button>
+          </div>
           <p className="text-[#C6898F] font-microextend text-sm mb-6">For Sale</p>
           {project.description && project.description.trim() && (
             <div className="text-[#4A413C] font-electrolize text-sm leading-relaxed mb-6 max-w-xl"><p>{project.description}</p></div>
           )}
-          <button type="button" className="bg-[#4A413C] hover:bg-[#3a332c] text-[#FFF3DF] font-microextend py-3 px-8 rounded-sm transition-colors" onClick={() => alert('Contact us for purchase information')}>I want it</button>
         </div>
       </div>
 
@@ -236,14 +254,19 @@ export default function ArtProjectExpandedView({
             </div>
           </div>
           <div className="ml-[35%] h-full pl-28 md:pl-40 pr-8 md:pr-12 pt-8 md:pt-12 pb-8 md:pb-12">
-            <div className="mt-12 md:mt-16">
-              <h1 className="text-[#4A413C] font-microextend font-bold text-2xl md:text-3xl uppercase tracking-wider mb-2">{project.collection.toUpperCase()}</h1>
-              <p className="text-[#C6898F] font-microextend text-sm md:text-base mb-8">For Sale</p>
+            <div className="mt-12 md:mt-16 flex flex-wrap items-center justify-between gap-4 mb-2">
+              <div>
+                <h1 className="text-[#4A413C] font-microextend font-bold text-2xl md:text-3xl uppercase tracking-wider">{project.title}</h1>
+                {materialDimensionsLine(project) ? (
+                  <p className="text-[#4A413C]/80 font-electrolize text-sm md:text-base mt-1">{materialDimensionsLine(project)}</p>
+                ) : null}
+              </div>
+              <button type="button" className="bg-[#4A413C] hover:bg-[#3a332c] text-[#FFF3DF] font-microextend py-2.5 px-6 rounded-sm transition-colors text-sm shrink-0" onClick={() => alert('Contact us for purchase information')}>Inquire now</button>
             </div>
+            <p className="text-[#C6898F] font-microextend text-sm md:text-base mb-8">For Sale</p>
             {project.description && project.description.trim() && (
               <div className="text-[#4A413C] font-electrolize text-sm md:text-base leading-relaxed mb-8 max-w-lg"><p>{project.description}</p></div>
             )}
-            <button type="button" className="bg-[#4A413C] hover:bg-[#3a332c] text-[#FFF3DF] font-microextend py-3 px-8 rounded-sm transition-colors" onClick={() => alert('Contact us for purchase information')}>I want it</button>
           </div>
         </div>
       </div>
