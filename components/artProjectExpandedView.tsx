@@ -176,9 +176,6 @@ export default function ArtProjectExpandedView({
           )}
         </div>
         <div className="flex-1 overflow-y-auto bg-[#FFF3DF] px-6 py-6">
-          <div className="flex justify-end mb-6">
-            <button type="button" className="text-[#4A413C] font-microextend font-bold tracking-wider uppercase cursor-pointer hover:opacity-80 text-lg" onClick={handleClose}>ART</button>
-          </div>
           <h1 className="text-[#4A413C] font-microextend font-bold text-2xl uppercase tracking-wider mb-1">{project.collection.toUpperCase()} COLLECTION</h1>
           <p className="text-[#C6898F] font-microextend text-sm mb-6">For Sale</p>
           {project.description && project.description.trim() && (
