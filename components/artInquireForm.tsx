@@ -54,7 +54,7 @@ export default function ArtInquireForm({ project, onClose }: ArtInquireFormProps
             ) : null}
           </div>
           {thumbnail ? (
-            <div className="w-20 h-20 flex-shrink-0 rounded-sm overflow-hidden border-2 border-[#4A413C] bg-[#e8e0d5]">
+            <div className="w-20 h-20 flex-shrink-0 rounded-sm overflow-hidden bg-[#e8e0d5]">
               <img src={thumbnail} alt="" className="w-full h-full object-cover" />
             </div>
           ) : null}
