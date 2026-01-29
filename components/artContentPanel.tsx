@@ -288,16 +288,18 @@ export default function ArtContentPanel({ isActive }: { isActive: boolean }) {
           )}
         </div>
 
-        <label className="block mb-1 font-minecraft text-sm text-[#FFF3DF]">Collection Description</label>
-        <textarea
-          placeholder="Enter a description for this collection..."
-          value={collectionDescription}
-          onChange={(e) => setCollectionDescription(e.target.value)}
-          className="w-full p-2 border border-gray-400 rounded-md mb-2 min-h-[80px] resize-y"
-          rows={3}
-        />
+        {collection.trim() && (
+          <>
+            <label className="block mb-1 font-minecraft text-sm text-[#FFF3DF]">Collection Description</label>
+            <textarea
+              placeholder="Enter a description for this collection..."
+              value={collectionDescription}
+              onChange={(e) => setCollectionDescription(e.target.value)}
+              className="w-full p-2 border border-gray-400 rounded-md mb-2 min-h-[80px] resize-y"
+              rows={3}
+            />
 
-        <label className="block mb-1 font-minecraft text-sm text-[#FFF3DF]">Title</label>
+            <label className="block mb-1 font-minecraft text-sm text-[#FFF3DF]">Title</label>
         <input
           type="text"
           placeholder="Title"
@@ -390,56 +392,52 @@ export default function ArtContentPanel({ isActive }: { isActive: boolean }) {
           onPageChange={setCurrentPage}
         />
 
-        <div className="mt-4 mb-1 flex items-center gap-2 font-minecraft text-sm text-[#FFF3DF]">
-          <span>Project position</span>
-          <InfoTooltip message="Choose where this project appears within its collection. Select or enter a collection above first – positions show which of the 4 spots are taken in that collection." />
-        </div>
-        {!collection.trim() ? (
-          <div className="rounded-md border border-dashed border-gray-500/60 p-4 text-sm text-[#FFF3DF]/80 font-minecraft">
-            Select or enter a collection above to choose a position. Positions are per collection so you don’t use a spot already taken.
-          </div>
-        ) : (
-          <ProjectPosition 
-            slotsPerPage={4}
-            minimalSlots
-            onPositionSelect={(selectedPos) => {
-              setPosition(selectedPos);
-              const associated = projectsInCollection.find(
-                (proj) =>
-                  proj.position === selectedPos && (proj.page || 1) === page
-              );
-              setSelectedProject(associated ?? null);
-            }}
-            currentPosition={position}
-            currentPage={page}
-            onPageChange={(newPage) => {
-              setPage(newPage);
-              const associated = projectsInCollection.find(
-                (proj) =>
-                  proj.position === position && (proj.page || 1) === newPage
-              );
-              setSelectedProject(associated ?? null);
-            }}
-            projects={projectsInCollection}
-          />
-        )}
+            <div className="mt-4 mb-1 flex items-center gap-2 font-minecraft text-sm text-[#FFF3DF]">
+              <span>Project position</span>
+              <InfoTooltip message="Choose where this project appears within its collection. Positions show which of the 4 spots are taken in that collection." />
+            </div>
+            <ProjectPosition 
+              slotsPerPage={4}
+              minimalSlots
+              onPositionSelect={(selectedPos) => {
+                setPosition(selectedPos);
+                const associated = projectsInCollection.find(
+                  (proj) =>
+                    proj.position === selectedPos && (proj.page || 1) === page
+                );
+                setSelectedProject(associated ?? null);
+              }}
+              currentPosition={position}
+              currentPage={page}
+              onPageChange={(newPage) => {
+                setPage(newPage);
+                const associated = projectsInCollection.find(
+                  (proj) =>
+                    proj.position === position && (proj.page || 1) === newPage
+                );
+                setSelectedProject(associated ?? null);
+              }}
+              projects={projectsInCollection}
+            />
 
-        <div className="flex items-center gap-4 mt-4">
-          <button
-            onClick={handleSubmit}
-            className="bg-transparent border-2 border-black text-white py-2 px-4 rounded-md font-microextend"
-          >
-            {editingId ? "Actualizar" : "Submit"}
-          </button>
-          {editingId && (
-            <button
-              onClick={resetForm}
-              className="text-red-500 underline text-sm"
-            >
-              Cancelar edición
-            </button>
-          )}
-        </div>
+            <div className="flex items-center gap-4 mt-4">
+              <button
+                onClick={handleSubmit}
+                className="bg-transparent border-2 border-black text-white py-2 px-4 rounded-md font-microextend"
+              >
+                {editingId ? "Actualizar" : "Submit"}
+              </button>
+              {editingId && (
+                <button
+                  onClick={resetForm}
+                  className="text-red-500 underline text-sm"
+                >
+                  Cancelar edición
+                </button>
+              )}
+            </div>
+          </>
+        )}
       </div>
 
       <div className="mt-6">
