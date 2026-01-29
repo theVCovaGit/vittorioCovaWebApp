@@ -207,21 +207,23 @@ export default function ArtProjectExpandedView({
           )}
         </div>
         <div className="flex-1 min-h-0 overflow-hidden bg-[#FFF3DF] px-6 py-6">
-          <div className="flex flex-wrap items-center justify-between gap-3 mb-1">
-            <div>
-              <h1 className="text-[#4A413C] font-microextend font-bold text-2xl uppercase tracking-wider">{project.title}</h1>
-              {materialDimensionsLine(project) ? (
-                <p className="text-[#4A413C]/80 font-electrolize text-sm mt-0.5">{materialDimensionsLine(project)}</p>
-              ) : null}
+          <div className="flex flex-wrap items-start justify-between gap-3 mb-0">
+            <div className="min-w-0 flex-1">
+              <h1 className="text-[#4A413C] font-microextend font-bold text-lg uppercase tracking-wider leading-tight">{project.title}</h1>
+              <div className="leading-tight mt-0.5">
+                {materialDimensionsLine(project) ? (
+                  <p className="text-[#4A413C]/80 font-electrolize text-xs m-0 leading-tight">{materialDimensionsLine(project)}</p>
+                ) : null}
+                {(project.medium || "").trim() ? (
+                  <p className="text-[#4A413C]/80 font-electrolize text-xs m-0 leading-tight">Medium - {(project.medium || "").trim()}</p>
+                ) : null}
+              </div>
             </div>
-            <button type="button" className="bg-[#4A413C] hover:bg-[#3a332c] text-[#FFF3DF] font-microextend py-2.5 px-6 rounded-sm transition-colors text-sm shrink-0" onClick={() => alert('Contact us for purchase information')}>Inquire now</button>
+            <button type="button" className="bg-[#4A413C] hover:bg-[#3a332c] text-[#FFF3DF] font-microextend py-2 px-5 rounded-sm transition-colors text-xs shrink-0 ml-auto" onClick={() => alert('Contact us for purchase information')}>Inquire now</button>
           </div>
-          {(project.medium || "").trim() ? (
-            <p className="text-[#4A413C]/80 font-electrolize text-sm mb-1">Medium - {(project.medium || "").trim()}</p>
-          ) : null}
-          <p className="text-[#C6898F] font-microextend text-sm mb-6">For Sale</p>
+          <p className="text-[#C6898F] font-microextend text-xs mt-1 mb-4">For Sale</p>
           {project.description && project.description.trim() && (
-            <div className="text-[#4A413C] font-electrolize text-sm leading-relaxed mb-6 max-w-xl"><p>{project.description}</p></div>
+            <div className="text-[#4A413C] font-electrolize text-xs leading-relaxed max-w-xl"><p className="m-0">{project.description}</p></div>
           )}
         </div>
       </div>
@@ -258,21 +260,23 @@ export default function ArtProjectExpandedView({
             </div>
           </div>
           <div className="ml-[35%] h-full pl-28 md:pl-40 pr-8 md:pr-12 pt-8 md:pt-12 pb-8 md:pb-12">
-            <div className="mt-12 md:mt-16 flex flex-wrap items-center justify-between gap-4 mb-2">
-              <div>
-                <h1 className="text-[#4A413C] font-microextend font-bold text-2xl md:text-3xl uppercase tracking-wider">{project.title}</h1>
-                {materialDimensionsLine(project) ? (
-                  <p className="text-[#4A413C]/80 font-electrolize text-sm md:text-base mt-1">{materialDimensionsLine(project)}</p>
-                ) : null}
+            <div className="mt-12 md:mt-16 flex flex-wrap items-start justify-between gap-4 mb-0">
+              <div className="min-w-0 flex-1">
+                <h1 className="text-[#4A413C] font-microextend font-bold text-xl md:text-2xl uppercase tracking-wider leading-tight">{project.title}</h1>
+                <div className="leading-tight mt-1">
+                  {materialDimensionsLine(project) ? (
+                    <p className="text-[#4A413C]/80 font-electrolize text-xs md:text-sm m-0 leading-tight">{materialDimensionsLine(project)}</p>
+                  ) : null}
+                  {(project.medium || "").trim() ? (
+                    <p className="text-[#4A413C]/80 font-electrolize text-xs md:text-sm m-0 leading-tight">Medium - {(project.medium || "").trim()}</p>
+                  ) : null}
+                </div>
               </div>
-              <button type="button" className="bg-[#4A413C] hover:bg-[#3a332c] text-[#FFF3DF] font-microextend py-2.5 px-6 rounded-sm transition-colors text-sm shrink-0" onClick={() => alert('Contact us for purchase information')}>Inquire now</button>
+              <button type="button" className="bg-[#4A413C] hover:bg-[#3a332c] text-[#FFF3DF] font-microextend py-2 px-5 rounded-sm transition-colors text-xs shrink-0 ml-auto" onClick={() => alert('Contact us for purchase information')}>Inquire now</button>
             </div>
-            {(project.medium || "").trim() ? (
-              <p className="text-[#4A413C]/80 font-electrolize text-sm md:text-base mb-2">Medium - {(project.medium || "").trim()}</p>
-            ) : null}
-            <p className="text-[#C6898F] font-microextend text-sm md:text-base mb-8">For Sale</p>
+            <p className="text-[#C6898F] font-microextend text-xs md:text-sm mt-1 mb-6">For Sale</p>
             {project.description && project.description.trim() && (
-              <div className="text-[#4A413C] font-electrolize text-sm md:text-base leading-relaxed mb-8 max-w-lg"><p>{project.description}</p></div>
+              <div className="text-[#4A413C] font-electrolize text-xs md:text-sm leading-relaxed mb-8 max-w-lg"><p className="m-0">{project.description}</p></div>
             )}
           </div>
         </div>
