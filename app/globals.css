@@ -56,16 +56,18 @@
   --mobile-header-height: 104px; /* Mobile header height - single source of truth */
 }
 
-/* Art expanded view: below header so header stays visible */
+/* Art expanded view: below header, no scroll */
 .art-expanded-below-header {
   top: var(--mobile-header-height);
   left: 0;
   right: 0;
+  width: 100%;
   height: calc(100vh - var(--mobile-header-height));
+  overflow: hidden;
 }
 @media (min-width: 768px) {
   .art-expanded-below-header {
-    top: 5rem; /* h-20 desktop header */
+    top: 5rem;
     height: calc(100vh - 5rem);
   }
 }

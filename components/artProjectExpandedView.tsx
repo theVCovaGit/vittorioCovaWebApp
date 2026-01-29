@@ -34,6 +34,14 @@ export default function ArtProjectExpandedView({
   const [loading, setLoading] = useState(true);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
 
+  useEffect(() => {
+    const prev = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    return () => {
+      document.body.style.overflow = prev;
+    };
+  }, []);
+
   // Helper function to preload images
   const preloadImages = (imageUrls: string[]): Promise<void> => {
     return Promise.all(
@@ -145,9 +153,9 @@ export default function ArtProjectExpandedView({
       className="fixed bg-[#FFF3DF] z-50 art-expanded-below-header"
       onClick={handleClose}
     >
-      {/* Mobile: stacked — image top (full width, flush under header), text bottom */}
+      {/* Mobile: stacked — image full width (flush under header), text bottom, no scroll */}
       <div 
-        className="md:hidden flex flex-col w-full h-full overflow-hidden pt-0"
+        className="md:hidden flex flex-col w-full h-full min-h-0 overflow-hidden"
         onClick={(e) => e.stopPropagation()}
       >
         <div className="flex-shrink-0 w-full min-w-full h-[50vh] min-h-[280px] bg-[#e8e0d5] relative overflow-hidden">
@@ -158,10 +166,10 @@ export default function ArtProjectExpandedView({
                 alt={project.title}
                 className="absolute top-0 bottom-0 object-cover block"
                 style={{
-                  left: -1,
-                  width: "calc(100% + 2px)",
+                  left: -8,
+                  width: "calc(100% + 16px)",
                   height: "100%",
-                  minWidth: "calc(100% + 2px)",
+                  minWidth: "calc(100% + 16px)",
                   minHeight: "100%",
                 }}
               />
@@ -186,7 +194,7 @@ export default function ArtProjectExpandedView({
             <div className="absolute inset-0 flex items-center justify-center text-[#4A413C]/60 font-blurlight text-sm">No image available</div>
           )}
         </div>
-        <div className="flex-1 overflow-y-auto bg-[#FFF3DF] px-6 py-6">
+        <div className="flex-1 min-h-0 overflow-hidden bg-[#FFF3DF] px-6 py-6">
           <h1 className="text-[#4A413C] font-microextend font-bold text-2xl uppercase tracking-wider mb-1">{project.collection.toUpperCase()}</h1>
           <p className="text-[#C6898F] font-microextend text-sm mb-6">For Sale</p>
           {project.description && project.description.trim() && (
@@ -220,7 +228,7 @@ export default function ArtProjectExpandedView({
             <div className="w-full h-full flex items-center justify-center text-[#4A413C]/60 font-blurlight">No image available</div>
           )}
         </div>
-        <div className="absolute left-0 right-0 top-0 bottom-0 bg-[#FFF3DF] overflow-y-auto">
+        <div className="absolute left-0 right-0 top-0 bottom-0 bg-[#FFF3DF] overflow-hidden">
           <div className="absolute top-0 right-0 z-20">
             <div className="h-20" />
             <div className="flex justify-end pr-6 md:pr-12 pt-2">
