@@ -98,7 +98,7 @@ export default function ArtDesktopGallery() {
 
   const renderGrid = (slots: (ArtProject | null)[], keyPrefix: string) => (
     <div key={keyPrefix} className="flex-1 order-2 lg:order-1 min-w-0">
-      <div className="grid grid-cols-2 gap-x-8 md:gap-x-10 gap-y-8 md:gap-y-10 items-start w-full max-w-4xl">
+      <div className="grid grid-cols-2 gap-x-8 md:gap-x-10 gap-y-8 md:gap-y-10 items-start w-full max-w-3xl">
         {slots.map((p, slotIndex) =>
           p ? (
             <button
