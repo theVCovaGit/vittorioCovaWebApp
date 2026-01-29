@@ -142,7 +142,7 @@ export default function ArtProjectExpandedView({
 
   return (
     <div 
-      className="fixed inset-0 bg-[#FFF3DF] z-50"
+      className="fixed bg-[#FFF3DF] z-50 art-expanded-below-header"
       onClick={handleClose}
     >
       {/* Mobile: stacked — image top, text bottom */}

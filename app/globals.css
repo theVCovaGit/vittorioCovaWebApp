@@ -56,6 +56,20 @@
   --mobile-header-height: 104px; /* Mobile header height - single source of truth */
 }
 
+/* Art expanded view: below header so header stays visible */
+.art-expanded-below-header {
+  top: var(--mobile-header-height);
+  left: 0;
+  right: 0;
+  height: calc(100vh - var(--mobile-header-height));
+}
+@media (min-width: 768px) {
+  .art-expanded-below-header {
+    top: 5rem; /* h-20 desktop header */
+    height: calc(100vh - 5rem);
+  }
+}
+
 @media (prefers-color-scheme: dark) {
   :root {
     --background: #554943;
