@@ -181,7 +181,6 @@ export default function ArtProjectExpandedView({
           {project.description && project.description.trim() && (
             <div className="text-[#4A413C] font-electrolize text-sm leading-relaxed mb-6 max-w-xl"><p>{project.description}</p></div>
           )}
-          <div className="text-[#4A413C] font-electrolize font-bold text-2xl mb-6">{project.price && project.price.trim() ? `$${project.price}` : "Price on Request"}</div>
           <button type="button" className="bg-[#4A413C] hover:bg-[#3a332c] text-[#FFF3DF] font-microextend py-3 px-8 rounded-sm transition-colors mb-8" onClick={() => alert('Contact us for purchase information')}>I want it</button>
           {project.images && project.images.length > 0 && (
             <div className="flex flex-wrap gap-2">
@@ -234,7 +233,6 @@ export default function ArtProjectExpandedView({
             {project.description && project.description.trim() && (
               <div className="text-[#4A413C] font-electrolize text-sm md:text-base leading-relaxed mb-8 max-w-lg"><p>{project.description}</p></div>
             )}
-            <div className="text-[#4A413C] font-electrolize font-bold text-2xl md:text-3xl mb-8">{project.price && project.price.trim() ? `$${project.price}` : "Price on Request"}</div>
             <button type="button" className="bg-[#4A413C] hover:bg-[#3a332c] text-[#FFF3DF] font-microextend py-3 px-8 rounded-sm transition-colors mb-8" onClick={() => alert('Contact us for purchase information')}>I want it</button>
             {project.images && project.images.length > 0 && (
               <div className="flex gap-2">
