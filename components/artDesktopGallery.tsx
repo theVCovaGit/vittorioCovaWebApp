@@ -153,7 +153,7 @@ export default function ArtDesktopGallery() {
       <div className="h-20 flex-shrink-0" aria-hidden="true" />
 
       <div className="flex-1 overflow-y-auto pb-36">
-        <div className="max-w-6xl mx-auto px-6 sm:px-8 py-12 md:py-16">
+        <div className="max-w-6xl mx-auto px-6 sm:px-8 pt-20 md:pt-28 pb-12 md:pb-16">
           {pageGrids.length === 0 ? (
             <p className="font-blurlight text-[#4A413C] text-center py-16">
               No pieces yet.

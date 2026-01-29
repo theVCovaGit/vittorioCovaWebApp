@@ -203,7 +203,7 @@ export default function ArtMobile() {
 
                   {/* Projects: 2 rows × N columns (p1,p3,p5… top; p2,p4,p6… bottom), scroll horizontally. Rows auto-sized so gap-y controls the space between them. */}
                   <div
-                    className="grid grid-rows-[auto_auto] grid-flow-col auto-cols-[min(48vw,200px)] sm:auto-cols-[min(44vw,200px)] gap-x-4 sm:gap-x-5 gap-y-12 pl-4 pr-[20vw] sm:pr-[24vw] pt-4 pb-4 items-start w-max self-start"
+                    className="grid grid-rows-[auto_auto] grid-flow-col auto-cols-[min(48vw,200px)] sm:auto-cols-[min(44vw,200px)] gap-x-4 sm:gap-x-5 gap-y-12 pl-4 pr-[20vw] sm:pr-[24vw] pt-10 pb-4 items-start w-max self-start"
                   >
                   {group.projects.map((project) => (
                     <button
