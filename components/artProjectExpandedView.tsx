@@ -145,128 +145,109 @@ export default function ArtProjectExpandedView({
       className="fixed inset-0 bg-[#FFF3DF] z-50"
       onClick={handleClose}
     >
+      {/* Mobile: stacked — image top, text bottom */}
       <div 
-        className="relative w-full h-full overflow-hidden"
+        className="md:hidden flex flex-col w-full h-full overflow-hidden"
         onClick={(e) => e.stopPropagation()}
       >
-        {/* Left Side - Artwork Display (Smaller) */}
-        <div className="absolute left-8 md:left-20 top-0 bottom-0 w-[35%] bg-transparent overflow-hidden z-10">
+        <div className="flex-shrink-0 w-full h-[50vh] min-h-[280px] flex items-center justify-center bg-[#e8e0d5] relative px-4">
           {currentImage ? (
-            <div className="relative w-full h-full flex items-center justify-center">
-              {/* Navigation Arrows */}
+            <>
               {project.images.length > 1 && (
                 <>
                   <button
                     onClick={handlePreviousImage}
-                    className="absolute left-4 z-10 hover:opacity-80 transition-opacity bg-transparent border-0 p-0"
+                    className="absolute left-2 top-1/2 -translate-y-1/2 z-10 hover:opacity-80 transition-opacity bg-transparent border-0 p-0"
                   >
-                    <img
-                      src="/assets/onHover.png"
-                      alt="Previous"
-                      className="w-12 h-12 object-contain"
-                    />
+                    <img src="/assets/onHover.png" alt="Previous" className="w-10 h-10 object-contain" />
                   </button>
                   <button
                     onClick={handleNextImage}
-                    className="absolute right-4 z-10 hover:opacity-80 transition-opacity bg-transparent border-0 p-0"
+                    className="absolute right-2 top-1/2 -translate-y-1/2 z-10 hover:opacity-80 transition-opacity bg-transparent border-0 p-0"
                   >
-                    <img
-                      src="/assets/onHover.png"
-                      alt="Next"
-                      className="w-12 h-12 object-contain"
-                      style={{ transform: 'scaleX(-1)' }}
-                    />
+                    <img src="/assets/onHover.png" alt="Next" className="w-10 h-10 object-contain scale-x-[-1]" />
                   </button>
                 </>
               )}
-              
-              {/* Main Artwork Image */}
-              <img
-                src={currentImage}
-                alt={project.title}
-                className="w-[130%] max-h-[70%] object-contain"
-              />
-            </div>
+              <img src={currentImage} alt={project.title} className="max-w-full max-h-full object-contain" />
+            </>
           ) : (
-            <div className="w-full h-full flex items-center justify-center text-white">
-              No image available
-            </div>
+            <div className="text-[#4A413C]/60 font-blurlight text-sm">No image available</div>
           )}
         </div>
-
-        {/* Right Side - Product Details (Red background extends full width) */}
-        <div className="absolute left-0 right-0 top-0 bottom-0 bg-[#FFF3DF] overflow-y-auto">
-          {/* ART Label - positioned below header by constraint */}
-          <div className="absolute top-0 right-0 z-20">
-            {/* Spacer matching header height (h-20 = 5rem) */}
-            <div className="h-20"></div>
-            {/* ART Label flows below header by constraint, with additional spacing */}
-            <div className="flex justify-end pr-6 md:pr-12 pt-2">
-              <div 
-                className="text-[#fbef56] font-microextend font-bold tracking-wider uppercase cursor-pointer hover:text-[#fff5e0] transition-colors text-lg md:text-xl"
-                onClick={handleClose}
-              >
-                ART
-              </div>
-            </div>
+        <div className="flex-1 overflow-y-auto bg-[#FFF3DF] px-6 py-6">
+          <div className="flex justify-end mb-6">
+            <button type="button" className="text-[#4A413C] font-microextend font-bold tracking-wider uppercase cursor-pointer hover:opacity-80 text-lg" onClick={handleClose}>ART</button>
           </div>
-
-          <div className="ml-[35%] h-full pl-28 md:pl-40 pr-8 md:pr-12 pt-8 md:pt-12 pb-8 md:pb-12">
-          {/* Collection Name and For Sale */}
-          <div className="mt-12 md:mt-16">
-            <h1 className="text-white font-microextend font-bold text-2xl md:text-3xl uppercase tracking-wider mb-2">
-              {project.collection.toUpperCase()} COLLECTION
-            </h1>
-            <div className="text-[#fbef56] font-microextend text-sm md:text-base mb-8">
-              For Sale
-            </div>
-          </div>
-
-          {/* Description */}
+          <h1 className="text-[#4A413C] font-microextend font-bold text-2xl uppercase tracking-wider mb-1">{project.collection.toUpperCase()} COLLECTION</h1>
+          <p className="text-[#C6898F] font-microextend text-sm mb-6">For Sale</p>
           {project.description && project.description.trim() && (
-            <div className="text-[#fff5e0] font-electrolize text-sm md:text-base leading-relaxed mb-8 max-w-lg">
-              <p>{project.description}</p>
-            </div>
+            <div className="text-[#4A413C] font-electrolize text-sm leading-relaxed mb-6 max-w-xl"><p>{project.description}</p></div>
           )}
-
-          {/* Price */}
-          <div className="text-white font-electrolize font-bold text-2xl md:text-3xl mb-8">
-            {project.price && project.price.trim() ? `$${project.price}` : "Price on Request"}
-          </div>
-
-          {/* I want it Button */}
-          <button
-            className="bg-[#5a4c4a] hover:bg-[#4a3d3b] text-white font-microextend py-3 px-8 rounded-sm transition-colors mb-8"
-            onClick={() => {
-              // TODO: Handle purchase intent
-              alert('Contact us for purchase information');
-            }}
-          >
-            I want it
-          </button>
-
-          {/* Thumbnail Navigation - 5 rectangles */}
+          <div className="text-[#4A413C] font-electrolize font-bold text-2xl mb-6">{project.price && project.price.trim() ? `$${project.price}` : "Price on Request"}</div>
+          <button type="button" className="bg-[#4A413C] hover:bg-[#3a332c] text-[#FFF3DF] font-microextend py-3 px-8 rounded-sm transition-colors mb-8" onClick={() => alert('Contact us for purchase information')}>I want it</button>
           {project.images && project.images.length > 0 && (
-            <div className="flex gap-2">
+            <div className="flex flex-wrap gap-2">
               {project.images.slice(0, 5).map((img, index) => (
-                <button
-                  key={index}
-                  onClick={() => setCurrentImageIndex(index)}
-                  className={`w-16 h-16 border-2 bg-transparent ${
-                    currentImageIndex === index 
-                      ? 'border-[#fbef56]' 
-                      : 'border-[#fbef56]/30'
-                  } overflow-hidden`}
-                >
-                  <img
-                    src={img}
-                    alt={`Thumbnail ${index + 1}`}
-                    className="w-full h-full object-cover"
-                  />
+                <button key={index} type="button" onClick={() => setCurrentImageIndex(index)} className={`w-14 h-14 border-2 bg-transparent shrink-0 ${currentImageIndex === index ? 'border-[#4A413C]' : 'border-[#4A413C]/30'} overflow-hidden rounded-sm`}>
+                  <img src={img} alt={`Thumbnail ${index + 1}`} className="w-full h-full object-cover" />
                 </button>
               ))}
             </div>
           )}
+        </div>
+      </div>
+
+      {/* Desktop: left image, right details (original layout) */}
+      <div 
+        className="hidden md:block relative w-full h-full overflow-hidden"
+        onClick={(e) => e.stopPropagation()}
+      >
+        <div className="absolute left-8 md:left-20 top-0 bottom-0 w-[35%] bg-transparent overflow-hidden z-10">
+          {currentImage ? (
+            <div className="relative w-full h-full flex items-center justify-center">
+              {project.images.length > 1 && (
+                <>
+                  <button onClick={handlePreviousImage} className="absolute left-4 z-10 hover:opacity-80 transition-opacity bg-transparent border-0 p-0">
+                    <img src="/assets/onHover.png" alt="Previous" className="w-12 h-12 object-contain" />
+                  </button>
+                  <button onClick={handleNextImage} className="absolute right-4 z-10 hover:opacity-80 transition-opacity bg-transparent border-0 p-0">
+                    <img src="/assets/onHover.png" alt="Next" className="w-12 h-12 object-contain scale-x-[-1]" />
+                  </button>
+                </>
+              )}
+              <img src={currentImage} alt={project.title} className="w-[130%] max-h-[70%] object-contain" />
+            </div>
+          ) : (
+            <div className="w-full h-full flex items-center justify-center text-[#4A413C]/60 font-blurlight">No image available</div>
+          )}
+        </div>
+        <div className="absolute left-0 right-0 top-0 bottom-0 bg-[#FFF3DF] overflow-y-auto">
+          <div className="absolute top-0 right-0 z-20">
+            <div className="h-20" />
+            <div className="flex justify-end pr-6 md:pr-12 pt-2">
+              <button type="button" className="text-[#4A413C] font-microextend font-bold tracking-wider uppercase cursor-pointer hover:opacity-80 transition-colors text-lg md:text-xl" onClick={handleClose}>ART</button>
+            </div>
+          </div>
+          <div className="ml-[35%] h-full pl-28 md:pl-40 pr-8 md:pr-12 pt-8 md:pt-12 pb-8 md:pb-12">
+            <div className="mt-12 md:mt-16">
+              <h1 className="text-[#4A413C] font-microextend font-bold text-2xl md:text-3xl uppercase tracking-wider mb-2">{project.collection.toUpperCase()} COLLECTION</h1>
+              <p className="text-[#C6898F] font-microextend text-sm md:text-base mb-8">For Sale</p>
+            </div>
+            {project.description && project.description.trim() && (
+              <div className="text-[#4A413C] font-electrolize text-sm md:text-base leading-relaxed mb-8 max-w-lg"><p>{project.description}</p></div>
+            )}
+            <div className="text-[#4A413C] font-electrolize font-bold text-2xl md:text-3xl mb-8">{project.price && project.price.trim() ? `$${project.price}` : "Price on Request"}</div>
+            <button type="button" className="bg-[#4A413C] hover:bg-[#3a332c] text-[#FFF3DF] font-microextend py-3 px-8 rounded-sm transition-colors mb-8" onClick={() => alert('Contact us for purchase information')}>I want it</button>
+            {project.images && project.images.length > 0 && (
+              <div className="flex gap-2">
+                {project.images.slice(0, 5).map((img, index) => (
+                  <button key={index} type="button" onClick={() => setCurrentImageIndex(index)} className={`w-16 h-16 border-2 bg-transparent ${currentImageIndex === index ? 'border-[#4A413C]' : 'border-[#4A413C]/30'} overflow-hidden rounded-sm`}>
+                    <img src={img} alt={`Thumbnail ${index + 1}`} className="w-full h-full object-cover" />
+                  </button>
+                ))}
+              </div>
+            )}
           </div>
         </div>
       </div>
