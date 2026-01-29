@@ -141,7 +141,7 @@ export default function ArtDesktopGallery() {
                           </div>
                         </button>
                       ) : (
-                        <div key={`${collection}-${page}-${idx}-empty-${slotIndex}`} className="w-full aspect-[4/3] bg-[#e8e0d5]/50 rounded-sm" aria-hidden="true" />
+                        <div key={`${collection}-${page}-${idx}-empty-${slotIndex}`} className="w-full aspect-[4/3] invisible" aria-hidden="true" />
                       )
                     )}
                   </div>
