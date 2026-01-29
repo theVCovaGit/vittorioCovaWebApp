@@ -1,26 +1,28 @@
 "use client";
 
-import React from "react";
 import { usePathname } from "next/navigation";
 import Link from "next/link";
 
 export default function HeaderMobile() {
   const pathname = usePathname();
   
-  // Hide header on home page
+  // Hide header on home page (hero has its own)
   if (pathname === "/") {
     return null;
   }
 
+  // Match hero look: same color (#fec776), same three lines, same typography, same top spacing (pt-6)
   return (
-    <header className="fixed top-0 left-0 w-full z-50 bg-[#554943] flex items-center justify-center px-4" style={{ height: 'var(--mobile-header-height)' }}>
-      {/* Logo/Brand - Centered */}
-      <Link href="/" className="flex flex-col items-center justify-center no-underline leading-none">
+    <header className="fixed top-0 left-0 w-full z-50 bg-[#554943] pt-6 pb-6 flex justify-center items-start">
+      <Link href="/" className="flex flex-col items-start justify-start no-underline leading-none -space-y-3">
         <span className="text-[#fec776] font-blurlight text-2xl font-bold uppercase tracking-wide">
-          VITTORIO COVA
+          VITTORIO
         </span>
         <span className="text-[#fec776] font-blurlight text-2xl font-bold uppercase tracking-wide">
-          STUDIO
+          COVA
+        </span>
+        <span className="text-[#fec776] font-blurlight text-2xl font-bold uppercase tracking-wide">
+          STUDIO©
         </span>
       </Link>
     </header>
