@@ -187,21 +187,12 @@ export default function ArtProjectExpandedView({
           )}
         </div>
         <div className="flex-1 overflow-y-auto bg-[#FFF3DF] px-6 py-6">
-          <h1 className="text-[#4A413C] font-microextend font-bold text-2xl uppercase tracking-wider mb-1">{project.collection.toUpperCase()} COLLECTION</h1>
+          <h1 className="text-[#4A413C] font-microextend font-bold text-2xl uppercase tracking-wider mb-1">{project.collection.toUpperCase()}</h1>
           <p className="text-[#C6898F] font-microextend text-sm mb-6">For Sale</p>
           {project.description && project.description.trim() && (
             <div className="text-[#4A413C] font-electrolize text-sm leading-relaxed mb-6 max-w-xl"><p>{project.description}</p></div>
           )}
-          <button type="button" className="bg-[#4A413C] hover:bg-[#3a332c] text-[#FFF3DF] font-microextend py-3 px-8 rounded-sm transition-colors mb-8" onClick={() => alert('Contact us for purchase information')}>I want it</button>
-          {project.images && project.images.length > 0 && (
-            <div className="flex flex-wrap gap-2">
-              {project.images.slice(0, 5).map((img, index) => (
-                <button key={index} type="button" onClick={() => setCurrentImageIndex(index)} className={`w-14 h-14 border-2 bg-transparent shrink-0 ${currentImageIndex === index ? 'border-[#4A413C]' : 'border-[#4A413C]/30'} overflow-hidden rounded-sm`}>
-                  <img src={img} alt={`Thumbnail ${index + 1}`} className="w-full h-full object-cover" />
-                </button>
-              ))}
-            </div>
-          )}
+          <button type="button" className="bg-[#4A413C] hover:bg-[#3a332c] text-[#FFF3DF] font-microextend py-3 px-8 rounded-sm transition-colors" onClick={() => alert('Contact us for purchase information')}>I want it</button>
         </div>
       </div>
 
@@ -238,22 +229,13 @@ export default function ArtProjectExpandedView({
           </div>
           <div className="ml-[35%] h-full pl-28 md:pl-40 pr-8 md:pr-12 pt-8 md:pt-12 pb-8 md:pb-12">
             <div className="mt-12 md:mt-16">
-              <h1 className="text-[#4A413C] font-microextend font-bold text-2xl md:text-3xl uppercase tracking-wider mb-2">{project.collection.toUpperCase()} COLLECTION</h1>
+              <h1 className="text-[#4A413C] font-microextend font-bold text-2xl md:text-3xl uppercase tracking-wider mb-2">{project.collection.toUpperCase()}</h1>
               <p className="text-[#C6898F] font-microextend text-sm md:text-base mb-8">For Sale</p>
             </div>
             {project.description && project.description.trim() && (
               <div className="text-[#4A413C] font-electrolize text-sm md:text-base leading-relaxed mb-8 max-w-lg"><p>{project.description}</p></div>
             )}
-            <button type="button" className="bg-[#4A413C] hover:bg-[#3a332c] text-[#FFF3DF] font-microextend py-3 px-8 rounded-sm transition-colors mb-8" onClick={() => alert('Contact us for purchase information')}>I want it</button>
-            {project.images && project.images.length > 0 && (
-              <div className="flex gap-2">
-                {project.images.slice(0, 5).map((img, index) => (
-                  <button key={index} type="button" onClick={() => setCurrentImageIndex(index)} className={`w-16 h-16 border-2 bg-transparent ${currentImageIndex === index ? 'border-[#4A413C]' : 'border-[#4A413C]/30'} overflow-hidden rounded-sm`}>
-                    <img src={img} alt={`Thumbnail ${index + 1}`} className="w-full h-full object-cover" />
-                  </button>
-                ))}
-              </div>
-            )}
+            <button type="button" className="bg-[#4A413C] hover:bg-[#3a332c] text-[#FFF3DF] font-microextend py-3 px-8 rounded-sm transition-colors" onClick={() => alert('Contact us for purchase information')}>I want it</button>
           </div>
         </div>
       </div>
