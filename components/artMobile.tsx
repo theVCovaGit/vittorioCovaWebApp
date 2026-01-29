@@ -11,6 +11,7 @@ interface ArtProject {
   city: string;
   discipline: string;
   collection: string;
+  collectionDescription?: string;
   year?: string;
   images: string[];
   icon?: string;
@@ -94,17 +95,16 @@ export default function ArtMobile() {
 
   const groups = buildCollectionGroups(projects);
   const allProjects = groups.flatMap((g) => g.projects);
-  const uniqueDisciplines = Array.from(
-    new Set(projects.map((p) => (p.discipline || "").trim()).filter(Boolean))
-  ).slice(0, 4);
+  const firstGroup = groups[0];
+  const collectionDescription = firstGroup?.projects.find((p) => (p.collectionDescription || "").trim())?.collectionDescription ?? firstGroup?.projects[0]?.collectionDescription ?? "";
 
   return (
     <>
       {/* Fixed viewport "window" – we stay here; content scrolls past (pulled in) */}
       <div
         className="fixed left-0 right-0 bottom-0 overflow-x-auto overflow-y-hidden bg-[#FFF3DF] scrollbar-hide"
-        style={{ top: "var(--mobile-header-height, 0)" }}
         style={{
+          top: "var(--mobile-header-height, 0)",
           scrollbarWidth: "none",
           msOverflowStyle: "none",
           WebkitOverflowScrolling: "touch",
@@ -117,33 +117,17 @@ export default function ArtMobile() {
           className="flex flex-row flex-nowrap items-stretch min-h-full bg-[#FFF3DF] w-max"
           style={{ minHeight: "100vh" }}
         >
-          {/* Left: collection title, categories, arrow */}
+          {/* Left: collection title, collection description, arrow */}
           <div className="flex-shrink-0 w-[38%] max-w-[160px] pl-4 pr-2 pt-[38vh] pb-4 flex flex-col gap-4">
             <h2 className="font-blurlight font-bold text-[#4A413C] text-lg uppercase tracking-wide leading-tight">
               {groups.length > 0 ? groups[0].collection : "Collection"}
               <span className="text-[#4A413C]">.</span>
             </h2>
-            <div className="flex flex-col gap-2">
-              {uniqueDisciplines.length > 0
-                ? uniqueDisciplines.map((d) => (
-                    <span
-                      key={d}
-                      className="inline-block w-fit bg-[#DCBED3] text-[#4A413C] font-blurlight text-xs uppercase tracking-wide px-2 py-1 rounded-sm"
-                    >
-                      {d}
-                    </span>
-                  ))
-                : (
-                  <>
-                    <span className="inline-block w-fit bg-[#DCBED3] text-[#4A413C] font-blurlight text-xs uppercase tracking-wide px-2 py-1 rounded-sm">
-                      Animal Hide
-                    </span>
-                    <span className="inline-block w-fit bg-[#DCBED3] text-[#4A413C] font-blurlight text-xs uppercase tracking-wide px-2 py-1 rounded-sm">
-                      Western Art
-                    </span>
-                  </>
-                )}
-            </div>
+            {collectionDescription ? (
+              <p className="font-blurlight text-[#4A413C] text-sm leading-relaxed">
+                {collectionDescription}
+              </p>
+            ) : null}
             <div className="mt-auto pt-2">
               <ArrowRight />
             </div>
