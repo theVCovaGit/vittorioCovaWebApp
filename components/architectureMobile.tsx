@@ -46,14 +46,13 @@ const getAbsolutePlacement = (position?: number) => {
 const SCROLL_ASPECT_RATIO = 1080 / 380;
 /** Icon size as fraction of scroll strip height (220/380) */
 const ICON_TO_STRIP_RATIO = 220 / 380;
-/** Min padding in vh – scales on larger screens */
-const SCROLL_PADDING_VH = 18;
-/** Top: always at least header height so content stays below header; scales with vh on larger screens */
-const SCROLL_TOP = `max(var(--mobile-header-height, 104px), ${SCROLL_PADDING_VH}vh)`;
-/** Bottom: always at least footer height so content stays above footer; scales with vh on larger screens */
-const SCROLL_BOTTOM = `max(200px, ${SCROLL_PADDING_VH}vh)`;
-/** Scroll area height: viewport minus top and bottom (ensures padding on all devices) */
-const SCROLL_AREA_HEIGHT = `calc(100vh - ${SCROLL_TOP} - ${SCROLL_BOTTOM})`;
+/** Symmetric padding (vh) between header and scroll, and between scroll and footer – visible, responsive */
+const SCROLL_GAP_VH = 5;
+/** Scroll area inset: header/footer height + gap so there’s padding above and below the scroll */
+const SCROLL_TOP = `calc(var(--mobile-header-height) + ${SCROLL_GAP_VH}vh)`;
+const SCROLL_BOTTOM = `calc(var(--mobile-header-height) + ${SCROLL_GAP_VH}vh)`;
+/** Scroll area height: viewport minus both insets (strip centered inside) */
+const SCROLL_AREA_HEIGHT = `calc(100vh - 2 * var(--mobile-header-height) - ${2 * SCROLL_GAP_VH}vh)`;
 const SCROLL_SCALE_Y = 1.35;
 
 export default function ArchitectureMobile() {
