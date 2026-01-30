@@ -109,9 +109,12 @@ export default function ArchitectureMobile() {
             touchAction: "pan-x",
           }}
         >
-          {/* Same structure as desktop: items-stretch so both strips share the same height */}
+          {/* Both strips use same explicit height so mirrored strip matches first */}
           <div className="relative flex h-full items-stretch flex-nowrap">
-            <div className="relative flex-shrink-0 h-full min-h-0">
+            <div
+              className="relative flex-shrink-0 min-h-0"
+              style={{ height: "var(--scroll-strip-height)" }}
+            >
               <div
                 ref={scrollVisualRef}
                 className="pointer-events-none h-full"
@@ -196,14 +199,19 @@ export default function ArchitectureMobile() {
                 })}
               </div>
             </div>
-            {/* Mirrored scroll: same height as first strip (parent stretches both), w-auto so no gap */}
-            <img
-              src="/assets/scroll.svg"
-              alt=""
-              aria-hidden
-              className="h-full min-h-0 w-auto object-contain object-left flex-shrink-0 pointer-events-none"
-              style={{ transform: "scaleX(-1)" }}
-            />
+            {/* Mirrored scroll: same explicit height as first strip */}
+            <div
+              className="relative flex-shrink-0 min-h-0 flex items-center justify-start"
+              style={{ height: "var(--scroll-strip-height)" }}
+            >
+              <img
+                src="/assets/scroll.svg"
+                alt=""
+                aria-hidden
+                className="h-full w-auto object-contain object-left flex-shrink-0 pointer-events-none block"
+                style={{ transform: "scaleX(-1)" }}
+              />
+            </div>
           </div>
         </div>
       </div>
