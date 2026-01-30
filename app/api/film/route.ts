@@ -7,7 +7,6 @@ interface FilmProject {
   type: "film";
   title: string;
   icon?: string;
-  images: string[];
   year?: string;
   registration?: string;
   synapsis?: string;
@@ -49,7 +48,6 @@ export async function GET() {
       type: "film" as const,
       title: p.title,
       icon: p.icon || "",
-      images: p.images || [],
       year: p.year || "",
       registration: p.registration || "",
       synapsis: p.synapsis || "",
@@ -70,7 +68,7 @@ export async function POST(req: NextRequest) {
   try {
     const { project } = await req.json();
 
-    if (!project || !project.title || !Array.isArray(project.images)) {
+    if (!project || !project.title) {
       return NextResponse.json({ error: "Invalid project data" }, { status: 400 });
     }
 
@@ -97,9 +95,10 @@ export async function POST(req: NextRequest) {
       console.warn("Column check for film_projects:", e);
     }
 
+    const images: string[] = [];
     const [newProject] = await sql`
       INSERT INTO film_projects (title, country, city, category, year, images, icon, position, page, registration, synapsis, length)
-      VALUES (${project.title}, ${""}, ${""}, ${""}, ${project.year || ""}, ${project.images}, ${project.icon || ""}, ${project.position ?? 1}, ${project.page ?? 1}, ${project.registration || ""}, ${project.synapsis || ""}, ${project.length || ""})
+      VALUES (${project.title}, ${""}, ${""}, ${""}, ${project.year || ""}, ${images}, ${project.icon || ""}, ${project.position ?? 1}, ${project.page ?? 1}, ${project.registration || ""}, ${project.synapsis || ""}, ${project.length || ""})
       RETURNING *
     `;
 
@@ -108,7 +107,6 @@ export async function POST(req: NextRequest) {
       type: "film",
       title: newProject.title,
       icon: newProject.icon || "",
-      images: newProject.images || [],
       year: newProject.year || "",
       registration: newProject.registration || "",
       synapsis: newProject.synapsis || "",
@@ -133,7 +131,7 @@ export async function PUT(req: NextRequest) {
 
     // Handle single project update
     if (project && !projects) {
-      if (!project.id || !project.title || !Array.isArray(project.images)) {
+      if (!project.id || !project.title) {
         return NextResponse.json({ error: "Invalid project format" }, { status: 400 });
       }
 
@@ -154,6 +152,7 @@ export async function PUT(req: NextRequest) {
         console.warn("Column check for film_projects PUT:", e);
       }
 
+      const emptyImages: string[] = [];
       const [updatedProject] = await sql`
         UPDATE film_projects 
         SET 
@@ -162,7 +161,7 @@ export async function PUT(req: NextRequest) {
           city = ${""},
           category = ${""},
           year = ${project.year || ""},
-          images = ${project.images},
+          images = ${emptyImages},
           icon = ${project.icon || ""},
           position = ${project.position ?? 1},
           page = ${project.page ?? 1},
@@ -182,7 +181,6 @@ export async function PUT(req: NextRequest) {
         type: "film",
         title: updatedProject.title,
         icon: updatedProject.icon || "",
-        images: updatedProject.images || [],
         year: updatedProject.year || "",
         registration: updatedProject.registration || "",
         synapsis: updatedProject.synapsis || "",
@@ -198,7 +196,7 @@ export async function PUT(req: NextRequest) {
     if (projects) {
       if (
         !Array.isArray(projects) ||
-        projects.some((p) => !p.id || !p.title || !Array.isArray(p.images))
+        projects.some((p) => !p.id || !p.title)
       ) {
         return NextResponse.json({ error: "Invalid project format" }, { status: 400 });
       }
@@ -220,10 +218,11 @@ export async function PUT(req: NextRequest) {
 
       await sql`DELETE FROM film_projects`;
 
+      const emptyImages: string[] = [];
       for (const proj of projects) {
         await sql`
           INSERT INTO film_projects (id, title, country, city, category, year, images, icon, position, page, registration, synapsis, length)
-          VALUES (${proj.id}, ${proj.title}, ${""}, ${""}, ${""}, ${proj.year || ""}, ${proj.images}, ${proj.icon || ""}, ${proj.position ?? 1}, ${proj.page ?? 1}, ${proj.registration || ""}, ${proj.synapsis || ""}, ${proj.length || ""})
+          VALUES (${proj.id}, ${proj.title}, ${""}, ${""}, ${""}, ${proj.year || ""}, ${emptyImages}, ${proj.icon || ""}, ${proj.position ?? 1}, ${proj.page ?? 1}, ${proj.registration || ""}, ${proj.synapsis || ""}, ${proj.length || ""})
         `;
       }
 

@@ -8,7 +8,6 @@ interface FilmProject {
   type: "film";
   title: string;
   icon?: string;
-  images: string[];
   year?: string;
   registration?: string;
   synapsis?: string;

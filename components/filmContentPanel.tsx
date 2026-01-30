@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { MultipleImagesUpload } from "@/components/imageUpload";
 import IconUpload from "@/components/iconUpload";
 import FilmProjectPosition from "@/components/filmProjectPosition";
 
@@ -10,7 +9,6 @@ interface FilmProject {
   type: "film";
   title: string;
   icon?: string;
-  images: string[];
   year?: string;
   registration?: string;
   synapsis?: string;
@@ -22,7 +20,6 @@ interface FilmProject {
 export default function FilmContentPanel({ isActive }: { isActive: boolean }) {
   const [title, setTitle] = useState("");
   const [icon, setIcon] = useState<string>("");
-  const [images, setImages] = useState<string[]>([]);
   const [year, setYear] = useState("");
   const [registration, setRegistration] = useState("");
   const [synapsis, setSynapsis] = useState("");
@@ -36,7 +33,6 @@ export default function FilmContentPanel({ isActive }: { isActive: boolean }) {
   const resetForm = () => {
     setTitle("");
     setIcon("");
-    setImages([]);
     setYear("");
     setRegistration("");
     setSynapsis("");
@@ -80,7 +76,7 @@ export default function FilmContentPanel({ isActive }: { isActive: boolean }) {
   }, [projects, position, page]);
 
   const handleSubmit = async () => {
-    if (!title || images.length === 0) {
+    if (!title) {
       alert("Faltan campos obligatorios");
       return;
     }
@@ -90,7 +86,6 @@ export default function FilmContentPanel({ isActive }: { isActive: boolean }) {
       type: "film",
       title,
       icon,
-      images,
       year,
       registration,
       synapsis,
@@ -222,9 +217,6 @@ export default function FilmContentPanel({ isActive }: { isActive: boolean }) {
         <label className="block font-minecraft text-sm text-[#FFF3DF] mb-1">Icon</label>
         <IconUpload onUpload={setIcon} currentIcon={icon} label="Icon" />
 
-        <label className="block font-minecraft text-sm text-[#FFF3DF] mb-1">Images</label>
-        <MultipleImagesUpload onUpload={setImages} currentImages={images} />
-
         <label className="block mb-1 font-minecraft text-sm text-[#FFF3DF] mt-4">Project position</label>
         <FilmProjectPosition 
           onPositionSelect={(selectedPos) => {
@@ -268,18 +260,6 @@ export default function FilmContentPanel({ isActive }: { isActive: boolean }) {
       <div className="mt-6">
         {selectedProject ? (
           <div className="bg-transparent text-white p-4 rounded-md border border-gray-300">
-            {Array.isArray(selectedProject.images) && selectedProject.images.length > 0 && (
-              <div className="grid grid-cols-2 gap-2 mb-2">
-                {selectedProject.images.map((img: string, i: number) => (
-                  <img
-                    key={i}
-                    src={img}
-                    alt={`imagen ${i}`}
-                    className="w-full h-32 object-cover rounded-md"
-                  />
-                ))}
-              </div>
-            )}
             <h4 className="text-lg font-bold font-microextend">{selectedProject.title}</h4>
             {selectedProject.year && <p className="text-sm text-gray-400">{selectedProject.year}</p>}
             {(selectedProject.registration || selectedProject.length) && (
@@ -296,7 +276,6 @@ export default function FilmContentPanel({ isActive }: { isActive: boolean }) {
                 onClick={() => {
                   setTitle(selectedProject.title);
                   setIcon(selectedProject.icon || "");
-                  setImages(selectedProject.images);
                   setYear(selectedProject.year || "");
                   setRegistration(selectedProject.registration || "");
                   setSynapsis(selectedProject.synapsis || "");

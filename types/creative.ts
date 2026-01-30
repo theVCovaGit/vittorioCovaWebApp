@@ -39,8 +39,8 @@ export type ArtProject = CreativeProjectBase & {
 };
 
 
-// Film
-export type FilmProject = CreativeProjectBase & {
+// Film (no images – icon only)
+export type FilmProject = Omit<CreativeProjectBase, "images"> & {
   type: "film";
   year?: string;
   registration?: string;
