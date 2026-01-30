@@ -42,11 +42,15 @@ const getAbsolutePlacement = (position?: number) => {
   };
 };
 
-const MOBILE_ICON_SIZE = 220;
-const MOBILE_SCROLL_HEIGHT = 380;
-const MOBILE_SCROLL_WIDTH = 1080;
-const MOBILE_HEADER_HEIGHT = 142;
-const MOBILE_FOOTER_HEIGHT = 210;
+/** Scroll strip aspect ratio (width/height) for responsive scaling */
+const SCROLL_ASPECT_RATIO = 1080 / 380;
+/** Icon size as fraction of scroll strip height (220/380) */
+const ICON_TO_STRIP_RATIO = 220 / 380;
+/** Symmetric padding: same vh for top and bottom – big enough to clear header/footer, responsive */
+const SCROLL_PADDING_VH = 20;
+/** Scroll area height: viewport minus equal top and bottom padding */
+const SCROLL_AREA_HEIGHT_VH = 100 - 2 * SCROLL_PADDING_VH;
+const SCROLL_AREA_HEIGHT = `${SCROLL_AREA_HEIGHT_VH}vh`;
 const SCROLL_SCALE_Y = 1.35;
 
 export default function ArchitectureMobile() {
@@ -120,8 +124,9 @@ export default function ArchitectureMobile() {
       <div
         className="absolute left-0 right-0 flex items-center"
         style={{
-          top: MOBILE_HEADER_HEIGHT,
-          bottom: MOBILE_FOOTER_HEIGHT,
+          top: `${SCROLL_PADDING_VH}vh`,
+          bottom: `${SCROLL_PADDING_VH}vh`,
+          ["--scroll-strip-height" as string]: SCROLL_AREA_HEIGHT,
         }}
       >
         <div
@@ -139,7 +144,10 @@ export default function ArchitectureMobile() {
           <div className="relative flex h-full items-center">
             <div
               className="relative flex-shrink-0 overflow-visible"
-              style={{ width: MOBILE_SCROLL_WIDTH, height: MOBILE_SCROLL_HEIGHT }}
+              style={{
+                height: "100%",
+                width: `calc(var(--scroll-strip-height, ${SCROLL_AREA_HEIGHT}) * ${SCROLL_ASPECT_RATIO})`,
+              }}
             >
               <div
                 ref={scrollVisualRef}
@@ -179,7 +187,9 @@ export default function ArchitectureMobile() {
                         <button
                           type="button"
                           className="group relative bg-transparent p-0"
-                          style={{ width: MOBILE_ICON_SIZE }}
+                          style={{
+                            width: `calc(var(--scroll-strip-height, ${SCROLL_AREA_HEIGHT}) * ${ICON_TO_STRIP_RATIO})`,
+                          }}
                           ref={(element) => {
                             projectRefs.current[project.id] = element;
                           }}
