@@ -83,21 +83,20 @@ export default function FooterMobile() {
   const isArchitecturePage = pathname === "/architecture";
   const backgroundClass = isArchitecturePage ? "" : "bg-transparent";
 
-  const spacingClass = "pt-12 flex flex-col justify-end";
-  const layoutClass = "";
-
   return (
     <footer
-      className={`fixed bottom-0 left-0 z-50 w-full px-4 font-blurlight touch-none ${backgroundClass} ${spacingClass} ${layoutClass}`}
+      className={`fixed bottom-0 left-0 z-50 w-full px-4 font-blurlight touch-none flex flex-col items-center justify-center ${backgroundClass}`}
       style={{
         touchAction: "none",
-        paddingBottom: "max(0.25rem, env(safe-area-inset-bottom, 0px))",
+        height: "var(--mobile-header-height)",
+        minHeight: "var(--mobile-header-height)",
+        paddingBottom: "env(safe-area-inset-bottom, 0px)",
         ...(isArchitecturePage && { backgroundColor: "#554943" }),
       }}
     >
-      <div className="flex flex-col items-center space-y-3 scale-[0.8]">
+      <div className="flex flex-col items-center justify-center gap-1.5 scale-[0.7]">
         {/* Barcode - Smaller for mobile */}
-        <div ref={barcodeRef} className="mb-6">
+        <div ref={barcodeRef} className="mb-0">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             viewBox="0 0 367 42"

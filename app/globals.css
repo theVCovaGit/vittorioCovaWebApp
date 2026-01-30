@@ -53,7 +53,8 @@
   --primary: #1a73e8; /* Primary color */
   --secondary: #fbbc05; /* Secondary color */
   --accent: #34d399; /* Accent color */
-  --mobile-header-height: 104px; /* Mobile header height - single source of truth */
+  /* Mobile header/footer height – same value for both, scales with viewport */
+  --mobile-header-height: clamp(80px, 14vh, 120px);
 }
 
 /* Art expanded view: below header, no scroll */
