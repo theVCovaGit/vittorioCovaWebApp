@@ -107,7 +107,7 @@ export default function FilmMobile() {
               }}
             >
               {/* Top: Poster + WATCH FREE */}
-              <div className="flex flex-row items-stretch gap-2 flex-shrink-0">
+              <div className="flex flex-row items-stretch gap-2 flex-shrink-0 mt-[8vh]">
                 <div className="flex-shrink-0 w-[62%] max-w-[240px] flex items-center justify-center min-h-0">
                   {film.icon ? (
                     <img
@@ -121,7 +121,7 @@ export default function FilmMobile() {
                     </div>
                   )}
                 </div>
-                <div className="flex flex-col justify-center font-blurlight font-bold text-[#4A413C] text-base uppercase tracking-wide leading-tight">
+                <div className="flex flex-col justify-center font-blurlight font-bold text-[#4A413C] text-base uppercase tracking-wide leading-tight ml-12">
                   <span>WATCH</span>
                   <span>FREE</span>
                 </div>
