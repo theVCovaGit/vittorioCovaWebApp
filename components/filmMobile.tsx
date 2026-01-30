@@ -97,55 +97,54 @@ export default function FilmMobile() {
           sortedFilms.map((film) => (
             <section
               key={film.id}
-              className="w-full flex-shrink-0 px-4 pt-4 flex flex-col overflow-hidden"
+              className="w-full flex-shrink-0 px-3 pt-2 pb-2 flex flex-col overflow-hidden"
               style={{
                 height: "100vh",
                 scrollSnapAlign: "start",
                 scrollSnapStop: "always",
-                paddingBottom: "max(160px, 22vh)",
               }}
             >
-              {/* Top: Poster + WATCH FREE */}
-              <div className="flex flex-row items-stretch gap-2 flex-shrink-0 mt-[8vh]">
-                <div className="flex-shrink-0 w-[62%] max-w-[240px] flex items-center justify-center min-h-0">
+              {/* Top: Poster + WATCH FREE - smaller, higher */}
+              <div className="flex flex-row items-stretch gap-1.5 flex-shrink-0 mt-[3vh]">
+                <div className="flex-shrink-0 w-[58%] max-w-[200px] flex items-center justify-center min-h-0">
                   {film.icon ? (
                     <img
                       src={film.icon}
                       alt={film.title}
-                      className="w-full h-auto object-contain max-h-[38vh]"
+                      className="w-full h-auto object-contain max-h-[26vh]"
                     />
                   ) : (
-                    <div className="w-full aspect-[2/3] bg-[#e8e0d5] rounded flex items-center justify-center font-blurlight text-[#4A413C]/50 text-sm">
+                    <div className="w-full aspect-[2/3] bg-[#e8e0d5] rounded flex items-center justify-center font-blurlight text-[#4A413C]/50 text-xs">
                       No poster
                     </div>
                   )}
                 </div>
-                <div className="flex flex-col justify-center font-blurlight font-bold text-[#4A413C] text-base uppercase tracking-wide leading-tight ml-12">
+                <div className="flex flex-col justify-center font-blurlight font-bold text-[#4A413C] text-sm uppercase tracking-wide leading-tight ml-8">
                   <span>WATCH</span>
                   <span>FREE</span>
                 </div>
               </div>
 
-              {/* Middle: Year, Title, Registration, Synopsis (full), Length */}
-              <div className="mt-3 flex flex-col gap-0.5 text-left flex-shrink-0 min-h-0 overflow-y-auto">
+              {/* Middle: Year, Title, Registration, Synopsis, Length - compact, no scroll */}
+              <div className="mt-2 flex flex-col gap-0.5 text-left flex-shrink-0 min-h-0 overflow-hidden">
                 {film.year && (
-                  <p className="font-electrolize text-[#4A413C] text-xs">{film.year}</p>
+                  <p className="font-electrolize text-[#4A413C] text-[10px] leading-tight">{film.year}</p>
                 )}
-                <h2 className="font-microextend font-bold text-[#4A413C] text-lg uppercase tracking-wide leading-tight">
+                <h2 className="font-microextend font-bold text-[#4A413C] text-sm uppercase tracking-wide leading-tight">
                   {film.title}
                 </h2>
                 {film.registration && (
-                  <p className="font-microextend text-[#4A413C] text-xs">
+                  <p className="font-microextend text-[#4A413C] text-[10px] leading-tight">
                     {film.registration}
                   </p>
                 )}
                 {film.synapsis && (
-                  <p className="font-electrolize text-[#4A413C] text-xs leading-relaxed mt-1">
+                  <p className="font-electrolize text-[#4A413C] text-[10px] leading-relaxed mt-0.5 line-clamp-4">
                     {film.synapsis}
                   </p>
                 )}
                 {film.length && (
-                  <p className="font-electrolize text-[#4A413C] text-xs mt-1">
+                  <p className="font-electrolize text-[#4A413C] text-[10px] leading-tight mt-0.5">
                     {film.length}
                   </p>
                 )}
