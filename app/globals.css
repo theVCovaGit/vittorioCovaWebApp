@@ -109,44 +109,34 @@ body {
   padding: 0;
   line-height: 1.6;
   overflow-x: hidden; /* Prevent horizontal scrolling issues */
-  cursor: url('/assets/cursorPlus.png'), auto; /* Custom cursor */
 }
 
-/* Custom cursor for all elements - ULTRA ROBUST */
-*, *::before, *::after, *:hover, *:focus, *:active, *:visited {
+/* Custom cursor (static image) – only when adaptive cursor is NOT active */
+html:not([data-custom-cursor]) body,
+html:not([data-custom-cursor]) *,
+html:not([data-custom-cursor]) *::before,
+html:not([data-custom-cursor]) *::after {
   cursor: url('/assets/cursorPlus.png'), auto !important;
 }
 
-/* Ensure custom cursor on ALL interactive elements */
-a, button, input, select, textarea, [role="button"], [tabindex], 
-div, span, p, h1, h2, h3, h4, h5, h6, img, svg, path, rect, circle, 
-header, main, footer, section, article, nav, aside, 
-ul, ol, li, table, tr, td, th, form, label, fieldset, legend {
+html:not([data-custom-cursor]) .cursor-pointer,
+html:not([data-custom-cursor]) .cursor-default,
+html:not([data-custom-cursor]) .cursor-auto,
+html:not([data-custom-cursor]) .cursor-move,
+html:not([data-custom-cursor]) .cursor-grab,
+html:not([data-custom-cursor]) .cursor-grabbing,
+html:not([data-custom-cursor]) .cursor-text,
+html:not([data-custom-cursor]) .cursor-wait,
+html:not([data-custom-cursor]) .cursor-help,
+html:not([data-custom-cursor]) .cursor-not-allowed,
+html:not([data-custom-cursor]) .cursor-none {
   cursor: url('/assets/cursorPlus.png'), auto !important;
 }
 
-/* Override ALL possible cursor states */
-a:hover, a:focus, a:active, a:visited,
-button:hover, button:focus, button:active,
-input:hover, input:focus, input:active,
-select:hover, select:focus, select:active,
-textarea:hover, textarea:focus, textarea:active,
-div:hover, span:hover, p:hover, img:hover, svg:hover,
-header:hover, main:hover, footer:hover, section:hover,
-article:hover, nav:hover, aside:hover {
-  cursor: url('/assets/cursorPlus.png'), auto !important;
-}
-
-/* Force cursor on body and html */
-html, body, body * {
-  cursor: url('/assets/cursorPlus.png'), auto !important;
-}
-
-/* Override any Tailwind or framework cursor classes */
-.cursor-pointer, .cursor-default, .cursor-auto, .cursor-move, 
-.cursor-grab, .cursor-grabbing, .cursor-text, .cursor-wait,
-.cursor-help, .cursor-not-allowed, .cursor-none {
-  cursor: url('/assets/cursorPlus.png'), auto !important;
+/* When adaptive cursor is active: hide native cursor so only one cursor shows */
+html[data-custom-cursor],
+html[data-custom-cursor] * {
+  cursor: none !important;
 }
 
 /* Utility Classes for Headings */

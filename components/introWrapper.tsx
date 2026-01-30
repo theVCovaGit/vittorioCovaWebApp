@@ -1,39 +1,95 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useCallback, useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import SignatureAnimation from "./signatureAnimation";
+
+const CURSOR_LIGHT = "#fff3df";
+
+function parseColorToRgb(cssColor: string): { r: number; g: number; b: number } | null {
+  if (!cssColor || cssColor === "transparent" || cssColor === "rgba(0, 0, 0, 0)") return null;
+  const el = typeof document !== "undefined" ? document.createElement("div") : null;
+  if (!el) return null;
+  el.style.color = cssColor;
+  el.style.display = "none";
+  document.body.appendChild(el);
+  const computed = getComputedStyle(el).color;
+  document.body.removeChild(el);
+  const m = computed.match(/rgba?\((\d+),\s*(\d+),\s*(\d+)/);
+  if (m) return { r: +m[1], g: +m[2], b: +m[3] };
+  const hex = computed.match(/#([0-9a-fA-F]{6})/);
+  if (hex) {
+    const h = hex[1];
+    return { r: parseInt(h.slice(0, 2), 16), g: parseInt(h.slice(2, 4), 16), b: parseInt(h.slice(4, 6), 16) };
+  }
+  return null;
+}
+
+function luminance(r: number, g: number, b: number): number {
+  const [rs, gs, bs] = [r, g, b].map((c) => {
+    const s = c / 255;
+    return s <= 0.03928 ? s / 12.92 : Math.pow((s + 0.055) / 1.055, 2.4);
+  });
+  return 0.2126 * rs + 0.7152 * gs + 0.0722 * bs;
+}
+
+function spectrumCursorColor(r: number, g: number, b: number): string {
+  const L = luminance(r, g, b);
+  const darkL = luminance(85, 73, 67);
+  const lightL = luminance(255, 243, 223);
+  const t = Math.max(0, Math.min(1, (L - darkL) / (lightL - darkL)));
+  const r1 = 255, g1 = 243, b1 = 223, r2 = 85, g2 = 73, b2 = 67;
+  return `rgb(${Math.round(r1 * (1 - t) + r2 * t)},${Math.round(g1 * (1 - t) + g2 * t)},${Math.round(b1 * (1 - t) + b2 * t)})`;
+}
+
+function getBackgroundAt(x: number, y: number): { r: number; g: number; b: number } | null {
+  if (typeof document === "undefined") return null;
+  let el: Element | null = document.elementFromPoint(x, y);
+  for (let i = 0; i < 20 && el; i++) {
+    const bg = el instanceof HTMLElement ? getComputedStyle(el).backgroundColor : null;
+    const rgb = bg ? parseColorToRgb(bg) : null;
+    if (rgb) return rgb;
+    el = el.parentElement;
+  }
+  return null;
+}
 
 export default function IntroWrapper({ children }: { children: React.ReactNode }) {
   const [showIntro, setShowIntro] = useState(true);
   const [mounted, setMounted] = useState(false);
+  const [cursorPos, setCursorPos] = useState({ x: 0, y: 0 });
+  const [cursorColor, setCursorColor] = useState(CURSOR_LIGHT);
+  const [cursorVisible, setCursorVisible] = useState(false);
 
-  useEffect(() => {
-    setMounted(true);
-    // COMMENTED OUT: Check if intro has already been shown in this session
-    // This was preventing the animation from showing on every refresh
-    // const hasBeenShown = sessionStorage.getItem("signature-animation-shown");
-    // if (hasBeenShown) {
-    //   setShowIntro(false);
-    //   return;
-    // }
+  const updateCursor = useCallback((clientX: number, clientY: number) => {
+    setCursorVisible(true);
+    setCursorPos({ x: clientX, y: clientY });
+    const rgb = getBackgroundAt(clientX, clientY);
+    if (rgb) setCursorColor(spectrumCursorColor(rgb.r, rgb.g, rgb.b));
   }, []);
 
   useEffect(() => {
-    // If intro was already shown, don't show it again
+    setMounted(true);
+  }, []);
+
+  useEffect(() => {
     if (!showIntro || !mounted) return;
-
-    // Last component delay (2.5) + duration (0.4) = 2.9s
-    // Wait 0.5 seconds after last animation completes
-    const timer = setTimeout(() => {
-      setShowIntro(false);
-      // COMMENTED OUT: Mark that intro has been shown in this session
-      // This was preventing the animation from showing on every refresh
-      // sessionStorage.setItem("signature-animation-shown", "true");
-    }, 3400); // 2.9s + 0.5s = 3.4 seconds total
-
+    const timer = setTimeout(() => setShowIntro(false), 3400);
     return () => clearTimeout(timer);
   }, [showIntro, mounted]);
+
+  useEffect(() => {
+    document.documentElement.setAttribute("data-custom-cursor", "true");
+    const move = (e: MouseEvent) => updateCursor(e.clientX, e.clientY);
+    const hide = () => setCursorVisible(false);
+    document.body.addEventListener("mousemove", move, { passive: true });
+    document.body.addEventListener("mouseleave", hide);
+    return () => {
+      document.body.removeEventListener("mousemove", move);
+      document.body.removeEventListener("mouseleave", hide);
+      document.documentElement.removeAttribute("data-custom-cursor");
+    };
+  }, [updateCursor]);
 
   return (
     <>
@@ -42,6 +98,23 @@ export default function IntroWrapper({ children }: { children: React.ReactNode }
           <div className="relative w-full h-full">
             <SignatureAnimation />
           </div>
+        </div>
+      )}
+      {cursorVisible && (
+        <div
+          className="pointer-events-none fixed z-[999999] will-change-transform"
+          style={{
+            left: cursorPos.x + 4,
+            top: cursorPos.y + 4,
+            width: 28,
+            height: 28,
+            transform: "translate(-50%, -50%)",
+          }}
+          aria-hidden
+        >
+          <svg viewBox="0 0 14 28" className="w-full h-full" style={{ color: cursorColor }}>
+            <text x="0" y="21.65" fill="currentColor" fontFamily="Blur Light, Blur, sans-serif" fontSize="27" letterSpacing="-0.08em">+</text>
+          </svg>
         </div>
       )}
       <motion.div
