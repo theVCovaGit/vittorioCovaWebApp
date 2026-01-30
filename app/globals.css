@@ -72,6 +72,24 @@
   }
 }
 
+/* Inquire form: content always above footer, no scroll (mobile) */
+.art-inquire-form-content {
+  height: calc(100vh - var(--mobile-header-height) - 72px); /* reserve ~72px above browser chrome / footer */
+  max-height: calc(100vh - var(--mobile-header-height) - 72px);
+}
+@supports (height: 100dvh) {
+  .art-inquire-form-content {
+    height: calc(100dvh - var(--mobile-header-height) - 72px);
+    max-height: calc(100dvh - var(--mobile-header-height) - 72px);
+  }
+}
+@media (min-width: 768px) {
+  .art-inquire-form-content {
+    height: calc(100vh - 5rem);
+    max-height: calc(100vh - 5rem);
+  }
+}
+
 @media (prefers-color-scheme: dark) {
   :root {
     --background: #554943;

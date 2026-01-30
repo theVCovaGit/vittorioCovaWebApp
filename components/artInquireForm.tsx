@@ -31,7 +31,7 @@ export default function ArtInquireForm({ project, onClose }: ArtInquireFormProps
 
   return (
     <div
-      className="fixed left-0 right-0 z-[60] flex flex-col w-full art-expanded-below-header bg-[#FFF3DF]"
+      className="fixed left-0 right-0 z-[60] flex flex-col w-full art-expanded-below-header art-inquire-form-content bg-[#FFF3DF]"
       onClick={(e) => {
         e.stopPropagation();
         onClose();
@@ -43,7 +43,7 @@ export default function ArtInquireForm({ project, onClose }: ArtInquireFormProps
         className="relative w-full flex-1 min-h-0 flex flex-col overflow-hidden"
         onClick={(e) => e.stopPropagation()}
       >
-        <div className="flex flex-wrap gap-3 md:gap-4 p-4 md:p-6 pb-3 md:pb-4 flex-shrink-0">
+        <div className="flex flex-wrap gap-2 md:gap-4 p-3 md:p-6 pb-2 md:pb-4 flex-shrink-0">
           <div className="min-w-0 flex-1">
             <p className="text-[#C6898F] font-blurlight text-xs md:text-sm mb-0.5">Inquire about:</p>
             <h2 className="text-[#4A413C] font-blurlight font-bold text-base md:text-xl uppercase tracking-wider leading-tight">
@@ -60,9 +60,9 @@ export default function ArtInquireForm({ project, onClose }: ArtInquireFormProps
           ) : null}
         </div>
 
-        <form onSubmit={handleSubmit} className="flex-1 min-h-0 overflow-y-auto overflow-x-hidden p-4 md:p-6 pb-24 md:pb-8">
-          <div className="space-y-3 md:space-y-4">
-            <div>
+        <form onSubmit={handleSubmit} className="flex-1 min-h-0 flex flex-col overflow-hidden p-3 md:p-6">
+          <div className="flex-1 min-h-0 flex flex-col gap-2 md:gap-4 overflow-hidden">
+            <div className="flex-shrink-0">
               <label htmlFor="inq-name" className="block text-[#4A413C] font-blurlight text-xs md:text-sm mb-0.5">
                 Name (required)
               </label>
@@ -72,10 +72,10 @@ export default function ArtInquireForm({ project, onClose }: ArtInquireFormProps
                 required
                 value={name}
                 onChange={(e) => setName(e.target.value)}
-                className="w-full px-2.5 md:px-3 py-1.5 md:py-2 bg-white border border-[#4A413C]/40 rounded-sm text-[#4A413C] font-blurlight text-sm focus:outline-none focus:border-[#4A413C]"
+                className="w-full px-2.5 md:px-3 py-1 md:py-2 bg-white border border-[#4A413C]/40 rounded-sm text-[#4A413C] font-blurlight text-sm focus:outline-none focus:border-[#4A413C]"
               />
             </div>
-            <div>
+            <div className="flex-shrink-0">
               <label htmlFor="inq-email" className="block text-[#4A413C] font-blurlight text-xs md:text-sm mb-0.5">
                 Email Address (required)
               </label>
@@ -85,10 +85,10 @@ export default function ArtInquireForm({ project, onClose }: ArtInquireFormProps
                 required
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                className="w-full px-2.5 md:px-3 py-1.5 md:py-2 bg-white border border-[#4A413C]/40 rounded-sm text-[#4A413C] font-blurlight text-sm focus:outline-none focus:border-[#4A413C]"
+                className="w-full px-2.5 md:px-3 py-1 md:py-2 bg-white border border-[#4A413C]/40 rounded-sm text-[#4A413C] font-blurlight text-sm focus:outline-none focus:border-[#4A413C]"
               />
             </div>
-            <div>
+            <div className="flex-shrink-0">
               <label htmlFor="inq-phone" className="block text-[#4A413C] font-blurlight text-xs md:text-sm mb-0.5">
                 Phone Number
               </label>
@@ -97,24 +97,23 @@ export default function ArtInquireForm({ project, onClose }: ArtInquireFormProps
                 type="tel"
                 value={phone}
                 onChange={(e) => setPhone(e.target.value)}
-                className="w-full px-2.5 md:px-3 py-1.5 md:py-2 bg-white border border-[#4A413C]/40 rounded-sm text-[#4A413C] font-blurlight text-sm focus:outline-none focus:border-[#4A413C]"
+                className="w-full px-2.5 md:px-3 py-1 md:py-2 bg-white border border-[#4A413C]/40 rounded-sm text-[#4A413C] font-blurlight text-sm focus:outline-none focus:border-[#4A413C]"
               />
             </div>
-            <div>
-              <label htmlFor="inq-comments" className="block text-[#4A413C] font-blurlight text-xs md:text-sm mb-0.5">
+            <div className="flex-1 min-h-0 flex flex-col">
+              <label htmlFor="inq-comments" className="block text-[#4A413C] font-blurlight text-xs md:text-sm mb-0.5 flex-shrink-0">
                 Comments (required)
               </label>
               <textarea
                 id="inq-comments"
                 required
-                rows={3}
                 value={comments}
                 onChange={(e) => setComments(e.target.value)}
-                className="w-full px-2.5 md:px-3 py-1.5 md:py-2 bg-white border border-[#4A413C]/40 rounded-sm text-[#4A413C] font-blurlight text-sm focus:outline-none focus:border-[#4A413C] resize-y min-h-[60px] md:min-h-[80px]"
+                className="w-full flex-1 min-h-[2.5rem] px-2.5 md:px-3 py-1 md:py-2 bg-white border border-[#4A413C]/40 rounded-sm text-[#4A413C] font-blurlight text-sm focus:outline-none focus:border-[#4A413C] resize-none"
               />
             </div>
           </div>
-          <div className="mt-4 md:mt-6 flex justify-center">
+          <div className="flex-shrink-0 mt-3 md:mt-6 flex justify-center">
             <button
               type="submit"
               className="bg-[#524b44] hover:bg-[#48423c] text-[#FFF3DF] font-blurlight font-bold uppercase tracking-wider py-2 md:py-2.5 px-6 md:px-8 rounded-sm transition-colors text-xs md:text-sm"
