@@ -47,7 +47,7 @@ const SCROLL_ASPECT_RATIO = 1080 / 380;
 /** Icon size as fraction of scroll strip height (220/380) */
 const ICON_TO_STRIP_RATIO = 220 / 380;
 /** Symmetric padding: same vh for top and bottom – big enough to clear header/footer, responsive */
-const SCROLL_PADDING_VH = 20;
+const SCROLL_PADDING_VH = 18;
 /** Scroll area height: viewport minus equal top and bottom padding */
 const SCROLL_AREA_HEIGHT_VH = 100 - 2 * SCROLL_PADDING_VH;
 const SCROLL_AREA_HEIGHT = `${SCROLL_AREA_HEIGHT_VH}vh`;
