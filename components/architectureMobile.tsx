@@ -42,8 +42,6 @@ const getAbsolutePlacement = (position?: number) => {
   };
 };
 
-/** Scroll strip aspect ratio (width/height) for responsive scaling */
-const SCROLL_ASPECT_RATIO = 1080 / 380;
 /** Icon size as fraction of scroll strip height (220/380) */
 const ICON_TO_STRIP_RATIO = 220 / 380;
 /** Symmetric padding (vh) between header and scroll, and between scroll and footer – visible, responsive */
@@ -63,7 +61,6 @@ export default function ArchitectureMobile() {
   const projectRefs = useRef<Record<number, HTMLButtonElement | null>>({});
   const stripRef = useRef<HTMLDivElement | null>(null);
   const scrollVisualRef = useRef<HTMLDivElement | null>(null);
-  const [scrollMetrics, setScrollMetrics] = useState<{ rect: DOMRect; scrollLeft: number } | null>(null);
 
   useEffect(() => {
     const fetchProjects = async () => {
@@ -83,37 +80,6 @@ export default function ArchitectureMobile() {
     if (stripRef.current) {
       stripRef.current.scrollLeft = 0;
     }
-  }, [projects.length]);
-
-  useEffect(() => {
-    const element = scrollVisualRef.current;
-    const scroller = stripRef.current;
-
-    if (!element) {
-      return;
-    }
-
-    const updateBounds = () => {
-      const rect = element.getBoundingClientRect();
-      const scrollLeft = scroller?.scrollLeft ?? 0;
-      setScrollMetrics({ rect, scrollLeft });
-    };
-
-    updateBounds();
-
-    const resizeObserver = typeof ResizeObserver !== "undefined" ? new ResizeObserver(updateBounds) : null;
-    resizeObserver?.observe(element);
-
-    window.addEventListener("resize", updateBounds);
-    window.addEventListener("scroll", updateBounds, true);
-    scroller?.addEventListener("scroll", updateBounds);
-
-    return () => {
-      resizeObserver?.disconnect();
-      window.removeEventListener("resize", updateBounds);
-      window.removeEventListener("scroll", updateBounds, true);
-      scroller?.removeEventListener("scroll", updateBounds);
-    };
   }, [projects.length]);
 
   const currentPageProjects = projects
@@ -143,23 +109,18 @@ export default function ArchitectureMobile() {
             touchAction: "pan-x",
           }}
         >
-          <div className="relative flex h-full items-center">
-            <div
-              className="relative flex-shrink-0 overflow-visible"
-              style={{
-                height: "100%",
-                width: `calc(var(--scroll-strip-height, ${SCROLL_AREA_HEIGHT}) * ${SCROLL_ASPECT_RATIO})`,
-              }}
-            >
+          {/* Same structure as desktop: items-stretch so both strips share the same height */}
+          <div className="relative flex h-full items-stretch flex-nowrap">
+            <div className="relative flex-shrink-0 h-full min-h-0">
               <div
                 ref={scrollVisualRef}
-                className="pointer-events-none absolute inset-0 origin-left"
+                className="pointer-events-none h-full"
                 style={{ transform: `scaleY(${SCROLL_SCALE_Y})` }}
               >
                 <img
                   src="/assets/scroll.svg"
                   alt="Architecture Scroll"
-                  className="h-full w-full object-contain object-left"
+                  className="h-full w-auto object-contain"
                 />
               </div>
 
@@ -235,6 +196,14 @@ export default function ArchitectureMobile() {
                 })}
               </div>
             </div>
+            {/* Mirrored scroll: same height as first strip (parent stretches both), w-auto so no gap */}
+            <img
+              src="/assets/scroll.svg"
+              alt=""
+              aria-hidden
+              className="h-full min-h-0 w-auto object-contain object-left flex-shrink-0 pointer-events-none"
+              style={{ transform: "scaleX(-1)" }}
+            />
           </div>
         </div>
       </div>
