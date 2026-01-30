@@ -1,7 +1,7 @@
 "use client";
 /* eslint-disable @next/next/no-img-element */
 
-import { useEffect, useRef, useState, useMemo } from "react";
+import { useEffect, useRef, useState } from "react";
 
 interface FilmProject {
   id: number;
@@ -18,152 +18,145 @@ interface FilmProject {
   page?: number;
 }
 
-const MOBILE_HEADER_HEIGHT = 142;
-const MOBILE_FOOTER_HEIGHT = 210;
-
 export default function FilmMobile() {
   const [projects, setProjects] = useState<FilmProject[]>([]);
-  const stripRef = useRef<HTMLDivElement | null>(null);
+  const verticalScrollRef = useRef<HTMLDivElement>(null);
+  const snapTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   useEffect(() => {
     const fetchProjects = async () => {
       try {
         const response = await fetch("/api/film");
-        if (!response.ok) {
-          throw new Error(`Unexpected status ${response.status}`);
-        }
+        if (!response.ok) throw new Error(`Unexpected status ${response.status}`);
         const data = await response.json();
         setProjects(Array.isArray(data.projects) ? data.projects : []);
       } catch (error) {
         console.error("Error fetching film projects:", error);
       }
     };
-
     fetchProjects();
   }, []);
 
-  // Group projects into strips based on page and position
-  const projectStrips = useMemo(() => {
-    // Sort projects by page first, then by position
-    const sortedProjects = [...projects].sort((a, b) => {
-      const pageA = a.page ?? 1;
-      const pageB = b.page ?? 1;
-      if (pageA !== pageB) {
-        return pageA - pageB;
+  const sortedFilms = [...projects].sort((a, b) => {
+    const pageA = a.page ?? 1;
+    const pageB = b.page ?? 1;
+    if (pageA !== pageB) return pageA - pageB;
+    return (a.position ?? 0) - (b.position ?? 0);
+  });
+
+  useEffect(() => {
+    const el = verticalScrollRef.current;
+    if (!el || sortedFilms.length === 0) return;
+
+    const sectionHeight = typeof window !== "undefined" ? window.innerHeight : 800;
+
+    const snapToNearest = () => {
+      const top = el.scrollTop;
+      const index = Math.round(top / sectionHeight);
+      const clamped = Math.max(0, Math.min(index, sortedFilms.length - 1));
+      const targetTop = clamped * sectionHeight;
+      if (Math.abs(el.scrollTop - targetTop) > 1) {
+        el.scrollTo({ top: targetTop, behavior: "smooth" });
       }
-      const posA = a.position ?? 1;
-      const posB = b.position ?? 1;
-      return posA - posB;
-    });
+    };
 
-    // Find the maximum page number
-    const maxPage = sortedProjects.length > 0
-      ? sortedProjects.reduce((max, p) => {
-          const page = p.page ?? 1;
-          return page > max ? page : max;
-        }, 1)
-      : 1;
+    const scheduleSnap = () => {
+      if (snapTimeoutRef.current) clearTimeout(snapTimeoutRef.current);
+      snapTimeoutRef.current = setTimeout(snapToNearest, 100);
+    };
 
-    // Create strips for each page
-    const strips: (FilmProject | null)[][] = [];
-    for (let pageNum = 1; pageNum <= maxPage; pageNum++) {
-      // Initialize strip with 4 empty slots
-      const strip: (FilmProject | null)[] = [null, null, null, null];
-      
-      // Fill in projects for this page
-      sortedProjects.forEach((project) => {
-        const projectPage = project.page ?? 1;
-        const projectPosition = project.position ?? 1;
-        
-        if (projectPage === pageNum && projectPosition >= 1 && projectPosition <= 4) {
-          strip[projectPosition - 1] = project; // position 1-4 maps to index 0-3
-        }
-      });
-      
-      strips.push(strip);
-    }
-    
-    // Always add one more empty strip
-    strips.push([null, null, null, null]);
-    
-    return strips;
-  }, [projects]);
+    el.addEventListener("scroll", scheduleSnap, { passive: true });
+    el.addEventListener("scrollend", snapToNearest);
+    el.addEventListener("touchend", scheduleSnap, { passive: true });
+
+    return () => {
+      el.removeEventListener("scroll", scheduleSnap);
+      el.removeEventListener("scrollend", snapToNearest);
+      el.removeEventListener("touchend", scheduleSnap);
+      if (snapTimeoutRef.current) clearTimeout(snapTimeoutRef.current);
+    };
+  }, [sortedFilms.length]);
 
   return (
     <>
-      <div className="fixed inset-0 bg-[#2d2f38] overflow-hidden">
-        <div
-          className="absolute left-0 right-0 flex items-center"
-          style={{
-            top: MOBILE_HEADER_HEIGHT,
-            bottom: MOBILE_FOOTER_HEIGHT,
-          }}
-        >
-          <div
-            ref={stripRef}
-            className="film-strip-container flex h-full w-full items-center overflow-x-auto overflow-y-hidden scrollbar-hide"
-            style={{
-              scrollBehavior: "smooth",
-              scrollbarWidth: "none",
-              msOverflowStyle: "none",
-              WebkitOverflowScrolling: "touch",
-              overscrollBehavior: "contain",
-              touchAction: "pan-x",
-            }}
-          >
-            <div className="relative flex h-full items-center">
-              {projectStrips.map((stripProjects, stripIndex) => (
-                <div
-                  key={stripIndex}
-                  className="relative h-full flex-shrink-0"
-                >
-                  <img
-                    src="/assets/film.svg"
-                    alt="Film Strip"
-                    className="h-full w-auto object-contain"
-                  />
-
-                  {/* Poster icons - calculated from Illustrator dimensions */}
-                  {/* Film strip: 15.0312in x 6.2393in, Poster: 2.8252in x 4.2379in, Gap: 0.3in */}
-                  <div className="absolute inset-0">
-                    {stripProjects.map((project, localIndex) => {
-                      const posterWidthPercent = 18.8; // Poster width as % of strip
-                      const posterHeightPercent = 67.9; // Poster height as % of strip
-                      const leftBorderPercent = 3.8; // Left border/padding
-                      const gapPercent = 5.7; // Gap between frames as % of strip
-                      const topMarginPercent = (100 - posterHeightPercent) / 2; // Center vertically
-                      
-                      const leftPosition = leftBorderPercent + (localIndex * (posterWidthPercent + gapPercent));
-                      
-                      if (!project || !project.icon) return null;
-                      
-                      return (
-                        <div
-                          key={project.id}
-                          className="absolute overflow-hidden"
-                          style={{
-                            width: `${posterWidthPercent}%`,
-                            height: `${posterHeightPercent}%`,
-                            left: `${leftPosition}%`,
-                            top: `${topMarginPercent}%`,
-                          }}
-                        >
-                          <img
-                            src={project.icon}
-                            alt={project.title}
-                            className="w-full h-full object-contain"
-                          />
-                        </div>
-                      );
-                    })}
-                  </div>
-                </div>
-              ))}
-            </div>
+      <div
+        ref={verticalScrollRef}
+        className="fixed left-0 right-0 bottom-0 overflow-y-auto overflow-x-hidden bg-[#FFF3DF] scrollbar-hide"
+        style={{
+          top: "var(--mobile-header-height, 0)",
+          height: "calc(100vh - var(--mobile-header-height, 0))",
+          scrollSnapType: "y mandatory",
+          scrollbarWidth: "none",
+          msOverflowStyle: "none",
+          WebkitOverflowScrolling: "touch",
+        }}
+      >
+        {sortedFilms.length === 0 ? (
+          <div className="min-h-screen flex items-center justify-center px-4">
+            <p className="font-blurlight text-[#4A413C]">No films yet.</p>
           </div>
-        </div>
+        ) : (
+          sortedFilms.map((film) => (
+            <section
+              key={film.id}
+              className="w-full flex-shrink-0 px-4 pt-4 pb-4 flex flex-col overflow-hidden"
+              style={{
+                height: "100vh",
+                scrollSnapAlign: "start",
+                scrollSnapStop: "always",
+              }}
+            >
+              {/* Top: Poster + WATCH FREE */}
+              <div className="flex flex-row items-stretch gap-2 flex-shrink-0">
+                <div className="flex-shrink-0 w-[62%] max-w-[240px] flex items-center justify-center min-h-0">
+                  {film.icon ? (
+                    <img
+                      src={film.icon}
+                      alt={film.title}
+                      className="w-full h-auto object-contain max-h-[38vh]"
+                    />
+                  ) : (
+                    <div className="w-full aspect-[2/3] bg-[#e8e0d5] rounded flex items-center justify-center font-blurlight text-[#4A413C]/50 text-sm">
+                      No poster
+                    </div>
+                  )}
+                </div>
+                <div className="flex flex-col justify-center font-blurlight font-bold text-[#4A413C] text-base uppercase tracking-wide leading-tight">
+                  <span>WATCH</span>
+                  <span>FREE</span>
+                </div>
+              </div>
+
+              {/* Middle: Year, Title, Category, Synopsis, More */}
+              <div className="mt-3 flex flex-col gap-0.5 text-left flex-shrink-0 min-h-0 overflow-hidden">
+                {film.releaseYear && (
+                  <p className="font-blurlight text-[#4A413C] text-xs">{film.releaseYear}</p>
+                )}
+                <h2 className="font-blurlight font-bold text-[#4A413C] text-lg uppercase tracking-wide leading-tight">
+                  {film.title}
+                </h2>
+                {(film.category || film.genre) && (
+                  <p className="font-blurlight text-[#4A413C] text-xs">
+                    {[film.category, film.genre].filter(Boolean).join(" · ")}
+                  </p>
+                )}
+                <p className="font-blurlight text-[#4A413C] text-xs leading-relaxed mt-1 line-clamp-2">
+                  {film.genre && film.category
+                    ? `${film.genre} — ${film.category}.`
+                    : film.category || film.genre || "—"}
+                </p>
+                <button
+                  type="button"
+                  className="font-blurlight text-[#4A413C] text-xs underline mt-0.5 w-fit bg-transparent border-0 p-0 cursor-pointer text-left"
+                  aria-label="More"
+                >
+                  More
+                </button>
+              </div>
+            </section>
+          ))
+        )}
       </div>
     </>
   );
 }
-
