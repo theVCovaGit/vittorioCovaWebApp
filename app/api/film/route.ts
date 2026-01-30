@@ -8,11 +8,10 @@ interface FilmProject {
   title: string;
   icon?: string;
   images: string[];
-  releaseYear?: string;
-  countries?: string[];
-  cities?: string[];
-  genre?: string;
-  category?: string; // e.g. short film, full film, etc.
+  year?: string;
+  registration?: string;
+  synapsis?: string;
+  length?: string;
   position?: number;
   page?: number;
 }
@@ -23,14 +22,14 @@ interface FilmProjectRow {
   icon: string;
   images: string[];
   year: string;
-  countries: string[];
-  cities: string[];
-  genre: string;
+  country: string;
+  city: string;
   category: string;
-  country?: string;
-  city?: string;
-  position?: number;
-  page?: number;
+  registration: string;
+  synapsis: string;
+  length: string;
+  position: number;
+  page: number;
   created_at?: string;
 }
 
@@ -51,11 +50,10 @@ export async function GET() {
       title: p.title,
       icon: p.icon || "",
       images: p.images || [],
-      releaseYear: p.year || "",
-      countries: p.countries || [],
-      cities: p.cities || [],
-      genre: p.genre || "",
-      category: p.category || "",
+      year: p.year || "",
+      registration: p.registration || "",
+      synapsis: p.synapsis || "",
+      length: p.length || "",
       position: p.position ?? 1,
       page: p.page ?? 1,
     }));
@@ -76,12 +74,32 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: "Invalid project data" }, { status: 400 });
     }
 
-    // Ensure table exists before inserting
     await ensureTableExists('film_projects');
 
+    // Ensure registration, synapsis, length columns exist
+    try {
+      const columnCheck = await sql`
+        SELECT column_name FROM information_schema.columns
+        WHERE table_schema = 'public' AND table_name = 'film_projects'
+        AND column_name IN ('registration', 'synapsis', 'length')
+      `;
+      const existing = (columnCheck as Array<{ column_name: string }>).map((r) => r.column_name);
+      if (!existing.includes('registration')) {
+        await sql`ALTER TABLE film_projects ADD COLUMN registration TEXT`;
+      }
+      if (!existing.includes('synapsis')) {
+        await sql`ALTER TABLE film_projects ADD COLUMN synapsis TEXT`;
+      }
+      if (!existing.includes('length')) {
+        await sql`ALTER TABLE film_projects ADD COLUMN length TEXT`;
+      }
+    } catch (e) {
+      console.warn("Column check for film_projects:", e);
+    }
+
     const [newProject] = await sql`
-      INSERT INTO film_projects (title, country, city, category, year, images, icon, position, page)
-      VALUES (${project.title}, ${project.countries?.[0] || ""}, ${project.cities?.[0] || ""}, ${project.category || ""}, ${project.releaseYear || ""}, ${project.images}, ${project.icon || ""}, ${project.position ?? 1}, ${project.page ?? 1})
+      INSERT INTO film_projects (title, country, city, category, year, images, icon, position, page, registration, synapsis, length)
+      VALUES (${project.title}, ${""}, ${""}, ${""}, ${project.year || ""}, ${project.images}, ${project.icon || ""}, ${project.position ?? 1}, ${project.page ?? 1}, ${project.registration || ""}, ${project.synapsis || ""}, ${project.length || ""})
       RETURNING *
     `;
 
@@ -91,11 +109,10 @@ export async function POST(req: NextRequest) {
       title: newProject.title,
       icon: newProject.icon || "",
       images: newProject.images || [],
-      releaseYear: newProject.year || "",
-      countries: newProject.country ? [newProject.country] : [],
-      cities: newProject.city ? [newProject.city] : [],
-      genre: newProject.genre || "",
-      category: newProject.category || "",
+      year: newProject.year || "",
+      registration: newProject.registration || "",
+      synapsis: newProject.synapsis || "",
+      length: newProject.length || "",
       position: newProject.position ?? 1,
       page: newProject.page ?? 1,
     };
@@ -122,18 +139,36 @@ export async function PUT(req: NextRequest) {
 
       await ensureTableExists('film_projects');
 
+      // Ensure registration, synapsis, length columns exist
+      try {
+        const columnCheck = await sql`
+          SELECT column_name FROM information_schema.columns
+          WHERE table_schema = 'public' AND table_name = 'film_projects'
+          AND column_name IN ('registration', 'synapsis', 'length')
+        `;
+        const existing = (columnCheck as Array<{ column_name: string }>).map((r) => r.column_name);
+        if (!existing.includes('registration')) await sql`ALTER TABLE film_projects ADD COLUMN registration TEXT`;
+        if (!existing.includes('synapsis')) await sql`ALTER TABLE film_projects ADD COLUMN synapsis TEXT`;
+        if (!existing.includes('length')) await sql`ALTER TABLE film_projects ADD COLUMN length TEXT`;
+      } catch (e) {
+        console.warn("Column check for film_projects PUT:", e);
+      }
+
       const [updatedProject] = await sql`
         UPDATE film_projects 
         SET 
           title = ${project.title},
-          country = ${project.countries?.[0] || ""},
-          city = ${project.cities?.[0] || ""},
-          category = ${project.category || ""},
-          year = ${project.releaseYear || ""},
+          country = ${""},
+          city = ${""},
+          category = ${""},
+          year = ${project.year || ""},
           images = ${project.images},
           icon = ${project.icon || ""},
           position = ${project.position ?? 1},
-          page = ${project.page ?? 1}
+          page = ${project.page ?? 1},
+          registration = ${project.registration || ""},
+          synapsis = ${project.synapsis || ""},
+          length = ${project.length || ""}
         WHERE id = ${project.id}
         RETURNING *
       `;
@@ -148,11 +183,10 @@ export async function PUT(req: NextRequest) {
         title: updatedProject.title,
         icon: updatedProject.icon || "",
         images: updatedProject.images || [],
-        releaseYear: updatedProject.year || "",
-        countries: updatedProject.country ? [updatedProject.country] : [],
-        cities: updatedProject.city ? [updatedProject.city] : [],
-        genre: updatedProject.genre || "",
-        category: updatedProject.category || "",
+        year: updatedProject.year || "",
+        registration: updatedProject.registration || "",
+        synapsis: updatedProject.synapsis || "",
+        length: updatedProject.length || "",
         position: updatedProject.position ?? 1,
         page: updatedProject.page ?? 1,
       };
@@ -169,16 +203,30 @@ export async function PUT(req: NextRequest) {
         return NextResponse.json({ error: "Invalid project format" }, { status: 400 });
       }
 
-      // Clear existing projects and insert new ones
+      await ensureTableExists('film_projects');
+      try {
+        const columnCheck = await sql`
+          SELECT column_name FROM information_schema.columns
+          WHERE table_schema = 'public' AND table_name = 'film_projects'
+          AND column_name IN ('registration', 'synapsis', 'length')
+        `;
+        const existing = (columnCheck as Array<{ column_name: string }>).map((r) => r.column_name);
+        if (!existing.includes('registration')) await sql`ALTER TABLE film_projects ADD COLUMN registration TEXT`;
+        if (!existing.includes('synapsis')) await sql`ALTER TABLE film_projects ADD COLUMN synapsis TEXT`;
+        if (!existing.includes('length')) await sql`ALTER TABLE film_projects ADD COLUMN length TEXT`;
+      } catch (e) {
+        console.warn("Column check for film_projects bulk:", e);
+      }
+
       await sql`DELETE FROM film_projects`;
-      
+
       for (const proj of projects) {
         await sql`
-          INSERT INTO film_projects (id, title, country, city, category, year, images, icon, position, page)
-          VALUES (${proj.id}, ${proj.title}, ${proj.countries?.[0] || ""}, ${proj.cities?.[0] || ""}, ${proj.category || ""}, ${proj.releaseYear || ""}, ${proj.images}, ${proj.icon || ""}, ${proj.position ?? 1}, ${proj.page ?? 1})
+          INSERT INTO film_projects (id, title, country, city, category, year, images, icon, position, page, registration, synapsis, length)
+          VALUES (${proj.id}, ${proj.title}, ${""}, ${""}, ${""}, ${proj.year || ""}, ${proj.images}, ${proj.icon || ""}, ${proj.position ?? 1}, ${proj.page ?? 1}, ${proj.registration || ""}, ${proj.synapsis || ""}, ${proj.length || ""})
         `;
       }
-      
+
       return NextResponse.json({ message: "Projects updated" }, { status: 200 });
     }
 

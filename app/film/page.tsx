@@ -11,11 +11,10 @@ interface FilmProject {
   title: string;
   icon?: string;
   images: string[];
-  releaseYear?: string;
-  countries?: string[];
-  cities?: string[];
-  genre?: string;
-  category?: string;
+  year?: string;
+  registration?: string;
+  synapsis?: string;
+  length?: string;
   position?: number;
   page?: number;
 }

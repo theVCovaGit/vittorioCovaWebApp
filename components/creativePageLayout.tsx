@@ -186,20 +186,21 @@ export default function CreativePageLayout({
       );
 
       case "film":
-  return (
-    <>
-      <ProjectSubtitleTopAnimation
-        text={`${expandedProject.cities?.join(", ") || "—"}, ${expandedProject.countries?.join(", ") || "—"}${
-          expandedProject.releaseYear ? ` · ${expandedProject.releaseYear}` : ""
-        }`}
-      />
-      {(expandedProject.genre || expandedProject.category) && (
-        <ProjectSubtitleBottomAnimation
-          text={[expandedProject.genre, expandedProject.category].filter(Boolean).join(" · ")}
-        />
-      )}
-    </>
-  );
+        return (
+          <>
+            <ProjectSubtitleTopAnimation
+              text={[
+                expandedProject.year,
+                [expandedProject.registration, expandedProject.length].filter(Boolean).join(" · "),
+              ]
+                .filter(Boolean)
+                .join(" · ")}
+            />
+            {expandedProject.synapsis && (
+              <ProjectSubtitleBottomAnimation text={expandedProject.synapsis} />
+            )}
+          </>
+        );
 
       
 

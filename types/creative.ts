@@ -42,11 +42,10 @@ export type ArtProject = CreativeProjectBase & {
 // Film
 export type FilmProject = CreativeProjectBase & {
   type: "film";
-  releaseYear?: number;
-  countries?: string[];
-  cities?: string[];
-  genre?: string;
-  category?: string; // e.g. "Short Film", "Full Film", etc.
+  year?: string;
+  registration?: string;
+  synapsis?: string;
+  length?: string;
 };
 
 

@@ -139,14 +139,16 @@ export default function CreativePageLayoutMobile({
 
             {expandedProject.type === "film" && (
               <>
-                <p className="text-sm text-[#fef4dc] opacity-80">
-                  {expandedProject.cities?.join(", ") || "—"}, {expandedProject.countries?.join(", ") || "—"}
-                  {expandedProject.releaseYear && ` · ${expandedProject.releaseYear}`}
-                </p>
-                {(expandedProject.genre || expandedProject.category) && (
+                {expandedProject.year && (
+                  <p className="text-sm text-[#fef4dc] opacity-80">{expandedProject.year}</p>
+                )}
+                {(expandedProject.registration || expandedProject.length) && (
                   <p className="text-sm text-[#fef4dc] opacity-80">
-                    {[expandedProject.genre, expandedProject.category].filter(Boolean).join(" · ")}
+                    {[expandedProject.registration, expandedProject.length].filter(Boolean).join(" · ")}
                   </p>
+                )}
+                {expandedProject.synapsis && (
+                  <p className="text-sm text-[#fef4dc] opacity-80">{expandedProject.synapsis}</p>
                 )}
               </>
             )}

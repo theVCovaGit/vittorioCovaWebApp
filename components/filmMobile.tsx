@@ -9,11 +9,10 @@ interface FilmProject {
   title: string;
   icon?: string;
   images: string[];
-  releaseYear?: string;
-  countries?: string[];
-  cities?: string[];
-  genre?: string;
-  category?: string;
+  year?: string;
+  registration?: string;
+  synapsis?: string;
+  length?: string;
   position?: number;
   page?: number;
 }
@@ -127,24 +126,24 @@ export default function FilmMobile() {
                 </div>
               </div>
 
-              {/* Middle: Year, Title, Category, Synopsis, More */}
+              {/* Middle: Year, Title, Registration/Length, Synapsis, More */}
               <div className="mt-3 flex flex-col gap-0.5 text-left flex-shrink-0 min-h-0 overflow-hidden">
-                {film.releaseYear && (
-                  <p className="font-blurlight text-[#4A413C] text-xs">{film.releaseYear}</p>
+                {film.year && (
+                  <p className="font-blurlight text-[#4A413C] text-xs">{film.year}</p>
                 )}
                 <h2 className="font-blurlight font-bold text-[#4A413C] text-lg uppercase tracking-wide leading-tight">
                   {film.title}
                 </h2>
-                {(film.category || film.genre) && (
+                {(film.registration || film.length) && (
                   <p className="font-blurlight text-[#4A413C] text-xs">
-                    {[film.category, film.genre].filter(Boolean).join(" · ")}
+                    {[film.registration, film.length].filter(Boolean).join(" · ")}
                   </p>
                 )}
-                <p className="font-blurlight text-[#4A413C] text-xs leading-relaxed mt-1 line-clamp-2">
-                  {film.genre && film.category
-                    ? `${film.genre} — ${film.category}.`
-                    : film.category || film.genre || "—"}
-                </p>
+                {film.synapsis && (
+                  <p className="font-blurlight text-[#4A413C] text-xs leading-relaxed mt-1 line-clamp-2">
+                    {film.synapsis}
+                  </p>
+                )}
                 <button
                   type="button"
                   className="font-blurlight text-[#4A413C] text-xs underline mt-0.5 w-fit bg-transparent border-0 p-0 cursor-pointer text-left"

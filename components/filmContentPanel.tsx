@@ -12,10 +12,9 @@ interface FilmProject {
   icon?: string;
   images: string[];
   year?: string;
-  countries: string;
-  cities: string;
-  genre: string;
-  category: string; // e.g. "short film", "full film"
+  registration?: string;
+  synapsis?: string;
+  length?: string;
   position?: number;
   page?: number;
 }
@@ -25,10 +24,9 @@ export default function FilmContentPanel({ isActive }: { isActive: boolean }) {
   const [icon, setIcon] = useState<string>("");
   const [images, setImages] = useState<string[]>([]);
   const [year, setYear] = useState("");
-  const [countries, setCountries] = useState("");
-  const [cities, setCities] = useState("");
-  const [genre, setGenre] = useState("");
-  const [category, setCategory] = useState("");
+  const [registration, setRegistration] = useState("");
+  const [synapsis, setSynapsis] = useState("");
+  const [length, setLength] = useState("");
   const [projects, setProjects] = useState<FilmProject[]>([]);
   const [editingId, setEditingId] = useState<number | null>(null);
   const [position, setPosition] = useState<number>(1);
@@ -40,10 +38,9 @@ export default function FilmContentPanel({ isActive }: { isActive: boolean }) {
     setIcon("");
     setImages([]);
     setYear("");
-    setCountries("");
-    setCities("");
-    setGenre("");
-    setCategory("");
+    setRegistration("");
+    setSynapsis("");
+    setLength("");
     setPosition(1);
     setPage(1);
     setEditingId(null);
@@ -83,7 +80,7 @@ export default function FilmContentPanel({ isActive }: { isActive: boolean }) {
   }, [projects, position, page]);
 
   const handleSubmit = async () => {
-    if (!title || images.length === 0 || !countries || !cities || !genre || !category) {
+    if (!title || images.length === 0) {
       alert("Faltan campos obligatorios");
       return;
     }
@@ -95,10 +92,9 @@ export default function FilmContentPanel({ isActive }: { isActive: boolean }) {
       icon,
       images,
       year,
-      countries,
-      cities,
-      genre,
-      category,
+      registration,
+      synapsis,
+      length,
       position,
       page,
     };
@@ -177,16 +173,7 @@ export default function FilmContentPanel({ isActive }: { isActive: boolean }) {
         {editingId ? "Edit project" : "Add new film project"}
       </h2>
       <div className="bg-[#554943] p-4 mt-4 text-black">
-        {/* Inputs */}
-        <label className="block font-minecraft text-sm text-[#FFF3DF] mb-1">Title</label>
-        <input
-          type="text"
-          placeholder="Film title"
-          value={title}
-          onChange={(e) => setTitle(e.target.value)}
-          className="w-full p-2 border border-gray-400 rounded-md mb-2"
-        />
-
+        {/* Inputs – order: year, title, registration, synapsis, length */}
         <label className="block font-minecraft text-sm text-[#FFF3DF] mb-1">Year</label>
         <input
           type="text"
@@ -196,39 +183,39 @@ export default function FilmContentPanel({ isActive }: { isActive: boolean }) {
           className="w-full p-2 border border-gray-400 rounded-md mb-2"
         />
 
-        <label className="block font-minecraft text-sm text-[#FFF3DF] mb-1">Countries</label>
+        <label className="block font-minecraft text-sm text-[#FFF3DF] mb-1">Title</label>
         <input
           type="text"
-          placeholder="e.g. Mexico, France"
-          value={countries}
-          onChange={(e) => setCountries(e.target.value)}
+          placeholder="Film title"
+          value={title}
+          onChange={(e) => setTitle(e.target.value)}
           className="w-full p-2 border border-gray-400 rounded-md mb-2"
         />
 
-        <label className="block font-minecraft text-sm text-[#FFF3DF] mb-1">Cities</label>
+        <label className="block font-minecraft text-sm text-[#FFF3DF] mb-1">Registration</label>
         <input
           type="text"
-          placeholder="e.g. CDMX, Paris"
-          value={cities}
-          onChange={(e) => setCities(e.target.value)}
+          placeholder="e.g. Registration number or code"
+          value={registration}
+          onChange={(e) => setRegistration(e.target.value)}
           className="w-full p-2 border border-gray-400 rounded-md mb-2"
         />
 
-        <label className="block font-minecraft text-sm text-[#FFF3DF] mb-1">Genre</label>
-        <input
-          type="text"
-          placeholder="e.g. Drama"
-          value={genre}
-          onChange={(e) => setGenre(e.target.value)}
-          className="w-full p-2 border border-gray-400 rounded-md mb-2"
+        <label className="block font-minecraft text-sm text-[#FFF3DF] mb-1">Synapsis</label>
+        <textarea
+          placeholder="Film synopsis"
+          value={synapsis}
+          onChange={(e) => setSynapsis(e.target.value)}
+          className="w-full p-2 border border-gray-400 rounded-md mb-2 min-h-[80px]"
+          rows={3}
         />
 
-        <label className="block font-minecraft text-sm text-[#FFF3DF] mb-1">Category</label>
+        <label className="block font-minecraft text-sm text-[#FFF3DF] mb-1">Length</label>
         <input
           type="text"
-          placeholder="e.g. Short film"
-          value={category}
-          onChange={(e) => setCategory(e.target.value)}
+          placeholder="e.g. 15 min, 90 min"
+          value={length}
+          onChange={(e) => setLength(e.target.value)}
           className="w-full p-2 border border-gray-400 rounded-md mb-2"
         />
 
@@ -294,11 +281,15 @@ export default function FilmContentPanel({ isActive }: { isActive: boolean }) {
               </div>
             )}
             <h4 className="text-lg font-bold font-microextend">{selectedProject.title}</h4>
-            <p className="text-sm text-gray-400">{selectedProject.genre} · {selectedProject.category}</p>
-            <p className="text-gray-300 mt-2">
-              {selectedProject.cities}, {selectedProject.countries}{" "}
-              {selectedProject.year && `· ${selectedProject.year}`}
-            </p>
+            {selectedProject.year && <p className="text-sm text-gray-400">{selectedProject.year}</p>}
+            {(selectedProject.registration || selectedProject.length) && (
+              <p className="text-sm text-gray-400">
+                {[selectedProject.registration, selectedProject.length].filter(Boolean).join(" · ")}
+              </p>
+            )}
+            {selectedProject.synapsis && (
+              <p className="text-gray-300 mt-2 line-clamp-2">{selectedProject.synapsis}</p>
+            )}
             <div className="flex gap-2 mt-3">
               <button
                 className="bg-yellow-400 text-black py-1 px-3 rounded-md font-microextend"
@@ -307,10 +298,9 @@ export default function FilmContentPanel({ isActive }: { isActive: boolean }) {
                   setIcon(selectedProject.icon || "");
                   setImages(selectedProject.images);
                   setYear(selectedProject.year || "");
-                  setCountries(selectedProject.countries);
-                  setCities(selectedProject.cities);
-                  setGenre(selectedProject.genre);
-                  setCategory(selectedProject.category);
+                  setRegistration(selectedProject.registration || "");
+                  setSynapsis(selectedProject.synapsis || "");
+                  setLength(selectedProject.length || "");
                   setPosition(selectedProject.position || 1);
                   setPage(selectedProject.page || 1);
                   setEditingId(selectedProject.id);
