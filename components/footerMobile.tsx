@@ -80,7 +80,8 @@ export default function FooterMobile() {
     };
   }, []);
 
-  const backgroundClass = "bg-transparent";
+  const isArchitecturePage = pathname === "/architecture";
+  const backgroundClass = isArchitecturePage ? "" : "bg-transparent";
 
   const spacingClass = "pt-12 flex flex-col justify-end";
   const layoutClass = "";
@@ -91,6 +92,7 @@ export default function FooterMobile() {
       style={{
         touchAction: "none",
         paddingBottom: "max(0.25rem, env(safe-area-inset-bottom, 0px))",
+        ...(isArchitecturePage && { backgroundColor: "#554943" }),
       }}
     >
       <div className="flex flex-col items-center space-y-3 scale-[0.8]">
