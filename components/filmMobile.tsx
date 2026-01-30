@@ -97,11 +97,12 @@ export default function FilmMobile() {
           sortedFilms.map((film) => (
             <section
               key={film.id}
-              className="w-full flex-shrink-0 px-4 pt-4 pb-4 flex flex-col overflow-hidden"
+              className="w-full flex-shrink-0 px-4 pt-4 flex flex-col overflow-hidden"
               style={{
                 height: "100vh",
                 scrollSnapAlign: "start",
                 scrollSnapStop: "always",
+                paddingBottom: "max(160px, 22vh)",
               }}
             >
               {/* Top: Poster + WATCH FREE */}
