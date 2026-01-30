@@ -128,7 +128,7 @@ export default function FilmMobile() {
               {/* Middle: Year, Title, Registration, Synopsis (full), Length */}
               <div className="mt-3 flex flex-col gap-0.5 text-left flex-shrink-0 min-h-0 overflow-y-auto">
                 {film.year && (
-                  <p className="font-blurlight text-[#4A413C] text-xs">{film.year}</p>
+                  <p className="font-electrolize text-[#4A413C] text-xs">{film.year}</p>
                 )}
                 <h2 className="font-microextend font-bold text-[#4A413C] text-lg uppercase tracking-wide leading-tight">
                   {film.title}
@@ -139,12 +139,12 @@ export default function FilmMobile() {
                   </p>
                 )}
                 {film.synapsis && (
-                  <p className="font-blurlight text-[#4A413C] text-xs leading-relaxed mt-1">
+                  <p className="font-electrolize text-[#4A413C] text-xs leading-relaxed mt-1">
                     {film.synapsis}
                   </p>
                 )}
                 {film.length && (
-                  <p className="font-blurlight text-[#4A413C] text-xs mt-1">
+                  <p className="font-electrolize text-[#4A413C] text-xs mt-1">
                     {film.length}
                   </p>
                 )}
