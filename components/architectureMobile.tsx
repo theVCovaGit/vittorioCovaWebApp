@@ -46,11 +46,14 @@ const getAbsolutePlacement = (position?: number) => {
 const SCROLL_ASPECT_RATIO = 1080 / 380;
 /** Icon size as fraction of scroll strip height (220/380) */
 const ICON_TO_STRIP_RATIO = 220 / 380;
-/** Symmetric padding: same vh for top and bottom – big enough to clear header/footer, responsive */
+/** Min padding in vh – scales on larger screens */
 const SCROLL_PADDING_VH = 18;
-/** Scroll area height: viewport minus equal top and bottom padding */
-const SCROLL_AREA_HEIGHT_VH = 100 - 2 * SCROLL_PADDING_VH;
-const SCROLL_AREA_HEIGHT = `${SCROLL_AREA_HEIGHT_VH}vh`;
+/** Top: always at least header height so content stays below header; scales with vh on larger screens */
+const SCROLL_TOP = `max(var(--mobile-header-height, 104px), ${SCROLL_PADDING_VH}vh)`;
+/** Bottom: always at least footer height so content stays above footer; scales with vh on larger screens */
+const SCROLL_BOTTOM = `max(200px, ${SCROLL_PADDING_VH}vh)`;
+/** Scroll area height: viewport minus top and bottom (ensures padding on all devices) */
+const SCROLL_AREA_HEIGHT = `calc(100vh - ${SCROLL_TOP} - ${SCROLL_BOTTOM})`;
 const SCROLL_SCALE_Y = 1.35;
 
 export default function ArchitectureMobile() {
@@ -124,8 +127,8 @@ export default function ArchitectureMobile() {
       <div
         className="absolute left-0 right-0 flex items-center"
         style={{
-          top: `${SCROLL_PADDING_VH}vh`,
-          bottom: `${SCROLL_PADDING_VH}vh`,
+          top: SCROLL_TOP,
+          bottom: SCROLL_BOTTOM,
           ["--scroll-strip-height" as string]: SCROLL_AREA_HEIGHT,
         }}
       >
