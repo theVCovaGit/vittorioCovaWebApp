@@ -130,11 +130,11 @@ export default function FilmMobile() {
                 {film.year && (
                   <p className="font-blurlight text-[#4A413C] text-xs">{film.year}</p>
                 )}
-                <h2 className="font-blurlight font-bold text-[#4A413C] text-lg uppercase tracking-wide leading-tight">
+                <h2 className="font-microextend font-bold text-[#4A413C] text-lg uppercase tracking-wide leading-tight">
                   {film.title}
                 </h2>
                 {film.registration && (
-                  <p className="font-blurlight text-[#4A413C] text-xs">
+                  <p className="font-microextend text-[#4A413C] text-xs">
                     {film.registration}
                   </p>
                 )}
