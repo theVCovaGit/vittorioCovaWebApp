@@ -154,8 +154,8 @@ export default function CreativePageLayoutMobile({
             )}
           </div>
 
-          {/* Project Images - Simple vertical gallery */}
-          {expandedProject.images && expandedProject.images.length > 0 && (
+          {/* Project Images - Simple vertical gallery (film has no images) */}
+          {"images" in expandedProject && expandedProject.images && expandedProject.images.length > 0 && (
             <div className="px-4 space-y-4">
               {expandedProject.images.map((image, index) => (
                 <div key={index} className="w-full aspect-[4/3] relative">
