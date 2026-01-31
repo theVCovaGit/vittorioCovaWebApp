@@ -2,6 +2,7 @@
 /* eslint-disable @next/next/no-img-element */
 
 import { useEffect, useRef, useState } from "react";
+import Link from "next/link";
 
 interface FilmProject {
   id: number;
@@ -128,11 +129,20 @@ export default function FilmMobile() {
                   )}
                 </div>
 
-                {/* Col 2: WATCH FREE */}
-                <div className="flex flex-col justify-center font-blurlight font-bold text-[#4A413C] text-sm uppercase tracking-wide leading-tight">
+                {/* Col 2: WATCH FREE - links to film */}
+                <Link
+                  href="https://youtu.be/wMNJeHijiRU?si=TeZvAQUsfIayO4Vg"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex flex-col justify-center min-h-0 self-stretch font-blurlight font-bold text-[#4A413C] uppercase tracking-wide leading-tight no-underline hover:opacity-80 transition-opacity"
+                  style={{
+                    fontSize: "clamp(1rem, 4.5vw, 1.5rem)",
+                    paddingLeft: "clamp(1.25rem, 6vw, 2.5rem)",
+                  }}
+                >
                   <span>WATCH</span>
                   <span>FREE</span>
-                </div>
+                </Link>
 
                 {/* Row 2: Year, Title, Registration, Synopsis, Length - spans both cols, first letter aligned with poster left */}
                 <div
