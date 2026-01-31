@@ -20,9 +20,11 @@ interface FilmProject {
 
 function FilmDesktop() {
   const [projects, setProjects] = useState<FilmProject[]>([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchProjects = async () => {
+      setLoading(true);
       try {
         const response = await fetch("/api/film");
         if (!response.ok) {
@@ -32,6 +34,8 @@ function FilmDesktop() {
         setProjects(Array.isArray(data.projects) ? data.projects : []);
       } catch (error) {
         console.error("Error fetching film projects:", error);
+      } finally {
+        setLoading(false);
       }
     };
 
@@ -84,6 +88,15 @@ function FilmDesktop() {
     
     return strips;
   }, [projects]);
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-[#2d2f38] flex flex-col items-center justify-center gap-4">
+        <div className="w-12 h-12 border-4 border-[#554943]/20 border-t-[#554943] rounded-full animate-spin" />
+        <p className="font-blurlight text-[#554943]">Loading...</p>
+      </div>
+    );
+  }
+
   return (
     <div className="min-h-screen bg-[#2d2f38] relative overflow-hidden">
       <CreativeSectionFooter />

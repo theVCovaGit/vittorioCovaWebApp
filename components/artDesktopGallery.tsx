@@ -66,11 +66,13 @@ function materialDimensionsLine(p: ArtProject): string {
 
 export default function ArtDesktopGallery() {
   const [projects, setProjects] = useState<ArtProject[]>([]);
+  const [loading, setLoading] = useState(true);
   const [selectedProjectId, setSelectedProjectId] = useState<number | null>(null);
 
   useEffect(() => {
     let cancelled = false;
     const fetchProjects = async () => {
+      setLoading(true);
       try {
         const res = await fetch("/api/art");
         if (!res.ok) return;
@@ -78,6 +80,8 @@ export default function ArtDesktopGallery() {
         if (!cancelled && data.projects) setProjects(data.projects);
       } catch (e) {
         console.error("Error fetching art:", e);
+      } finally {
+        if (!cancelled) setLoading(false);
       }
     };
     fetchProjects();
@@ -147,6 +151,15 @@ export default function ArtDesktopGallery() {
     </div>
   );
 
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-[#F5EFDF] flex flex-col items-center justify-center gap-4">
+        <div className="w-12 h-12 border-4 border-[#554943]/20 border-t-[#554943] rounded-full animate-spin" />
+        <p className="font-blurlight text-[#554943]">Loading...</p>
+      </div>
+    );
+  }
+
   return (
     <div className="min-h-screen bg-[#F5EFDF] flex flex-col">
       {/* Spacer for fixed header */}
@@ -155,7 +168,7 @@ export default function ArtDesktopGallery() {
       <div className="flex-1 overflow-y-auto pb-36">
         <div className="max-w-6xl mx-auto px-6 sm:px-8 pt-20 md:pt-28 pb-12 md:pb-16">
           {pageGrids.length === 0 ? (
-            <p className="font-blurlight text-[#4A413C] text-center py-16">
+            <p className="font-blurlight text-[#554943] text-center py-16">
               No pieces yet.
             </p>
           ) : (

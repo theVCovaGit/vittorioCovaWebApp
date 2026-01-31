@@ -51,6 +51,7 @@ function materialDimensionsLine(p: ArtProject): string {
 
 export default function ArtMobile() {
   const [projects, setProjects] = useState<ArtProject[]>([]);
+  const [loading, setLoading] = useState(true);
   const [selectedProjectId, setSelectedProjectId] = useState<number | null>(null);
 
   useEffect(() => {
@@ -62,6 +63,7 @@ export default function ArtMobile() {
   useEffect(() => {
     let cancelled = false;
     const fetchProjects = async () => {
+      setLoading(true);
       try {
         const res = await fetch("/api/art");
         if (!res.ok) return;
@@ -69,6 +71,8 @@ export default function ArtMobile() {
         if (!cancelled && data.projects) setProjects(data.projects);
       } catch (e) {
         console.error("Error fetching art:", e);
+      } finally {
+        if (!cancelled) setLoading(false);
       }
     };
     fetchProjects();
@@ -156,7 +160,12 @@ export default function ArtMobile() {
           WebkitOverflowScrolling: "touch",
         }}
       >
-        {groups.length === 0 ? (
+        {loading ? (
+          <div className="min-h-full flex flex-col items-center justify-center px-4 gap-4">
+            <div className="w-12 h-12 border-4 border-[#554943]/20 border-t-[#554943] rounded-full animate-spin" />
+            <p className="font-blurlight text-[#554943]">Loading...</p>
+          </div>
+        ) : groups.length === 0 ? (
           <div className="min-h-full flex items-center justify-center px-4">
             <p className="font-blurlight text-[#4A413C]">No collections yet.</p>
           </div>

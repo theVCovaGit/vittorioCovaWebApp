@@ -55,6 +55,7 @@ const SCROLL_SCALE_Y = 1.35;
 
 export default function ArchitectureMobile() {
   const [projects, setProjects] = useState<ArchitectureProject[]>([]);
+  const [loading, setLoading] = useState(true);
   const [currentPage] = useState(1);
   const [selectedProjectId, setSelectedProjectId] = useState<number | null>(null);
   const [hoveredProjectId, setHoveredProjectId] = useState<number | null>(null);
@@ -64,12 +65,15 @@ export default function ArchitectureMobile() {
 
   useEffect(() => {
     const fetchProjects = async () => {
+      setLoading(true);
       try {
         const response = await fetch("/api/architecture");
         const data = await response.json();
         setProjects(data.projects || []);
       } catch (error) {
         console.error("Error fetching projects:", error);
+      } finally {
+        setLoading(false);
       }
     };
 
@@ -91,6 +95,23 @@ export default function ArchitectureMobile() {
   const currentPageProjects = projects
     .filter((project) => (project.page || 1) === currentPage)
     .sort((a, b) => (a.position || 0) - (b.position || 0));
+
+  if (loading) {
+    return (
+      <div className="fixed inset-0 bg-[#fff5e0] flex flex-col items-center justify-center gap-4">
+        <div className="w-12 h-12 border-4 border-[#554943]/20 border-t-[#554943] rounded-full animate-spin" />
+        <p className="font-blurlight text-[#554943]">Loading...</p>
+      </div>
+    );
+  }
+
+  if (currentPageProjects.length === 0) {
+    return (
+      <div className="fixed inset-0 bg-[#fff5e0] flex items-center justify-center">
+        <p className="font-blurlight text-[#554943]">No projects yet.</p>
+      </div>
+    );
+  }
 
   return (
     <>

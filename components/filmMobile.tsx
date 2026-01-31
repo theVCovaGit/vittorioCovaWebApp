@@ -19,11 +19,13 @@ interface FilmProject {
 
 export default function FilmMobile() {
   const [projects, setProjects] = useState<FilmProject[]>([]);
+  const [loading, setLoading] = useState(true);
   const verticalScrollRef = useRef<HTMLDivElement>(null);
   const snapTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   useEffect(() => {
     const fetchProjects = async () => {
+      setLoading(true);
       try {
         const response = await fetch("/api/film");
         if (!response.ok) throw new Error(`Unexpected status ${response.status}`);
@@ -31,6 +33,8 @@ export default function FilmMobile() {
         setProjects(Array.isArray(data.projects) ? data.projects : []);
       } catch (error) {
         console.error("Error fetching film projects:", error);
+      } finally {
+        setLoading(false);
       }
     };
     fetchProjects();
@@ -90,7 +94,12 @@ export default function FilmMobile() {
           WebkitOverflowScrolling: "touch",
         }}
       >
-        {sortedFilms.length === 0 ? (
+        {loading ? (
+          <div className="min-h-screen flex flex-col items-center justify-center px-4 gap-4">
+            <div className="w-12 h-12 border-4 border-[#524b44]/20 border-t-[#554943] rounded-full animate-spin" />
+            <p className="font-blurlight text-[#554943]">Loading...</p>
+          </div>
+        ) : sortedFilms.length === 0 ? (
           <div className="min-h-screen flex items-center justify-center px-4">
             <p className="font-blurlight text-[#524b44]">No films yet.</p>
           </div>

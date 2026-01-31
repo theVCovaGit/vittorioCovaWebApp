@@ -68,6 +68,7 @@ const ICON_SIZE = 420;
 
 function ArchitectureDesktop() {
   const [projects, setProjects] = useState<ArchitectureProject[]>([]);
+  const [loading, setLoading] = useState(true);
   const [currentPage] = useState(1);
   const [selectedProjectId, setSelectedProjectId] = useState<number | null>(null);
   const [hoveredProjectId, setHoveredProjectId] = useState<number | null>(null);
@@ -178,12 +179,15 @@ function ArchitectureDesktop() {
   // Fetch projects from API
   useEffect(() => {
     const fetchProjects = async () => {
+      setLoading(true);
       try {
         const response = await fetch('/api/architecture');
         const data = await response.json();
         setProjects(data.projects || []);
       } catch (error) {
         console.error('Error fetching projects:', error);
+      } finally {
+        setLoading(false);
       }
     };
 
@@ -225,6 +229,15 @@ function ArchitectureDesktop() {
       scroller?.removeEventListener("scroll", updateRect);
     };
   }, [currentPageProjects.length]);
+
+  if (loading) {
+    return (
+      <div className="fixed inset-0 bg-[#fff5e0] flex flex-col items-center justify-center gap-4">
+        <div className="w-12 h-12 border-4 border-[#554943]/20 border-t-[#554943] rounded-full animate-spin" />
+        <p className="font-blurlight text-[#554943]">Loading...</p>
+      </div>
+    );
+  }
 
   return (
     <>
