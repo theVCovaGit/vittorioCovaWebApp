@@ -21,7 +21,7 @@ export default function ArtInquireForm({ project, onClose }: ArtInquireFormProps
   const [phone, setPhone] = useState("");
   const [comments, setComments] = useState("");
 
-  const displayTitle = [project.collection, project.title].filter(Boolean).join(" ").trim() || project.title;
+  const displayTitle = project.title?.trim() || "";
   const thumbnail = project.icon || project.images?.[0];
 
   const handleSubmit = (e: React.FormEvent) => {
