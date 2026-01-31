@@ -201,21 +201,21 @@ export default function ArtMobile() {
                     })() : null}
                   </div>
 
-                  {/* Projects: 2 rows × N columns (p1,p3,p5… top; p2,p4,p6… bottom), scroll horizontally. Rows auto-sized so gap-y controls the space between them. */}
+                  {/* Projects: single row sequence (p1, p2, p3…), scroll horizontally. */}
                   <div
-                    className="grid grid-rows-[auto_auto] grid-flow-col auto-cols-[clamp(110px,30vw,240px)] gap-x-[clamp(12px,2.5vw,20px)] gap-y-[clamp(14px,2.8vw,28px)] pl-4 pr-[clamp(16vw,20vw,24vw)] pt-[clamp(2.5rem,6vw,3.5rem)] pb-4 items-start w-max self-start"
+                    className="flex flex-row flex-nowrap gap-x-6 pl-4 pr-[clamp(16vw,20vw,24vw)] pt-[clamp(2.5rem,6vw,3.5rem)] pb-4 items-start w-max self-start"
                   >
                   {group.projects.map((project) => (
                     <button
                       key={project.id}
                       type="button"
-                      className="w-full flex flex-col text-left bg-transparent border-0 p-0 cursor-pointer min-w-0"
+                      className="flex flex-col text-left bg-transparent border-0 p-0 cursor-pointer flex-shrink-0 w-[clamp(200px,55vw,340px)]"
                       onClick={() => {
                         setSelectedProjectId(project.id);
                         window.dispatchEvent(new CustomEvent("art-expanded-open"));
                       }}
                     >
-                      <div className="flex-shrink-0 w-full aspect-[4/3] rounded-sm overflow-hidden bg-[#e8e0d5]">
+                      <div className="flex-shrink-0 w-full aspect-[3/4] rounded-sm overflow-hidden bg-[#e8e0d5]">
                         {(project.icon || project.images?.[0]) ? (
                           <img
                             src={project.icon || project.images[0]}
@@ -228,16 +228,16 @@ export default function ArtMobile() {
                           </div>
                         )}
                       </div>
-                      <h3 className="font-blurlight font-bold text-[#4A413C] text-base uppercase tracking-wide mt-2">
+                      <h3 className="font-blurlight font-bold text-[#4A413C] text-lg uppercase tracking-wide mt-3">
                         {project.title}
                       </h3>
                       {materialDimensionsLine(project) && (
-                        <p className="font-electrolize text-[#524b44] text-xs mt-0.5 uppercase">
+                        <p className="font-electrolize text-[#524b44] text-sm mt-1 uppercase">
                           {materialDimensionsLine(project)}
                         </p>
                       )}
                       <p
-                        className="font-electrolize text-[#524b44] text-xs mt-1"
+                        className="font-electrolize text-[#524b44] text-sm mt-1"
                       >
                         {project.forSale !== false ? "Available" : "Not available"}
                       </p>
