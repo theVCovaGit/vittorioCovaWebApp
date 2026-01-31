@@ -60,8 +60,8 @@ export default function ArtInquireForm({ project, onClose }: ArtInquireFormProps
           ) : null}
         </div>
 
-        <form onSubmit={handleSubmit} className="flex-1 min-h-0 flex flex-col overflow-hidden p-2 md:p-6">
-          <div className="flex-1 min-h-0 flex flex-col gap-1 md:gap-4 overflow-hidden">
+        <form onSubmit={handleSubmit} className="flex-1 min-h-0 flex flex-col overflow-hidden p-3 md:p-6">
+          <div className="flex-1 min-h-0 flex flex-col gap-2 md:gap-4 overflow-hidden">
             <div className="flex-shrink-0">
               <label htmlFor="inq-name" className="block text-[#524b44] font-electrolize text-[10px] md:text-sm mb-0.5">
                 Name (required)
@@ -100,7 +100,7 @@ export default function ArtInquireForm({ project, onClose }: ArtInquireFormProps
                 className="w-full px-2 md:px-3 py-1 md:py-2 bg-white border border-[#4A413C]/40 rounded-sm text-[#524b44] font-electrolize text-xs md:text-sm focus:outline-none focus:border-[#4A413C]"
               />
             </div>
-            <div className="flex-shrink-0 md:flex-1 md:min-h-0 md:flex md:flex-col">
+            <div className="flex-1 min-h-0 flex flex-col">
               <label htmlFor="inq-comments" className="block text-[#524b44] font-electrolize text-[10px] md:text-sm mb-0.5 flex-shrink-0">
                 Comments (required)
               </label>
@@ -109,14 +109,14 @@ export default function ArtInquireForm({ project, onClose }: ArtInquireFormProps
                 required
                 value={comments}
                 onChange={(e) => setComments(e.target.value)}
-                className="w-full min-h-[2.25rem] h-10 md:h-auto md:flex-1 md:min-h-0 px-2 md:px-3 py-1 md:py-2 bg-white border border-[#4A413C]/40 rounded-sm text-[#524b44] font-electrolize text-xs md:text-sm focus:outline-none focus:border-[#4A413C] resize-none"
+                className="w-full flex-1 min-h-[4rem] px-2 md:px-3 py-1 md:py-2 bg-white border border-[#4A413C]/40 rounded-sm text-[#524b44] font-electrolize text-xs md:text-sm focus:outline-none focus:border-[#4A413C] resize-none"
               />
             </div>
           </div>
-          <div className="flex-shrink-0 mt-2 md:mt-6 flex justify-center">
+          <div className="flex-shrink-0 mt-3 md:mt-6 flex justify-center">
             <button
               type="submit"
-              className="bg-[#524b44] hover:bg-[#48423c] text-[#FFF3DF] font-blurlight font-bold uppercase tracking-wider py-1.5 md:py-2.5 px-5 md:px-8 rounded-sm transition-colors text-[10px] md:text-sm"
+              className="bg-[#524b44] hover:bg-[#48423c] text-[#FFF3DF] font-electrolize font-bold uppercase tracking-wider py-2 md:py-2.5 px-6 md:px-8 rounded-sm transition-colors text-xs md:text-sm"
             >
               SUBMIT
             </button>
