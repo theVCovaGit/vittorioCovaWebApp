@@ -203,7 +203,7 @@ export default function ArtMobile() {
 
                   {/* Projects: single row sequence (p1, p2, p3…), scroll horizontally. */}
                   <div
-                    className="flex flex-row flex-nowrap gap-x-6 pl-4 pr-[clamp(16vw,20vw,24vw)] pt-[clamp(2.5rem,6vw,3.5rem)] pb-4 items-start w-max self-start mt-12"
+                    className="flex flex-row flex-nowrap gap-x-[5.5rem] pl-4 pr-[clamp(16vw,20vw,24vw)] pt-[clamp(2.5rem,6vw,3.5rem)] pb-4 items-start w-max self-start mt-12"
                   >
                   {group.projects.map((project) => (
                     <button
