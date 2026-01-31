@@ -199,6 +199,12 @@ export default function ArtMobile() {
                         </div>
                       );
                     })() : null}
+                    <img
+                      src="/assets/arrowHorizontal.svg"
+                      alt=""
+                      className="w-16 h-auto mt-4"
+                      aria-hidden
+                    />
                   </div>
 
                   {/* Projects: single row sequence (p1, p2, p3…), scroll horizontally. */}
