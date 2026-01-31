@@ -85,6 +85,28 @@ export default function ArtMobile() {
   const groups = buildCollectionGroups(projects);
   const verticalScrollRef = useRef<HTMLDivElement>(null);
   const snapTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const collectionBlockRef = useRef<HTMLDivElement | null>(null);
+  const [collectionBlockMeasured, setCollectionBlockMeasured] = useState(false);
+
+  useEffect(() => {
+    const el = collectionBlockRef.current;
+    if (!el || groups.length === 0) return;
+    const update = () => {
+      const rect = el.getBoundingClientRect();
+      document.documentElement.style.setProperty("--collection-block-end", `${rect.right}px`);
+      setCollectionBlockMeasured(true);
+    };
+    update();
+    const ro = new ResizeObserver(update);
+    ro.observe(el);
+    window.addEventListener("resize", update);
+    return () => {
+      ro.disconnect();
+      window.removeEventListener("resize", update);
+      document.documentElement.style.removeProperty("--collection-block-end");
+      setCollectionBlockMeasured(false);
+    };
+  }, [groups.length]);
 
   /** On scroll end: snap to nearest section (no in-between – either next category or bounce back) */
   useEffect(() => {
@@ -168,9 +190,10 @@ export default function ArtMobile() {
             <p className="font-blurlight text-[#4A413C]">No collections yet.</p>
           </div>
         ) : (
-          groups.map((group) => {
+          groups.map((group, groupIndex) => {
             const { line1, line2 } = collectionTitleLines(group.collection);
             const desc = collectionDesc(group);
+            const isFirst = groupIndex === 0;
             return (
               <section
                 key={group.collection}
@@ -192,7 +215,10 @@ export default function ArtMobile() {
                   style={{ height: "100%", minHeight: "100%" }}
                 >
                   {/* Left: this collection's title + description */}
-                  <div className="flex-shrink-0 w-[72%] max-w-[min(340px,85vw)] pl-[clamp(1rem,5vw,5rem)] pr-[clamp(0.5rem,2vw,2rem)] pt-[clamp(18vh,24vh,28vh)] pb-4 flex flex-col gap-3 sm:gap-4 items-center">
+                  <div
+                    ref={isFirst ? collectionBlockRef : undefined}
+                    className="flex-shrink-0 w-[72%] max-w-[min(340px,85vw)] pl-[clamp(1rem,5vw,5rem)] pr-[clamp(0.5rem,2vw,2rem)] pt-[clamp(18vh,24vh,28vh)] pb-4 flex flex-col gap-3 sm:gap-4 items-center"
+                  >
                     <h2 className="font-blurlight font-bold text-[#524b44] text-[clamp(1.5rem,6vw,1.875rem)] lowercase tracking-wide leading-tight flex flex-col">
                       <span className="pl-8">{line1}</span>
                       {line2 != null ? <span className="pl-2">{line2}</span> : null}
@@ -243,9 +269,14 @@ export default function ArtMobile() {
                     </div>
                   </div>
 
-                  {/* Projects: single row sequence (p1, p2, p3…), scroll horizontally. */}
+                  {/* Projects: single row sequence (p1, p2, p3…), scroll horizontally; first project aligns with "A" in ART header */}
                   <div
-                    className="flex flex-row flex-nowrap gap-x-[clamp(2rem,8vw,5.5rem)] pl-[clamp(0.5rem,2vw,1rem)] pr-[clamp(12vw,20vw,24vw)] pt-[clamp(1.5rem,5vw,3.5rem)] pb-4 items-start w-max self-start mt-[clamp(0.5rem,3vw,3rem)]"
+                    className="flex flex-row flex-nowrap gap-x-[clamp(2rem,8vw,5.5rem)] pr-[clamp(12vw,20vw,24vw)] pt-[clamp(1.5rem,5vw,3.5rem)] pb-4 items-start w-max self-start mt-[clamp(0.5rem,3vw,3rem)]"
+                    style={{
+                      paddingLeft: isFirst && collectionBlockMeasured
+                        ? "max(0.5rem, calc(var(--art-label-left) - var(--collection-block-end)))"
+                        : "clamp(0.5rem, 2vw, 1rem)",
+                    }}
                   >
                   {group.projects.map((project) => (
                     <button
