@@ -43,9 +43,9 @@ export default function ArtInquireForm({ project, onClose }: ArtInquireFormProps
         className="relative w-full flex-1 min-h-0 flex flex-col overflow-hidden"
         onClick={(e) => e.stopPropagation()}
       >
-        <div className="flex flex-wrap gap-2 md:gap-4 p-3 md:p-6 pb-2 md:pb-4 flex-shrink-0">
+        <div className="flex flex-wrap gap-2 md:gap-4 p-2 md:p-6 pb-1 md:pb-4 flex-shrink-0">
           <div className="min-w-0 flex-1">
-            <p className="text-[#C6898F] font-blurlight text-xs md:text-sm mb-0.5">Inquire about:</p>
+            <p className="text-[#524b44] font-electrolize text-[10px] md:text-sm mb-0.5">Inquire about:</p>
             <h2 className="text-[#4A413C] font-blurlight font-bold text-base md:text-xl uppercase tracking-wider leading-tight">
               {displayTitle}
             </h2>
@@ -60,10 +60,10 @@ export default function ArtInquireForm({ project, onClose }: ArtInquireFormProps
           ) : null}
         </div>
 
-        <form onSubmit={handleSubmit} className="flex-1 min-h-0 flex flex-col overflow-hidden p-3 md:p-6">
-          <div className="flex-1 min-h-0 flex flex-col gap-2 md:gap-4 overflow-hidden">
+        <form onSubmit={handleSubmit} className="flex-1 min-h-0 flex flex-col overflow-hidden p-2 md:p-6">
+          <div className="flex-1 min-h-0 flex flex-col gap-1 md:gap-4 overflow-hidden">
             <div className="flex-shrink-0">
-              <label htmlFor="inq-name" className="block text-[#4A413C] font-blurlight text-xs md:text-sm mb-0.5">
+              <label htmlFor="inq-name" className="block text-[#524b44] font-electrolize text-[10px] md:text-sm mb-0.5">
                 Name (required)
               </label>
               <input
@@ -72,11 +72,11 @@ export default function ArtInquireForm({ project, onClose }: ArtInquireFormProps
                 required
                 value={name}
                 onChange={(e) => setName(e.target.value)}
-                className="w-full px-2.5 md:px-3 py-1 md:py-2 bg-white border border-[#4A413C]/40 rounded-sm text-[#4A413C] font-blurlight text-sm focus:outline-none focus:border-[#4A413C]"
+                className="w-full px-2 md:px-3 py-1 md:py-2 bg-white border border-[#4A413C]/40 rounded-sm text-[#524b44] font-electrolize text-xs md:text-sm focus:outline-none focus:border-[#4A413C]"
               />
             </div>
             <div className="flex-shrink-0">
-              <label htmlFor="inq-email" className="block text-[#4A413C] font-blurlight text-xs md:text-sm mb-0.5">
+              <label htmlFor="inq-email" className="block text-[#524b44] font-electrolize text-[10px] md:text-sm mb-0.5">
                 Email Address (required)
               </label>
               <input
@@ -85,11 +85,11 @@ export default function ArtInquireForm({ project, onClose }: ArtInquireFormProps
                 required
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                className="w-full px-2.5 md:px-3 py-1 md:py-2 bg-white border border-[#4A413C]/40 rounded-sm text-[#4A413C] font-blurlight text-sm focus:outline-none focus:border-[#4A413C]"
+                className="w-full px-2 md:px-3 py-1 md:py-2 bg-white border border-[#4A413C]/40 rounded-sm text-[#524b44] font-electrolize text-xs md:text-sm focus:outline-none focus:border-[#4A413C]"
               />
             </div>
             <div className="flex-shrink-0">
-              <label htmlFor="inq-phone" className="block text-[#4A413C] font-blurlight text-xs md:text-sm mb-0.5">
+              <label htmlFor="inq-phone" className="block text-[#524b44] font-electrolize text-[10px] md:text-sm mb-0.5">
                 Phone Number
               </label>
               <input
@@ -97,11 +97,11 @@ export default function ArtInquireForm({ project, onClose }: ArtInquireFormProps
                 type="tel"
                 value={phone}
                 onChange={(e) => setPhone(e.target.value)}
-                className="w-full px-2.5 md:px-3 py-1 md:py-2 bg-white border border-[#4A413C]/40 rounded-sm text-[#4A413C] font-blurlight text-sm focus:outline-none focus:border-[#4A413C]"
+                className="w-full px-2 md:px-3 py-1 md:py-2 bg-white border border-[#4A413C]/40 rounded-sm text-[#524b44] font-electrolize text-xs md:text-sm focus:outline-none focus:border-[#4A413C]"
               />
             </div>
-            <div className="flex-1 min-h-0 flex flex-col">
-              <label htmlFor="inq-comments" className="block text-[#4A413C] font-blurlight text-xs md:text-sm mb-0.5 flex-shrink-0">
+            <div className="flex-shrink-0 md:flex-1 md:min-h-0 md:flex md:flex-col">
+              <label htmlFor="inq-comments" className="block text-[#524b44] font-electrolize text-[10px] md:text-sm mb-0.5 flex-shrink-0">
                 Comments (required)
               </label>
               <textarea
@@ -109,14 +109,14 @@ export default function ArtInquireForm({ project, onClose }: ArtInquireFormProps
                 required
                 value={comments}
                 onChange={(e) => setComments(e.target.value)}
-                className="w-full flex-1 min-h-[2.5rem] px-2.5 md:px-3 py-1 md:py-2 bg-white border border-[#4A413C]/40 rounded-sm text-[#4A413C] font-blurlight text-sm focus:outline-none focus:border-[#4A413C] resize-none"
+                className="w-full min-h-[2.25rem] h-10 md:h-auto md:flex-1 md:min-h-0 px-2 md:px-3 py-1 md:py-2 bg-white border border-[#4A413C]/40 rounded-sm text-[#524b44] font-electrolize text-xs md:text-sm focus:outline-none focus:border-[#4A413C] resize-none"
               />
             </div>
           </div>
-          <div className="flex-shrink-0 mt-3 md:mt-6 flex justify-center">
+          <div className="flex-shrink-0 mt-2 md:mt-6 flex justify-center">
             <button
               type="submit"
-              className="bg-[#524b44] hover:bg-[#48423c] text-[#FFF3DF] font-blurlight font-bold uppercase tracking-wider py-2 md:py-2.5 px-6 md:px-8 rounded-sm transition-colors text-xs md:text-sm"
+              className="bg-[#524b44] hover:bg-[#48423c] text-[#FFF3DF] font-blurlight font-bold uppercase tracking-wider py-1.5 md:py-2.5 px-5 md:px-8 rounded-sm transition-colors text-[10px] md:text-sm"
             >
               SUBMIT
             </button>
