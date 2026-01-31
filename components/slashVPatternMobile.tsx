@@ -83,7 +83,7 @@ export default function SlashVPatternMobile() {
         .pattern-mobile-container {
           font-family: "Blur Light", sans-serif;
           white-space: pre;
-          color: rgba(254, 244, 220, 0.25);
+          color: #a08e80;
           width: fit-content;
           display: block;
           font-size: clamp(14px, 5.25vw, 28px);
@@ -102,7 +102,7 @@ export default function SlashVPatternMobile() {
             const parts = row.split("ARCHITECTURE .");
             return (
               <div key={i} className="pointer-events-auto relative" style={{ zIndex: 20 }}>
-                <span style={{ color: "rgba(254, 244, 220, 0.25)" }}>{parts[0]}</span>
+                <span style={{ color: "#a08e80" }}>{parts[0]}</span>
                 <Link 
                   href="/architecture"
                   style={{ 
@@ -115,7 +115,7 @@ export default function SlashVPatternMobile() {
                 >
                   ARCHITECTURE .
                 </Link>
-                <span style={{ color: "rgba(254, 244, 220, 0.25)" }}>{parts[1]}</span>
+                <span style={{ color: "#a08e80" }}>{parts[1]}</span>
               </div>
             );
           }
@@ -124,7 +124,7 @@ export default function SlashVPatternMobile() {
             const parts = row.split("FILM .");
             return (
               <div key={i} className="pointer-events-auto relative" style={{ zIndex: 20 }}>
-                <span style={{ color: "rgba(254, 244, 220, 0.25)" }}>{parts[0]}</span>
+                <span style={{ color: "#a08e80" }}>{parts[0]}</span>
                 <Link 
                   href="/film"
                   style={{ 
@@ -135,7 +135,7 @@ export default function SlashVPatternMobile() {
                 >
                   FILM .
                 </Link>
-                <span style={{ color: "rgba(254, 244, 220, 0.25)" }}>{parts[1]}</span>
+                <span style={{ color: "#a08e80" }}>{parts[1]}</span>
               </div>
             );
           }
@@ -144,7 +144,7 @@ export default function SlashVPatternMobile() {
             const parts = row.split("ART .");
             return (
               <div key={i} className="pointer-events-auto relative" style={{ zIndex: 20 }}>
-                <span style={{ color: "rgba(254, 244, 220, 0.25)" }}>{parts[0]}</span>
+                <span style={{ color: "#a08e80" }}>{parts[0]}</span>
                 <Link 
                   href="/art"
                   style={{ 
@@ -155,12 +155,12 @@ export default function SlashVPatternMobile() {
                 >
                   ART .
                 </Link>
-                <span style={{ color: "rgba(254, 244, 220, 0.25)" }}>{parts[1]}</span>
+                <span style={{ color: "#a08e80" }}>{parts[1]}</span>
               </div>
             );
           }
           return (
-            <div key={i} style={{ color: "rgba(254, 244, 220, 0.25)" }}>
+            <div key={i} style={{ color: "#a08e80" }}>
               {row}
             </div>
           );
