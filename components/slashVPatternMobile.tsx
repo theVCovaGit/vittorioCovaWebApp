@@ -12,8 +12,8 @@ export default function SlashVPatternMobile() {
   const [mounted, setMounted] = useState(false);
 
   const cycles = 12; // 12 cycles = 24 rows total (12 /\ + 12 V)
-  const slashCount = 20;
-  const vCount = 24;
+  const slashCount = 24;
+  const vCount = 28;
   const charSpacing = 0;
 
   useEffect(() => {
@@ -31,40 +31,40 @@ export default function SlashVPatternMobile() {
       // V row with special cases for rows 4, 10, and 18
       let vRow = "";
       if (cycle === 1) {
-        // Row 4: 7 V's + ARCHITECTURE . + 5 V's
+        // Row 4: 9 V's + ARCHITECTURE . + 7 V's
+        for (let i = 0; i < 9; i++) {
+          vRow += "V";
+          if (charSpacing > 0 && i < 8) vRow += " ".repeat(charSpacing);
+        }
+        vRow += "ARCHITECTURE .";
         for (let i = 0; i < 7; i++) {
           vRow += "V";
           if (charSpacing > 0 && i < 6) vRow += " ".repeat(charSpacing);
         }
-        vRow += "ARCHITECTURE .";
-        for (let i = 0; i < 5; i++) {
-          vRow += "V";
-          if (charSpacing > 0 && i < 4) vRow += " ".repeat(charSpacing);
-        }
       } else if (cycle === 4) {
-        // Row 10: 18 V's + FILM . + 2 V's
-        for (let i = 0; i < 18; i++) {
+        // Row 10: 20 V's + FILM . + 4 V's
+        for (let i = 0; i < 20; i++) {
           vRow += "V";
-          if (charSpacing > 0 && i < 17) vRow += " ".repeat(charSpacing);
+          if (charSpacing > 0 && i < 19) vRow += " ".repeat(charSpacing);
         }
         vRow += "FILM .";
-        for (let i = 0; i < 2; i++) {
-          vRow += "V";
-          if (charSpacing > 0 && i < 1) vRow += " ".repeat(charSpacing);
-        }
-      } else if (cycle === 8) {
-        // Row 18: 4 V's + ART . + 16 V's
         for (let i = 0; i < 4; i++) {
           vRow += "V";
           if (charSpacing > 0 && i < 3) vRow += " ".repeat(charSpacing);
         }
-        vRow += "ART .";
-        for (let i = 0; i < 16; i++) {
+      } else if (cycle === 8) {
+        // Row 18: 6 V's + ART . + 18 V's
+        for (let i = 0; i < 6; i++) {
           vRow += "V";
-          if (charSpacing > 0 && i < 15) vRow += " ".repeat(charSpacing);
+          if (charSpacing > 0 && i < 5) vRow += " ".repeat(charSpacing);
+        }
+        vRow += "ART .";
+        for (let i = 0; i < 18; i++) {
+          vRow += "V";
+          if (charSpacing > 0 && i < 17) vRow += " ".repeat(charSpacing);
         }
       } else {
-        // Regular V row: 24 V's
+        // Regular V row: 28 V's
         for (let i = 0; i < vCount; i++) {
           vRow += "V";
           if (charSpacing > 0 && i < vCount - 1) vRow += " ".repeat(charSpacing);
