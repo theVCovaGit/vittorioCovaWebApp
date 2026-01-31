@@ -81,6 +81,8 @@ export default function FooterMobile() {
   }, []);
 
   const isArchitecturePage = pathname === "/architecture";
+  const isHeroPage = pathname === "/";
+  const footerTextColor = isHeroPage ? "#fec776" : "#a08e80";
   const backgroundClass = isArchitecturePage ? "" : "bg-transparent";
 
   return (
@@ -111,24 +113,27 @@ export default function FooterMobile() {
         </div>
 
         {/* Links */}
-        <div className="flex items-center justify-center text-[#a08e80] text-xl font-medium leading-none gap-2">
+        <div className="flex items-center justify-center text-xl font-medium leading-none gap-2" style={{ color: footerTextColor }}>
           <Link
             href="/contact"
-            className="cursor-pointer text-[#a08e80] no-underline hover:text-[#a08e80] transition-colors duration-200"
+            className="cursor-pointer no-underline transition-colors duration-200"
+            style={{ color: footerTextColor }}
           >
             CONTACT
           </Link>
           <span>/</span>
           <Link
             href="/about"
-            className="cursor-pointer text-[#a08e80] no-underline hover:text-[#a08e80] transition-colors duration-200"
+            className="cursor-pointer no-underline transition-colors duration-200"
+            style={{ color: footerTextColor }}
           >
             ABOUT
           </Link>
           <span>/</span>
           <Link
             href="/news"
-            className="cursor-pointer text-[#a08e80] no-underline hover:text-[#a08e80] transition-colors duration-200"
+            className="cursor-pointer no-underline transition-colors duration-200"
+            style={{ color: footerTextColor }}
           >
             NEWS
           </Link>
