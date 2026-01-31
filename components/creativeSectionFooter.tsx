@@ -10,22 +10,22 @@ export default function CreativeSectionFooter() {
   return (
     <footer
       className="fixed bottom-0 left-0 right-0 bg-transparent font-blurlight z-50 pointer-events-auto flex flex-col items-end justify-end pr-[6rem] pb-4 pt-4"
-      style={{ fontFamily: '"Blur Light", sans-serif', fontSize: "46px", letterSpacing: "-2.4px", lineHeight: "34px" }}
+      style={{ fontFamily: '"Blur Light", sans-serif', fontSize: "32px", letterSpacing: "-2.4px", lineHeight: "23px" }}
     >
       <div style={{ marginTop: -10 }}>
         <svg
           xmlns="http://www.w3.org/2000/svg"
           viewBox="0 0 367 42"
           fill="none"
-          width={420}
-          height={48}
+          width={367}
+          height={42}
           className="block"
         >
           <path d={BARCODE_PATH} fill="#847263" />
         </svg>
       </div>
       <div
-        style={{ width: 420, textAlign: "center", marginTop: 0 }}
+        style={{ width: 367, textAlign: "center", marginTop: 0 }}
         className="pointer-events-auto"
       >
         <span style={{ color: "#847263" }}>
