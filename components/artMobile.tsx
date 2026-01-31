@@ -179,7 +179,7 @@ export default function ArtMobile() {
                   style={{ minHeight: "100vh" }}
                 >
                   {/* Left: this collection's title + description */}
-                  <div className="flex-shrink-0 w-[72%] max-w-[340px] pl-24 pr-8 pt-[26vh] pb-4 flex flex-col gap-4">
+                  <div className="flex-shrink-0 w-[72%] max-w-[340px] pl-24 pr-8 pt-[26vh] pb-4 flex flex-col gap-4 items-center">
                     <h2 className="font-blurlight font-bold text-[#524b44] text-3xl lowercase tracking-wide leading-tight flex flex-col">
                       <span className="pl-8">{line1}</span>
                       {line2 != null ? <span className="pl-2">{line2}</span> : null}
