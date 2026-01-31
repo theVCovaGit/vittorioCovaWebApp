@@ -81,19 +81,21 @@ export default function FooterMobile() {
   }, []);
 
   const isArchitecturePage = pathname === "/architecture";
+  const isArtPage = pathname === "/art";
   const isHeroPage = pathname === "/";
   const footerTextColor = isHeroPage ? "#fec776" : "#a08e80";
-  const backgroundClass = isArchitecturePage ? "" : "bg-transparent";
+  // Art page: cream (#FFF3DF) to match content; architecture: brown; others: transparent
+  const footerBg = isArtPage ? "#FFF3DF" : isArchitecturePage ? "#554943" : "transparent";
 
   return (
     <footer
-      className={`fixed bottom-0 left-0 z-50 w-full px-4 font-blurlight touch-none flex flex-col items-center justify-center ${backgroundClass}`}
+      className="fixed bottom-0 left-0 z-50 w-full px-4 font-blurlight touch-none flex flex-col items-center justify-center"
       style={{
         touchAction: "none",
         height: "var(--mobile-header-height)",
         minHeight: "var(--mobile-header-height)",
         paddingBottom: "env(safe-area-inset-bottom, 0px)",
-        ...(isArchitecturePage && { backgroundColor: "#554943" }),
+        backgroundColor: footerBg,
       }}
     >
       <div className="flex flex-col items-center justify-center gap-1.5 scale-[0.95]">

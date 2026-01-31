@@ -55,6 +55,13 @@
   --accent: #34d399; /* Accent color */
   /* Mobile header/footer height – same value for both, scales with viewport */
   --mobile-header-height: clamp(80px, 14vh, 120px);
+  /* Art mobile: content area between header and footer (projects always above footer) */
+  --art-mobile-content-height: calc(100vh - 2 * var(--mobile-header-height));
+}
+@supports (height: 100dvh) {
+  :root {
+    --art-mobile-content-height: calc(100dvh - 2 * var(--mobile-header-height));
+  }
 }
 
 /* Art expanded view: below header, no scroll */

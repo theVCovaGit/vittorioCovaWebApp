@@ -80,9 +80,8 @@ export default function ArtMobile() {
     const el = verticalScrollRef.current;
     if (!el || groups.length === 0) return;
 
-    const sectionHeight = typeof window !== "undefined" ? window.innerHeight : 800;
-
     const snapToNearest = () => {
+      const sectionHeight = el.clientHeight || 600;
       const top = el.scrollTop;
       const index = Math.round(top / sectionHeight);
       const clamped = Math.max(0, Math.min(index, groups.length - 1));
@@ -138,13 +137,13 @@ export default function ArtMobile() {
 
   return (
     <>
-      {/* Vertical scroll: on scroll end snap to nearest section (bounce back or go to next category) */}
+      {/* Vertical scroll: projects always above footer (constrained between header and footer), extremely responsive */}
       <div
         ref={verticalScrollRef}
-        className="fixed left-0 right-0 bottom-0 overflow-y-auto overflow-x-hidden bg-[#FFF3DF] scrollbar-hide"
+        className="fixed left-0 right-0 overflow-y-auto overflow-x-hidden bg-[#FFF3DF] scrollbar-hide"
         style={{
-          top: "var(--mobile-header-height, 0)",
-          height: "calc(100vh - var(--mobile-header-height, 0))",
+          top: "var(--mobile-header-height)",
+          bottom: "var(--mobile-header-height)",
           scrollSnapType: "y mandatory",
           scrollbarWidth: "none",
           msOverflowStyle: "none",
@@ -152,7 +151,7 @@ export default function ArtMobile() {
         }}
       >
         {groups.length === 0 ? (
-          <div className="min-h-screen flex items-center justify-center px-4">
+          <div className="min-h-full flex items-center justify-center px-4">
             <p className="font-blurlight text-[#4A413C]">No collections yet.</p>
           </div>
         ) : (
@@ -164,7 +163,8 @@ export default function ArtMobile() {
                 key={group.collection}
                 className="w-full overflow-x-auto overflow-y-hidden scrollbar-hide flex-shrink-0"
                 style={{
-                  height: "100vh",
+                  height: "100%",
+                  minHeight: "100%",
                   scrollSnapAlign: "start",
                   scrollSnapStop: "always",
                   scrollbarWidth: "none",
@@ -175,12 +175,12 @@ export default function ArtMobile() {
               >
                 {/* One horizontal strip: title/description + all projects (whole screen scrolls horizontally) */}
                 <div
-                  className="flex flex-row flex-nowrap items-stretch h-full w-max -ml-2"
-                  style={{ minHeight: "100vh" }}
+                  className="flex flex-row flex-nowrap items-stretch w-max -ml-2"
+                  style={{ height: "100%", minHeight: "100%" }}
                 >
                   {/* Left: this collection's title + description */}
-                  <div className="flex-shrink-0 w-[72%] max-w-[340px] pl-20 pr-8 pt-[26vh] pb-4 flex flex-col gap-4 items-center">
-                    <h2 className="font-blurlight font-bold text-[#524b44] text-3xl lowercase tracking-wide leading-tight flex flex-col">
+                  <div className="flex-shrink-0 w-[72%] max-w-[min(340px,85vw)] pl-[clamp(1rem,5vw,5rem)] pr-[clamp(0.5rem,2vw,2rem)] pt-[clamp(18vh,24vh,28vh)] pb-4 flex flex-col gap-3 sm:gap-4 items-center">
+                    <h2 className="font-blurlight font-bold text-[#524b44] text-[clamp(1.5rem,6vw,1.875rem)] lowercase tracking-wide leading-tight flex flex-col">
                       <span className="pl-8">{line1}</span>
                       {line2 != null ? <span className="pl-2">{line2}</span> : null}
                     </h2>
@@ -224,7 +224,7 @@ export default function ArtMobile() {
                       <img
                         src="/assets/arrowHorizontal.svg"
                         alt=""
-                        className="w-16 h-auto block"
+                        className="w-[clamp(3rem,12vw,4rem)] h-auto block"
                         aria-hidden
                       />
                     </div>
@@ -232,13 +232,13 @@ export default function ArtMobile() {
 
                   {/* Projects: single row sequence (p1, p2, p3…), scroll horizontally. */}
                   <div
-                    className="flex flex-row flex-nowrap gap-x-[5.5rem] pl-4 pr-[clamp(16vw,20vw,24vw)] pt-[clamp(2.5rem,6vw,3.5rem)] pb-4 items-start w-max self-start mt-12"
+                    className="flex flex-row flex-nowrap gap-x-[clamp(2rem,8vw,5.5rem)] pl-[clamp(0.5rem,2vw,1rem)] pr-[clamp(12vw,20vw,24vw)] pt-[clamp(1.5rem,5vw,3.5rem)] pb-4 items-start w-max self-start mt-[clamp(0.5rem,3vw,3rem)]"
                   >
                   {group.projects.map((project) => (
                     <button
                       key={project.id}
                       type="button"
-                      className="flex flex-col text-left bg-transparent border-0 p-0 cursor-pointer flex-shrink-0 w-[clamp(280px,78vw,440px)]"
+                      className="flex flex-col text-left bg-transparent border-0 p-0 cursor-pointer flex-shrink-0 w-[clamp(220px,70vw,min(440px,90vw))]"
                       onClick={() => {
                         setSelectedProjectId(project.id);
                         window.dispatchEvent(new CustomEvent("art-expanded-open"));
@@ -257,7 +257,7 @@ export default function ArtMobile() {
                           </div>
                         )}
                       </div>
-                      <h3 className="font-blurlight font-bold text-[#4A413C] text-xl uppercase tracking-wide mt-3">
+                      <h3 className="font-blurlight font-bold text-[#4A413C] text-[clamp(0.875rem,4vw,1.25rem)] uppercase tracking-wide mt-[clamp(0.5rem,1vw,0.75rem)]">
                         {project.title}
                       </h3>
                       {materialDimensionsLine(project) && (
