@@ -18,7 +18,7 @@ export default function HeaderMobile() {
 
   return (
     <header
-      className="fixed top-0 left-0 right-0 w-full z-50 bg-[#554943] px-6 flex justify-between items-end touch-none"
+      className="fixed top-0 left-0 right-0 w-full z-50 bg-[#554943] pl-9 pr-6 pb-[1.375rem] flex justify-between items-end touch-none"
       style={{
         touchAction: "none",
         height: "var(--mobile-header-height)",
