@@ -111,32 +111,35 @@ body {
   overflow-x: hidden; /* Prevent horizontal scrolling issues */
 }
 
-/* Custom cursor (static image) – only when adaptive cursor is NOT active */
-html:not([data-custom-cursor]) body,
-html:not([data-custom-cursor]) *,
-html:not([data-custom-cursor]) *::before,
-html:not([data-custom-cursor]) *::after {
-  cursor: url('/assets/cursorPlus.png'), auto !important;
-}
+/* Custom cursor – desktop only (no custom cursor on mobile/touch) */
+@media (min-width: 769px) {
+  /* Static cursor image when adaptive cursor is NOT active */
+  html:not([data-custom-cursor]) body,
+  html:not([data-custom-cursor]) *,
+  html:not([data-custom-cursor]) *::before,
+  html:not([data-custom-cursor]) *::after {
+    cursor: url('/assets/cursorPlus.png'), auto !important;
+  }
 
-html:not([data-custom-cursor]) .cursor-pointer,
-html:not([data-custom-cursor]) .cursor-default,
-html:not([data-custom-cursor]) .cursor-auto,
-html:not([data-custom-cursor]) .cursor-move,
-html:not([data-custom-cursor]) .cursor-grab,
-html:not([data-custom-cursor]) .cursor-grabbing,
-html:not([data-custom-cursor]) .cursor-text,
-html:not([data-custom-cursor]) .cursor-wait,
-html:not([data-custom-cursor]) .cursor-help,
-html:not([data-custom-cursor]) .cursor-not-allowed,
-html:not([data-custom-cursor]) .cursor-none {
-  cursor: url('/assets/cursorPlus.png'), auto !important;
-}
+  html:not([data-custom-cursor]) .cursor-pointer,
+  html:not([data-custom-cursor]) .cursor-default,
+  html:not([data-custom-cursor]) .cursor-auto,
+  html:not([data-custom-cursor]) .cursor-move,
+  html:not([data-custom-cursor]) .cursor-grab,
+  html:not([data-custom-cursor]) .cursor-grabbing,
+  html:not([data-custom-cursor]) .cursor-text,
+  html:not([data-custom-cursor]) .cursor-wait,
+  html:not([data-custom-cursor]) .cursor-help,
+  html:not([data-custom-cursor]) .cursor-not-allowed,
+  html:not([data-custom-cursor]) .cursor-none {
+    cursor: url('/assets/cursorPlus.png'), auto !important;
+  }
 
-/* When adaptive cursor is active: hide native cursor so only one cursor shows */
-html[data-custom-cursor],
-html[data-custom-cursor] * {
-  cursor: none !important;
+  /* When adaptive cursor is active: hide native cursor so only one cursor shows */
+  html[data-custom-cursor],
+  html[data-custom-cursor] * {
+    cursor: none !important;
+  }
 }
 
 /* Utility Classes for Headings */

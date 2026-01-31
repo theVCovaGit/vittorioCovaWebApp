@@ -3,6 +3,7 @@
 import { useCallback, useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import SignatureAnimation from "./signatureAnimation";
+import { useIsMobile } from "@/hooks/useMediaQuery";
 
 const CURSOR_LIGHT = "#fff3df";
 
@@ -60,6 +61,7 @@ export default function IntroWrapper({ children }: { children: React.ReactNode }
   const [cursorPos, setCursorPos] = useState({ x: 0, y: 0 });
   const [cursorColor, setCursorColor] = useState(CURSOR_LIGHT);
   const [cursorVisible, setCursorVisible] = useState(false);
+  const isMobile = useIsMobile();
 
   const updateCursor = useCallback((clientX: number, clientY: number) => {
     setCursorVisible(true);
@@ -79,6 +81,7 @@ export default function IntroWrapper({ children }: { children: React.ReactNode }
   }, [showIntro, mounted]);
 
   useEffect(() => {
+    if (isMobile) return;
     document.documentElement.setAttribute("data-custom-cursor", "true");
     const move = (e: MouseEvent) => updateCursor(e.clientX, e.clientY);
     const hide = () => setCursorVisible(false);
@@ -89,7 +92,7 @@ export default function IntroWrapper({ children }: { children: React.ReactNode }
       document.body.removeEventListener("mouseleave", hide);
       document.documentElement.removeAttribute("data-custom-cursor");
     };
-  }, [updateCursor]);
+  }, [updateCursor, isMobile]);
 
   return (
     <>
@@ -100,7 +103,7 @@ export default function IntroWrapper({ children }: { children: React.ReactNode }
           </div>
         </div>
       )}
-      {cursorVisible && (
+      {!isMobile && cursorVisible && (
         <div
           className="pointer-events-none fixed z-[999999] will-change-transform"
           style={{
