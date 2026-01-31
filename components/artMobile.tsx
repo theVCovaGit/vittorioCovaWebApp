@@ -238,7 +238,7 @@ export default function ArtMobile() {
                     <button
                       key={project.id}
                       type="button"
-                      className="flex flex-col text-left bg-transparent border-0 p-0 cursor-pointer flex-shrink-0 w-[clamp(220px,70vw,min(440px,90vw))]"
+                      className="flex flex-col text-left bg-transparent border-0 p-0 cursor-pointer flex-shrink-0 w-[clamp(195px,62vw,min(380px,85vw))]"
                       onClick={() => {
                         setSelectedProjectId(project.id);
                         window.dispatchEvent(new CustomEvent("art-expanded-open"));
@@ -257,16 +257,16 @@ export default function ArtMobile() {
                           </div>
                         )}
                       </div>
-                      <h3 className="font-blurlight font-bold text-[#4A413C] text-[clamp(0.875rem,4vw,1.25rem)] uppercase tracking-wide mt-[clamp(0.5rem,1vw,0.75rem)]">
+                      <h3 className="font-blurlight font-bold text-[#4A413C] text-[clamp(0.8125rem,3.5vw,1.125rem)] uppercase tracking-wide mt-[clamp(0.5rem,1vw,0.75rem)]">
                         {project.title}
                       </h3>
                       {materialDimensionsLine(project) && (
-                        <p className="font-electrolize text-[#524b44] text-base mt-1 uppercase">
+                        <p className="font-electrolize text-[#524b44] text-[0.8125rem] mt-1 uppercase">
                           {materialDimensionsLine(project)}
                         </p>
                       )}
                       <p
-                        className="font-electrolize text-[#524b44] text-base mt-1"
+                        className="font-electrolize text-[#524b44] text-[0.8125rem] mt-1"
                       >
                         {project.forSale !== false ? "Available" : "Not available"}
                       </p>
