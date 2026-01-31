@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import ArchitectureProjectExpandedView from "@/components/architectureProjectExpandedView";
+import LoadingSpinner from "./loadingSpinner";
 
 interface ArchitectureProject {
   id: number;
@@ -98,10 +99,10 @@ export default function ArchitectureMobile() {
 
   if (loading) {
     return (
-      <div className="fixed inset-0 bg-[#fff5e0] flex flex-col items-center justify-center gap-4">
-        <div className="w-12 h-12 border-4 border-[#554943]/20 border-t-[#554943] rounded-full animate-spin" />
-        <p className="font-blurlight text-[#554943]">Loading...</p>
-      </div>
+      <>
+        <div className="fixed inset-0 bg-[#fff5e0]" aria-hidden />
+        <LoadingSpinner />
+      </>
     );
   }
 

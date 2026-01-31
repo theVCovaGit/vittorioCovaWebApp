@@ -5,6 +5,7 @@ import { createPortal } from "react-dom";
 import { usePathname } from "next/navigation";
 import ArchitectureMobile from "@/components/architectureMobile";
 import ArchitectureProjectExpandedView from "@/components/architectureProjectExpandedView";
+import LoadingSpinner from "@/components/loadingSpinner";
 
 interface ArchitectureProject {
   id: number;
@@ -230,18 +231,10 @@ function ArchitectureDesktop() {
     };
   }, [currentPageProjects.length]);
 
-  if (loading) {
-    return (
-      <div className="fixed inset-0 bg-[#fff5e0] flex flex-col items-center justify-center gap-4">
-        <div className="w-12 h-12 border-4 border-[#554943]/20 border-t-[#554943] rounded-full animate-spin" />
-        <p className="font-blurlight text-[#554943]">Loading...</p>
-      </div>
-    );
-  }
-
   return (
     <>
     <div className="fixed inset-0 bg-[#fff5e0] overflow-hidden">
+      {loading && <LoadingSpinner />}
       {/* Film Strip Container */}
       <div 
         ref={filmStripRef}

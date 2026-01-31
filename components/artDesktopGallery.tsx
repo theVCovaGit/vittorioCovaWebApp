@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import ArtProjectExpandedView from "./artProjectExpandedView";
 import CreativeSectionFooter from "./creativeSectionFooter";
+import LoadingSpinner from "./loadingSpinner";
 
 interface ArtProject {
   id: number;
@@ -151,17 +152,9 @@ export default function ArtDesktopGallery() {
     </div>
   );
 
-  if (loading) {
-    return (
-      <div className="min-h-screen bg-[#F5EFDF] flex flex-col items-center justify-center gap-4">
-        <div className="w-12 h-12 border-4 border-[#554943]/20 border-t-[#554943] rounded-full animate-spin" />
-        <p className="font-blurlight text-[#554943]">Loading...</p>
-      </div>
-    );
-  }
-
   return (
     <div className="min-h-screen bg-[#F5EFDF] flex flex-col">
+      {loading && <LoadingSpinner />}
       {/* Spacer for fixed header */}
       <div className="h-20 flex-shrink-0" aria-hidden="true" />
 

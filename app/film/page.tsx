@@ -4,6 +4,7 @@
 import { useEffect, useState, useMemo } from "react";
 import FilmMobile from "@/components/filmMobile";
 import CreativeSectionFooter from "@/components/creativeSectionFooter";
+import LoadingSpinner from "@/components/loadingSpinner";
 
 interface FilmProject {
   id: number;
@@ -88,17 +89,9 @@ function FilmDesktop() {
     
     return strips;
   }, [projects]);
-  if (loading) {
-    return (
-      <div className="min-h-screen bg-[#2d2f38] flex flex-col items-center justify-center gap-4">
-        <div className="w-12 h-12 border-4 border-[#554943]/20 border-t-[#554943] rounded-full animate-spin" />
-        <p className="font-blurlight text-[#554943]">Loading...</p>
-      </div>
-    );
-  }
-
   return (
     <div className="min-h-screen bg-[#2d2f38] relative overflow-hidden">
+      {loading && <LoadingSpinner />}
       <CreativeSectionFooter />
       <div
         className="film-strip-container absolute top-[48.3%] left-0 transform -translate-y-1/2 w-screen h-[500px] overflow-x-scroll overflow-y-hidden scrollbar-hide"

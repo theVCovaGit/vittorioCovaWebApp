@@ -3,6 +3,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
+import LoadingSpinner from "./loadingSpinner";
 
 interface FilmProject {
   id: number;
@@ -95,10 +96,7 @@ export default function FilmMobile() {
         }}
       >
         {loading ? (
-          <div className="min-h-screen flex flex-col items-center justify-center px-4 gap-4">
-            <div className="w-12 h-12 border-4 border-[#524b44]/20 border-t-[#554943] rounded-full animate-spin" />
-            <p className="font-blurlight text-[#554943]">Loading...</p>
-          </div>
+          <LoadingSpinner />
         ) : sortedFilms.length === 0 ? (
           <div className="min-h-screen flex items-center justify-center px-4">
             <p className="font-blurlight text-[#524b44]">No films yet.</p>
