@@ -180,7 +180,7 @@ export default function ArtMobile() {
                 >
                   {/* Left: this collection's title + description */}
                   <div className="flex-shrink-0 w-[72%] max-w-[340px] pl-24 pr-8 pt-[26vh] pb-4 flex flex-col gap-4">
-                    <h2 className="font-blurlight font-bold text-[#524b44] text-2xl lowercase tracking-wide leading-tight flex flex-col">
+                    <h2 className="font-blurlight font-bold text-[#524b44] text-3xl lowercase tracking-wide leading-tight flex flex-col">
                       <span className="pl-8">{line1}</span>
                       {line2 != null ? <span className="pl-2">{line2}</span> : null}
                     </h2>
@@ -188,11 +188,11 @@ export default function ArtMobile() {
                       const { line1, line2 } = descriptionTwoLines(desc);
                       return (
                         <div className="flex flex-col gap-1">
-                          <span className="font-electrolize text-[#524b44] text-base leading-relaxed">
+                          <span className="font-electrolize text-[#524b44] text-sm leading-relaxed">
                             {line1}
                           </span>
                           {line2 != null ? (
-                            <span className="font-electrolize text-[#524b44] text-base leading-relaxed">
+                            <span className="font-electrolize text-[#524b44] text-sm leading-relaxed">
                               {line2}
                             </span>
                           ) : null}
