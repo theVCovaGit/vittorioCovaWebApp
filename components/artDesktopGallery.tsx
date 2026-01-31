@@ -128,12 +128,12 @@ export default function ArtDesktopGallery() {
                   {p.title}
                 </h3>
                 {materialDimensionsLine(p) && (
-                  <p className="font-blurlight text-[#4A413C]/80 text-sm mt-0.5">
+                  <p className="font-electrolize text-[#4A413C]/80 text-sm mt-0.5">
                     {materialDimensionsLine(p)}
                   </p>
                 )}
                 <p
-                  className={`font-blurlight text-sm mt-1 ${p.forSale !== false ? "text-[#C6898F] underline" : "text-[#4A413C]/60"}`}
+                  className={`font-electrolize text-sm mt-1 ${p.forSale !== false ? "text-[#4A413C]" : "text-[#4A413C]/60"}`}
                 >
                   {p.forSale !== false ? "Available" : "Not available"}
                 </p>
@@ -170,7 +170,7 @@ export default function ArtDesktopGallery() {
                       {collection}
                     </h2>
                     {collectionDescription ? (
-                      <p className="font-blurlight text-[#C6898F] text-sm md:text-base mt-1 underline">
+                      <p className="font-electrolize text-[#4A413C] text-sm md:text-base mt-1">
                         {collectionDescription}
                       </p>
                     ) : null}
