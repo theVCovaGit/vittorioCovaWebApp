@@ -188,11 +188,11 @@ export default function ArtMobile() {
                       const { line1, line2 } = descriptionTwoLines(desc);
                       return (
                         <div className="flex flex-col gap-1">
-                          <span className="font-electrolize text-[#4A413C] text-sm leading-relaxed">
+                          <span className="font-electrolize text-[#524b44] text-sm leading-relaxed">
                             {line1}
                           </span>
                           {line2 != null ? (
-                            <span className="font-electrolize text-[#4A413C] text-sm leading-relaxed">
+                            <span className="font-electrolize text-[#524b44] text-sm leading-relaxed">
                               {line2}
                             </span>
                           ) : null}
@@ -232,16 +232,12 @@ export default function ArtMobile() {
                         {project.title}
                       </h3>
                       {materialDimensionsLine(project) && (
-                        <p className="font-electrolize text-[#4A413C]/80 text-xs mt-0.5 uppercase">
+                        <p className="font-electrolize text-[#524b44] text-xs mt-0.5 uppercase">
                           {materialDimensionsLine(project)}
                         </p>
                       )}
                       <p
-                        className={`font-electrolize text-xs mt-1 ${
-                          project.forSale !== false
-                            ? "text-[#4A413C]"
-                            : "text-[#4A413C]/60"
-                        }`}
+                        className="font-electrolize text-[#524b44] text-xs mt-1"
                       >
                         {project.forSale !== false ? "Available" : "Not available"}
                       </p>
