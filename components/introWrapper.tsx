@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useState, useEffect } from "react";
+import { useCallback, useState, useEffect, useLayoutEffect } from "react";
 import { motion } from "framer-motion";
 import SignatureAnimation from "./signatureAnimation";
 import { useIsMobile } from "@/hooks/useMediaQuery";
@@ -80,9 +80,18 @@ export default function IntroWrapper({ children }: { children: React.ReactNode }
     return () => clearTimeout(timer);
   }, [showIntro, mounted]);
 
+  /* Set attribute immediately (before paint) to prevent native cursor flash */
+  useLayoutEffect(() => {
+    if (isMobile) {
+      document.documentElement.removeAttribute("data-custom-cursor");
+    } else {
+      document.documentElement.setAttribute("data-custom-cursor", "true");
+    }
+    return () => document.documentElement.removeAttribute("data-custom-cursor");
+  }, [isMobile]);
+
   useEffect(() => {
     if (isMobile) return;
-    document.documentElement.setAttribute("data-custom-cursor", "true");
     const move = (e: MouseEvent) => updateCursor(e.clientX, e.clientY);
     const hide = () => setCursorVisible(false);
     document.body.addEventListener("mousemove", move, { passive: true });
@@ -90,7 +99,6 @@ export default function IntroWrapper({ children }: { children: React.ReactNode }
     return () => {
       document.body.removeEventListener("mousemove", move);
       document.body.removeEventListener("mouseleave", hide);
-      document.documentElement.removeAttribute("data-custom-cursor");
     };
   }, [updateCursor, isMobile]);
 
@@ -112,6 +120,7 @@ export default function IntroWrapper({ children }: { children: React.ReactNode }
             width: 28,
             height: 28,
             transform: "translate(-50%, -50%)",
+            cursor: "none",
           }}
           aria-hidden
         >

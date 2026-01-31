@@ -113,12 +113,12 @@ body {
 
 /* Custom cursor – desktop only (no custom cursor on mobile/touch) */
 @media (min-width: 769px) {
-  /* Static cursor image when adaptive cursor is NOT active */
+  /* Static cursor image when adaptive cursor is NOT active; use none as fallback so we never show default arrow */
   html:not([data-custom-cursor]) body,
   html:not([data-custom-cursor]) *,
   html:not([data-custom-cursor]) *::before,
   html:not([data-custom-cursor]) *::after {
-    cursor: url('/assets/cursorPlus.png'), auto !important;
+    cursor: url('/assets/cursorPlus.png'), none !important;
   }
 
   html:not([data-custom-cursor]) .cursor-pointer,
@@ -132,12 +132,15 @@ body {
   html:not([data-custom-cursor]) .cursor-help,
   html:not([data-custom-cursor]) .cursor-not-allowed,
   html:not([data-custom-cursor]) .cursor-none {
-    cursor: url('/assets/cursorPlus.png'), auto !important;
+    cursor: url('/assets/cursorPlus.png'), none !important;
   }
 
-  /* When adaptive cursor is active: hide native cursor so only one cursor shows */
+  /* When adaptive cursor is active: hide native cursor everywhere so only custom cursor shows */
   html[data-custom-cursor],
-  html[data-custom-cursor] * {
+  html[data-custom-cursor] body,
+  html[data-custom-cursor] *,
+  html[data-custom-cursor] *::before,
+  html[data-custom-cursor] *::after {
     cursor: none !important;
   }
 }
