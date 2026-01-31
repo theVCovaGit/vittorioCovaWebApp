@@ -199,12 +199,35 @@ export default function ArtMobile() {
                         </div>
                       );
                     })() : null}
-                    <img
-                      src="/assets/arrowHorizontal.svg"
-                      alt=""
-                      className="w-16 h-auto mt-4"
-                      aria-hidden
-                    />
+                    <div
+                      role="button"
+                      tabIndex={0}
+                      onClick={(e) => {
+                        const section = (e.currentTarget as HTMLElement).closest("section");
+                        if (section) {
+                          section.scrollBy({ left: 280, behavior: "smooth" });
+                        }
+                      }}
+                      onKeyDown={(e) => {
+                        if (e.key === "Enter" || e.key === " ") {
+                          e.preventDefault();
+                          const section = (e.currentTarget as HTMLElement).closest("section");
+                          if (section) {
+                            section.scrollBy({ left: 280, behavior: "smooth" });
+                          }
+                        }
+                      }}
+                      className="mt-4 p-2 -m-2 touch-manipulation cursor-pointer inline-block w-fit select-none"
+                      style={{ WebkitTapHighlightColor: "transparent" }}
+                      aria-label="Scroll to projects"
+                    >
+                      <img
+                        src="/assets/arrowHorizontal.svg"
+                        alt=""
+                        className="w-16 h-auto block"
+                        aria-hidden
+                      />
+                    </div>
                   </div>
 
                   {/* Projects: single row sequence (p1, p2, p3…), scroll horizontally. */}
