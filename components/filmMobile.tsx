@@ -92,7 +92,7 @@ export default function FilmMobile() {
       >
         {sortedFilms.length === 0 ? (
           <div className="min-h-screen flex items-center justify-center px-4">
-            <p className="font-blurlight text-[#4A413C]">No films yet.</p>
+            <p className="font-blurlight text-[#524b44]">No films yet.</p>
           </div>
         ) : (
           sortedFilms.map((film) => (
@@ -123,7 +123,7 @@ export default function FilmMobile() {
                       className="max-h-[26vh] w-auto h-auto object-contain object-left"
                     />
                   ) : (
-                    <div className="w-full aspect-[2/3] bg-[#e8e0d5] rounded flex items-center justify-center font-blurlight text-[#4A413C]/50 text-xs">
+                    <div className="w-full aspect-[2/3] bg-[#e8e0d5] rounded flex items-center justify-center font-blurlight text-[#524b44]/50 text-xs">
                       No poster
                     </div>
                   )}
@@ -134,7 +134,7 @@ export default function FilmMobile() {
                   href="https://youtu.be/wMNJeHijiRU?si=TeZvAQUsfIayO4Vg"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex flex-col justify-center min-h-0 self-stretch font-blurlight font-bold text-[#4A413C] uppercase tracking-wide leading-tight no-underline hover:opacity-80 transition-opacity"
+                  className="flex flex-col justify-center min-h-0 self-stretch font-blurlight font-bold text-[#524b44] uppercase tracking-wide leading-tight no-underline hover:opacity-80 transition-opacity"
                   style={{
                     fontSize: "clamp(1rem, 4.5vw, 1.5rem)",
                     paddingLeft: "clamp(1.25rem, 6vw, 2.5rem)",
@@ -150,23 +150,23 @@ export default function FilmMobile() {
                   style={{ gridColumn: "1 / -1" }}
                 >
                 {film.year && (
-                  <p className="font-electrolize text-[#4A413C] text-[10px] leading-tight">{film.year}</p>
+                  <p className="font-electrolize text-[#524b44] text-[10px] leading-tight">{film.year}</p>
                 )}
-                <h2 className="font-microextend font-bold text-[#4A413C] text-sm uppercase tracking-wide leading-tight">
+                <h2 className="font-microextend font-bold text-[#524b44] text-sm uppercase tracking-wide leading-tight">
                   {film.title}
                 </h2>
                 {film.registration && (
-                  <p className="font-microextend text-[#4A413C] text-[10px] leading-tight">
+                  <p className="font-microextend text-[#524b44] text-[10px] leading-tight">
                     {film.registration}
                   </p>
                 )}
                 {film.synapsis && (
-                  <p className="font-electrolize text-[#4A413C] text-[10px] leading-relaxed mt-0.5">
+                  <p className="font-electrolize text-[#524b44] text-[10px] leading-relaxed mt-0.5">
                     {film.synapsis}
                   </p>
                 )}
                 {film.length && (
-                  <p className="font-electrolize text-[#4A413C] text-[10px] leading-tight mt-0.5">
+                  <p className="font-electrolize text-[#524b44] text-[10px] leading-tight mt-0.5">
                     {film.length}
                   </p>
                 )}
