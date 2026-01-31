@@ -105,11 +105,13 @@ export default function FilmMobile() {
           sortedFilms.map((film) => (
             <section
               key={film.id}
-              className="w-full flex-shrink-0 px-3 pt-2 pb-2 flex flex-col overflow-hidden"
+              className="w-full flex-shrink-0 pt-2 pb-2 flex flex-col overflow-hidden"
               style={{
                 height: "100vh",
                 scrollSnapAlign: "start",
                 scrollSnapStop: "always",
+                paddingLeft: "var(--studio-s-left, 0.75rem)",
+                paddingRight: "0.75rem",
               }}
             >
               {/* Grid: col1 = poster (alignment flag), col2 = WATCH FREE; row2 = film details spanning full width */}

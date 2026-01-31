@@ -2,14 +2,35 @@
 
 import { usePathname } from "next/navigation";
 import Link from "next/link";
+import { useEffect, useRef } from "react";
 
 export default function HeaderMobile() {
   const pathname = usePathname();
+  const studioRef = useRef<HTMLSpanElement | null>(null);
 
   const sectionLabel =
     pathname === "/art" ? "ART" :
     pathname === "/film" ? "FILM" :
     pathname === "/architecture" ? "ARCHITECTURE" : null;
+
+  useEffect(() => {
+    if (pathname !== "/film") return;
+    const el = studioRef.current;
+    if (!el) return;
+    const update = () => {
+      const rect = el.getBoundingClientRect();
+      document.documentElement.style.setProperty("--studio-s-left", `${rect.left}px`);
+    };
+    update();
+    const ro = new ResizeObserver(update);
+    ro.observe(el);
+    window.addEventListener("resize", update);
+    return () => {
+      ro.disconnect();
+      window.removeEventListener("resize", update);
+      document.documentElement.style.removeProperty("--studio-s-left");
+    };
+  }, [pathname]);
 
   // Hide header on home page (hero has its own)
   if (pathname === "/") {
@@ -32,7 +53,7 @@ export default function HeaderMobile() {
         <span className="text-[#fec776] font-blurlight text-2xl font-bold uppercase tracking-wide">
           COVA
         </span>
-        <span className="text-[#fec776] font-blurlight text-2xl font-bold uppercase tracking-wide">
+        <span ref={pathname === "/film" ? studioRef : undefined} className="text-[#fec776] font-blurlight text-2xl font-bold uppercase tracking-wide">
           STUDIO©
         </span>
       </Link>
