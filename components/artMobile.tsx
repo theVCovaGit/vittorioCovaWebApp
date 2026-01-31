@@ -54,6 +54,12 @@ export default function ArtMobile() {
   const [selectedProjectId, setSelectedProjectId] = useState<number | null>(null);
 
   useEffect(() => {
+    const handleReturnToMain = () => setSelectedProjectId(null);
+    window.addEventListener("art-expanded-close", handleReturnToMain);
+    return () => window.removeEventListener("art-expanded-close", handleReturnToMain);
+  }, []);
+
+  useEffect(() => {
     let cancelled = false;
     const fetchProjects = async () => {
       try {

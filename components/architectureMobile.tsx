@@ -77,6 +77,12 @@ export default function ArchitectureMobile() {
   }, []);
 
   useEffect(() => {
+    const handleReturnToMain = () => setSelectedProjectId(null);
+    window.addEventListener("architecture-expanded-close", handleReturnToMain);
+    return () => window.removeEventListener("architecture-expanded-close", handleReturnToMain);
+  }, []);
+
+  useEffect(() => {
     if (stripRef.current) {
       stripRef.current.scrollLeft = 0;
     }

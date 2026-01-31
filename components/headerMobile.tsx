@@ -25,25 +25,36 @@ export default function HeaderMobile() {
         minHeight: "var(--mobile-header-height)",
       }}
     >
-      <Link href="/" className="flex flex-col items-start justify-start no-underline leading-none -space-y-3">
-        <span className="text-[#fec776] font-blurlight text-2xl font-bold uppercase tracking-wide">
-          VITTORIO
-        </span>
-        <span className="text-[#fec776] font-blurlight text-2xl font-bold uppercase tracking-wide">
-          COVA
-        </span>
-        <span className="text-[#fec776] font-blurlight text-2xl font-bold uppercase tracking-wide">
-          STUDIO©
-        </span>
+      <div className="flex flex-col items-start justify-start leading-none -space-y-3">
+        <Link href="/" className="flex flex-col items-start justify-start no-underline -space-y-3 leading-none">
+          <span className="text-[#fec776] font-blurlight text-2xl font-bold uppercase tracking-wide">
+            VITTORIO
+          </span>
+          <span className="text-[#fec776] font-blurlight text-2xl font-bold uppercase tracking-wide">
+            COVA
+          </span>
+          <span className="text-[#fec776] font-blurlight text-2xl font-bold uppercase tracking-wide">
+            STUDIO©
+          </span>
+        </Link>
         {sectionLabel && (
-          <span
-            className="font-blurlight text-xl font-bold uppercase tracking-wide block"
+          <button
+            type="button"
+            className="font-blurlight text-xl font-bold uppercase tracking-wide block cursor-pointer hover:opacity-90 transition-opacity bg-transparent border-0 p-0 text-left"
             style={{ color: "#fff3df" }}
+            onClick={() => {
+              if (pathname === "/art") {
+                window.dispatchEvent(new CustomEvent("art-expanded-close"));
+              } else if (pathname === "/architecture") {
+                window.dispatchEvent(new CustomEvent("architecture-expanded-close"));
+              }
+              // Return to main art/architecture section (film has no expanded view)
+            }}
           >
             {sectionLabel}
-          </span>
+          </button>
         )}
-      </Link>
+      </div>
     </header>
   );
 }
