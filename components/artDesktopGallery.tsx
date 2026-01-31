@@ -160,11 +160,11 @@ export default function ArtDesktopGallery() {
 
       <div className="flex-1 overflow-y-auto pb-36">
         <div className="max-w-6xl mx-auto px-6 sm:px-8 pt-20 md:pt-28 pb-12 md:pb-16">
-          {pageGrids.length === 0 ? (
+          {!loading && pageGrids.length === 0 ? (
             <p className="font-blurlight text-[#554943] text-center py-16">
               No pieces yet.
             </p>
-          ) : (
+          ) : !loading ? (
             byCollection.map(({ collection, allSlots }) => {
               const collectionDescription = allSlots.find((p): p is ArtProject => p != null)?.collectionDescription ?? "";
               return (
@@ -185,7 +185,7 @@ export default function ArtDesktopGallery() {
               </section>
             );
             })
-          )}
+          ) : null}
         </div>
       </div>
 
