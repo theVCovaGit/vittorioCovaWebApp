@@ -104,14 +104,22 @@ export default function FilmMobile() {
                 scrollSnapStop: "always",
               }}
             >
-              {/* Top: Poster + WATCH FREE - smaller, higher */}
-              <div className="flex flex-row items-stretch gap-1.5 flex-shrink-0 mt-[3vh]">
-                <div className="flex-shrink-0 w-[58%] max-w-[200px] flex items-center justify-center min-h-0">
+              {/* Grid: col1 = poster (alignment flag), col2 = WATCH FREE; row2 = film details spanning full width */}
+              <div
+                className="mt-[3vh] flex-1 min-h-0 grid gap-x-4 gap-y-2 overflow-hidden"
+                style={{
+                  gridTemplateColumns: "minmax(0, min(58%, 200px)) 1fr",
+                  gridTemplateRows: "auto 1fr",
+                  alignItems: "start",
+                }}
+              >
+                {/* Col 1: Poster */}
+                <div className="flex justify-start overflow-hidden">
                   {film.icon ? (
                     <img
                       src={film.icon}
                       alt={film.title}
-                      className="w-full h-auto object-contain max-h-[26vh]"
+                      className="max-h-[26vh] w-auto h-auto object-contain object-left"
                     />
                   ) : (
                     <div className="w-full aspect-[2/3] bg-[#e8e0d5] rounded flex items-center justify-center font-blurlight text-[#4A413C]/50 text-xs">
@@ -119,14 +127,18 @@ export default function FilmMobile() {
                     </div>
                   )}
                 </div>
-                <div className="flex flex-col justify-center font-blurlight font-bold text-[#4A413C] text-sm uppercase tracking-wide leading-tight ml-8">
+
+                {/* Col 2: WATCH FREE */}
+                <div className="flex flex-col justify-center font-blurlight font-bold text-[#4A413C] text-sm uppercase tracking-wide leading-tight">
                   <span>WATCH</span>
                   <span>FREE</span>
                 </div>
-              </div>
 
-              {/* Middle: Year, Title, Registration, Synopsis (complete), Length */}
-              <div className="mt-2 flex flex-col gap-0.5 text-left flex-1 min-h-0 overflow-y-auto">
+                {/* Row 2: Year, Title, Registration, Synopsis, Length - spans both cols, first letter aligned with poster left */}
+                <div
+                  className="flex flex-col gap-0.5 text-left min-h-0 overflow-y-auto col-span-2"
+                  style={{ gridColumn: "1 / -1" }}
+                >
                 {film.year && (
                   <p className="font-electrolize text-[#4A413C] text-[10px] leading-tight">{film.year}</p>
                 )}
@@ -148,6 +160,7 @@ export default function FilmMobile() {
                     {film.length}
                   </p>
                 )}
+                </div>
               </div>
             </section>
           ))
