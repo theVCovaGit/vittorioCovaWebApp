@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useEffect, useRef } from "react";
 import { usePathname } from "next/navigation";
 import Link from "next/link";
 
@@ -8,7 +8,29 @@ const CREATIVE_SECTIONS = ["/architecture", "/art", "/film"];
 
 export default function Header() {
   const pathname = usePathname();
-  
+  const vittorioRef = useRef<HTMLSpanElement | null>(null);
+
+  // For /architecture (desktop only): measure "V" in VITTORIO for overlay alignment
+  useEffect(() => {
+    const isArchitecture = pathname === "/architecture" || pathname.startsWith("/architecture/");
+    if (!isArchitecture) return;
+    const el = vittorioRef.current;
+    if (!el) return;
+    const update = () => {
+      const rect = el.getBoundingClientRect();
+      document.documentElement.style.setProperty("--vittorio-v-left", `${rect.left}px`);
+    };
+    update();
+    const ro = new ResizeObserver(update);
+    ro.observe(el);
+    window.addEventListener("resize", update);
+    return () => {
+      ro.disconnect();
+      window.removeEventListener("resize", update);
+      document.documentElement.style.removeProperty("--vittorio-v-left");
+    };
+  }, [pathname]);
+
   // Hide header on home page
   if (pathname === "/") {
     return null;
@@ -25,7 +47,7 @@ export default function Header() {
         <span className={`text-transparent font-blurlight font-bold uppercase tracking-wide pointer-events-none select-none opacity-0 ${titleSize}`}>
           VITTORIO 
         </span>
-        <span className={`text-[#fec776] font-blurlight font-bold uppercase tracking-wide relative z-[10003] !z-[10003] pointer-events-auto ${titleSize}`}>
+        <span ref={vittorioRef} className={`text-[#fec776] font-blurlight font-bold uppercase tracking-wide relative z-[10003] !z-[10003] pointer-events-auto ${titleSize}`}>
           VITTORIO COVA
         </span>
         {noLine ? (

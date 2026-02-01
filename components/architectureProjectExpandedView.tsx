@@ -252,10 +252,14 @@ export default function ArchitectureProjectExpandedView({
             </div>
           )}
 
-          {/* Project Name and Year in Rectangle (brown bar) – on mobile left edge aligned with header "S" from STUDIO */}
+          {/* Project Name and Year in Rectangle (brown bar). Mobile: align to S. Desktop /architecture only: align left edge to "V" in VITTORIO; dimensions unchanged */}
           <div 
-            className={`absolute top-14 ${isMobile ? 'right-0' : 'left-12 right-[49%]'}`}
-            style={isMobile ? { left: 'var(--studio-s-left, 0.75rem)' } : undefined}
+            className={`absolute top-14 ${isMobile ? 'right-0' : 'right-[49%]'}`}
+            style={
+              isMobile
+                ? { left: "var(--studio-s-left, 0.75rem)" }
+                : { left: "var(--vittorio-v-left, 3rem)" }
+            }
           >
             <div className={`bg-[#554943] pl-1 ${isMobile ? 'py-0 pr-4' : 'py-0.5 pr-8'}`}>
               <div className={`text-[#fff3df] font-microextend font-bold tracking-wider uppercase leading-tight ${isMobile ? 'text-base' : 'text-lg'}`}>
@@ -267,10 +271,14 @@ export default function ArchitectureProjectExpandedView({
             </div>
           </div>
 
-          {/* Location (city, country, building type) – on mobile left edge aligned with header "S" from STUDIO */}
+          {/* Location (city, country, building type). Mobile: align to S. Desktop /architecture only: align left edge to "V" in VITTORIO; dimensions unchanged */}
           <div 
-            className={`absolute ${isMobile ? 'top-[14vh]' : 'bottom-[24.25rem] left-12'}`}
-            style={isMobile ? { left: 'var(--studio-s-left, 0.75rem)' } : undefined}
+            className={`absolute ${isMobile ? 'top-[14vh]' : 'bottom-[24.25rem]'}`}
+            style={
+              isMobile
+                ? { left: "var(--studio-s-left, 0.75rem)" }
+                : { left: "var(--vittorio-v-left, 3rem)" }
+            }
           >
             <div className={`text-[#fbef56] font-electrolize font-bold ${isMobile ? 'text-sm' : 'text-xl'}`}>
               {project.city.toUpperCase()}
