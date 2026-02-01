@@ -12,7 +12,11 @@ export default function HeaderWrapper() {
     return <HeaderMobile />;
   }
   
-  // Render desktop version on desktop
-  return <Header />;
+  // Render desktop version on desktop – wrapper ensures header stays above full-page overlays
+  return (
+    <div className="relative z-[10003]">
+      <Header />
+    </div>
+  );
 }
 

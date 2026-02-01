@@ -90,6 +90,12 @@ export default function ArtDesktopGallery() {
   }, []);
 
   const pageGrids = buildPageGrid(projects);
+
+  useEffect(() => {
+    const handleReturnToMain = () => setSelectedProjectId(null);
+    window.addEventListener("art-expanded-close", handleReturnToMain);
+    return () => window.removeEventListener("art-expanded-close", handleReturnToMain);
+  }, []);
   /** Group by collection, flatten all pages into one grid per collection for perfect alignment. */
   const byCollection = (() => {
     const m = new Map<string, (ArtProject | null)[]>();

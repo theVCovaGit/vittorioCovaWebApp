@@ -201,6 +201,12 @@ function ArchitectureDesktop() {
     .sort((a, b) => (a.position || 0) - (b.position || 0));
 
   useEffect(() => {
+    const handleReturnToMain = () => setSelectedProjectId(null);
+    window.addEventListener("architecture-expanded-close", handleReturnToMain);
+    return () => window.removeEventListener("architecture-expanded-close", handleReturnToMain);
+  }, []);
+
+  useEffect(() => {
     const element = scrollVisualRef.current;
     const scroller = filmStripRef.current;
 
