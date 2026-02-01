@@ -14,7 +14,8 @@ export default function HeaderMobile() {
     pathname === "/architecture" ? "ARCHITECTURE" : null;
 
   useEffect(() => {
-    if (pathname !== "/film") return;
+    const isSection = pathname === "/film" || pathname === "/art" || pathname === "/architecture";
+    if (!isSection) return;
     const el = studioRef.current;
     if (!el) return;
     const update = () => {
@@ -53,7 +54,7 @@ export default function HeaderMobile() {
         <span className="text-[#fec776] font-blurlight text-2xl font-bold uppercase tracking-wide">
           COVA
         </span>
-        <span ref={pathname === "/film" ? studioRef : undefined} className="text-[#fec776] font-blurlight text-2xl font-bold uppercase tracking-wide">
+        <span ref={sectionLabel ? studioRef : undefined} className="text-[#fec776] font-blurlight text-2xl font-bold uppercase tracking-wide">
           STUDIO©
         </span>
       </Link>

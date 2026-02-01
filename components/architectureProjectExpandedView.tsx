@@ -252,8 +252,11 @@ export default function ArchitectureProjectExpandedView({
             </div>
           )}
 
-          {/* Project Name and Year in Rectangle */}
-          <div className={`absolute top-14 left-12 ${isMobile ? 'right-0' : 'right-[49%]'}`}>
+          {/* Project Name and Year in Rectangle (brown bar) – on mobile left edge aligned with header "S" from STUDIO */}
+          <div 
+            className={`absolute top-14 ${isMobile ? 'right-0' : 'left-12 right-[49%]'}`}
+            style={isMobile ? { left: 'var(--studio-s-left, 0.75rem)' } : undefined}
+          >
             <div className={`bg-[#554943] pl-1 ${isMobile ? 'py-0 pr-4' : 'py-0.5 pr-8'}`}>
               <div className={`text-[#fff3df] font-microextend font-bold tracking-wider uppercase leading-tight ${isMobile ? 'text-base' : 'text-lg'}`}>
                 {project.title.toUpperCase()}
@@ -264,8 +267,11 @@ export default function ArchitectureProjectExpandedView({
             </div>
           </div>
 
-          {/* Location */}
-          <div className={`absolute ${isMobile ? 'top-[14vh]' : 'bottom-[24.25rem]'} left-12`}>
+          {/* Location (city, country, building type) – on mobile left edge aligned with header "S" from STUDIO */}
+          <div 
+            className={`absolute ${isMobile ? 'top-[14vh]' : 'bottom-[24.25rem] left-12'}`}
+            style={isMobile ? { left: 'var(--studio-s-left, 0.75rem)' } : undefined}
+          >
             <div className={`text-[#fbef56] font-electrolize font-bold ${isMobile ? 'text-sm' : 'text-xl'}`}>
               {project.city.toUpperCase()}
             </div>
