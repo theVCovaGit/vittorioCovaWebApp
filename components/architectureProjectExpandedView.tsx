@@ -240,15 +240,17 @@ export default function ArchitectureProjectExpandedView({
           className={`absolute ${isMobile ? '' : 'top-20'} left-0 right-0 bottom-0 pointer-events-none z-20`}
           style={isMobile ? { top: 'var(--mobile-header-height)' } : {}}
         >
-          {/* Architecture Text - Top Center on desktop, Right on mobile */}
-          <div className={`absolute top-6 pointer-events-auto ${isMobile ? 'right-2' : 'left-[43.5%] transform -translate-x-1/2'}`}>
-            <div 
-              className={`text-[#fbef56] font-microextend font-bold tracking-wider uppercase cursor-pointer hover:text-[#fff5e0] transition-colors ${isMobile ? 'text-base' : 'text-lg'}`}
-              onClick={handleClose}
-            >
-              ARCHITECTURE
+          {/* Architecture Text - Top Center on desktop only; hidden on mobile */}
+          {!isMobile && (
+            <div className="absolute top-6 left-[43.5%] transform -translate-x-1/2 pointer-events-auto">
+              <div 
+                className="text-[#fbef56] font-microextend font-bold tracking-wider uppercase cursor-pointer hover:text-[#fff5e0] transition-colors text-lg"
+                onClick={handleClose}
+              >
+                ARCHITECTURE
+              </div>
             </div>
-          </div>
+          )}
 
           {/* Project Name and Year in Yellow Rectangle */}
           <div className={`absolute top-14 left-12 ${isMobile ? 'right-0' : 'right-[49%]'}`}>
