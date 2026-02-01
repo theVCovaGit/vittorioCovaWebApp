@@ -114,7 +114,7 @@ export default function ArtMobile() {
     if (!el || groups.length === 0) return;
 
     const snapToNearest = () => {
-      const sectionHeight = el.clientHeight || 600;
+      const sectionHeight = typeof window !== "undefined" ? window.innerHeight : 800;
       const top = el.scrollTop;
       const index = Math.round(top / sectionHeight);
       const clamped = Math.max(0, Math.min(index, groups.length - 1));
@@ -170,13 +170,13 @@ export default function ArtMobile() {
 
   return (
     <>
-      {/* Vertical scroll: projects always above footer (constrained between header and footer), extremely responsive */}
+      {/* Vertical scroll: same as film – full viewport height, snap sections */}
       <div
         ref={verticalScrollRef}
-        className="fixed left-0 right-0 overflow-y-auto overflow-x-hidden bg-[#FFF3DF] scrollbar-hide"
+        className="fixed left-0 right-0 bottom-0 overflow-y-auto overflow-x-hidden bg-[#FFF3DF] scrollbar-hide"
         style={{
           top: "var(--mobile-header-height)",
-          bottom: "var(--mobile-header-height)",
+          height: "calc(100vh - var(--mobile-header-height))",
           scrollSnapType: "y mandatory",
           scrollbarWidth: "none",
           msOverflowStyle: "none",
@@ -186,7 +186,7 @@ export default function ArtMobile() {
         {loading ? (
           <LoadingSpinner />
         ) : groups.length === 0 ? (
-          <div className="min-h-full flex items-center justify-center px-4">
+          <div className="min-h-screen flex items-center justify-center px-4">
             <p className="font-blurlight text-[#4A413C]">No collections yet.</p>
           </div>
         ) : (
@@ -199,8 +199,7 @@ export default function ArtMobile() {
                 key={group.collection}
                 className="w-full overflow-x-auto overflow-y-hidden scrollbar-hide flex-shrink-0"
                 style={{
-                  height: "100%",
-                  minHeight: "100%",
+                  height: "100vh",
                   scrollSnapAlign: "start",
                   scrollSnapStop: "always",
                   scrollbarWidth: "none",
