@@ -5,6 +5,8 @@ import { usePathname } from "next/navigation";
 import Link from "next/link";
 
 const CREATIVE_SECTIONS = ["/architecture", "/art", "/film"];
+/** Pages with same header style as /art (VITTORIO COVA STUDIO + section label below) – desktop only */
+const SAME_HEADER_STYLE_PAGES = ["/architecture", "/art", "/film", "/about", "/contact", "/news"];
 
 export default function Header() {
   const pathname = usePathname();
@@ -13,12 +15,15 @@ export default function Header() {
   const sectionLabel =
     pathname === "/art" ? "ART" :
     pathname === "/film" ? "FILM" :
-    pathname === "/architecture" ? "ARCHITECTURE" : null;
+    pathname === "/architecture" ? "ARCHITECTURE" :
+    pathname === "/about" ? "ABOUT" :
+    pathname === "/contact" ? "CONTACT" :
+    pathname === "/news" ? "NEWS" : null;
 
   // Measure "V" in VITTORIO for alignment (section label + architecture overlay)
   useEffect(() => {
-    const isCreative = CREATIVE_SECTIONS.some((p) => pathname === p || pathname.startsWith(`${p}/`));
-    if (!isCreative) return;
+    const needsVMeasurement = SAME_HEADER_STYLE_PAGES.some((p) => pathname === p || pathname.startsWith(`${p}/`));
+    if (!needsVMeasurement) return;
     const el = vittorioRef.current;
     if (!el) return;
     const update = () => {
@@ -41,7 +46,7 @@ export default function Header() {
     return null;
   }
 
-  const noLine = CREATIVE_SECTIONS.some((p) => pathname === p || pathname.startsWith(`${p}/`));
+  const noLine = SAME_HEADER_STYLE_PAGES.some((p) => pathname === p || pathname.startsWith(`${p}/`));
   const isCreative = noLine;
   const titleSize = isCreative ? "text-3xl" : "text-xl";
 
