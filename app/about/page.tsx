@@ -27,7 +27,7 @@ export default function About() {
 
   // Desktop version (original)
   return (
-    <main className="relative min-h-screen bg-[#fff3df] text-[#fef4dc] font-blurlight overflow-hidden">
+    <main className="relative min-h-screen bg-[#fff3df] text-[#a08e80] font-blurlight overflow-hidden">
         
 
       <div 
@@ -52,7 +52,7 @@ export default function About() {
       </div>
 
       {/* Text content in upper left */}
-      <div className="absolute top-[10rem] left-[4rem] text-[#fef4dc] font-blurlight">
+      <div className="absolute top-[10rem] left-[4rem] text-[#a08e80] font-blurlight">
         <div className="flex items-center gap-4 mb-4">
           <span className="text-2xl">©</span>
           <span className="text-2xl font-bold">VITTORIO COVA STUDIO</span>
@@ -72,8 +72,8 @@ export default function About() {
       </div>
 
       {/* Philosophical thoughts in the middle */}
-      <div className="absolute top-[72%] left-[40%] transform -translate-x-1/2 -translate-y-1/2 text-[#fef4dc] font-blurlight max-w-sm px-4 text-center z-[9999]">
-        <h2 className="text-sm font-bold mb-2 text-[#fef4dc]">
+      <div className="absolute top-[72%] left-[40%] transform -translate-x-1/2 -translate-y-1/2 text-[#a08e80] font-blurlight max-w-sm px-4 text-center z-[9999]">
+        <h2 className="text-sm font-bold mb-2 text-[#a08e80]">
           Quick thoughts I want to <span className="text-[#fbe147]">share:</span>
         </h2>
         <div className="space-y-1 text-sm leading-tight">

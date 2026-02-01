@@ -29,7 +29,7 @@ export default function AboutMobile() {
   }, []);
 
   return (
-    <div className="relative h-screen overflow-hidden bg-[#fff3df] text-[#fef4dc] font-blurlight px-3 py-4 pb-20 pt-20">
+    <div className="relative h-screen overflow-hidden bg-[#fff3df] text-[#a08e80] font-blurlight px-3 py-4 pb-20 pt-20">
       {/* About Label - Right side, rotated - aligned with barcode bottom */}
       <AboutLabel
         bottom="bottom-0"
@@ -69,7 +69,7 @@ export default function AboutMobile() {
 
         {/* Philosophical Thoughts Section */}
         <div className="mb-4">
-          <h2 className="text-[0.65rem] font-normal mb-2 text-[#fef4dc]">
+          <h2 className="text-[0.65rem] font-normal mb-2 text-[#a08e80]">
             Quick thoughts I want to <span className="text-[#fbe147]">share:</span>
           </h2>
           <div className="space-y-2 text-[0.5rem] leading-tight font-blurlight">
