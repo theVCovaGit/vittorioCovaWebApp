@@ -81,7 +81,7 @@ export default function Footer() {
   /* Main: barcode + links in SlashVPattern. Art/Film: CreativeSectionFooter. No global footer. */
   if (isMainPage || isArtPage || pathname === "/film") return null;
 
-  const footerBg = (isArchitecturePage && isExpandedViewOpen) ? "bg-transparent" : (isAdminPage ? "bg-transparent" : "bg-[#554943]");
+  const footerBg = "bg-transparent";
 
   /* Architecture: same dimensions & accommodation as /art and /film (367×42 barcode, 367px links, Blur Light 32px, pr-[6rem]). Colors and footer bg unchanged. */
   /* Hide footer on admin page when any panel is expanded */
@@ -114,7 +114,7 @@ export default function Footer() {
   }
 
   return (
-    <footer className={`fixed bottom-0 left-0 w-full font-blurlight z-50 pointer-events-auto px-4 sm:px-6 md:px-[4vw] pt-12 sm:pt-16 md:pt-20 pb-4 sm:pb-5 md:pb-6 ${isFooterPage ? 'bg-[#554943]' : 'bg-[#554943]'}`}>
+    <footer className="fixed bottom-0 left-0 w-full font-blurlight z-50 pointer-events-auto px-4 sm:px-6 md:px-[4vw] pt-12 sm:pt-16 md:pt-20 pb-4 sm:pb-5 md:pb-6 bg-transparent">
       <div
           className="absolute flex flex-col items-center space-y-2"
           style={{ bottom: shouldLowerFooter ? '1rem' : '68px', right: '120px' }}

@@ -84,8 +84,7 @@ export default function FooterMobile() {
   const isArtPage = pathname === "/art";
   const isHeroPage = pathname === "/";
   const footerTextColor = isHeroPage ? "#fec776" : "#a08e80";
-  // Art page: cream (#FFF3DF) to match content; architecture: brown; others: transparent
-  const footerBg = isArtPage ? "#FFF3DF" : isArchitecturePage ? "#554943" : "transparent";
+  const footerBg = "transparent";
 
   return (
     <footer
