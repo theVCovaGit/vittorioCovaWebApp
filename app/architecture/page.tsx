@@ -252,11 +252,14 @@ function ArchitectureDesktop() {
           <div className="relative w-full h-full flex items-center">
           <div className="relative flex-shrink-0">
             <div ref={scrollVisualRef} className="pointer-events-none">
-              <img 
-                src="/assets/scroll.svg" 
-                alt="Architecture Scroll" 
+              {/* Paper scroll – commented out, may use later
+              <img
+                src="/assets/scroll.svg"
+                alt="Architecture Scroll"
                 className="h-[500px] w-auto object-contain"
               />
+              */}
+              <div className="h-[500px] w-auto min-w-[400px] aspect-[1080/421] shrink-0" aria-hidden />
             </div>
             
             {/* Architecture Projects positioned inside the scroll based on their position data */}
@@ -326,13 +329,16 @@ function ArchitectureDesktop() {
               })}
             </div>
           </div>
-          
-          <img 
-            src="/assets/scroll.svg" 
-            alt="Architecture Scroll mirrored" 
+
+          {/* Mirrored scroll – commented out, may use later
+          <img
+            src="/assets/scroll.svg"
+            alt="Architecture Scroll mirrored"
             className="h-[500px] w-auto object-contain flex-shrink-0"
             style={{ transform: "scaleX(-1)" }}
           />
+          */}
+          <div className="h-[500px] w-auto min-w-[400px] aspect-[1080/421] shrink-0 flex-shrink-0" aria-hidden />
         </div>
       </div>
 

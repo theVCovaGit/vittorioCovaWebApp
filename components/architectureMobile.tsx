@@ -148,11 +148,14 @@ export default function ArchitectureMobile() {
                 className="pointer-events-none h-full"
                 style={{ transform: `scaleY(${SCROLL_SCALE_Y})` }}
               >
+                {/* Paper scroll – commented out, may use later
                 <img
                   src="/assets/scroll.svg"
                   alt="Architecture Scroll"
                   className="h-full w-auto object-contain"
                 />
+                */}
+                <div className="h-full w-auto min-w-[200px] aspect-[1080/421] shrink-0" aria-hidden />
               </div>
 
               <div
@@ -227,18 +230,19 @@ export default function ArchitectureMobile() {
                 })}
               </div>
             </div>
-            {/* Mirrored scroll: same explicit height as first strip */}
+            {/* Mirrored scroll: same explicit height as first strip – img commented out, may use later */}
             <div
               className="relative flex-shrink-0 min-h-0 flex items-center justify-start"
               style={{ height: "var(--scroll-strip-height)" }}
             >
-              <img
+              {/* <img
                 src="/assets/scroll.svg"
                 alt=""
                 aria-hidden
                 className="h-full w-auto object-contain object-left flex-shrink-0 pointer-events-none block"
                 style={{ transform: "scaleX(-1)" }}
-              />
+              /> */}
+              <div className="h-full w-auto min-w-[200px] aspect-[1080/421] shrink-0" aria-hidden />
             </div>
           </div>
         </div>
