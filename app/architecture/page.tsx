@@ -353,8 +353,9 @@ function ArchitectureDesktop() {
         />
       )}
     </div>
-    {/* Only show tapes when no project is expanded and we're on architecture page */}
+    {/* Tapes – commented out, may use later
     {!selectedProjectId && <DesktopTapesOverlay metrics={scrollMetrics} />}
+    */}
     </>
   );
 }
