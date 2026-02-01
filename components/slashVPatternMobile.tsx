@@ -111,7 +111,7 @@ export default function SlashVPatternMobile() {
                     position: "relative",
                     zIndex: 2000,
                   }}
-                  className="hover:!text-white transition-colors cursor-pointer"
+                  className="hover:!text-[#fff3df] active:!text-[#fff3df] transition-colors cursor-pointer"
                 >
                   ARCHITECTURE .
                 </Link>
@@ -131,7 +131,7 @@ export default function SlashVPatternMobile() {
                     color: "#000000",
                     textDecoration: "none",
                   }}
-                  className="hover:!text-white transition-colors cursor-pointer"
+                  className="hover:!text-[#fff3df] active:!text-[#fff3df] transition-colors cursor-pointer"
                 >
                   FILM .
                 </Link>
@@ -151,7 +151,7 @@ export default function SlashVPatternMobile() {
                     color: "#000000",
                     textDecoration: "none",
                   }}
-                  className="hover:!text-white transition-colors cursor-pointer"
+                  className="hover:!text-[#fff3df] active:!text-[#fff3df] transition-colors cursor-pointer"
                 >
                   ART .
                 </Link>

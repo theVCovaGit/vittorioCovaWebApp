@@ -163,11 +163,11 @@ export default function SlashVPattern() {
                 <span style={{ color: "transparent" }}>{ "V".repeat(V_FLAG_COUNT) }</span>
                 <span style={{ display: "inline-block", width: 367, textAlign: "center" }}>
                   <span style={{ color: "#fec776" }}>
-                    <Link href="/contact" className="text-[#fec776] no-underline hover:text-white cursor-pointer relative z-[100000]">CONTACT</Link>
+                    <Link href="/contact" className="text-[#fec776] no-underline hover:text-[#fff3df] active:text-[#fff3df] cursor-pointer relative z-[100000]">CONTACT</Link>
                     <span> / </span>
-                    <Link href="/about" className="text-[#fec776] no-underline hover:text-white cursor-pointer relative z-[100000]">ABOUT</Link>
+                    <Link href="/about" className="text-[#fec776] no-underline hover:text-[#fff3df] active:text-[#fff3df] cursor-pointer relative z-[100000]">ABOUT</Link>
                     <span> / </span>
-                    <Link href="/news" className="text-[#fec776] no-underline hover:text-white cursor-pointer relative z-[100000]">NEWS</Link>
+                    <Link href="/news" className="text-[#fec776] no-underline hover:text-[#fff3df] active:text-[#fff3df] cursor-pointer relative z-[100000]">NEWS</Link>
                   </span>
                 </span>
               </div>
@@ -188,8 +188,8 @@ export default function SlashVPattern() {
                     position: "relative",
                     zIndex: 2000,
                   }}
-                  className="architecture-link hover:!text-white transition-colors cursor-pointer"
-                  onMouseEnter={(e) => e.currentTarget.style.color = "#ffffff"}
+                  className="architecture-link hover:!text-[#fff3df] active:!text-[#fff3df] transition-colors cursor-pointer"
+                  onMouseEnter={(e) => e.currentTarget.style.color = "#fff3df"}
                   onMouseLeave={(e) => e.currentTarget.style.color = "#000000"}
                 >
                   ARCHITECTURE .
@@ -210,7 +210,7 @@ export default function SlashVPattern() {
                     color: "#000000",
                     textDecoration: "none",
                   }}
-                  className="hover:!text-white transition-colors cursor-pointer"
+                  className="hover:!text-[#fff3df] active:!text-[#fff3df] transition-colors cursor-pointer"
                 >
                   FILM .
                 </Link>
@@ -230,7 +230,7 @@ export default function SlashVPattern() {
                     color: "#000000",
                     textDecoration: "none",
                   }}
-                  className="hover:!text-white transition-colors cursor-pointer"
+                  className="hover:!text-[#fff3df] active:!text-[#fff3df] transition-colors cursor-pointer"
                 >
                   ART .
                 </Link>
