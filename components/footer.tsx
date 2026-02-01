@@ -3,6 +3,7 @@
 import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import CreativeSectionFooter from "./creativeSectionFooter";
 
 export default function Footer() {
   const pathname = usePathname();
@@ -80,6 +81,11 @@ export default function Footer() {
 
   /* Main: barcode + links in SlashVPattern. Art/Film: CreativeSectionFooter. No global footer. */
   if (isMainPage || isArtPage || pathname === "/film") return null;
+
+  /* About/Contact/News (desktop): same footer as /art – CreativeSectionFooter */
+  if (isFooterPage) {
+    return <CreativeSectionFooter />;
+  }
 
   const footerBg = "bg-transparent";
 
