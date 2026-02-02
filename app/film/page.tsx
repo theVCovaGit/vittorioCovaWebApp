@@ -89,64 +89,29 @@ function FilmDesktop() {
     
     return strips;
   }, [projects]);
+  // First strip only (no horizontal scroll); no film strip image; background #fff3df
+  const firstStrip = projectStrips[0] ?? [];
+
   return (
-    <div className="min-h-screen bg-[#2d2f38] relative overflow-hidden">
+    <div className="min-h-screen bg-[#fff3df] relative overflow-hidden">
       {loading && <LoadingSpinner />}
       <CreativeSectionFooter />
-      <div
-        className="film-strip-container absolute top-[48.3%] left-0 transform -translate-y-1/2 w-screen h-[500px] overflow-x-scroll overflow-y-hidden scrollbar-hide"
-        style={{
-          scrollBehavior: "smooth",
-          scrollbarWidth: "none",
-          msOverflowStyle: "none",
-          WebkitOverflowScrolling: "touch",
-        }}
-      >
-        <div className="relative w-full h-full flex">
-          {projectStrips.map((stripProjects, stripIndex) => (
-            <div key={stripIndex} className="relative h-full flex-shrink-0">
+      <div className="absolute top-[48.3%] left-0 right-0 transform -translate-y-1/2 h-[500px] flex items-center justify-center gap-6 px-8">
+        {firstStrip.map((project, localIndex) => {
+          if (!project || !project.icon) return null;
+          return (
+            <div
+              key={project.id}
+              className="relative w-[18%] max-w-[220px] aspect-[2.8252/4.2379] overflow-hidden flex-shrink-0"
+            >
               <img
-                src="/assets/film.svg"
-                alt="Film Strip"
-                className="h-full w-auto object-contain"
+                src={project.icon}
+                alt={project.title}
+                className="w-full h-full object-contain"
               />
-              {/* Poster images - calculated from Illustrator dimensions */}
-              {/* Film strip: 15.0312in x 6.2393in, Poster: 2.8252in x 4.2379in, Gap: 0.3in */}
-              <div className="absolute inset-0">
-                {stripProjects.map((project, localIndex) => {
-                  const posterWidthPercent = 18.8; // Poster width as % of strip
-                  const posterHeightPercent = 67.9; // Poster height as % of strip
-                  const leftBorderPercent = 3.8; // Left border/padding
-                  const gapPercent = 5.7; // Gap between frames as % of strip
-                  const topMarginPercent = (100 - posterHeightPercent) / 2; // Center vertically
-                  
-                  const leftPosition = leftBorderPercent + (localIndex * (posterWidthPercent + gapPercent));
-                  
-                  if (!project || !project.icon) return null;
-                  
-                  return (
-                    <div
-                      key={project.id}
-                      className="absolute overflow-hidden"
-                      style={{
-                        width: `${posterWidthPercent}%`,
-                        height: `${posterHeightPercent}%`,
-                        left: `${leftPosition}%`,
-                        top: `${topMarginPercent}%`,
-                      }}
-                    >
-                      <img
-                        src={project.icon}
-                        alt={project.title}
-                        className="w-full h-full object-contain"
-                      />
-                    </div>
-                  );
-                })}
-              </div>
             </div>
-          ))}
-        </div>
+          );
+        })}
       </div>
     </div>
   );
