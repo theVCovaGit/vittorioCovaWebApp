@@ -44,14 +44,14 @@ export default function AboutMobile() {
         />
       </div>
 
-      {/* Fingerprint - above ABOUT label on mobile; pushed up so label keeps its original position */}
+      {/* Fingerprint - right above the "t", capped so it stays on-screen on narrow viewports */}
       <div
-        className="fixed z-[1010] pointer-events-none flex justify-end"
+        className="fixed z-[1010] pointer-events-none flex justify-center"
         style={{
-          left: "min(calc(var(--barcode-right, 100vw) + 3.5rem), calc(100vw - 6rem))",
+          left: "min(calc(var(--barcode-right, 100vw) + 3.5rem), calc(100vw - 4rem))",
           bottom: "var(--barcode-bottom-offset, 80px)",
+          width: "80px",
           transform: "translateY(calc(-100% - 2rem))",
-          marginBottom: "0",
         }}
       >
         <img
