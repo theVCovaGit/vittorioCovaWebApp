@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useIsMobile } from "@/hooks/useMediaQuery";
 import SponsoredByLifeAnimation from "./sponsoredByLifeAnimation";
 
@@ -31,6 +31,9 @@ export default function ArchitectureProjectExpandedView({
   const [loading, setLoading] = useState(true);
   const [loadedImages, setLoadedImages] = useState<Set<number>>(new Set());
   const isMobile = useIsMobile();
+  const hasShownContentRef = useRef(false);
+  const onCloseRef = useRef(onClose);
+  onCloseRef.current = onClose;
 
   // Helper function to preload images
   const preloadImages = (imageUrls: string[]): Promise<void> => {
@@ -71,47 +74,46 @@ export default function ArchitectureProjectExpandedView({
     });
   };
 
-  // Fetch project data and preload all images before showing
+  // Fetch project data and preload all images – only when projectId changes (not when onClose changes, so scroll doesn’t re-trigger)
   useEffect(() => {
+    if (!projectId) return;
+    hasShownContentRef.current = false;
+
     const fetchProject = async () => {
       setLoading(true);
       setLoadedImages(new Set());
-      
+
       try {
         const response = await fetch(`/api/architecture/${projectId}`);
         if (response.ok) {
           const data = await response.json();
           const projectData = data.project;
           setProject(projectData);
-          
-          // Preload all images before showing the view
+
           if (projectData.images && projectData.images.length > 0) {
             await preloadImages(projectData.images);
-            // Small delay to ensure images are in browser cache
-            await new Promise(resolve => setTimeout(resolve, 100));
+            await new Promise((resolve) => setTimeout(resolve, 100));
           }
-          
-          // Only hide loading screen after all images are preloaded
+
           setLoading(false);
+          hasShownContentRef.current = true;
         } else {
-          console.error('Error fetching project:', response.statusText);
+          console.error("Error fetching project:", response.statusText);
           setLoading(false);
-          onClose(); // Close if project not found
+          onCloseRef.current();
         }
       } catch (error) {
-        console.error('Error fetching project:', error);
+        console.error("Error fetching project:", error);
         setLoading(false);
-        onClose();
+        onCloseRef.current();
       }
     };
 
-    if (projectId) {
-      fetchProject();
-    }
-  }, [projectId, onClose]);
+    fetchProject();
+  }, [projectId]);
 
-  // Show loading screen until project data and all images are loaded
-  if (loading) {
+  // Show loading animation only on initial load; once content has been shown, don’t show it again when scrolling
+  if (loading && !hasShownContentRef.current) {
     return <SponsoredByLifeAnimation />;
   }
 

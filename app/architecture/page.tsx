@@ -120,29 +120,33 @@ function ArchitectureDesktop() {
     }
   }, [hoveredProjectId]);
 
+  // Lock document scroll when expanded view is closed; remove lock when open (custom events keep deps array stable)
   useEffect(() => {
     const html = document.documentElement;
     const body = document.body;
+
+    const applyLock = () => {
+      html.style.setProperty("overflow", "hidden", "important");
+      html.style.setProperty("overscrollBehavior", "contain", "important");
+      html.style.setProperty("height", "100%", "important");
+      html.style.setProperty("touch-action", "pan-x", "important");
+      body.style.setProperty("overflow", "hidden", "important");
+      body.style.setProperty("overscrollBehavior", "contain", "important");
+      body.style.setProperty("height", "100%", "important");
+      body.style.setProperty("touch-action", "pan-x", "important");
+      window.addEventListener("wheel", preventVerticalWheel, { passive: false });
+      window.addEventListener("scroll", lockScrollPosition, { passive: true });
+      window.scrollTo(0, 0);
+    };
 
     const previousHtmlOverflow = html.style.overflow;
     const previousHtmlOverscroll = html.style.overscrollBehavior;
     const previousHtmlHeight = html.style.height;
     const previousHtmlTouchAction = html.style.touchAction;
-
     const previousBodyOverflow = body.style.overflow;
     const previousBodyOverscroll = body.style.overscrollBehavior;
     const previousBodyHeight = body.style.height;
     const previousBodyTouchAction = body.style.touchAction;
-
-    html.style.setProperty("overflow", "hidden", "important");
-    html.style.setProperty("overscrollBehavior", "contain", "important");
-    html.style.setProperty("height", "100%", "important");
-    html.style.setProperty("touch-action", "pan-x", "important");
-
-    body.style.setProperty("overflow", "hidden", "important");
-    body.style.setProperty("overscrollBehavior", "contain", "important");
-    body.style.setProperty("height", "100%", "important");
-    body.style.setProperty("touch-action", "pan-x", "important");
 
     const preventVerticalWheel = (event: WheelEvent) => {
       if (Math.abs(event.deltaY) > Math.abs(event.deltaX)) {
@@ -156,24 +160,31 @@ function ArchitectureDesktop() {
       }
     };
 
-    window.addEventListener("wheel", preventVerticalWheel, { passive: false });
-    window.addEventListener("scroll", lockScrollPosition, { passive: true });
-
-    window.scrollTo(0, 0);
-
-    return () => {
+    const removeLock = () => {
       window.removeEventListener("wheel", preventVerticalWheel);
       window.removeEventListener("scroll", lockScrollPosition);
-
       html.style.overflow = previousHtmlOverflow;
       html.style.overscrollBehavior = previousHtmlOverscroll;
       html.style.height = previousHtmlHeight;
       html.style.touchAction = previousHtmlTouchAction;
-
       body.style.overflow = previousBodyOverflow;
       body.style.overscrollBehavior = previousBodyOverscroll;
       body.style.height = previousBodyHeight;
       body.style.touchAction = previousBodyTouchAction;
+    };
+
+    applyLock();
+
+    const onExpandedOpen = () => removeLock();
+    const onExpandedClose = () => applyLock();
+
+    window.addEventListener("architecture-expanded-open", onExpandedOpen);
+    window.addEventListener("architecture-expanded-close", onExpandedClose);
+
+    return () => {
+      window.removeEventListener("architecture-expanded-open", onExpandedOpen);
+      window.removeEventListener("architecture-expanded-close", onExpandedClose);
+      removeLock();
     };
   }, []);
 
