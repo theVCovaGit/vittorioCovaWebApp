@@ -51,7 +51,7 @@ export default function AboutMobile() {
           left: "min(calc(var(--barcode-right, 100vw) + 3.5rem), calc(100vw - 4rem))",
           bottom: "var(--barcode-bottom-offset, 80px)",
           width: "80px",
-          transform: "translateY(calc(-100% - 2rem))",
+          transform: "translateY(calc(-100% - 9rem))",
         }}
       >
         <img
