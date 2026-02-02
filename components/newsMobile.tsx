@@ -1,26 +1,33 @@
 "use client";
 
-import React, { useEffect } from "react";
-import InteractiveFingie from "@/components/interactiveFingie";
+import React, { useEffect, useState } from "react";
 import NewsLabel from "@/components/newsLabel";
 
+type NewsItem = {
+  id: number;
+  date: string;
+  title: string;
+  description?: string;
+  sortOrder?: number;
+};
+
 export default function NewsMobile() {
-  // Disable scrolling on mobile about page
+  const [items, setItems] = useState<NewsItem[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+
   useEffect(() => {
-    // Store original values
     const originalBodyOverflow = document.body.style.overflow;
     const originalHtmlOverflow = document.documentElement.style.overflow;
     const originalBodyHeight = document.body.style.height;
     const originalHtmlHeight = document.documentElement.style.height;
-    
-    // Set overflow hidden and height 100vh
+
     document.body.style.overflow = "hidden";
     document.documentElement.style.overflow = "hidden";
     document.body.style.height = "100vh";
     document.documentElement.style.height = "100vh";
-    
+
     return () => {
-      // Restore original values
       document.body.style.overflow = originalBodyOverflow;
       document.documentElement.style.overflow = originalHtmlOverflow;
       document.body.style.height = originalBodyHeight;
@@ -28,15 +35,33 @@ export default function NewsMobile() {
     };
   }, []);
 
+  useEffect(() => {
+    async function fetchNews() {
+      try {
+        const res = await fetch("/api/news");
+        if (!res.ok) throw new Error("Failed to fetch news");
+        const data = await res.json();
+        setItems(data.items ?? []);
+      } catch (e) {
+        setError(e instanceof Error ? e.message : "Failed to load news");
+      } finally {
+        setLoading(false);
+      }
+    }
+    fetchNews();
+  }, []);
+
   return (
     <div className="relative h-screen overflow-hidden bg-[#fff3df] text-[#a08e80] font-blurlight px-3 py-4 pb-20 pt-20">
       {/* News Label - Right side, rotated - aligned with barcode bottom */}
-      <div style={{ 
-        position: 'fixed', 
-        left: 'calc(var(--barcode-right, 100vw) + 3.5rem)',
-        bottom: 'var(--barcode-bottom-offset, 80px)',
-        zIndex: 40
-      }}>
+      <div
+        style={{
+          position: "fixed",
+          left: "calc(var(--barcode-right, 100vw) + 3.5rem)",
+          bottom: "var(--barcode-bottom-offset, 80px)",
+          zIndex: 40,
+        }}
+      >
         <NewsLabel
           bottom="bottom-0"
           right="left-0"
@@ -45,67 +70,44 @@ export default function NewsMobile() {
         />
       </div>
 
-      {/* Fingerprint - Right side, much smaller */}
-      <div className="absolute -right-16 top-1/3 z-10 max-h-[40vh] overflow-visible scale-[0.5]">
-        <InteractiveFingie />
-      </div>
-
-      {/* Content - Left side */}
-      <div className="pr-24 pl-8">
-        {/* Header */}
-        <div className="mb-4">
-        <div className="flex items-center gap-1 mb-1">
-          <span className="text-[0.65rem] font-blurlight">©</span>
-          <span className="text-[0.65rem] font-blurlight font-bold">VITTORIO COVA STUDIO</span>
-          <span className="text-[0.65rem] font-blurlight ml-auto">Est. 2025</span>
-        </div>
-        
-        {/* Description */}
-        <p className="text-[0.65rem] mb-3 leading-tight font-blurlight">
-          A multi-faceted creative firm founded by Vittorio Cova in 2025.
-        </p>
-        
-        {/* Roles List */}
-        <ul className="space-y-0.5 text-[0.65rem] font-blurlight">
-            <li>- Architect</li>
-            <li>- Film director</li>
-            <li>- Designer</li>
-            <li>- Artist</li>
-          </ul>
-        </div>
-
-        {/* Philosophical Thoughts Section */}
-        <div className="mb-4">
-          <h2 className="text-[0.65rem] font-normal mb-2 text-[#a08e80]">
-            Quick thoughts I want to <span className="text-[#fbe147]">share:</span>
-          </h2>
-          <div className="space-y-2 text-[0.5rem] leading-tight font-blurlight">
-            <p>
-              The greatest moment in human history was not when man walked the Moon, but when <span className="text-[#fbe147] font-bold">God</span> walked the Earth.
-            </p>
-            <p>
-              Tell yourself that pain is a reminder that you live, discomfort is <span className="text-[#fbe147] font-bold">growth</span>, and a privilege.
-            </p>
-            <p>
-              If you have no <span className="text-[#fbe147] font-bold">ideas</span>, there is no project. If you have many ideas, there is still no project.
-            </p>
-            <p>
-              True <span className="text-[#fbe147] font-bold">passion</span> glues together teamwork. Genuine connections are the oxygen that catalyze success.
-            </p>
-            <p>
-              Silence is a <span className="text-[#fbe147] font-bold">beautiful</span> thing.
-            </p>
-            <p>
-              <span className="text-[#fbe147] font-bold">Nature</span> is Mother, it will serve as a <span className="text-[#fbe147] font-bold">sanctuary</span>, offering both mental clarity and a wellspring of inspiration.
-            </p>
-            <p>
-              Let <span className="text-[#fbe147] font-bold">gratitude</span> nourish your passions. <span className="text-[#fbe147] font-bold">Live</span> the world, don&apos;t let it live you.
-            </p>
-            <p>
-              Even if it&apos;s hard, be the <span className="text-[#fbe147] font-bold">smile</span> that someone may need.
-            </p>
+      {/* Timeline content - centered, from DB */}
+      <div className="relative flex flex-col items-center overflow-y-auto pr-24 pl-8 min-h-0" style={{ paddingTop: "var(--mobile-header-height)" }}>
+        {loading && (
+          <p className="text-[#a08e80] text-sm font-blurlight py-8">Loading…</p>
+        )}
+        {error && (
+          <p className="text-[#a08e80] text-sm font-blurlight py-8">{error}</p>
+        )}
+        {!loading && !error && items.length === 0 && (
+          <p className="text-[#a08e80] text-sm font-blurlight py-8">No news yet.</p>
+        )}
+        {!loading && !error && items.length > 0 && (
+          <div className="flex flex-col items-center w-full max-w-lg">
+            {/* Vertical dashed line - visual backbone */}
+            <div
+              className="absolute left-1/2 top-0 bottom-0 w-px -translate-x-1/2 border-l border-dashed border-[#a08e80]/40"
+              aria-hidden
+            />
+            {items.map((item) => (
+              <div
+                key={item.id}
+                className="flex flex-col items-center text-center w-full py-4 relative z-10"
+              >
+                <div className="text-[#a08e80] font-blurlight text-xs font-semibold mb-1">
+                  {item.date}
+                </div>
+                <div className="text-[#a08e80] font-blurlight text-base font-bold mb-1.5">
+                  {item.title}
+                </div>
+                {item.description && (
+                  <div className="text-[#a08e80] font-blurlight text-[10px] font-normal leading-relaxed max-w-md">
+                    {item.description}
+                  </div>
+                )}
+              </div>
+            ))}
           </div>
-        </div>
+        )}
       </div>
     </div>
   );
