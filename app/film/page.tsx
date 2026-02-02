@@ -2,6 +2,7 @@
 /* eslint-disable @next/next/no-img-element */
 
 import { useEffect, useState, useMemo } from "react";
+import Link from "next/link";
 import FilmMobile from "@/components/filmMobile";
 import CreativeSectionFooter from "@/components/creativeSectionFooter";
 import LoadingSpinner from "@/components/loadingSpinner";
@@ -136,9 +137,14 @@ function FilmDesktop() {
             {firstProject.length && (
               <span className="font-electrolize text-base mt-6">{firstProject.length}</span>
             )}
-            <span className="font-blurlight font-bold text-3xl uppercase tracking-wide mt-12">
+            <Link
+              href="https://www.youtube.com/watch?v=wMNJeHijiRU"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="font-blurlight font-bold text-3xl uppercase tracking-wide mt-12 ml-40 inline-block text-[#524b44] no-underline hover:opacity-80 transition-opacity"
+            >
               WATCH FREE
-            </span>
+            </Link>
           </div>
         )}
       </div>
