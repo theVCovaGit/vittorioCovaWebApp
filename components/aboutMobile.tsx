@@ -32,9 +32,10 @@ export default function AboutMobile() {
     <div className="relative h-screen overflow-hidden bg-[#fff3df] text-[#a08e80] font-blurlight">
       {/* About Label - Right side, rotated - aligned with barcode bottom - always to the right of barcode */}
       <div style={{ 
-        position: 'absolute', 
+        position: 'fixed', 
         right: '-13rem', 
-        bottom: 'var(--barcode-bottom-offset, 80px)'
+        bottom: 'var(--barcode-bottom-offset, 80px)',
+        zIndex: 40
       }}>
         <AboutLabel
           bottom="bottom-0"

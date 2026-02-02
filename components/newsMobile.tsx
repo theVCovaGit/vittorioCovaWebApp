@@ -32,9 +32,10 @@ export default function NewsMobile() {
     <div className="relative h-screen overflow-hidden bg-[#fff3df] text-[#a08e80] font-blurlight px-3 py-4 pb-20 pt-20">
       {/* News Label - Right side, rotated - aligned with barcode bottom */}
       <div style={{ 
-        position: 'absolute', 
+        position: 'fixed', 
         right: '-8rem', 
-        bottom: 'var(--barcode-bottom-offset, 80px)'
+        bottom: 'var(--barcode-bottom-offset, 80px)',
+        zIndex: 40
       }}>
         <NewsLabel
           bottom="bottom-0"
