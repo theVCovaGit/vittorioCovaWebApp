@@ -34,7 +34,7 @@ export default function ContactMobile() {
       <div style={{ 
         position: 'absolute', 
         right: '-7.2rem', 
-        bottom: 'calc(var(--barcode-bottom-offset, 80px) + 28.5vh)'
+        bottom: 'var(--barcode-bottom-offset, 80px)'
       }}>
         <ContactLabel
           bottom="bottom-0"

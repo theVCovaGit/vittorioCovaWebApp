@@ -2,9 +2,9 @@
 
 import React, { useEffect } from "react";
 import InteractiveFingie from "@/components/interactiveFingie";
-import AboutLabel from "@/components/aboutLabel";
+import NewsLabel from "@/components/newsLabel";
 
-export default function AboutMobile() {
+export default function NewsMobile() {
   // Disable scrolling on mobile about page
   useEffect(() => {
     // Store original values
@@ -30,13 +30,19 @@ export default function AboutMobile() {
 
   return (
     <div className="relative h-screen overflow-hidden bg-[#fff3df] text-[#a08e80] font-blurlight px-3 py-4 pb-20 pt-20">
-      {/* About Label - Right side, rotated - aligned with barcode bottom */}
-      <AboutLabel
-        bottom="bottom-0"
-        right="-right-10"
-        scale="scale-[1]"
-        fontSize="text-[40px]"
-      />
+      {/* News Label - Right side, rotated - aligned with barcode bottom */}
+      <div style={{ 
+        position: 'absolute', 
+        right: '-8rem', 
+        bottom: 'var(--barcode-bottom-offset, 80px)'
+      }}>
+        <NewsLabel
+          bottom="bottom-0"
+          right="right-0"
+          scale="scale-[1]"
+          fontSize="text-[60px] sm:text-[70px] md:text-[80px]"
+        />
+      </div>
 
       {/* Fingerprint - Right side, much smaller */}
       <div className="absolute -right-16 top-1/3 z-10 max-h-[40vh] overflow-visible scale-[0.5]">

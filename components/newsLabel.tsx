@@ -27,6 +27,10 @@ type Props = {
           tracking-tight
           z-[1001]
         `}
+        style={{
+          transform: 'rotate(-90deg)',
+          transformOrigin: 'bottom left'
+        } as React.CSSProperties}
       >
         NEWS.
       </div>

@@ -3,17 +3,18 @@
 import React from "react";
 
 type Props = {
-    bottom: string;
+    bottom?: string;
     right: string;
     scale: string;
     fontSize: string;
   };
   
-  export default function AboutLabel({ right, scale, fontSize }: Props) {
+  export default function AboutLabel({ bottom, right, scale, fontSize }: Props) {
     return (
       <div
         className={`
           absolute
+          ${bottom ?? ''}
           ${right}
           rotate-[-90deg]
           ${scale}
@@ -27,7 +28,7 @@ type Props = {
           z-[1001]
         `}
         style={{
-          bottom: 'var(--barcode-bottom-offset, 80px)',
+          ...(!bottom && { bottom: 'var(--barcode-bottom-offset, 80px)' }),
           transform: 'rotate(-90deg)',
           transformOrigin: 'bottom left'
         } as React.CSSProperties}
