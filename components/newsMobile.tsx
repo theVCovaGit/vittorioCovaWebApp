@@ -70,19 +70,19 @@ export default function NewsMobile() {
         />
       </div>
 
-      {/* Timeline content - centered, from DB */}
-      <div className="relative flex flex-col items-center overflow-y-auto pr-24 pl-8 min-h-0" style={{ paddingTop: "var(--mobile-header-height)" }}>
+      {/* Timeline content - centered horizontally, from DB */}
+      <div className="relative flex flex-col items-center justify-center overflow-y-auto min-h-0 w-full px-4" style={{ paddingTop: "var(--mobile-header-height)", paddingBottom: "1rem" }}>
         {loading && (
-          <p className="text-[#a08e80] text-sm font-blurlight py-8">Loading…</p>
+          <p className="text-[#a08e80] text-sm font-blurlight py-8 text-center w-full">Loading…</p>
         )}
         {error && (
-          <p className="text-[#a08e80] text-sm font-blurlight py-8">{error}</p>
+          <p className="text-[#a08e80] text-sm font-blurlight py-8 text-center w-full">{error}</p>
         )}
         {!loading && !error && items.length === 0 && (
-          <p className="text-[#a08e80] text-sm font-blurlight py-8">No news yet.</p>
+          <p className="text-[#a08e80] text-sm font-blurlight py-8 text-center w-full">No news yet.</p>
         )}
         {!loading && !error && items.length > 0 && (
-          <div className="flex flex-col items-center w-full max-w-lg">
+          <div className="flex flex-col items-center w-full max-w-lg mx-auto text-center">
             {/* Vertical dashed line - visual backbone */}
             <div
               className="absolute left-1/2 top-0 bottom-0 w-px -translate-x-1/2 border-l border-dashed border-[#a08e80]/40"
@@ -91,16 +91,16 @@ export default function NewsMobile() {
             {items.map((item) => (
               <div
                 key={item.id}
-                className="flex flex-col items-center text-center w-full py-4 relative z-10"
+                className="flex flex-col items-center w-full py-4 relative z-10 text-center"
               >
-                <div className="text-[#a08e80] font-blurlight text-xs font-semibold mb-1">
+                <div className="text-[#a08e80] font-blurlight text-xs font-semibold mb-1 w-full text-center">
                   {item.date}
                 </div>
-                <div className="text-[#a08e80] font-blurlight text-base font-bold mb-1.5">
+                <div className="text-[#a08e80] font-blurlight text-base font-bold mb-1.5 w-full text-center">
                   {item.title}
                 </div>
                 {item.description && (
-                  <div className="text-[#a08e80] font-blurlight text-[10px] font-normal leading-relaxed max-w-md">
+                  <div className="text-[#a08e80] font-blurlight text-[10px] font-normal leading-relaxed max-w-md mx-auto text-center">
                     {item.description}
                   </div>
                 )}
