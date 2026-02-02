@@ -79,7 +79,7 @@ export default function AboutMobile() {
         }}
       >
         {/* Description */}
-        <div className="text-[0.65rem] mb-4 leading-relaxed font-blurlight">
+        <div className="text-[0.9rem] mb-4 leading-relaxed font-blurlight">
           <p>A multi-faceted architecture and</p>
           <p>creative design firm</p>
           <p>founded in 2025</p>
