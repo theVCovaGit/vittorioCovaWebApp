@@ -112,15 +112,74 @@ export async function POST(req: NextRequest) {
   }
 }
 
-// PUT: Update all projects
+// PUT: Update single project (any field including icon/images) or replace all projects
 export async function PUT(req: NextRequest) {
   try {
-    const { projects } = await req.json();
+    const body = await req.json();
+    const { project: singleProject, projects } = body;
 
+    // Handle single project update (Edit → change icon, images, or any field → Submit)
+    if (singleProject && !projects) {
+      const project = singleProject;
+      if (
+        !project.id ||
+        !project.title ||
+        !project.country ||
+        !project.city ||
+        !project.category ||
+        !Array.isArray(project.images)
+      ) {
+        return NextResponse.json({ error: "Invalid project data" }, { status: 400 });
+      }
+
+      await ensureTableExists("architecture_projects");
+
+      await sql`
+        UPDATE architecture_projects
+        SET
+          title = ${project.title},
+          country = ${project.country},
+          city = ${project.city},
+          category = ${project.category},
+          year = ${project.year || ""},
+          images = ${project.images},
+          icon = ${project.icon || ""},
+          icon_secondary = ${project.iconSecondary || ""},
+          position = ${project.position ?? 1},
+          page = ${project.page ?? 1}
+        WHERE id = ${project.id}
+      `;
+
+      const [updated] = await sql`
+        SELECT * FROM architecture_projects WHERE id = ${project.id}
+      `;
+      if (!updated) {
+        return NextResponse.json({ error: "Project not found after update" }, { status: 404 });
+      }
+
+      const row = updated as ArchitectureProjectRow;
+      const formattedProject: ArchitectureProject = {
+        id: row.id,
+        type: "architecture",
+        title: row.title,
+        country: row.country,
+        city: row.city,
+        category: row.category,
+        year: row.year || "",
+        images: row.images || [],
+        icon: row.icon || "",
+        iconSecondary: row.icon_secondary || "",
+        position: row.position ?? 1,
+        page: row.page ?? 1,
+      };
+      return NextResponse.json({ message: "Project updated", project: formattedProject }, { status: 200 });
+    }
+
+    // Bulk replace: update all projects
     if (
       !Array.isArray(projects) ||
       projects.some(
-        (p) =>
+        (p: ArchitectureProject) =>
           !p.id ||
           !p.title ||
           !p.country ||
@@ -132,13 +191,12 @@ export async function PUT(req: NextRequest) {
       return NextResponse.json({ error: "Invalid project format" }, { status: 400 });
     }
 
-    // Clear existing projects and insert new ones
     await sql`DELETE FROM architecture_projects`;
-    
+
     for (const project of projects) {
       await sql`
-        INSERT INTO architecture_projects (id, title, country, city, category, year, images, icon, icon_secondary)
-        VALUES (${project.id}, ${project.title}, ${project.country}, ${project.city}, ${project.category}, ${project.year || ""}, ${project.images}, ${project.icon || ""}, ${project.iconSecondary || ""})
+        INSERT INTO architecture_projects (id, title, country, city, category, year, images, icon, icon_secondary, position, page)
+        VALUES (${project.id}, ${project.title}, ${project.country}, ${project.city}, ${project.category}, ${project.year || ""}, ${project.images}, ${project.icon || ""}, ${project.iconSecondary || ""}, ${project.position ?? 1}, ${project.page ?? 1})
       `;
     }
 

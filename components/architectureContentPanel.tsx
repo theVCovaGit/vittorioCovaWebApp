@@ -124,24 +124,32 @@ export default function ArchitectureContentPanel({ isActive }: { isActive: boole
       });
 
       if (res.ok) {
+        const data = await res.json().catch(() => ({}));
+        const updatedProject = data.project ?? project;
         alert(editingId ? "Proyecto actualizado" : "Proyecto publicado");
         setProjects((prev) => {
           const updated = editingId
-            ? prev.map((p) => (p.id === editingId ? project : p))
-            : [...prev, project];
+            ? prev.map((p) => (p.id === editingId ? updatedProject : p))
+            : [...prev, updatedProject];
 
           const match = updated.find(
             (p) =>
-              p.position === project.position && (p.page || 1) === (project.page || 1)
+              p.position === updatedProject.position && (p.page || 1) === (updatedProject.page || 1)
           );
           setSelectedProject(match ?? null);
           return updated;
         });
         resetForm();
       } else {
-        const err = await res.json();
-        console.error(err);
-        alert("Error al guardar el proyecto");
+        let errMessage = "Error al guardar el proyecto";
+        try {
+          const err = await res.json();
+          errMessage = err?.error || err?.message || errMessage;
+          console.error("API error:", err);
+        } catch {
+          console.error(`Request failed: ${res.status} ${res.statusText}`);
+        }
+        alert(errMessage);
       }
     } catch (err) {
       console.error(err);
