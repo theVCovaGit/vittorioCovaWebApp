@@ -59,8 +59,6 @@ export default function ArchitectureMobile() {
   const [loading, setLoading] = useState(true);
   const [currentPage] = useState(1);
   const [selectedProjectId, setSelectedProjectId] = useState<number | null>(null);
-  const [hoveredProjectId, setHoveredProjectId] = useState<number | null>(null);
-  const projectRefs = useRef<Record<number, HTMLButtonElement | null>>({});
   const stripRef = useRef<HTMLDivElement | null>(null);
   const scrollVisualRef = useRef<HTMLDivElement | null>(null);
 
@@ -187,42 +185,16 @@ export default function ArchitectureMobile() {
                           style={{
                             width: `calc(var(--scroll-strip-height, ${SCROLL_AREA_HEIGHT}) * ${ICON_TO_STRIP_RATIO})`,
                           }}
-                          ref={(element) => {
-                            projectRefs.current[project.id] = element;
-                          }}
                           onClick={() => {
                             setSelectedProjectId(project.id);
                             window.dispatchEvent(new CustomEvent("architecture-expanded-open"));
                           }}
-                          onMouseEnter={() => setHoveredProjectId(project.id)}
-                          onFocus={() => setHoveredProjectId(project.id)}
-                          onMouseLeave={() =>
-                            setHoveredProjectId((current) => (current === project.id ? null : current))
-                          }
-                          onBlur={() =>
-                            setHoveredProjectId((current) => (current === project.id ? null : current))
-                          }
-                          onTouchStart={() => setHoveredProjectId(project.id)}
-                          onTouchEnd={() => setHoveredProjectId(null)}
                         >
-                          {project.icon && (
-                            <img
-                              src={project.icon}
-                              alt={project.title}
-                              className={`h-auto w-full object-contain transition-transform duration-200 ${
-                                hoveredProjectId === project.id ? "scale-105" : ""
-                              }`}
-                            />
-                          )}
-                          {project.iconSecondary && (
-                            <img
-                              src={project.iconSecondary}
-                              alt={`${project.title} secondary`}
-                              className={`absolute inset-0 h-full w-full object-contain transition-opacity duration-200 ${
-                                hoveredProjectId === project.id ? "opacity-100" : "opacity-0"
-                              }`}
-                            />
-                          )}
+                          <img
+                            src={project.icon || project.iconSecondary}
+                            alt={project.title}
+                            className="h-auto w-full object-contain"
+                          />
                         </button>
                       )}
                     </div>

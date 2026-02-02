@@ -294,7 +294,7 @@ function ArchitectureDesktop() {
                     }}
                   >
                     {(project.icon || project.iconSecondary) && (
-                      <button
+                        <button
                         type="button"
                         className="group relative bg-transparent p-0 border-0"
                         style={{ width: ICON_SIZE }}
@@ -305,29 +305,12 @@ function ArchitectureDesktop() {
                           setSelectedProjectId(project.id);
                           window.dispatchEvent(new CustomEvent("architecture-expanded-open"));
                         }}
-                        onMouseEnter={() => setHoveredProjectId(project.id)}
-                        onFocus={() => setHoveredProjectId(project.id)}
-                        onMouseLeave={() => setHoveredProjectId((current) => (current === project.id ? null : current))}
-                        onBlur={() => setHoveredProjectId((current) => (current === project.id ? null : current))}
                       >
-                        {project.icon && (
-                          <img
-                            src={project.icon}
-                            alt={project.title}
-                            className={`h-auto w-full object-contain transition-transform duration-200 ${
-                              hoveredProjectId === project.id ? "scale-105" : ""
-                            }`}
-                          />
-                        )}
-                        {project.iconSecondary && (
-                          <img
-                            src={project.iconSecondary}
-                            alt={`${project.title} secondary`}
-                            className={`absolute inset-0 h-full w-full object-contain transition-opacity duration-200 ${
-                              hoveredProjectId === project.id ? "opacity-100" : "opacity-0"
-                            }`}
-                          />
-                        )}
+                        <img
+                          src={project.icon || project.iconSecondary}
+                          alt={project.title}
+                          className="h-auto w-full object-contain"
+                        />
                       </button>
                     )}
                   </div>
