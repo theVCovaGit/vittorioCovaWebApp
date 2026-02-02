@@ -96,7 +96,7 @@ function FilmDesktop() {
     <div className="min-h-screen bg-[#fff3df] relative overflow-hidden">
       {loading && <LoadingSpinner />}
       <CreativeSectionFooter />
-      <div className="absolute top-[8rem] left-[5rem] h-[780px] flex items-start justify-start gap-8">
+      <div className="absolute top-[8rem] left-[7rem] h-[780px] flex items-start justify-start gap-8">
         {firstStrip.map((project, localIndex) => {
           if (!project || !project.icon) return null;
           return (
