@@ -72,9 +72,9 @@ export default function ContactMobile() {
         {/* Signature */}
         <div className="mb-4 flex justify-center">
           <img 
-            src="/assets/signatureLight.svg" 
+            src="/assets/signatureFull.svg" 
             alt="Vittorio Cova Signature" 
-            className="w-auto h-12"
+            className="w-auto h-16"
           />
         </div>
 
