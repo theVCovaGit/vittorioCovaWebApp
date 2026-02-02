@@ -91,27 +91,56 @@ function FilmDesktop() {
   }, [projects]);
   // First strip only (no horizontal scroll); no film strip image; background #fff3df
   const firstStrip = projectStrips[0] ?? [];
+  const firstProject = firstStrip.find(Boolean) ?? null;
 
   return (
     <div className="min-h-screen bg-[#fff3df] relative overflow-hidden">
       {loading && <LoadingSpinner />}
       <CreativeSectionFooter />
-      <div className="absolute top-[8rem] left-[7rem] h-[780px] flex items-start justify-start gap-8">
-        {firstStrip.map((project, localIndex) => {
-          if (!project || !project.icon) return null;
-          return (
-            <div
-              key={project.id}
-              className="relative w-[320px] max-w-[340px] aspect-[2.8252/4.2379] overflow-hidden flex-shrink-0"
-            >
-              <img
-                src={project.icon}
-                alt={project.title}
-                className="w-full h-full object-contain"
-              />
-            </div>
-          );
-        })}
+      <div className="absolute top-[8rem] left-[7rem] flex items-start justify-start gap-12">
+        {/* Poster strip */}
+        <div className="h-[780px] flex items-start justify-start gap-8 flex-shrink-0">
+          {firstStrip.map((project, localIndex) => {
+            if (!project || !project.icon) return null;
+            return (
+              <div
+                key={project.id}
+                className="relative w-[320px] max-w-[340px] aspect-[2.8252/4.2379] overflow-hidden flex-shrink-0"
+              >
+                <img
+                  src={project.icon}
+                  alt={project.title}
+                  className="w-full h-full object-contain"
+                />
+              </div>
+            );
+          })}
+        </div>
+        {/* Text block: year, title, registration, synopsis, length, WATCH FREE */}
+        {firstProject && (
+          <div className="flex flex-col text-[#524b44] max-w-[420px] pt-0">
+            {firstProject.year && (
+              <span className="font-electrolize text-base">{firstProject.year}</span>
+            )}
+            <h1 className="font-microextend font-bold text-2xl uppercase tracking-wider mt-2 leading-tight">
+              {firstProject.title}
+            </h1>
+            {firstProject.registration && (
+              <span className="font-microextend text-sm mt-1">{firstProject.registration}</span>
+            )}
+            {firstProject.synapsis && (
+              <p className="font-electrolize text-base leading-relaxed mt-6">
+                {firstProject.synapsis}
+              </p>
+            )}
+            {firstProject.length && (
+              <span className="font-electrolize text-base mt-6">{firstProject.length}</span>
+            )}
+            <span className="font-blurlight font-bold text-3xl uppercase tracking-wide mt-12">
+              WATCH FREE
+            </span>
+          </div>
+        )}
       </div>
     </div>
   );
