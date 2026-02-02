@@ -119,7 +119,7 @@ function FilmDesktop() {
         </div>
         {/* Text block: year, title, registration, synopsis, length, WATCH FREE */}
         {firstProject && (
-          <div className="flex flex-col text-[#524b44] max-w-[360px] pt-0">
+          <div className="flex flex-col text-[#524b44] max-w-[360px] pt-12">
             {firstProject.year && (
               <span className="font-electrolize text-sm">{firstProject.year}</span>
             )}
