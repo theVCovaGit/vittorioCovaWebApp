@@ -119,29 +119,29 @@ function FilmDesktop() {
         </div>
         {/* Text block: year, title, registration, synopsis, length, WATCH FREE */}
         {firstProject && (
-          <div className="flex flex-col text-[#524b44] max-w-[420px] pt-0">
+          <div className="flex flex-col text-[#524b44] max-w-[360px] pt-0">
             {firstProject.year && (
-              <span className="font-electrolize text-base">{firstProject.year}</span>
+              <span className="font-electrolize text-sm">{firstProject.year}</span>
             )}
-            <h1 className="font-microextend font-bold text-2xl uppercase tracking-wider mt-2 leading-tight">
+            <h1 className="font-microextend font-bold text-xl uppercase tracking-wider mt-1 leading-tight">
               {firstProject.title}
             </h1>
             {firstProject.registration && (
-              <span className="font-microextend text-sm mt-1">{firstProject.registration}</span>
+              <span className="font-microextend text-xs mt-0.5">{firstProject.registration}</span>
             )}
             {firstProject.synapsis && (
-              <p className="font-electrolize text-base leading-relaxed mt-6">
+              <p className="font-electrolize text-sm leading-snug mt-3">
                 {firstProject.synapsis}
               </p>
             )}
             {firstProject.length && (
-              <span className="font-electrolize text-base mt-6">{firstProject.length}</span>
+              <span className="font-electrolize text-sm mt-3">{firstProject.length}</span>
             )}
             <Link
               href="https://www.youtube.com/watch?v=wMNJeHijiRU"
               target="_blank"
               rel="noopener noreferrer"
-              className="font-blurlight font-bold text-3xl uppercase tracking-wide mt-12 ml-40 inline-block text-[#524b44] no-underline hover:opacity-80 transition-opacity"
+              className="font-blurlight font-bold text-2xl uppercase tracking-wide mt-6 ml-40 inline-block text-[#524b44] no-underline hover:opacity-80 transition-opacity"
             >
               WATCH FREE
             </Link>
