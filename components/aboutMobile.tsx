@@ -68,31 +68,31 @@ export default function AboutMobile() {
         <div className="mb-4">
           <div className="space-y-2 text-[0.55rem] leading-relaxed font-blurlight">
             <p>
-              The greatest moment in human history was not when man walked the Moon, but when <span className="text-[#fbe147] font-bold">God</span> walked the Earth.
+              The greatest moment in human history was not when man walked the Moon, but when <span className="text-[#fec776] font-bold">God</span> walked the Earth.
             </p>
             <p>
-              Tell yourself that pain is a reminder that you live, discomfort is <span className="text-[#fbe147] font-bold">Growth</span>.
+              Tell yourself that pain is a reminder that you live, discomfort is <span className="text-[#fec776] font-bold">Growth</span>.
             </p>
             <p>
-              If you have no <span className="text-[#fbe147] font-bold">Ideas</span>, there is no vision. If you have many ideas, there is still no vision.
+              If you have no <span className="text-[#fec776] font-bold">Ideas</span>, there is no vision. If you have many ideas, there is still no vision.
             </p>
             <p>
-              Genuine <span className="text-[#fbe147] font-bold">Passion</span> births success.
+              Genuine <span className="text-[#fec776] font-bold">Passion</span> births success.
             </p>
             <p>
-              <span className="text-[#fbe147] font-bold">Silence</span> is a beautiful thing.
+              <span className="text-[#fec776] font-bold">Silence</span> is a beautiful thing.
             </p>
             <p>
-              <span className="text-[#fbe147] font-bold">Nature</span> is Mother, it will serve as a sanctuary, offering both mental clarity and a wellspring of inspiration.
+              <span className="text-[#fec776] font-bold">Nature</span> is Mother, it will serve as a sanctuary, offering both mental clarity and a wellspring of inspiration.
             </p>
             <p>
-              Let <span className="text-[#fbe147] font-bold">Gratitude</span> nourish your dreams.
+              Let <span className="text-[#fec776] font-bold">Gratitude</span> nourish your dreams.
             </p>
             <p>
-              <span className="text-[#fbe147] font-bold">Live</span> the world, don&apos;t let it live you.
+              <span className="text-[#fec776] font-bold">Live</span> the world, don&apos;t let it live you.
             </p>
             <p>
-              Always be the <span className="text-[#fbe147] font-bold">Smile</span> that someone may need.
+              Always be the <span className="text-[#fec776] font-bold">Smile</span> that someone may need.
             </p>
           </div>
         </div>
