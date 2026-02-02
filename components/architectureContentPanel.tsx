@@ -245,6 +245,7 @@ export default function ArchitectureContentPanel({ isActive }: { isActive: boole
           <InfoTooltip message="Add the outline of the icon." />
         </div>
         <IconUpload onUpload={setIcon} currentIcon={icon} label="Icon #1" />
+        {/* Icon #2 – commented out; project can be submitted without it (iconSecondary remains optional in API)
         <div className="mt-4 mb-1 flex items-center gap-2 font-minecraft text-sm text-[#FFF3DF]">
           <span>Icon #2</span>
           <InfoTooltip message="Add the icon's fill." />
@@ -254,6 +255,7 @@ export default function ArchitectureContentPanel({ isActive }: { isActive: boole
           currentIcon={iconSecondary}
           label="Icon #2"
         />
+        */}
         <div className="mt-4 mb-1 flex items-center gap-2 font-minecraft text-sm text-[#FFF3DF]">
           <span>Project images</span>
           <InfoTooltip message="Add the project's images. Image #1 shows at the top; image #15 sits at the bottom." />
