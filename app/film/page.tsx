@@ -96,13 +96,13 @@ function FilmDesktop() {
     <div className="min-h-screen bg-[#fff3df] relative overflow-hidden">
       {loading && <LoadingSpinner />}
       <CreativeSectionFooter />
-      <div className="absolute top-[15rem] left-[5rem] h-[620px] flex items-start justify-start gap-6">
+      <div className="absolute top-[8rem] left-[5rem] h-[780px] flex items-start justify-start gap-8">
         {firstStrip.map((project, localIndex) => {
           if (!project || !project.icon) return null;
           return (
             <div
               key={project.id}
-              className="relative w-[260px] max-w-[280px] aspect-[2.8252/4.2379] overflow-hidden flex-shrink-0"
+              className="relative w-[320px] max-w-[340px] aspect-[2.8252/4.2379] overflow-hidden flex-shrink-0"
             >
               <img
                 src={project.icon}
