@@ -21,11 +21,13 @@ const animationTimings = [
     { delay: 2.5, duration: 0.4 },  // Component 4
   ];  
 
+// Nudge right so signature sits centered (same look, just shifted right a bit)
+const NUDGE_RIGHT_PX = 34;
 const componentPositions = [
-  { left: "calc(50% + 2px)", top: "50%" },   // Component 1
-  { left: "50%", top: "50%" },               // Component 2
-  { left: "calc(50% + 60px)", top: "55%" },  // Component 3
-  { left: "calc(50% + 250px)", top: "55%" }, // Component 4
+  { left: `calc(50% + 2px + ${NUDGE_RIGHT_PX}px)`, top: "50%" },   // Component 1
+  { left: `calc(50% + ${NUDGE_RIGHT_PX}px)`, top: "50%" },         // Component 2
+  { left: `calc(50% + 60px + ${NUDGE_RIGHT_PX}px)`, top: "55%" },  // Component 3
+  { left: `calc(50% + 250px + ${NUDGE_RIGHT_PX}px)`, top: "55%" }, // Component 4
 ];
 
 const viewBoxes = [
