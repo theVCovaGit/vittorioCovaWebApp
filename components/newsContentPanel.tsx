@@ -128,9 +128,6 @@ export default function NewsContentPanel({ isActive }: { isActive: boolean }) {
       <h2 className="text-[#FFF3DF] text-xl font-microextend font-bold">
         {editingId ? "Edit news item" : "Add news item"}
       </h2>
-      <p className="text-[#FFF3DF] font-minecraft text-sm mt-1">
-        Manage timeline content for the <a href="/news" className="text-[#fec776] underline hover:no-underline">/news</a> page.
-      </p>
       <div className="bg-[#554943] p-4 mt-4 text-black">
         <label className="block font-minecraft text-sm text-[#FFF3DF] mb-1">Date</label>
         <input
