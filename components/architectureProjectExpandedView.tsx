@@ -139,9 +139,9 @@ export default function ArchitectureProjectExpandedView({
         className="relative w-full h-full bg-transparent overflow-hidden"
         onClick={(e) => e.stopPropagation()}
       >
-        {/* Instagram-style Image Carousel - Below main header */}
+        {/* Instagram-style Image Carousel - Below main header (desktop: flush with 4.5rem header) */}
         <div 
-          className={`absolute ${isMobile ? '' : 'top-20'} left-0 right-0 bottom-0 overflow-y-auto scrollbar-hide`}
+          className={`absolute ${isMobile ? '' : 'top-[4.5rem]'} left-0 right-0 bottom-0 overflow-y-auto scrollbar-hide`}
           style={isMobile ? { 
             top: 'var(--mobile-header-height)',
             WebkitOverflowScrolling: 'touch',
@@ -160,7 +160,7 @@ export default function ArchitectureProjectExpandedView({
               }}
             >
               {project.images.map((image, index) => {
-                const imageHeight = isMobile ? `calc((100vh - var(--mobile-header-height)) / 2)` : 'calc(100vh - 5rem)';
+                const imageHeight = isMobile ? `calc((100vh - var(--mobile-header-height)) / 2)` : 'calc(100vh - 4.5rem)';
                 const isLoaded = loadedImages.has(index);
                 
                 return (
@@ -229,7 +229,7 @@ export default function ArchitectureProjectExpandedView({
             </div>
           ) : (
             <div 
-              className={`w-full ${isMobile ? '' : 'h-[calc(100vh-5rem)]'} bg-gray-200 flex items-center justify-center`}
+              className={`w-full ${isMobile ? '' : 'h-[calc(100vh-4.5rem)]'} bg-gray-200 flex items-center justify-center`}
               style={isMobile ? { height: 'calc(100vh - var(--mobile-header-height))' } : {}}
             >
               <div className="text-gray-500 text-xl">No images available</div>
@@ -239,7 +239,7 @@ export default function ArchitectureProjectExpandedView({
 
         {/* Project Details Overlay */}
         <div 
-          className={`absolute ${isMobile ? '' : 'top-20'} left-0 right-0 bottom-0 pointer-events-none z-20`}
+          className={`absolute ${isMobile ? '' : 'top-[4.5rem]'} left-0 right-0 bottom-0 pointer-events-none z-20`}
           style={isMobile ? { top: 'var(--mobile-header-height)' } : {}}
         >
           {/* Project Name and Year in Rectangle (brown bar). Mobile: align to S. Desktop /architecture only: align left edge to "V" in VITTORIO; dimensions unchanged */}
