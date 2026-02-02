@@ -81,7 +81,7 @@ export default function Header() {
       {sectionLabel && (
         <button
           type="button"
-          className="font-blurlight text-xl font-bold uppercase tracking-wide bg-transparent border-0 cursor-pointer hover:opacity-90 transition-opacity p-0 mt-0.5 self-start relative z-[10004] pointer-events-auto"
+          className="font-blurlight text-xl font-bold uppercase tracking-wide bg-transparent border-0 cursor-pointer hover:opacity-90 transition-opacity p-0 -mt-2 self-start relative z-[10004] pointer-events-auto leading-tight"
           style={{
             color: "#fff3df",
             marginLeft: "calc(var(--vittorio-v-left, 2rem) - 2rem)",
