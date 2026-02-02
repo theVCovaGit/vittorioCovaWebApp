@@ -67,7 +67,7 @@ export default function AboutMobile() {
         </div>
 
         {/* Philosophical Thoughts Section */}
-        <div className="mb-4">
+        <div className="mb-4 pl-4">
           <div className="space-y-2 text-[0.55rem] leading-relaxed font-blurlight">
             <p>
               The greatest moment in human history was not when man walked the Moon, but when <span className="text-[#fec776] font-bold">God</span> walked the Earth.
