@@ -270,13 +270,13 @@ export default function ArchitectureProjectExpandedView({
                 : { left: "var(--vittorio-v-left, 3rem)", bottom: "55vh" }
             }
           >
-            <div className={`text-[#fbef56] font-electrolize font-bold ${isMobile ? 'text-sm' : 'text-xl'}`}>
+            <div className={`text-[#524b44] font-microextend font-bold ${isMobile ? 'text-sm' : 'text-xl'}`}>
               {project.city.toUpperCase()}
             </div>
-            <div className={`text-[#fff5e0] font-blurlight font-bold mt-1 transform -translate-y-2 ${isMobile ? 'text-xl' : 'text-3xl'}`}>
+            <div className={`text-[#fff3df] font-blurlight font-bold mt-1 transform -translate-y-2 ${isMobile ? 'text-xl' : 'text-3xl'}`}>
               {project.country.toUpperCase()}
             </div>
-            <div className={`text-[#fbef56] font-electrolize font-bold transform ${isMobile ? 'mt-0 translate-y-2' : 'mt-1 translate-y-4'} ${isMobile ? 'text-xs' : 'text-lg'}`}>
+            <div className={`text-[#fff3df] font-electrolize font-bold transform ${isMobile ? 'mt-0 translate-y-2' : 'mt-1 translate-y-4'} ${isMobile ? 'text-xs' : 'text-lg'}`}>
               {project.category.toUpperCase()}
             </div>
           </div>
