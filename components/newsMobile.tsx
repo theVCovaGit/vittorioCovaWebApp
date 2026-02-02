@@ -70,32 +70,46 @@ export default function NewsMobile() {
         />
       </div>
 
-      {/* Timeline content - centered horizontally, from DB */}
-      <div className="relative flex flex-col items-center justify-center overflow-y-auto min-h-0 w-full px-4" style={{ paddingTop: "var(--mobile-header-height)", paddingBottom: "1rem" }}>
+      {/* News area only: fixed height between header and footer, scroll inside this area only (~4 items visible) */}
+      <div
+        className="absolute left-0 right-0 flex flex-col items-center w-full px-4 pt-12 overflow-hidden"
+        style={{
+          top: "var(--mobile-header-height)",
+          bottom: "21vh",
+          height: "calc(100vh - var(--mobile-header-height) - 21vh)",
+        }}
+      >
         {loading && (
-          <p className="text-[#a08e80] text-sm font-blurlight py-8 text-center w-full">Loading…</p>
+          <p className="text-[#a08e80] text-sm font-blurlight py-8 text-center w-full shrink-0">Loading…</p>
         )}
         {error && (
-          <p className="text-[#a08e80] text-sm font-blurlight py-8 text-center w-full">{error}</p>
+          <p className="text-[#a08e80] text-sm font-blurlight py-8 text-center w-full shrink-0">{error}</p>
         )}
         {!loading && !error && items.length === 0 && (
-          <p className="text-[#a08e80] text-sm font-blurlight py-8 text-center w-full">No news yet.</p>
+          <p className="text-[#a08e80] text-sm font-blurlight py-8 text-center w-full shrink-0">No news yet.</p>
         )}
         {!loading && !error && items.length > 0 && (
-          <div className="flex flex-col items-center w-full max-w-lg mx-auto text-center">
+          <div
+            className="flex flex-col items-center w-full max-w-lg mx-auto text-center overflow-y-auto min-h-0 flex-1 pb-4"
+            style={{ WebkitOverflowScrolling: "touch" }}
+          >
             {items.map((item) => (
               <div
                 key={item.id}
-                className="flex flex-col items-center w-full py-4 relative z-10 text-center"
+                className="flex flex-col items-center justify-center w-full relative z-10 text-center shrink-0 py-4 px-2"
+                style={{
+                  // Each item = exactly 1/4 of viewport so only 4 visible; 5th and below require scroll
+                  height: "calc((100vh - var(--mobile-header-height) - 21vh - 3rem) / 4)",
+                }}
               >
-                <div className="text-[#a08e80] font-blurlight text-xs font-semibold mb-1 w-full text-center">
+                <div className="text-[#a08e80] font-blurlight text-sm font-semibold mb-1 w-full text-center">
                   {item.date}
                 </div>
-                <div className="text-[#a08e80] font-blurlight text-base font-bold mb-1.5 w-full text-center">
+                <div className="text-[#a08e80] font-blurlight text-lg font-bold mb-1.5 w-full text-center">
                   {item.title}
                 </div>
                 {item.description && (
-                  <div className="text-[#a08e80] font-blurlight text-[10px] font-normal leading-relaxed max-w-md mx-auto text-center">
+                  <div className="text-[#a08e80] font-blurlight text-xs font-normal leading-relaxed max-w-md mx-auto text-center line-clamp-4">
                     {item.description}
                   </div>
                 )}
