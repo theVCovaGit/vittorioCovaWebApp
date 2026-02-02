@@ -59,57 +59,40 @@ export default function AboutMobile() {
           maxHeight: 'calc(100vh - var(--mobile-header-height) - 26vh)'
         }}
       >
-        {/* Header */}
-        <div className="mb-4">
-        <div className="flex items-center gap-1 mb-1">
-          <span className="text-[0.55rem] font-blurlight">©</span>
-          <span className="text-[0.55rem] font-blurlight font-bold">VITTORIO COVA STUDIO</span>
-          <span className="text-[0.55rem] font-blurlight ml-auto">Est. 2025</span>
-        </div>
-        
         {/* Description */}
-        <p className="text-[0.55rem] mb-3 leading-tight font-blurlight">
-          A multi-faceted creative firm founded by Vittorio Cova in 2025.
+        <p className="text-[0.65rem] mb-4 leading-relaxed font-blurlight">
+          A multi-faceted architecture and creative design firm founded in 2025.
         </p>
-        
-        {/* Roles List */}
-        <ul className="space-y-0.5 text-[0.55rem] font-blurlight">
-            <li>- Architect</li>
-            <li>- Film director</li>
-            <li>- Designer</li>
-            <li>- Artist</li>
-          </ul>
-        </div>
 
         {/* Philosophical Thoughts Section */}
         <div className="mb-4">
-          <h2 className="text-[0.55rem] font-blurlight mb-2 text-[#a08e80]">
-            Quick thoughts I want to <span className="text-[#fbe147]">share:</span>
-          </h2>
-          <div className="space-y-2 text-[0.45rem] leading-tight font-blurlight">
+          <div className="space-y-2 text-[0.55rem] leading-relaxed font-blurlight">
             <p>
               The greatest moment in human history was not when man walked the Moon, but when <span className="text-[#fbe147] font-bold">God</span> walked the Earth.
             </p>
             <p>
-              Tell yourself that pain is a reminder that you live, discomfort is <span className="text-[#fbe147] font-bold">growth</span>, and a privilege.
+              Tell yourself that pain is a reminder that you live, discomfort is <span className="text-[#fbe147] font-bold">Growth</span>.
             </p>
             <p>
-              If you have no <span className="text-[#fbe147] font-bold">ideas</span>, there is no project. If you have many ideas, there is still no project.
+              If you have no <span className="text-[#fbe147] font-bold">Ideas</span>, there is no vision. If you have many ideas, there is still no vision.
             </p>
             <p>
-              True <span className="text-[#fbe147] font-bold">passion</span> glues together teamwork. Genuine connections are the oxygen that catalyze success.
+              Genuine <span className="text-[#fbe147] font-bold">Passion</span> births success.
             </p>
             <p>
-              Silence is a <span className="text-[#fbe147] font-bold">beautiful</span> thing.
+              <span className="text-[#fbe147] font-bold">Silence</span> is a beautiful thing.
             </p>
             <p>
-              <span className="text-[#fbe147] font-bold">Nature</span> is Mother, it will serve as a <span className="text-[#fbe147] font-bold">sanctuary</span>, offering both mental clarity and a wellspring of inspiration.
+              <span className="text-[#fbe147] font-bold">Nature</span> is Mother, it will serve as a sanctuary, offering both mental clarity and a wellspring of inspiration.
             </p>
             <p>
-              Let <span className="text-[#fbe147] font-bold">gratitude</span> nourish your passions. <span className="text-[#fbe147] font-bold">Live</span> the world, don&apos;t let it live you.
+              Let <span className="text-[#fbe147] font-bold">Gratitude</span> nourish your dreams.
             </p>
             <p>
-              Even if it&apos;s hard, be the <span className="text-[#fbe147] font-bold">smile</span> that someone may need.
+              <span className="text-[#fbe147] font-bold">Live</span> the world, don&apos;t let it live you.
+            </p>
+            <p>
+              Always be the <span className="text-[#fbe147] font-bold">Smile</span> that someone may need.
             </p>
           </div>
         </div>

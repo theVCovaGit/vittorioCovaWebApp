@@ -20,7 +20,7 @@ type Props = {
           ${scale}
           
           ${fontSize}
-          text-[#F7E32D]
+          text-[#fec776]
           font-blurlight
           font-medium
           leading-none
