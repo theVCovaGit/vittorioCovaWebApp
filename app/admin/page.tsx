@@ -3,14 +3,14 @@
 import { useState, useEffect } from "react";
 import ArchitectureContentPanel from "@/components/architectureContentPanel";
 // import ProductDesignContentPanel from "@/components/productDesignContentPanel"; // Section not active
-import ArtContentPanel from "@/components/artContentPanel"; 
-import FilmContentPanel from "@/components/filmContentPanel"; 
-
+import ArtContentPanel from "@/components/artContentPanel";
+import FilmContentPanel from "@/components/filmContentPanel";
+import NewsContentPanel from "@/components/newsContentPanel";
 
 const AdminPage = () => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [password, setPassword] = useState("");
-  const [activePanel, setActivePanel] = useState<"architecture" | "art" | "film" | null>(null);
+  const [activePanel, setActivePanel] = useState<"architecture" | "art" | "film" | "news" | null>(null);
 
   const hardcodedPassword = "123";
 
@@ -58,7 +58,7 @@ const AdminPage = () => {
     <div className="min-h-screen bg-[#554943] text-[#19333F] px-6 md:px-12 lg:px-24 mt-[10rem] sm:mt-[12rem] md:mt-[14rem] pb-28 sm:pb-32">
       <h1 className="font-blurlight text-black text-2xl font-bold">Welcome back Vittorio</h1>
       
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-4">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mt-4">
         <button
           onClick={() => setActivePanel(activePanel === "architecture" ? null : "architecture")}
           className="font-blurlight bg-[#554943] border-2 border-black text-black py-3 px-6 rounded-md flex items-center gap-2"
@@ -89,6 +89,13 @@ const AdminPage = () => {
           <div className="w-3 h-3 rounded-full bg-[#2d2f38]"></div>
           Film
         </button>
+        <button
+          onClick={() => setActivePanel(activePanel === "news" ? null : "news")}
+          className="font-blurlight bg-[#554943] border-2 border-black text-black py-3 px-6 rounded-md flex items-center gap-2"
+        >
+          <div className="w-3 h-3 rounded-full bg-[#4a7c59]"></div>
+          News
+        </button>
       </div>
 
       {/* Content Panels */}
@@ -96,6 +103,7 @@ const AdminPage = () => {
       {/* <ProductDesignContentPanel isActive={activePanel === "productdesign"} /> */}
       <ArtContentPanel isActive={activePanel === "art"} />
       <FilmContentPanel isActive={activePanel === "film"} />
+      <NewsContentPanel isActive={activePanel === "news"} />
     </div>
   );
 };

@@ -169,6 +169,20 @@ export async function ensureTableExists(tableName: string, retries = 2): Promise
           `;
           break;
           
+        case 'news_items':
+          await sql`
+            CREATE TABLE IF NOT EXISTS news_items (
+              id SERIAL PRIMARY KEY,
+              date VARCHAR(100) NOT NULL,
+              title VARCHAR(255) NOT NULL,
+              description TEXT,
+              sort_order INTEGER DEFAULT 0,
+              created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+              updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+            )
+          `;
+          break;
+
         case 'blog_articles':
           await sql`
             CREATE TABLE IF NOT EXISTS blog_articles (
