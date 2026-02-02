@@ -70,6 +70,24 @@ export default function NewsMobile() {
         />
       </div>
 
+      {/* Monoliths - right above NEWS label, same treatment as fingerprint on About / hand on Contact */}
+      <div
+        className="fixed z-[1010] pointer-events-none flex justify-center"
+        style={{
+          left: "min(calc(var(--barcode-right, 100vw) + 3.5rem), calc(100vw - 4rem))",
+          bottom: "var(--barcode-bottom-offset, 80px)",
+          width: "80px",
+          transform: "translateY(calc(-100% - 9rem))",
+        }}
+      >
+        <img
+          src="/assets/monoliths.svg"
+          alt=""
+          className="h-auto max-h-[14vh] w-auto object-contain"
+          style={{ width: "min(44px, 12vw)" }}
+        />
+      </div>
+
       {/* News area only: fixed height between header and footer, scroll inside this area only (~4 items visible) */}
       <div
         className="absolute left-0 right-0 flex flex-col items-center w-full px-4 pt-12 overflow-hidden"
