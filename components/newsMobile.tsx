@@ -83,11 +83,6 @@ export default function NewsMobile() {
         )}
         {!loading && !error && items.length > 0 && (
           <div className="flex flex-col items-center w-full max-w-lg mx-auto text-center">
-            {/* Vertical dashed line - visual backbone */}
-            <div
-              className="absolute left-1/2 top-0 bottom-0 w-px -translate-x-1/2 border-l border-dashed border-[#a08e80]/40"
-              aria-hidden
-            />
             {items.map((item) => (
               <div
                 key={item.id}
