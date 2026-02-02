@@ -12,13 +12,12 @@ export default function Header() {
   const pathname = usePathname();
   const vittorioRef = useRef<HTMLSpanElement | null>(null);
 
+  // Section label below "VITTORIO COVA STUDIO" — only for creative sections, not for news/about/contact
   const sectionLabel =
     pathname === "/art" ? "ART" :
     pathname === "/film" ? "FILM" :
     pathname === "/architecture" ? "ARCHITECTURE" :
-    pathname === "/about" ? "ABOUT" :
-    pathname === "/contact" ? "CONTACT" :
-    pathname === "/news" ? "NEWS" : null;
+    null;
 
   // Measure "V" in VITTORIO for alignment (section label + architecture overlay)
   useEffect(() => {
