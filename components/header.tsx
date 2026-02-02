@@ -49,9 +49,11 @@ export default function Header() {
   const isCreative = noLine;
   const titleSize = isCreative ? "text-3xl" : "text-xl";
 
+  // Fixed height = about/contact/news height; art/architecture/film use same height, section label sits lower inside it
+  const headerHeight = "h-[4.5rem]";
   return (
-    <header className="fixed top-0 left-0 w-full z-[10002] !z-[10002] bg-[#554943] px-8 py-4 pointer-events-auto flex flex-col justify-center min-h-20">
-      <Link href="/" className="flex items-center no-underline cursor-pointer relative z-[10003] !z-[10003] pointer-events-auto ml-12 sm:ml-8 md:ml-4 lg:ml-0 w-fit">
+    <header className={`fixed top-0 left-0 w-full z-[10002] !z-[10002] bg-[#554943] px-8 pt-4 pointer-events-auto flex flex-col justify-start ${headerHeight} ${sectionLabel ? "pb-1" : "pb-4"}`}>
+      <Link href="/" className="flex items-center no-underline cursor-pointer relative z-[10003] !z-[10003] pointer-events-auto ml-12 sm:ml-8 md:ml-4 lg:ml-0 w-fit shrink-0">
         {/* Invisible spacer to shift text right */}
         <span className={`text-transparent font-blurlight font-bold uppercase tracking-wide pointer-events-none select-none opacity-0 ${titleSize}`}>
           VITTORIO 
@@ -79,7 +81,7 @@ export default function Header() {
       {sectionLabel && (
         <button
           type="button"
-          className="font-blurlight text-xl font-bold uppercase tracking-wide bg-transparent border-0 cursor-pointer hover:opacity-90 transition-opacity p-0 mt-1 self-start relative z-[10004] pointer-events-auto"
+          className="font-blurlight text-xl font-bold uppercase tracking-wide bg-transparent border-0 cursor-pointer hover:opacity-90 transition-opacity p-0 mt-0.5 self-start relative z-[10004] pointer-events-auto"
           style={{
             color: "#fff3df",
             marginLeft: "calc(var(--vittorio-v-left, 2rem) - 2rem)",
