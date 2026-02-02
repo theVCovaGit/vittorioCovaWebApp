@@ -60,9 +60,11 @@ export default function AboutMobile() {
         }}
       >
         {/* Description */}
-        <p className="text-[0.65rem] mb-4 leading-relaxed font-blurlight">
-          A multi-faceted architecture and creative design firm founded in 2025.
-        </p>
+        <div className="text-[0.65rem] mb-4 leading-relaxed font-blurlight">
+          <p>A multi-faceted architecture and</p>
+          <p>creative design firm</p>
+          <p>founded in 2025</p>
+        </div>
 
         {/* Philosophical Thoughts Section */}
         <div className="mb-4">
