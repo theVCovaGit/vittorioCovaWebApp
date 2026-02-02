@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useEffect } from "react";
+import Link from "next/link";
 import AboutLabel from "@/components/aboutLabel";
 
 export default function AboutMobile() {
@@ -44,7 +45,7 @@ export default function AboutMobile() {
         />
       </div>
 
-      {/* Fingerprint - right above the "t", capped so it stays on-screen on narrow viewports */}
+      {/* Fingerprint - right above the "t"; click navigates to /admin */}
       <div
         className="fixed z-[1010] pointer-events-none flex justify-center"
         style={{
@@ -54,12 +55,18 @@ export default function AboutMobile() {
           transform: "translateY(calc(-100% - 9rem))",
         }}
       >
-        <img
-          src="/assets/fingie.svg"
-          alt=""
-          className="h-auto max-h-[14vh] w-auto object-contain"
-          style={{ width: "min(44px, 12vw)" }}
-        />
+        <Link
+          href="/admin"
+          className="pointer-events-auto flex justify-center cursor-pointer"
+          aria-label="Go to admin"
+        >
+          <img
+            src="/assets/fingie.svg"
+            alt=""
+            className="h-auto max-h-[14vh] w-auto object-contain"
+            style={{ width: "min(44px, 12vw)" }}
+          />
+        </Link>
       </div>
 
       {/* Content - Left side - Constrained between header and footer */}
