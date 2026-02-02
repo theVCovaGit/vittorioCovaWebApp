@@ -273,13 +273,13 @@ export default function ArchitectureProjectExpandedView({
             </div>
           </div>
 
-          {/* Location (city, country, building type). Mobile: align to S. Desktop /architecture only: align left edge to "V" in VITTORIO; dimensions unchanged */}
+          {/* Location (city, country, building type). Mobile: align to S. Desktop: vh so proportion stays the same on every screen size */}
           <div 
-            className={`absolute ${isMobile ? 'top-[14vh]' : 'bottom-[24.25rem]'}`}
+            className={`absolute ${isMobile ? 'top-[14vh]' : ''}`}
             style={
               isMobile
                 ? { left: "var(--studio-s-left, 0.75rem)" }
-                : { left: "var(--vittorio-v-left, 3rem)" }
+                : { left: "var(--vittorio-v-left, 3rem)", bottom: "55vh" }
             }
           >
             <div className={`text-[#fbef56] font-electrolize font-bold ${isMobile ? 'text-sm' : 'text-xl'}`}>
