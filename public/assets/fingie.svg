@@ -3,12 +3,12 @@
   <defs>
     <style>
       .cls-1 {
-        fill: #fff3df;
+        fill: #a08e80;
         fill-rule: evenodd;
       }
 
       .cls-2 {
-        opacity: .5;
+        opacity: 1;
       }
     </style>
   </defs>

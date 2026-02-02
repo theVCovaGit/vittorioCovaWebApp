@@ -1,7 +1,6 @@
 "use client";
 
 import React, { useEffect } from "react";
-import InteractiveFingie from "@/components/interactiveFingie";
 import AboutLabel from "@/components/aboutLabel";
 
 export default function AboutMobile() {
@@ -30,7 +29,7 @@ export default function AboutMobile() {
 
   return (
     <div className="relative h-screen overflow-hidden bg-[#fff3df] text-[#a08e80] font-blurlight">
-      {/* About Label - Right side, rotated - aligned with barcode bottom - always to the right of barcode */}
+      {/* About Label - Right side, rotated - aligned with barcode bottom */}
       <div style={{ 
         position: 'fixed', 
         left: 'calc(var(--barcode-right, 100vw) + 3.5rem)',
@@ -45,9 +44,22 @@ export default function AboutMobile() {
         />
       </div>
 
-      {/* Fingerprint - Right side, much smaller */}
-      <div className="absolute -right-16 z-10 max-h-[40vh] overflow-visible scale-[0.5]" style={{ top: '15vh' }}>
-        <InteractiveFingie />
+      {/* Fingerprint - above ABOUT label on mobile; pushed up so label keeps its original position */}
+      <div
+        className="fixed z-[1010] pointer-events-none flex justify-end"
+        style={{
+          left: "min(calc(var(--barcode-right, 100vw) + 3.5rem), calc(100vw - 6rem))",
+          bottom: "var(--barcode-bottom-offset, 80px)",
+          transform: "translateY(calc(-100% - 2rem))",
+          marginBottom: "0",
+        }}
+      >
+        <img
+          src="/assets/fingie.svg"
+          alt=""
+          className="h-auto max-h-[14vh] w-auto object-contain"
+          style={{ width: "min(44px, 12vw)" }}
+        />
       </div>
 
       {/* Content - Left side - Constrained between header and footer */}
