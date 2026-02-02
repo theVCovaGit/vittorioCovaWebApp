@@ -1,7 +1,6 @@
 "use client";
 
 import React, { useEffect } from "react";
-import InteractiveHand from "@/components/interactiveHand";
 import ContactLabel from "@/components/contactLabel";
 
 export default function ContactMobile() {
@@ -45,9 +44,22 @@ export default function ContactMobile() {
         />
       </div>
 
-      {/* Interactive Hand - Right side, much smaller */}
-      <div className="absolute -right-16 z-10 max-h-[30vh] overflow-visible scale-[0.15]" style={{ top: '15vh' }}>
-        <InteractiveHand />
+      {/* Hand - right above the "t" of CONTACT, same treatment as fingerprint on About; 9rem above, same size as fingie */}
+      <div
+        className="fixed z-[1010] pointer-events-none flex justify-center"
+        style={{
+          left: "min(calc(var(--barcode-right, 100vw) + 3.5rem), calc(100vw - 4rem))",
+          bottom: "var(--barcode-bottom-offset, 80px)",
+          width: "80px",
+          transform: "translateY(calc(-100% - 9rem))",
+        }}
+      >
+        <img
+          src="/assets/hand.svg"
+          alt=""
+          className="h-auto max-h-[14vh] w-auto object-contain"
+          style={{ width: "min(44px, 12vw)" }}
+        />
       </div>
 
       {/* Content - Centered */}
