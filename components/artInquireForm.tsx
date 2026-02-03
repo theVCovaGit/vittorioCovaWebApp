@@ -62,11 +62,15 @@ export default function ArtInquireForm({ project, onClose }: ArtInquireFormProps
               </div>
             ) : null}
           </div>
-          {/* Desktop only: artwork image on the left, bigger */}
+          {/* Desktop only: artwork image on the left, slot = image size, no visible bars */}
           {artworkImage && (
-            <div className="hidden md:flex flex-1 min-h-0 px-6 pb-6 pt-0 overflow-hidden">
-              <div className="w-full h-full max-h-[70vh] rounded-sm overflow-hidden bg-[#e8e0d5]">
-                <img src={artworkImage} alt={displayTitle} className="w-full h-full object-contain" />
+            <div className="hidden md:flex flex-1 min-h-0 px-6 pb-6 pt-0 overflow-hidden items-center justify-center">
+              <div className="max-h-[70vh] w-fit h-fit inline-block">
+                <img
+                  src={artworkImage}
+                  alt={displayTitle}
+                  className="max-h-[70vh] w-auto h-auto object-contain block"
+                />
               </div>
             </div>
           )}
