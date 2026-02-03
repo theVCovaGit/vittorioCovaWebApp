@@ -104,7 +104,7 @@ export default function News() {
                 <div className="text-[#a08e80] font-blurlight text-xs font-bold relative z-[10001]">
                   {item.date}
                 </div>
-                <div className="text-[#a08e80] font-blurlight text-base font-bold relative z-[10001]">
+                <div className="text-[#a08e80] font-microextend text-base font-bold relative z-[10001]">
                   {item.title}
                 </div>
                 {item.description && (

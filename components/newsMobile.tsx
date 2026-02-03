@@ -123,7 +123,7 @@ export default function NewsMobile() {
                 <div className="text-[#a08e80] font-blurlight text-sm font-semibold mb-1 w-full text-center">
                   {item.date}
                 </div>
-                <div className="text-[#a08e80] font-blurlight text-lg font-bold mb-1.5 w-full text-center">
+                <div className="text-[#a08e80] font-microextend text-lg font-bold mb-1.5 w-full text-center">
                   {item.title}
                 </div>
                 {item.description && (
