@@ -96,7 +96,7 @@ export default function Contact() {
         </div>
 
         {/* Copyright */}
-        <div className="mt-2 text-sm text-center">
+        <div className="mt-2 text-sm text-center font-microextend">
           © Vittorio Cova Studio<br />
           &nbsp;&nbsp;All rights reserved.
         </div>

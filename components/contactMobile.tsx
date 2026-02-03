@@ -102,7 +102,7 @@ export default function ContactMobile() {
         </div>
 
         {/* Copyright */}
-        <div className="text-[0.5rem] font-blurlight">
+        <div className="text-[0.5rem] font-microextend">
           <div>
             © Vittorio Cova Studio<br />
             &nbsp;&nbsp;All rights reserved.
