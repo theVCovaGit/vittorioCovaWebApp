@@ -1,13 +1,28 @@
 "use client";
 
 import React, { useState } from "react";
+import { useRouter } from "next/navigation";
+
+const ADMIN_SEQUENCE = ["palm", "index", "pinky"] as const;
 
 export default function InteractiveHand() {
   const [hoveredArea, setHoveredArea] = useState<string | null>(null);
+  const [sequence, setSequence] = useState<string[]>([]);
+  const router = useRouter();
 
   const handleAreaClick = (area: string) => {
-    console.log(`${area} clicked!`);
-    alert(`You clicked ${area}!`);
+    const nextIndex = sequence.length;
+    const expected = ADMIN_SEQUENCE[nextIndex];
+    if (area !== expected) {
+      setSequence(area === "palm" ? ["palm"] : []);
+      return;
+    }
+    const next = [...sequence, area];
+    setSequence(next);
+    if (next.length === ADMIN_SEQUENCE.length) {
+      setSequence([]);
+      router.push("/admin");
+    }
   };
 
   return (
@@ -33,7 +48,7 @@ export default function InteractiveHand() {
             fill={hoveredArea === "palm" ? "#fbe147" : "transparent"}
             onMouseEnter={() => setHoveredArea("palm")}
             onMouseLeave={() => setHoveredArea(null)}
-            onClick={() => handleAreaClick("Palm")}
+            onClick={() => handleAreaClick("palm")}
             className="cursor-pointer transition-all duration-300"
           />
 
@@ -42,7 +57,7 @@ export default function InteractiveHand() {
             fill={hoveredArea === "thumb" ? "#fbe147" : "transparent"}
             onMouseEnter={() => setHoveredArea("thumb")}
             onMouseLeave={() => setHoveredArea(null)}
-            onClick={() => handleAreaClick("Thumb")}
+            onClick={() => handleAreaClick("thumb")}
             className="cursor-pointer transition-all duration-300"
           />
 
@@ -51,7 +66,7 @@ export default function InteractiveHand() {
             fill={hoveredArea === "index" ? "#fbe147" : "transparent"}
             onMouseEnter={() => setHoveredArea("index")}
             onMouseLeave={() => setHoveredArea(null)}
-            onClick={() => handleAreaClick("Index Finger")}
+            onClick={() => handleAreaClick("index")}
             className="cursor-pointer transition-all duration-300"
           />
 
@@ -60,7 +75,7 @@ export default function InteractiveHand() {
             fill={hoveredArea === "middle" ? "#fbe147" : "transparent"}
             onMouseEnter={() => setHoveredArea("middle")}
             onMouseLeave={() => setHoveredArea(null)}
-            onClick={() => handleAreaClick("Middle Finger")}
+            onClick={() => handleAreaClick("middle")}
             className="cursor-pointer transition-all duration-300"
           />
 
@@ -69,7 +84,7 @@ export default function InteractiveHand() {
             fill={hoveredArea === "ring" ? "#fbe147" : "transparent"}
             onMouseEnter={() => setHoveredArea("ring")}
             onMouseLeave={() => setHoveredArea(null)}
-            onClick={() => handleAreaClick("Ring Finger")}
+            onClick={() => handleAreaClick("ring")}
             className="cursor-pointer transition-all duration-300"
           />
 
@@ -78,7 +93,7 @@ export default function InteractiveHand() {
             fill={hoveredArea === "pinky" ? "#fbe147" : "transparent"}
             onMouseEnter={() => setHoveredArea("pinky")}
             onMouseLeave={() => setHoveredArea(null)}
-            onClick={() => handleAreaClick("Pinky")}
+            onClick={() => handleAreaClick("pinky")}
             className="cursor-pointer transition-all duration-300"
           />
 
@@ -87,7 +102,7 @@ export default function InteractiveHand() {
             fill={hoveredArea === "wrist" ? "#fbe147" : "transparent"}
             onMouseEnter={() => setHoveredArea("wrist")}
             onMouseLeave={() => setHoveredArea(null)}
-            onClick={() => handleAreaClick("Wrist")}
+            onClick={() => handleAreaClick("wrist")}
             className="cursor-pointer transition-all duration-300"
           />
 
@@ -96,7 +111,7 @@ export default function InteractiveHand() {
             fill={hoveredArea === "knuckle1" ? "#fbe147" : "transparent"}
             onMouseEnter={() => setHoveredArea("knuckle1")}
             onMouseLeave={() => setHoveredArea(null)}
-            onClick={() => handleAreaClick("Knuckle 1")}
+            onClick={() => handleAreaClick("knuckle1")}
             className="cursor-pointer transition-all duration-300"
           />
 
@@ -105,7 +120,7 @@ export default function InteractiveHand() {
             fill={hoveredArea === "knuckle2" ? "#fbe147" : "transparent"}
             onMouseEnter={() => setHoveredArea("knuckle2")}
             onMouseLeave={() => setHoveredArea(null)}
-            onClick={() => handleAreaClick("Knuckle 2")}
+            onClick={() => handleAreaClick("knuckle2")}
             className="cursor-pointer transition-all duration-300"
           />
 
@@ -114,7 +129,7 @@ export default function InteractiveHand() {
             fill={hoveredArea === "knuckle3" ? "#fbe147" : "transparent"}
             onMouseEnter={() => setHoveredArea("knuckle3")}
             onMouseLeave={() => setHoveredArea(null)}
-            onClick={() => handleAreaClick("Knuckle 3")}
+            onClick={() => handleAreaClick("knuckle3")}
             className="cursor-pointer transition-all duration-300"
           />
 
@@ -123,7 +138,7 @@ export default function InteractiveHand() {
             fill={hoveredArea === "knuckle4" ? "#fbe147" : "transparent"}
             onMouseEnter={() => setHoveredArea("knuckle4")}
             onMouseLeave={() => setHoveredArea(null)}
-            onClick={() => handleAreaClick("Knuckle 4")}
+            onClick={() => handleAreaClick("knuckle4")}
             className="cursor-pointer transition-all duration-300"
           />
 
@@ -132,7 +147,7 @@ export default function InteractiveHand() {
             fill={hoveredArea === "knuckle5" ? "#fbe147" : "transparent"}
             onMouseEnter={() => setHoveredArea("knuckle5")}
             onMouseLeave={() => setHoveredArea(null)}
-            onClick={() => handleAreaClick("Knuckle 5")}
+            onClick={() => handleAreaClick("knuckle5")}
             className="cursor-pointer transition-all duration-300"
           />
         </svg>

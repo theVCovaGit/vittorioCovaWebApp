@@ -11,7 +11,7 @@ export default function InteractiveMorse() {
   };
 
   return (
-    <div className="relative w-auto h-auto scale-[0.6]">
+    <div className="relative w-auto h-auto scale-[0.6] pointer-events-none">
       {/* Base morse code image */}
       <img 
         src="/assets/morse.svg" 
@@ -19,8 +19,8 @@ export default function InteractiveMorse() {
         className="w-[200px] sm:w-[250px] md:w-[300px] h-auto"
       />
       
-      {/* Interactive overlay */}
-      <div className="absolute inset-0">
+      {/* Overlay: non-interactive (morse code not clickable) */}
+      <div className="absolute inset-0 pointer-events-none">
         <svg
           xmlns="http://www.w3.org/2000/svg"
           viewBox="0 0 151.33 70.27"
