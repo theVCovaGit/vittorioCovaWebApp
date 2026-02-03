@@ -257,7 +257,7 @@ export default function ArchitectureProjectExpandedView({
               <div className={`text-[#fff3df] font-microextend font-bold tracking-wider uppercase leading-tight ${isMobile ? 'text-base' : 'text-lg'}`}>
                 {project.title.toUpperCase()}
               </div>
-              <div className={`text-[#fff3df] font-microextend font-bold -mt-1 leading-tight ${isMobile ? 'text-sm' : 'text-base'}`}>
+              <div className={`text-[#fff3df] font-microextend font-bold -mt-1 leading-tight ${isMobile ? 'text-[10px]' : 'text-[13px]'}`}>
                 {project.year || new Date().getFullYear()}
               </div>
             </div>
