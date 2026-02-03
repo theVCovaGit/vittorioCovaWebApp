@@ -1,6 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useRef, useState } from "react";
+import { createPortal } from "react-dom";
 // import SponsoredByLifeAnimation from "./sponsoredByLifeAnimation";
 import LoadingSpinner from "./loadingSpinner";
 import ArtInquireForm from "./artInquireForm";
@@ -270,11 +271,11 @@ export default function ArtProjectExpandedView({
         onClick={(e) => e.stopPropagation()}
       >
         <div
-          className="absolute top-0 bottom-0 w-[48%] bg-transparent overflow-hidden z-10"
-          style={{ left: "var(--vittorio-v-left, 3rem)" }}
+          className="absolute top-0 bottom-0 bg-transparent overflow-visible z-10 flex items-center justify-start"
+          style={{ left: "var(--vittorio-v-left, 3rem)", width: "fit-content", maxWidth: "48%" }}
         >
           {currentImage ? (
-            <div className="relative w-full h-full flex items-center justify-start">
+            <div className="relative h-full flex items-center justify-start">
               {project.images.length > 1 && (
                 <>
                   <button onClick={handlePreviousImage} className="absolute left-4 z-10 hover:opacity-80 transition-opacity bg-transparent border-0 p-0">
@@ -289,7 +290,7 @@ export default function ArtProjectExpandedView({
                 ref={desktopImageRef}
                 src={currentImage}
                 alt={project.title}
-                className="w-[130%] max-h-[80%] object-contain object-left"
+                className="max-h-[80vh] w-auto object-contain object-left block"
                 onLoad={measureImage}
               />
             </div>
@@ -300,7 +301,7 @@ export default function ArtProjectExpandedView({
         <div className="absolute left-0 right-0 top-0 bottom-0 bg-[#FFF3DF] overflow-hidden">
           <div
             className="h-full pl-8 md:pl-12 pr-8 md:pr-12 pt-28 md:pt-40 pb-8 md:pb-12 flex flex-col items-start"
-            style={{ marginLeft: imageRect != null ? `calc(${imageRect.right}px - ${DESKTOP_TEXT_OFFSET_FROM_IMAGE_RIGHT_REM}rem)` : `calc(var(--vittorio-v-left, 3rem) + 48% - ${DESKTOP_TEXT_OFFSET_FROM_IMAGE_RIGHT_REM}rem)` }}
+            style={{ marginLeft: imageRect != null ? `calc(${imageRect.right}px + 3rem)` : "calc(var(--vittorio-v-left, 3rem) + 3rem)" }}
           >
             <h1 className="text-[#4A413C] font-blurlight font-bold text-xl md:text-2xl uppercase tracking-wider leading-tight">{project.title}</h1>
             <div className="leading-tight mt-1">
@@ -322,18 +323,22 @@ export default function ArtProjectExpandedView({
         </div>
       </div>
 
-      {showInquireForm && project && (
-        <ArtInquireForm
-          project={{
-            title: project.title,
-            collection: project.collection,
-            author: project.author,
-            icon: project.icon,
-            images: project.images,
-          }}
-          onClose={() => setShowInquireForm(false)}
-        />
-      )}
+      {showInquireForm && project && typeof document !== "undefined" &&
+        createPortal(
+          <div className="fixed inset-0 z-[10001]" style={{ isolation: "isolate" }}>
+            <ArtInquireForm
+              project={{
+                title: project.title,
+                collection: project.collection,
+                author: project.author,
+                icon: project.icon,
+                images: project.images,
+              }}
+              onClose={() => setShowInquireForm(false)}
+            />
+          </div>,
+          document.body
+        )}
     </div>
   );
 }

@@ -43,7 +43,7 @@ export default function ArtInquireForm({ project, onClose }: ArtInquireFormProps
         className="relative w-full flex-1 min-h-0 flex flex-col overflow-hidden"
         onClick={(e) => e.stopPropagation()}
       >
-        <div className="flex flex-wrap gap-2 md:gap-4 p-2 md:p-6 pb-1 md:pb-4 flex-shrink-0">
+        <div className="flex flex-wrap gap-2 md:gap-4 p-2 md:p-6 pb-1 md:pb-4 flex-shrink-0 items-start">
           <div className="min-w-0 flex-1">
             <p className="text-[#524b44] font-electrolize text-[10px] md:text-sm mb-0.5">Inquire about:</p>
             <h2 className="text-[#4A413C] font-blurlight font-bold text-base md:text-xl uppercase tracking-wider leading-tight">
@@ -53,6 +53,14 @@ export default function ArtInquireForm({ project, onClose }: ArtInquireFormProps
               <p className="text-[#4A413C]/80 font-blurlight text-xs md:text-sm mt-1 md:mt-2">By {(project.author || "").trim()}</p>
             ) : null}
           </div>
+          <button
+            type="button"
+            onClick={onClose}
+            className="shrink-0 text-[#4A413C] font-blurlight text-lg md:text-xl hover:opacity-70 transition-opacity bg-transparent border-0 cursor-pointer p-1"
+            aria-label="Close"
+          >
+            ×
+          </button>
           {thumbnail ? (
             <div className="w-14 h-14 md:w-20 md:h-20 flex-shrink-0 rounded-sm overflow-hidden bg-[#e8e0d5]">
               <img src={thumbnail} alt="" className="w-full h-full object-cover" />
