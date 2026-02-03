@@ -22,10 +22,9 @@ interface ArchitectureProject {
   page?: number;
 }
 
+/** Grid matches admin "Project position": 13 columns × 7 rows, positions 1–91. Equal x and y separation. */
 const GRID_COLUMNS = 13;
 const GRID_ROWS = 7;
-const GRID_SPREAD_X = 1.25;
-const GRID_SPREAD_Y = 1.3;
 
 const SCROLL_GRID_BOUNDS = {
   top: "13%",
@@ -57,12 +56,8 @@ const getAbsolutePlacement = (position?: number) => {
   const safeIndex = Math.max(0, (position ?? 1) - 1);
   const column = (safeIndex % GRID_COLUMNS) + 1;
   const row = Math.floor(safeIndex / GRID_COLUMNS) + 1;
-
-  const leftBase = ((column - 0.5) / GRID_COLUMNS) * 100;
-  const topBase = ((row - 0.5) / GRID_ROWS) * 100;
-  const leftPercent = clamp(50 + (leftBase - 50) * GRID_SPREAD_X, 0, 100);
-  const topPercent = clamp(50 + (topBase - 50) * GRID_SPREAD_Y, 0, 100);
-
+  const leftPercent = ((column - 0.5) / GRID_COLUMNS) * 100;
+  const topPercent = ((row - 0.5) / GRID_ROWS) * 100;
   return {
     left: `${leftPercent}%`,
     top: `${topPercent}%`,
@@ -280,7 +275,7 @@ function ArchitectureDesktop() {
                 className="h-[500px] w-auto object-contain"
               />
               */}
-              <div className="h-[500px] w-auto min-w-[400px] aspect-[1080/421] shrink-0" aria-hidden />
+              <div className="h-[720px] w-auto min-w-[576px] aspect-[1080/421] shrink-0" aria-hidden />
             </div>
             
             {/* Architecture Projects positioned inside the scroll based on their position data */}
@@ -342,7 +337,7 @@ function ArchitectureDesktop() {
             style={{ transform: "scaleX(-1)" }}
           />
           */}
-          <div className="h-[500px] w-auto min-w-[400px] aspect-[1080/421] shrink-0 flex-shrink-0" aria-hidden />
+          <div className="h-[720px] w-auto min-w-[576px] aspect-[1080/421] shrink-0 flex-shrink-0" aria-hidden />
         </div>
       </div>
 
