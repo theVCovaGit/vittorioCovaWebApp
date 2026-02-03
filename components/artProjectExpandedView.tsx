@@ -217,10 +217,10 @@ export default function ArtProjectExpandedView({
               <h1 className="text-[#4A413C] font-blurlight font-bold text-lg uppercase tracking-wider leading-tight">{project.title}</h1>
               <div className="leading-tight mt-0.5">
                 {materialDimensionsLine(project) ? (
-                  <p className="text-[#4A413C]/80 font-blurlight text-xs m-0 leading-tight">{materialDimensionsLine(project)}</p>
+                  <p className="text-[#4A413C]/80 font-electrolize text-xs m-0 leading-tight">{materialDimensionsLine(project)}</p>
                 ) : null}
                 {(project.medium || "").trim() ? (
-                  <p className="text-[#4A413C]/80 font-blurlight text-xs m-0 leading-tight">Medium - {(project.medium || "").trim()}</p>
+                  <p className="text-[#4A413C]/80 font-electrolize text-xs m-0 leading-tight">Medium - {(project.medium || "").trim()}</p>
                 ) : null}
                 {(project.author || "").trim() ? (
                   <p className="text-[#4A413C]/80 font-blurlight text-xs m-0 mt-4 leading-tight">By {(project.author || "").trim()}</p>
