@@ -1,7 +1,8 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import SponsoredByLifeAnimation from "./sponsoredByLifeAnimation";
+// import SponsoredByLifeAnimation from "./sponsoredByLifeAnimation";
+import LoadingSpinner from "./loadingSpinner";
 import ArtInquireForm from "./artInquireForm";
 
 interface ArtProject {
@@ -127,9 +128,10 @@ export default function ArtProjectExpandedView({
     }
   }, [projectId, onClose]);
 
-  // Show loading screen until project data and all images are loaded
+  // Show loading spinner until project data and all images are loaded
   if (loading) {
-    return <SponsoredByLifeAnimation />;
+    return <LoadingSpinner />;
+    // return <SponsoredByLifeAnimation />;
   }
 
   if (!project) {

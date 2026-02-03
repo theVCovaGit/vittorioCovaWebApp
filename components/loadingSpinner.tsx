@@ -3,7 +3,7 @@
 export default function LoadingSpinner() {
   return (
     <div
-      className="fixed inset-0 flex flex-col items-center justify-center gap-4 z-[9999] pointer-events-none"
+      className="fixed inset-0 flex flex-col items-center justify-center gap-4 z-[9999] pointer-events-none bg-[#fff3df]"
       style={{ top: 0, left: 0, right: 0, bottom: 0 }}
       aria-live="polite"
       aria-busy="true"

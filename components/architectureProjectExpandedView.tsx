@@ -2,7 +2,8 @@
 
 import { useEffect, useRef, useState } from "react";
 import { useIsMobile } from "@/hooks/useMediaQuery";
-import SponsoredByLifeAnimation from "./sponsoredByLifeAnimation";
+// import SponsoredByLifeAnimation from "./sponsoredByLifeAnimation";
+import LoadingSpinner from "./loadingSpinner";
 
 interface ArchitectureProject {
   id: number;
@@ -114,7 +115,8 @@ export default function ArchitectureProjectExpandedView({
 
   // Show loading animation only on initial load; once content has been shown, don’t show it again when scrolling
   if (loading && !hasShownContentRef.current) {
-    return <SponsoredByLifeAnimation />;
+    return <LoadingSpinner />;
+    // return <SponsoredByLifeAnimation />;
   }
 
   if (!project) {
