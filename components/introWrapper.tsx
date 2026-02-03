@@ -2,8 +2,7 @@
 
 import { useCallback, useState, useEffect, useLayoutEffect } from "react";
 import { motion } from "framer-motion";
-// import SignatureAnimation from "./signatureAnimation";
-import LoadingSpinner from "./loadingSpinner";
+import SignatureAnimation from "./signatureAnimation";
 import { useIsMobile } from "@/hooks/useMediaQuery";
 
 const CURSOR_LIGHT = "#fff3df";
@@ -106,12 +105,10 @@ export default function IntroWrapper({ children }: { children: React.ReactNode }
   return (
     <>
       {showIntro && (
-        <div className="fixed inset-0 z-[60000] bg-[#fff3df] flex items-center justify-center" data-intro-animation="true">
-          {/* Replaced signature animation with loading spinner */}
-          <LoadingSpinner />
-          {/* <div className="relative w-full h-full">
+        <div className="fixed inset-0 z-[60000] bg-[#554943] flex items-center justify-center" data-intro-animation="true">
+          <div className="relative w-full h-full">
             <SignatureAnimation />
-          </div> */}
+          </div>
         </div>
       )}
       {!isMobile && cursorVisible && (
