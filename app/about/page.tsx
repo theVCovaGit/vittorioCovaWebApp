@@ -51,56 +51,38 @@ export default function About() {
         <InteractiveFingie />
       </div>
 
-      {/* Text content in upper left */}
-      <div className="absolute top-[10rem] left-[4rem] text-[#a08e80] font-blurlight">
-        <div className="flex items-center gap-4 mb-4">
-          <span className="text-2xl">©</span>
-          <span className="text-2xl font-bold">VITTORIO COVA STUDIO</span>
-          <span className="text-xl ml-auto">Est. 2025</span>
-        </div>
-        
-        <p className="text-lg mb-6 leading-relaxed font-blurlight">
-          A multi-faceted creative firm founded by Vittorio Cova in 2025.
-        </p>
-        
-        <ul className="space-y-1 text-lg font-blurlight">
-          <li>- Architect</li>
-          <li>- Film director</li>
-          <li>- Designer</li>
-          <li>- Artist</li>
-        </ul>
-      </div>
-
-      {/* Philosophical thoughts in the middle */}
-      <div className="absolute top-[72%] left-[40%] transform -translate-x-1/2 -translate-y-1/2 text-[#a08e80] font-blurlight max-w-sm px-4 text-center z-[9999]">
-        <h2 className="text-sm font-bold mb-2 text-[#a08e80]">
-          Quick thoughts I want to <span className="text-[#fec776]">share:</span>
-        </h2>
-        <div className="space-y-1 text-sm leading-tight">
-          <p>
-            The greatest moment in human history was not when man walked the Moon, but when <span className="text-[#fec776] font-bold">God</span> walked the Earth.
-          </p>
-          <p>
-            Tell yourself that pain is a reminder that you live, discomfort is <span className="text-[#fec776] font-bold">growth</span>, and a privilege.
-          </p>
-          <p>
-            If you have no <span className="text-[#fec776] font-bold">ideas</span>, there is no project. If you have many ideas, there is still no project.
-          </p>
-          <p>
-            True <span className="text-[#fec776] font-bold">passion</span> glues together teamwork. Genuine connections are the oxygen that catalyze success.
-          </p>
-          <p>
-            Silence is a <span className="text-[#fec776] font-bold">beautiful</span> thing.
-          </p>
-          <p>
-            <span className="text-[#fec776] font-bold">Nature</span> is Mother, it will serve as a <span className="text-[#fec776] font-bold">sanctuary</span>, offering both mental clarity and a wellspring of inspiration.
-          </p>
-          <p>
-            Let <span className="text-[#fec776] font-bold">gratitude</span> nourish your passions. <span className="text-[#fec776] font-bold">Live</span> the world, don&apos;t let it live you.
-          </p>
-          <p>
-            Even if it&apos;s hard, be the <span className="text-[#fec776] font-bold">smile</span> that someone may need.
-          </p>
+      {/* Text content: left-aligned, 2rem from left (desktop only) */}
+      <div className="absolute left-8 top-[10rem] right-0 bottom-32 md:left-8">
+        <div className="max-w-[42rem] text-left">
+          <h1 className="text-[#726F6B] font-blurlight font-medium text-2xl md:text-3xl leading-snug mb-6">
+            A multi-faceted architecture and creative design firm founded in 2025
+          </h1>
+          <div className="text-[#726F6B] font-blurlight text-base md:text-lg leading-relaxed space-y-4">
+            <p>
+              The greatest moment in human history was not when man walked the Moon, but when <span className="text-[#D4A26C] font-medium">God</span> walked the Earth.
+            </p>
+            <p>
+              Tell yourself that pain is a reminder that you live, discomfort is <span className="text-[#D4A26C] font-medium">growth</span>, and a privilege.
+            </p>
+            <p>
+              If you have no <span className="text-[#D4A26C] font-medium">ideas</span>, there is no project. If you have many ideas, there is still no project.
+            </p>
+            <p>
+              True <span className="text-[#D4A26C] font-medium">passion</span> glues together teamwork. Genuine connections are the oxygen that catalyze success.
+            </p>
+            <p>
+              Silence is a <span className="text-[#D4A26C] font-medium">beautiful</span> thing.
+            </p>
+            <p>
+              <span className="text-[#D4A26C] font-medium">Nature</span> is Mother, it will serve as a <span className="text-[#D4A26C] font-medium">sanctuary</span>, offering both mental clarity and a wellspring of inspiration.
+            </p>
+            <p>
+              Let <span className="text-[#D4A26C] font-medium">gratitude</span> nourish your passions. <span className="text-[#D4A26C] font-medium">Live</span> the world, don&apos;t let it live you.
+            </p>
+            <p>
+              Even if it&apos;s hard, be the <span className="text-[#D4A26C] font-medium">smile</span> that someone may need.
+            </p>
+          </div>
         </div>
       </div>
     </main>
