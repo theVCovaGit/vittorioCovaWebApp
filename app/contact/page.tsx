@@ -49,12 +49,12 @@ export default function Contact() {
       </div>
 
       {/* Interactive Fingie SVG - Right side, lower position */}
-      <div className="absolute right-[7vw] top-[55%] transform -translate-y-1/2 z-[1002] max-h-[80vh] overflow-visible scale-[0.3]">
+      <div className="absolute right-[7vw] top-[47%] transform -translate-y-1/2 z-[1002] max-h-[80vh] overflow-visible scale-[0.3]">
         <InteractiveHand />
       </div>
 
       {/* Interactive Morse Code SVG - Below InteractiveHand */}
-      <div className="absolute right-[7vw] top-[75%] transform -translate-y-1/2 z-[1002] max-h-[80vh] overflow-visible scale-[1]">
+      <div className="absolute right-[7vw] top-[64%] transform -translate-y-1/2 z-[1002] max-h-[80vh] overflow-visible scale-[1]">
         <InteractiveMorse />
       </div>
 
