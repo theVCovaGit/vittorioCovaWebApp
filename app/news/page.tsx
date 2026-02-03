@@ -73,13 +73,13 @@ export default function News() {
 
       {/* News Timeline - fixed-height area, only 4 items visible; scroll only inside this area */}
       <div
-        className="absolute inset-0 flex flex-col items-center justify-center z-[10000] left-1/2 -translate-x-[36rem] translate-y-6 sm:-translate-x-[26rem] sm:translate-y-6 md:-translate-x-[36rem] md:translate-y-6 overflow-hidden"
+        className="absolute inset-0 flex flex-col items-center justify-center z-[10000] left-1/2 -translate-x-[36rem] translate-y-6 sm:-translate-x-[26rem] sm:translate-y-6 md:-translate-x-[36rem] md:translate-y-6 overflow-hidden pt-28"
         style={{ pointerEvents: "none" }}
       >
         <div
-          className="flex flex-col items-center space-y-10 max-w-lg px-4 overflow-y-auto min-h-0 w-full"
+          className="flex flex-col items-center space-y-5 max-w-lg px-4 overflow-y-auto min-h-0 w-full"
           style={{
-            maxHeight: "calc(4 * 8rem + 3 * 2.5rem)",
+            maxHeight: "calc(4 * 8rem + 3 * 1.25rem)",
             pointerEvents: "auto",
           }}
         >
