@@ -51,8 +51,8 @@ export default function About() {
         className="fixed z-[1002] overflow-visible hidden md:block origin-center"
         style={{
           left: "var(--about-o-center-x, 50%)",
-          top: "calc(var(--about-o-center-y, 50%) - 9rem)",
-          transform: "translate(-50%, -50%) scale(0.5)",
+          top: "calc(var(--about-o-center-y, 50%) - 12rem)",
+          transform: "translate(-50%, -50%) scale(0.85)",
         }}
       >
         <InteractiveFingie />
