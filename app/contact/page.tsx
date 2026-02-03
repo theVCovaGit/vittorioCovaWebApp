@@ -59,7 +59,7 @@ export default function Contact() {
       </div>
 
       
-      {/* One column: top and bottom blocks aligned on same axis, shifted left */}
+      {/* One column: contact info, signature in the middle, then locations & copyright; aligned axis, shifted left */}
       <div className="absolute inset-0 flex flex-col items-center pt-[12rem] text-[#a08e80] font-blurlight -translate-x-[18%]">
         {/* Contact Information */}
         <div className="flex flex-col items-center mb-4">
@@ -77,17 +77,17 @@ export default function Contact() {
           </div>
         </div>
 
-        {/* Signature */}
-        <div className="absolute top-[60%] left-1/2 -translate-x-1/2 -translate-y-1/2 z-[1001]">
+        {/* Signature - in the space between contact and locations, like mobile */}
+        <div className="py-12 flex justify-center">
           <img 
-            src="/assets/signatureLight.svg" 
+            src="/assets/signatureFull.svg" 
             alt="Vittorio Cova Signature" 
-            className="w-auto h-20 sm:h-24 md:h-28"
+            className="w-auto h-16 md:h-20"
           />
         </div>
 
         {/* Locations */}
-        <div className="absolute top-[70%] left-1/2 -translate-x-1/2 text-lg">
+        <div className="text-lg text-center">
           <span>Mexico City</span>
           <span className="mx-2">|</span>
           <span>Houston</span>
@@ -96,7 +96,7 @@ export default function Contact() {
         </div>
 
         {/* Copyright */}
-        <div className="absolute top-[78%] left-1/2 -translate-x-1/2 text-sm text-center">
+        <div className="mt-2 text-sm text-center">
           © Vittorio Cova Studio<br />
           &nbsp;&nbsp;All rights reserved.
         </div>
