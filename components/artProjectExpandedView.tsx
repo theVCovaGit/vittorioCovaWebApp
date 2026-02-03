@@ -260,12 +260,6 @@ export default function ArtProjectExpandedView({
           )}
         </div>
         <div className="absolute left-0 right-0 top-0 bottom-0 bg-[#FFF3DF] overflow-hidden">
-          <div className="absolute top-0 right-0 z-20">
-            <div className="h-20" />
-            <div className="flex justify-end pr-6 md:pr-12 pt-2">
-              <button type="button" className="text-[#4A413C] font-microextend font-bold tracking-wider uppercase cursor-pointer hover:opacity-80 transition-colors text-lg md:text-xl" onClick={handleClose}>ART</button>
-            </div>
-          </div>
           <div className="ml-[35%] h-full pl-28 md:pl-40 pr-8 md:pr-12 pt-6 md:pt-8 pb-8 md:pb-12">
             <div className="mt-6 md:mt-8 flex flex-wrap items-start justify-between gap-4 mb-0">
               <div className="min-w-0 flex-1">
