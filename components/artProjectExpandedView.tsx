@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 // import SponsoredByLifeAnimation from "./sponsoredByLifeAnimation";
 import LoadingSpinner from "./loadingSpinner";
 import ArtInquireForm from "./artInquireForm";
@@ -27,6 +27,9 @@ interface ArtProject {
   author?: string;
 }
 
+/** Desktop art expanded view: text block offset from image right edge (rem). Negative = text to the left of image right. Keeps proportions responsive across image dimensions. */
+const DESKTOP_TEXT_OFFSET_FROM_IMAGE_RIGHT_REM = 15;
+
 function materialDimensionsLine(p: ArtProject): string {
   const mat = (p.materials || "").trim();
   const dim = (p.dimensions || "").trim();
@@ -49,6 +52,8 @@ export default function ArtProjectExpandedView({
   const [loading, setLoading] = useState(true);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [showInquireForm, setShowInquireForm] = useState(false);
+  const desktopImageRef = useRef<HTMLImageElement | null>(null);
+  const [imageRect, setImageRect] = useState<{ right: number } | null>(null);
 
   useEffect(() => {
     const prev = document.body.style.overflow;
@@ -57,6 +62,30 @@ export default function ArtProjectExpandedView({
       document.body.style.overflow = prev;
     };
   }, []);
+
+  // Desktop only: measure image so text gap stays proportional to image width (responsive for any dimensions)
+  const measureImage = useCallback(() => {
+    const img = desktopImageRef.current;
+    if (!img || !img.complete) return;
+    const rect = img.getBoundingClientRect();
+    if (rect.width > 0 && rect.height > 0) {
+      setImageRect({ right: rect.right });
+    }
+  }, []);
+
+  useEffect(() => {
+    const img = desktopImageRef.current;
+    if (!img) return;
+    measureImage();
+    const ro = new ResizeObserver(measureImage);
+    ro.observe(img);
+    window.addEventListener("resize", measureImage);
+    return () => {
+      ro.disconnect();
+      window.removeEventListener("resize", measureImage);
+      setImageRect(null);
+    };
+  }, [currentImageIndex, project?.images?.length, measureImage]);
 
   // Helper function to preload images
   const preloadImages = (imageUrls: string[]): Promise<void> => {
@@ -256,7 +285,13 @@ export default function ArtProjectExpandedView({
                   </button>
                 </>
               )}
-              <img src={currentImage} alt={project.title} className="w-[130%] max-h-[80%] object-contain object-left" />
+              <img
+                ref={desktopImageRef}
+                src={currentImage}
+                alt={project.title}
+                className="w-[130%] max-h-[80%] object-contain object-left"
+                onLoad={measureImage}
+              />
             </div>
           ) : (
             <div className="w-full h-full flex items-center justify-center text-[#4A413C]/60 font-blurlight">No image available</div>
@@ -265,7 +300,7 @@ export default function ArtProjectExpandedView({
         <div className="absolute left-0 right-0 top-0 bottom-0 bg-[#FFF3DF] overflow-hidden">
           <div
             className="h-full pl-8 md:pl-12 pr-8 md:pr-12 pt-28 md:pt-40 pb-8 md:pb-12 flex flex-col items-start"
-            style={{ marginLeft: "calc(var(--vittorio-v-left, 3rem) + 48%)" }}
+            style={{ marginLeft: imageRect != null ? `calc(${imageRect.right}px - ${DESKTOP_TEXT_OFFSET_FROM_IMAGE_RIGHT_REM}rem)` : `calc(var(--vittorio-v-left, 3rem) + 48% - ${DESKTOP_TEXT_OFFSET_FROM_IMAGE_RIGHT_REM}rem)` }}
           >
             <h1 className="text-[#4A413C] font-blurlight font-bold text-xl md:text-2xl uppercase tracking-wider leading-tight">{project.title}</h1>
             <div className="leading-tight mt-1">
