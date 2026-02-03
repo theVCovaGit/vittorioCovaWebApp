@@ -260,7 +260,7 @@ export default function ArtProjectExpandedView({
           )}
         </div>
         <div className="absolute left-0 right-0 top-0 bottom-0 bg-[#FFF3DF] overflow-hidden">
-          <div className="ml-[35%] h-full pl-28 md:pl-40 pr-8 md:pr-12 pt-6 md:pt-8 pb-8 md:pb-12 flex flex-col items-start">
+          <div className="ml-[35%] h-full pl-8 md:pl-12 pr-8 md:pr-12 pt-28 md:pt-40 pb-8 md:pb-12 flex flex-col items-start">
             <h1 className="text-[#4A413C] font-blurlight font-bold text-xl md:text-2xl uppercase tracking-wider leading-tight">{project.title}</h1>
             <div className="leading-tight mt-1">
               {materialDimensionsLine(project) ? (
