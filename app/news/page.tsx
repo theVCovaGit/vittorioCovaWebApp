@@ -1,40 +1,61 @@
 "use client";
 
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useIsMobile } from "@/hooks/useMediaQuery";
 import NewsLabel from "@/components/newsLabel";
 import NewsMobile from "@/components/newsMobile";
 import InteractiveMosaics from "@/components/interactiveMosaics";
 
-
-
+type NewsItem = {
+  id: number;
+  date: string;
+  title: string;
+  description?: string;
+  sortOrder?: number;
+};
 
 const labelStyles = {
-    bottom: "bottom-[8vh] sm:bottom-[10vh] md:bottom-[27vh]",
-    right: "right-[8vw] sm:right-[12vw] md:right-[17.18vw]",
-    scale: "scale-[0.5] sm:scale-[0.7] md:scale-[0.55]",
-    fontSize: "text-[64px] sm:text-[84px] md:text-[90px]",
-  };
-  
-  
+  bottom: "bottom-[8vh] sm:bottom-[10vh] md:bottom-[27vh]",
+  right: "right-[8vw] sm:right-[12vw] md:right-[17.18vw]",
+  scale: "scale-[0.5] sm:scale-[0.7] md:scale-[0.55]",
+  fontSize: "text-[64px] sm:text-[84px] md:text-[90px]",
+};
+
 export default function News() {
   const isMobile = useIsMobile();
+  const [items, setItems] = useState<NewsItem[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    async function fetchNews() {
+      try {
+        const res = await fetch("/api/news");
+        if (!res.ok) throw new Error("Failed to fetch news");
+        const data = await res.json();
+        setItems(data.items ?? []);
+      } catch (e) {
+        setError(e instanceof Error ? e.message : "Failed to load news");
+      } finally {
+        setLoading(false);
+      }
+    }
+    fetchNews();
+  }, []);
 
   // Mobile version
   if (isMobile) {
     return <NewsMobile />;
   }
 
-  // Desktop version (original)
+  // Desktop version
   return (
     <main className="relative min-h-screen bg-[#fff3df] text-[#a08e80] font-blurlight overflow-hidden">
-        
-
       <div
         className="absolute"
         style={{
-          left: 'var(--barcode-left, 0)',
-          bottom: 'calc(var(--barcode-bottom-offset, 80px) - 1rem)',
+          left: "var(--barcode-left, 0)",
+          bottom: "calc(var(--barcode-bottom-offset, 80px) - 1rem)",
         }}
       >
         <NewsLabel
@@ -46,67 +67,53 @@ export default function News() {
         />
       </div>
 
-      {/* Interactive Fingie SVG - Right side, lower position */}
       <div className="absolute right-[4vw] top-[55%] transform -translate-y-1/2 z-[1002] max-h-[80vh] overflow-visible">
         <InteractiveMosaics />
       </div>
 
-      {/* News Timeline - Centered on vertical axis, positioned to the left */}
-      <div className="absolute inset-0 flex flex-col items-center justify-center z-[10000] left-1/2 -translate-x-[36rem] translate-y-6 sm:-translate-x-[26rem] sm:translate-y-6 md:-translate-x-[36rem] md:translate-y-6">
-        {/* This will be populated dynamically from database */}
-        {/* Example structure for news items */}
-        <div className="flex flex-col items-center space-y-10 max-w-lg px-4">
-          {/* News Item 1 */}
-          <div className="flex flex-col items-center space-y-1.5 text-left w-full">
-            <div className="text-[#a08e80] font-blurlight text-xs font-bold relative z-[10001]">
-              January 2026
-            </div>
-            <div className="text-[#a08e80] font-blurlight text-base font-bold relative z-[10001]">
-              VISTA HERMOSA 120
-            </div>
-            <div className="text-[#a08e80] font-blurlight text-[10px] font-normal leading-relaxed relative z-[10000]">
-              The project is set to break ground in January of 2026.
-            </div>
-          </div>
-
-          {/* News Item 2 */}
-          <div className="flex flex-col items-center space-y-1.5 text-left w-full">
-            <div className="text-[#a08e80] font-blurlight text-xs font-bold relative z-[10001]">
-              2025
-            </div>
-            <div className="text-[#a08e80] font-blurlight text-base font-bold relative z-[10001]">
-              FOUNDED
-            </div>
-            <div className="text-[#a08e80] font-blurlight text-[10px] font-normal leading-relaxed relative z-[10000]">
-              © Vittorio Cova Studio founded.
-            </div>
-          </div>
-
-          {/* News Item 3 */}
-          <div className="flex flex-col items-center space-y-1.5 text-left w-full">
-            <div className="text-[#a08e80] font-blurlight text-xs font-bold relative z-[10001]">
-              2024
-            </div>
-            <div className="text-[#a08e80] font-blurlight text-base font-bold relative z-[10001]">
-              AIA FORT WORTH MERIT AWARD 2024
-            </div>
-            <div className="text-[#a08e80] font-blurlight text-[10px] font-normal leading-relaxed relative z-[10000]">
-              Brickborne is awarded an AIA (American Institute of Architects) Merit Award in a Fort Worth student competition.
-            </div>
-          </div>
-
-          {/* News Item 4 */}
-          <div className="flex flex-col items-center space-y-1.5 text-left w-full">
-            <div className="text-[#a08e80] font-blurlight text-xs font-bold relative z-[10001]">
-              2023
-            </div>
-            <div className="text-[#a08e80] font-blurlight text-base font-bold relative z-[10001]">
-              WINECHESTER AWARDS
-            </div>
-            <div className="text-[#a08e80] font-blurlight text-[10px] font-normal leading-relaxed relative z-[10000]">
-              WINECHESTER (2022) a short film by Vittorio Cova wins numerous international awards including a San Diego Movie Award for best Thriller.
-            </div>
-          </div>
+      {/* News Timeline - fixed-height area, only 4 items visible; scroll only inside this area */}
+      <div
+        className="absolute inset-0 flex flex-col items-center justify-center z-[10000] left-1/2 -translate-x-[36rem] translate-y-6 sm:-translate-x-[26rem] sm:translate-y-6 md:-translate-x-[36rem] md:translate-y-6 overflow-hidden"
+        style={{ pointerEvents: "none" }}
+      >
+        <div
+          className="flex flex-col items-center space-y-10 max-w-lg px-4 overflow-y-auto min-h-0 w-full"
+          style={{
+            maxHeight: "calc(4 * 8rem + 3 * 2.5rem)",
+            pointerEvents: "auto",
+          }}
+        >
+          {loading && (
+            <p className="text-[#a08e80] font-blurlight text-sm py-4">Loading…</p>
+          )}
+          {error && (
+            <p className="text-[#a08e80] font-blurlight text-sm py-4">{error}</p>
+          )}
+          {!loading && !error && items.length === 0 && (
+            <p className="text-[#a08e80] font-blurlight text-sm py-4">No news yet.</p>
+          )}
+          {!loading &&
+            !error &&
+            items.length > 0 &&
+            items.map((item) => (
+              <div
+                key={item.id}
+                className="flex flex-col items-center space-y-1.5 text-left w-full shrink-0 py-2"
+                style={{ minHeight: "8rem" }}
+              >
+                <div className="text-[#a08e80] font-blurlight text-xs font-bold relative z-[10001]">
+                  {item.date}
+                </div>
+                <div className="text-[#a08e80] font-blurlight text-base font-bold relative z-[10001]">
+                  {item.title}
+                </div>
+                {item.description && (
+                  <div className="text-[#a08e80] font-blurlight text-[10px] font-normal leading-relaxed relative z-[10000]">
+                    {item.description}
+                  </div>
+                )}
+              </div>
+            ))}
         </div>
       </div>
     </main>
