@@ -79,9 +79,9 @@ export default function ArtInquireForm({ project, onClose }: ArtInquireFormProps
         {/* Form: mobile full width. Desktop: 3/4 width, pivot right (right edge fixed) */}
         <form
           onSubmit={handleSubmit}
-          className="flex-1 min-h-0 flex flex-col overflow-hidden p-3 md:p-6 md:pl-4 md:flex md:flex-col md:items-end"
+          className="flex-1 min-h-0 flex flex-col overflow-hidden p-3 md:p-6 md:pl-8 md:pr-6 md:flex md:flex-col"
         >
-          <div className="w-full md:w-[75%] md:max-w-[315px] flex-1 min-h-0 flex flex-col gap-2 md:gap-4 overflow-hidden">
+          <div className="w-full flex-1 min-h-0 flex flex-col gap-2 md:gap-4 overflow-hidden">
             <div className="flex-shrink-0">
               <label htmlFor="inq-name" className="block text-[#524b44] font-electrolize text-[10px] md:text-sm mb-0.5">
                 Name (required)
@@ -133,7 +133,7 @@ export default function ArtInquireForm({ project, onClose }: ArtInquireFormProps
               />
             </div>
           </div>
-          <div className="w-full md:w-[75%] md:max-w-[315px] flex-shrink-0 mt-3 md:mt-6 flex justify-center md:justify-start">
+          <div className="w-full flex-shrink-0 mt-3 md:mt-6 flex justify-center md:justify-start">
             <button
               type="submit"
               className="bg-[#524b44] hover:bg-[#48423c] text-[#FFF3DF] font-electrolize font-bold uppercase tracking-wider py-2 md:py-2.5 px-6 md:px-8 rounded-sm transition-colors text-xs md:text-sm"
