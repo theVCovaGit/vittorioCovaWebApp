@@ -260,26 +260,22 @@ export default function ArtProjectExpandedView({
           )}
         </div>
         <div className="absolute left-0 right-0 top-0 bottom-0 bg-[#FFF3DF] overflow-hidden">
-          <div className="ml-[35%] h-full pl-28 md:pl-40 pr-8 md:pr-12 pt-6 md:pt-8 pb-8 md:pb-12">
-            <div className="mt-6 md:mt-8 flex flex-wrap items-start justify-between gap-4 mb-0">
-              <div className="min-w-0 flex-1">
-                <h1 className="text-[#4A413C] font-blurlight font-bold text-xl md:text-2xl uppercase tracking-wider leading-tight">{project.title}</h1>
-                <div className="leading-tight mt-1">
-                  {materialDimensionsLine(project) ? (
-                    <p className="text-[#4A413C]/80 font-electrolize text-xs md:text-sm m-0 leading-tight">{materialDimensionsLine(project)}</p>
-                  ) : null}
-                  {(project.medium || "").trim() ? (
-                    <p className="text-[#4A413C]/80 font-electrolize text-xs md:text-sm m-0 leading-tight">Medium - {(project.medium || "").trim()}</p>
-                  ) : null}
-                  {(project.author || "").trim() ? (
-                    <p className="text-[#4A413C]/80 font-blurlight text-xs md:text-sm m-0 mt-4 leading-tight">By {(project.author || "").trim()}</p>
-                  ) : null}
-                </div>
-              </div>
-              <button type="button" className="bg-[#524b44] hover:bg-[#48423c] text-[#FFF3DF] font-blurlight py-2 px-10 rounded-sm transition-colors text-sm shrink-0 ml-auto mt-6" onClick={() => setShowInquireForm(true)}>Inquire now</button>
+          <div className="ml-[35%] h-full pl-28 md:pl-40 pr-8 md:pr-12 pt-6 md:pt-8 pb-8 md:pb-12 flex flex-col items-start">
+            <h1 className="text-[#4A413C] font-blurlight font-bold text-xl md:text-2xl uppercase tracking-wider leading-tight">{project.title}</h1>
+            <div className="leading-tight mt-1">
+              {materialDimensionsLine(project) ? (
+                <p className="text-[#4A413C]/80 font-electrolize text-xs md:text-sm m-0 leading-tight">{materialDimensionsLine(project)}</p>
+              ) : null}
+              {(project.medium || "").trim() ? (
+                <p className="text-[#4A413C]/80 font-electrolize text-xs md:text-sm m-0 leading-tight">Medium - {(project.medium || "").trim()}</p>
+              ) : null}
+              {(project.author || "").trim() ? (
+                <p className="text-[#4A413C]/80 font-blurlight text-xs md:text-sm m-0 mt-4 leading-tight">By {(project.author || "").trim()}</p>
+              ) : null}
             </div>
+            <button type="button" className="bg-[#524b44] hover:bg-[#48423c] text-[#FFF3DF] font-blurlight py-2 px-10 rounded-sm transition-colors text-sm shrink-0 mt-6" onClick={() => setShowInquireForm(true)}>Inquire now</button>
             {project.description && project.description.trim() && (
-              <div className="text-[#4A413C] font-electrolize text-xs md:text-sm leading-relaxed mb-8 max-w-lg"><p className="m-0">{project.description}</p></div>
+              <div className="text-[#4A413C] font-electrolize text-xs md:text-sm leading-relaxed mt-6 max-w-lg"><p className="m-0">{project.description}</p></div>
             )}
           </div>
         </div>
