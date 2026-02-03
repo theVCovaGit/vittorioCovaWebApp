@@ -51,13 +51,12 @@ export default function About() {
         <InteractiveFingie />
       </div>
 
-      {/* Text content: left-aligned, 3rem from left (desktop only) */}
-      <div className="absolute left-20 top-[8rem] right-0 bottom-32 md:left-20">
-        <div className="max-w-[42rem] text-left">
-          <h1 className="text-[#726F6B] font-blurlight font-medium text-2xl md:text-3xl leading-snug mb-6">
-            A multi-faceted architecture and creative design firm founded in 2025
-          </h1>
-          <div className="text-[#726F6B] font-blurlight text-base md:text-lg leading-relaxed space-y-4 pl-6 md:pl-10">
+      {/* Text content: left-aligned, responsive inset and spacing (desktop only) */}
+      <div className="absolute left-6 sm:left-12 md:left-20 top-[6rem] sm:top-[7rem] md:top-[8rem] right-4 sm:right-8 md:right-12 bottom-32 max-w-[42rem] text-left">
+        <h1 className="text-[#726F6B] font-blurlight font-medium text-xl sm:text-2xl md:text-3xl leading-snug mb-4 sm:mb-5 md:mb-6">
+          A multi-faceted architecture and creative design firm founded in 2025
+        </h1>
+        <div className="text-[#726F6B] font-blurlight text-sm sm:text-base md:text-lg leading-snug space-y-2 sm:space-y-2.5 md:space-y-3 pl-4 sm:pl-6 md:pl-10">
             <p>
               The greatest moment in human history was not when man walked the Moon, but when <span className="text-[#D4A26C] font-medium">God</span> walked the Earth.
             </p>
@@ -83,7 +82,6 @@ export default function About() {
               Even if it&apos;s hard, be the <span className="text-[#D4A26C] font-medium">smile</span> that someone may need.
             </p>
           </div>
-        </div>
       </div>
     </main>
   );
