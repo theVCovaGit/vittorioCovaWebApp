@@ -93,8 +93,17 @@ const ImageUpload = ({ onUpload, currentImage, type = "product" }: ImageUploadPr
   );
 };
 
+function swapSlots<T>(arr: T[], i: number, j: number): T[] {
+  if (i === j) return arr;
+  const copy = [...arr];
+  [copy[i], copy[j]] = [copy[j], copy[i]];
+  return copy;
+}
+
 const MultipleImagesUpload = ({ onUpload, currentImages = [] }: MultipleImagesUploadProps) => {
   const [loading, setLoading] = useState(false);
+  const [dragFromIndex, setDragFromIndex] = useState<number | null>(null);
+  const [dragOverIndex, setDragOverIndex] = useState<number | null>(null);
   const TOTAL_SLOTS = 15;
   const [files, setFiles] = useState<(File | null)[]>(Array(TOTAL_SLOTS).fill(null));
 
@@ -119,6 +128,25 @@ const MultipleImagesUpload = ({ onUpload, currentImages = [] }: MultipleImagesUp
   useEffect(() => {
     setPreviews(createPreviewArray(currentImages));
   }, [currentImages]);
+
+  const handleSwap = (fromIndex: number, toIndex: number) => {
+    if (fromIndex === toIndex) return;
+    const newPreviews = swapSlots(previews, fromIndex, toIndex);
+    const newFiles = swapSlots(files, fromIndex, toIndex);
+    setPreviews(newPreviews);
+    setFiles(newFiles);
+    const newCurrentImages = newPreviews.filter(
+      (p): p is string => !!p && currentImages.includes(p)
+    );
+    onUpload(newCurrentImages);
+    setDragFromIndex(null);
+    setDragOverIndex(null);
+  };
+
+  const clearDragState = () => {
+    setDragFromIndex(null);
+    setDragOverIndex(null);
+  };
 
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>, index: number) => {
     if (!event.target.files?.[0]) return;
@@ -172,25 +200,55 @@ const MultipleImagesUpload = ({ onUpload, currentImages = [] }: MultipleImagesUp
 
   return (
     <div className="mt-4">
+      <p className="text-[#FFF3DF]/80 text-xs mb-2 font-minecraft">
+        Drag an image onto another slot to swap their positions. Click Update below to save.
+      </p>
       <div className="relative h-64 w-full rounded-md border border-gray-300">
         <div className="grid h-full grid-cols-3 grid-rows-5 gap-1">
           {displayOrder.map((slotIndex) => {
             const preview = previews[slotIndex];
             const displayNumber = slotIndex + 1;
+            const isDragging = dragFromIndex === slotIndex;
+            const isDropTarget = dragOverIndex === slotIndex && dragFromIndex !== null;
 
             return (
             <div
               key={slotIndex}
-              className="relative h-full w-full overflow-hidden rounded-md border border-gray-300 bg-transparent"
+              draggable
+              onDragStart={() => setDragFromIndex(slotIndex)}
+              onDragEnd={clearDragState}
+              onDragEnter={() => setDragOverIndex(slotIndex)}
+              onDragOver={(e) => {
+                e.preventDefault();
+                e.dataTransfer.dropEffect = "move";
+              }}
+              onDragLeave={(e) => {
+                if (!e.currentTarget.contains(e.relatedTarget as Node)) setDragOverIndex(null);
+              }}
+              onDrop={(e) => {
+                e.preventDefault();
+                if (dragFromIndex !== null) handleSwap(dragFromIndex, slotIndex);
+              }}
+              className={`relative h-full w-full overflow-hidden rounded-md border-2 bg-transparent cursor-grab active:cursor-grabbing transition-colors ${
+                isDropTarget
+                  ? "border-[#FFF3DF] bg-[#FFF3DF]/20 ring-2 ring-[#FFF3DF]"
+                  : "border-gray-300"
+              } ${isDragging ? "opacity-50 ring-2 ring-[#FFF3DF]" : ""}`}
             >
+              {isDropTarget && (
+                <div className="pointer-events-none absolute inset-0 z-10 flex items-center justify-center bg-[#FFF3DF]/30 rounded-md">
+                  <span className="text-sm font-minecraft font-bold text-[#19333F]">Drop here</span>
+                </div>
+              )}
               {preview ? (
                 <img
                   src={preview}
                   alt={`Image ${displayNumber}`}
-                  className="pointer-events-none absolute inset-0 h-full w-full object-cover"
+                  className="pointer-events-none absolute inset-0 h-full w-full object-cover select-none"
+                  draggable={false}
                 />
               ) : (
-                <div className="pointer-events-none absolute inset-0 flex flex-col items-center justify-center text-gray-500">
+                <div className="pointer-events-none absolute inset-0 flex flex-col items-center justify-center text-gray-500 select-none">
                   <span className="text-xl font-semibold">#{displayNumber}</span>
                 </div>
               )}
