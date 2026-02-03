@@ -49,7 +49,7 @@ export default function AboutMobile() {
       <div
         className="fixed z-[1010] pointer-events-none flex justify-center"
         style={{
-          left: "min(calc(var(--barcode-right, 100vw) + 3.5rem), calc(100vw - 4rem))",
+          left: "min(calc(var(--barcode-right, 100vw) + 3.2rem), calc(100vw - 4.3rem))",
           bottom: "var(--barcode-bottom-offset, 80px)",
           width: "80px",
           transform: "translateY(calc(-100% - 9rem))",
