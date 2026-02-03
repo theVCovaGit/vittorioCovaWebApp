@@ -29,8 +29,8 @@ const GRID_SPREAD_Y = 1.3;
 
 const SCROLL_GRID_BOUNDS = {
   top: "13%",
-  left: "6%",
-  width: "88%",
+  left: "14%",
+  width: "80%",
   height: "74%",
 };
 
@@ -259,7 +259,7 @@ function ArchitectureDesktop() {
       {/* Film Strip Container */}
       <div 
         ref={filmStripRef}
-        className="film-strip-container absolute top-[48.3%] left-0 transform -translate-y-1/2 w-screen h-[700px] overflow-x-scroll overflow-y-hidden scrollbar-hide"
+        className="film-strip-container absolute top-[48.3%] left-0 transform -translate-y-1/2 w-screen h-[700px] overflow-x-scroll overflow-y-hidden scrollbar-hide pl-8 md:pl-12"
         style={{ 
           scrollBehavior: 'smooth',
           scrollbarWidth: 'none',
