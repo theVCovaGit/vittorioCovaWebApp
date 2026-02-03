@@ -92,7 +92,7 @@ export default function ArtInquireForm({ project, onClose }: ArtInquireFormProps
                 required
                 value={name}
                 onChange={(e) => setName(e.target.value)}
-                className="w-full px-2 md:px-3 py-1 md:py-2 bg-white border border-[#4A413C]/40 rounded-sm text-[#524b44] font-electrolize text-xs md:text-sm focus:outline-none focus:border-[#4A413C]"
+                className="w-full px-2 md:px-3 py-1 md:py-2 bg-transparent border border-[#4A413C]/40 rounded-sm text-[#524b44] font-electrolize text-xs md:text-sm focus:outline-none focus:border-[#4A413C]"
               />
             </div>
             <div className="flex-shrink-0">
@@ -105,7 +105,7 @@ export default function ArtInquireForm({ project, onClose }: ArtInquireFormProps
                 required
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                className="w-full px-2 md:px-3 py-1 md:py-2 bg-white border border-[#4A413C]/40 rounded-sm text-[#524b44] font-electrolize text-xs md:text-sm focus:outline-none focus:border-[#4A413C]"
+                className="w-full px-2 md:px-3 py-1 md:py-2 bg-transparent border border-[#4A413C]/40 rounded-sm text-[#524b44] font-electrolize text-xs md:text-sm focus:outline-none focus:border-[#4A413C]"
               />
             </div>
             <div className="flex-shrink-0">
@@ -117,7 +117,7 @@ export default function ArtInquireForm({ project, onClose }: ArtInquireFormProps
                 type="tel"
                 value={phone}
                 onChange={(e) => setPhone(e.target.value)}
-                className="w-full px-2 md:px-3 py-1 md:py-2 bg-white border border-[#4A413C]/40 rounded-sm text-[#524b44] font-electrolize text-xs md:text-sm focus:outline-none focus:border-[#4A413C]"
+                className="w-full px-2 md:px-3 py-1 md:py-2 bg-transparent border border-[#4A413C]/40 rounded-sm text-[#524b44] font-electrolize text-xs md:text-sm focus:outline-none focus:border-[#4A413C]"
               />
             </div>
             <div className="flex-1 min-h-0 flex flex-col">
@@ -129,7 +129,7 @@ export default function ArtInquireForm({ project, onClose }: ArtInquireFormProps
                 required
                 value={comments}
                 onChange={(e) => setComments(e.target.value)}
-                className="w-full flex-1 min-h-[4rem] md:min-h-[6rem] px-2 md:px-3 py-1 md:py-2 bg-white border border-[#4A413C]/40 rounded-sm text-[#524b44] font-electrolize text-xs md:text-sm focus:outline-none focus:border-[#4A413C] resize-none"
+                className="w-full flex-1 min-h-[4rem] md:min-h-[6rem] px-2 md:px-3 py-1 md:py-2 bg-transparent border border-[#4A413C]/40 rounded-sm text-[#524b44] font-electrolize text-xs md:text-sm focus:outline-none focus:border-[#4A413C] resize-none"
               />
             </div>
           </div>
