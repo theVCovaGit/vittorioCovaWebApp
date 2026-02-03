@@ -33,16 +33,17 @@ export default function About() {
       <div 
         className="absolute"
         style={{
-          right: 0,
+          left: 'var(--barcode-left, 0)',
           bottom: 'var(--barcode-bottom-offset, 80px)',
           transform: 'translateY(3vh)',
         }}
       >
         <AboutLabel
           bottom=""
-          right="right-[2vw] sm:right-[1vw] md:-right-[8.7vw]"
+          left="left-0"
           scale={labelStyles.scale}
           fontSize={labelStyles.fontSize}
+          transformOrigin="top left"
         />
       </div>
 
