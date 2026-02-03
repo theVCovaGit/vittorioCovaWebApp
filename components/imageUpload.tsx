@@ -1,5 +1,6 @@
 "use client";
 import { useEffect, useMemo, useState } from "react";
+import { XMarkIcon } from "@heroicons/react/24/solid";
 
 interface ImageUploadProps {
   onUpload: (url: string) => void;
@@ -143,6 +144,21 @@ const MultipleImagesUpload = ({ onUpload, currentImages = [] }: MultipleImagesUp
     setDragOverIndex(null);
   };
 
+  const handleDelete = (slotIndex: number, e: React.MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    const newPreviews = [...previews];
+    const newFiles = [...files];
+    newPreviews[slotIndex] = null;
+    newFiles[slotIndex] = null;
+    setPreviews(newPreviews);
+    setFiles(newFiles);
+    const newCurrentImages = newPreviews.filter(
+      (p): p is string => !!p && currentImages.includes(p)
+    );
+    onUpload(newCurrentImages);
+  };
+
   const clearDragState = () => {
     setDragFromIndex(null);
     setDragOverIndex(null);
@@ -241,12 +257,23 @@ const MultipleImagesUpload = ({ onUpload, currentImages = [] }: MultipleImagesUp
                 </div>
               )}
               {preview ? (
-                <img
-                  src={preview}
-                  alt={`Image ${displayNumber}`}
-                  className="pointer-events-none absolute inset-0 h-full w-full object-cover select-none"
-                  draggable={false}
-                />
+                <>
+                  <img
+                    src={preview}
+                    alt={`Image ${displayNumber}`}
+                    className="pointer-events-none absolute inset-0 h-full w-full object-cover select-none"
+                    draggable={false}
+                  />
+                  <button
+                    type="button"
+                    onClick={(e) => handleDelete(slotIndex, e)}
+                    className="absolute top-1 right-1 z-20 p-0.5 rounded-full bg-black/70 text-white hover:bg-red-600 transition-colors cursor-pointer"
+                    title="Remove image"
+                    aria-label="Remove image"
+                  >
+                    <XMarkIcon className="h-4 w-4" />
+                  </button>
+                </>
               ) : (
                 <div className="pointer-events-none absolute inset-0 flex flex-col items-center justify-center text-gray-500 select-none">
                   <span className="text-xl font-semibold">#{displayNumber}</span>
