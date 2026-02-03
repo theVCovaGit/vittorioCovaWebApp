@@ -16,6 +16,7 @@ export default function CreativeSectionFooter() {
     const update = () => {
       const rect = el.getBoundingClientRect();
       document.documentElement.style.setProperty("--barcode-left", `${rect.left}px`);
+      document.documentElement.style.setProperty("--barcode-bottom-offset", `${window.innerHeight - rect.bottom}px`);
     };
     update();
     const ro = new ResizeObserver(update);
@@ -25,6 +26,7 @@ export default function CreativeSectionFooter() {
       ro.disconnect();
       window.removeEventListener("resize", update);
       document.documentElement.style.removeProperty("--barcode-left");
+      document.documentElement.style.removeProperty("--barcode-bottom-offset");
     };
   }, []);
 

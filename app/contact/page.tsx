@@ -36,12 +36,11 @@ export default function Contact() {
         className="absolute"
         style={{
           left: 'var(--barcode-left, 0)',
-          bottom: 'var(--barcode-bottom-offset, 80px)',
-          transform: 'translateY(3vh)',
+          bottom: 'calc(var(--barcode-bottom-offset, 80px) - 4rem)',
         }}
       >
         <ContactLabel
-          bottom=""
+          bottom="bottom-0"
           left="left-0"
           scale={labelStyles.scale}
           fontSize={labelStyles.fontSize}
