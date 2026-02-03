@@ -273,6 +273,7 @@ export default function ArchitectureContentPanel({ isActive }: { isActive: boole
           currentImages={images} 
           currentPage={currentPage}
           onPageChange={setCurrentPage}
+          uploadEndpoint="/api/architecture/image-upload"
         />
 
         <div className="mt-4 mb-1 flex items-center gap-2 font-minecraft text-sm text-[#FFF3DF]">

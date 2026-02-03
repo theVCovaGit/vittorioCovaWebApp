@@ -15,6 +15,8 @@ interface MultipleImagesUploadProps {
   type?: "product" | "blog";
   currentPage?: number;
   onPageChange?: (page: number) => void;
+  /** If set, clicking a slot and choosing a file uploads immediately and updates the slot (e.g. /api/architecture/image-upload). Response must be { url: string }. */
+  uploadEndpoint?: string;
 }
 
 const ImageUpload = ({ onUpload, currentImage, type = "product" }: ImageUploadProps) => {
@@ -101,17 +103,19 @@ function swapSlots<T>(arr: T[], i: number, j: number): T[] {
   return copy;
 }
 
-const MultipleImagesUpload = ({ onUpload, currentImages = [] }: MultipleImagesUploadProps) => {
+const TOTAL_SLOTS = 15;
+
+const createPreviewArray = (images: string[]): (string | null)[] =>
+  Array.from({ length: TOTAL_SLOTS }, (_, index) => images[index] ?? null);
+
+const MultipleImagesUpload = ({ onUpload, currentImages = [], uploadEndpoint }: MultipleImagesUploadProps) => {
   const [loading, setLoading] = useState(false);
+  const [uploadingSlot, setUploadingSlot] = useState<number | null>(null);
   const [dragFromIndex, setDragFromIndex] = useState<number | null>(null);
   const [dragOverIndex, setDragOverIndex] = useState<number | null>(null);
-  const TOTAL_SLOTS = 15;
   const [files, setFiles] = useState<(File | null)[]>(Array(TOTAL_SLOTS).fill(null));
 
-  const createPreviewArray = (images: string[]): (string | null)[] =>
-    Array.from({ length: TOTAL_SLOTS }, (_, index) => images[index] ?? null);
-
-  const [previews, setPreviews] = useState<(string | null)[]>(createPreviewArray(currentImages));
+  const [previews, setPreviews] = useState<(string | null)[]>(() => createPreviewArray(currentImages));
 
   const displayOrder = useMemo(() => {
     const order: number[] = [];
@@ -164,19 +168,53 @@ const MultipleImagesUpload = ({ onUpload, currentImages = [] }: MultipleImagesUp
     setDragOverIndex(null);
   };
 
-  const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>, index: number) => {
-    if (!event.target.files?.[0]) return;
+  const handleFileChange = async (event: React.ChangeEvent<HTMLInputElement>, index: number) => {
+    const file = event.target.files?.[0];
+    if (!file) return;
 
-    const file = event.target.files[0];
+    if (uploadEndpoint) {
+      setUploadingSlot(index);
+      try {
+        const formData = new FormData();
+        formData.append("file", file);
+        const response = await fetch(uploadEndpoint, { method: "POST", body: formData });
+        if (!response.ok) throw new Error(`Upload failed: ${response.status}`);
+        const data = await response.json();
+        const newUrl = data.url ?? data.urls?.[0];
+        if (!newUrl) throw new Error("No URL in response");
+        const base = [...currentImages];
+        while (base.length < TOTAL_SLOTS) base.push("");
+        base[index] = newUrl;
+        const newImages = base.slice(0, TOTAL_SLOTS);
+        onUpload(newImages);
+        setPreviews(createPreviewArray(newImages));
+        setFiles((prev) => {
+          const next = [...prev];
+          next[index] = null;
+          return next;
+        });
+      } catch (err) {
+        console.error("Upload error:", err);
+        alert("Failed to upload image. Please try again.");
+      } finally {
+        setUploadingSlot(null);
+      }
+      event.target.value = "";
+      return;
+    }
+
     const objectUrl = URL.createObjectURL(file);
-    const updatedPreviews = [...previews];
-    updatedPreviews[index] = objectUrl;
-
-    const updatedFiles = [...files];
-    updatedFiles[index] = file;
-
-    setPreviews(updatedPreviews);
-    setFiles(updatedFiles);
+    setPreviews((prev) => {
+      const next = [...prev];
+      next[index] = objectUrl;
+      return next;
+    });
+    setFiles((prev) => {
+      const next = [...prev];
+      next[index] = file;
+      return next;
+    });
+    event.target.value = "";
   };
 
   const handleUpload = async () => {
@@ -285,13 +323,15 @@ const MultipleImagesUpload = ({ onUpload, currentImages = [] }: MultipleImagesUp
                 accept="image/*"
                 className="absolute inset-0 z-0 h-full w-full cursor-pointer opacity-0"
                 onChange={(e) => handleFileChange(e, slotIndex)}
-                disabled={loading}
+                disabled={loading || uploadingSlot !== null}
               />
             </div>
             );
           })}
         </div>
-        {loading && <p className="text-gray-500 text-sm mt-2">Uploading...</p>}
+        {(loading || uploadingSlot !== null) && (
+          <p className="text-gray-500 text-sm mt-2">Uploading...</p>
+        )}
       </div>
       {files.some((file) => file !== null) && !loading && (
         <button
