@@ -61,6 +61,7 @@ export default function ArchitectureMobile() {
   const [selectedProjectId, setSelectedProjectId] = useState<number | null>(null);
   const stripRef = useRef<HTMLDivElement | null>(null);
   const scrollVisualRef = useRef<HTMLDivElement | null>(null);
+  const projectRefs = useRef<Record<number, HTMLDivElement | null>>({});
 
   useEffect(() => {
     const fetchProjects = async () => {
@@ -90,6 +91,25 @@ export default function ArchitectureMobile() {
       stripRef.current.scrollLeft = 0;
     }
   }, [projects.length]);
+
+  const handleGridTap = (clientX: number, clientY: number) => {
+    const refs = projectRefs.current;
+    const containing: { id: number; dist: number }[] = [];
+    for (const id of Object.keys(refs)) {
+      const el = refs[Number(id)];
+      if (!el?.isConnected) continue;
+      const rect = el.getBoundingClientRect();
+      if (clientX >= rect.left && clientX <= rect.right && clientY >= rect.top && clientY <= rect.bottom) {
+        const cx = rect.left + rect.width / 2;
+        const cy = rect.top + rect.height / 2;
+        containing.push({ id: Number(id), dist: (clientX - cx) ** 2 + (clientY - cy) ** 2 });
+      }
+    }
+    if (containing.length === 0) return;
+    const best = containing.length === 1 ? containing[0] : containing.reduce((a, b) => (a.dist <= b.dist ? a : b));
+    setSelectedProjectId(best.id);
+    window.dispatchEvent(new CustomEvent("architecture-expanded-open"));
+  };
 
   const currentPageProjects = projects
     .filter((project) => (project.page || 1) === currentPage)
@@ -171,7 +191,10 @@ export default function ArchitectureMobile() {
                   return (
                     <div
                       key={project.id}
-                      className="pointer-events-auto absolute flex items-center justify-center"
+                      ref={(el) => {
+                        projectRefs.current[project.id] = el;
+                      }}
+                      className="pointer-events-none absolute flex items-center justify-center"
                       style={{
                         left,
                         top,
@@ -185,10 +208,7 @@ export default function ArchitectureMobile() {
                           style={{
                             width: `calc(var(--scroll-strip-height, ${SCROLL_AREA_HEIGHT}) * ${ICON_TO_STRIP_RATIO})`,
                           }}
-                          onClick={() => {
-                            setSelectedProjectId(project.id);
-                            window.dispatchEvent(new CustomEvent("architecture-expanded-open"));
-                          }}
+                          aria-label={`Open ${project.title}`}
                         >
                           <img
                             src={project.icon || project.iconSecondary}
@@ -200,6 +220,14 @@ export default function ArchitectureMobile() {
                     </div>
                   );
                 })}
+                {/* Transparent overlay: one tap handler + coordinate-based hit test so the correct project opens when taps are near boundaries */}
+                <div
+                  className="absolute inset-0 z-10 cursor-pointer"
+                  aria-hidden
+                  onClick={(e) => {
+                    handleGridTap(e.clientX, e.clientY);
+                  }}
+                />
               </div>
             </div>
             {/* Mirrored scroll: same explicit height as first strip – img commented out, may use later */}
