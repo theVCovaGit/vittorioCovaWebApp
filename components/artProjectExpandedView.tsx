@@ -240,9 +240,12 @@ export default function ArtProjectExpandedView({
         className="hidden md:block relative w-full h-full overflow-hidden"
         onClick={(e) => e.stopPropagation()}
       >
-        <div className="absolute left-8 md:left-20 top-0 bottom-0 w-[35%] bg-transparent overflow-hidden z-10">
+        <div
+          className="absolute top-0 bottom-0 w-[48%] bg-transparent overflow-hidden z-10"
+          style={{ left: "var(--vittorio-v-left, 3rem)" }}
+        >
           {currentImage ? (
-            <div className="relative w-full h-full flex items-center justify-center">
+            <div className="relative w-full h-full flex items-center justify-start">
               {project.images.length > 1 && (
                 <>
                   <button onClick={handlePreviousImage} className="absolute left-4 z-10 hover:opacity-80 transition-opacity bg-transparent border-0 p-0">
@@ -253,14 +256,17 @@ export default function ArtProjectExpandedView({
                   </button>
                 </>
               )}
-              <img src={currentImage} alt={project.title} className="w-[130%] max-h-[65%] object-contain" />
+              <img src={currentImage} alt={project.title} className="w-[130%] max-h-[80%] object-contain object-left" />
             </div>
           ) : (
             <div className="w-full h-full flex items-center justify-center text-[#4A413C]/60 font-blurlight">No image available</div>
           )}
         </div>
         <div className="absolute left-0 right-0 top-0 bottom-0 bg-[#FFF3DF] overflow-hidden">
-          <div className="ml-[35%] h-full pl-8 md:pl-12 pr-8 md:pr-12 pt-28 md:pt-40 pb-8 md:pb-12 flex flex-col items-start">
+          <div
+            className="h-full pl-8 md:pl-12 pr-8 md:pr-12 pt-28 md:pt-40 pb-8 md:pb-12 flex flex-col items-start"
+            style={{ marginLeft: "calc(var(--vittorio-v-left, 3rem) + 48%)" }}
+          >
             <h1 className="text-[#4A413C] font-blurlight font-bold text-xl md:text-2xl uppercase tracking-wider leading-tight">{project.title}</h1>
             <div className="leading-tight mt-1">
               {materialDimensionsLine(project) ? (
