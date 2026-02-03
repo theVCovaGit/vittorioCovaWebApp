@@ -57,7 +57,7 @@ export default function About() {
           <h1 className="text-[#726F6B] font-blurlight font-medium text-2xl md:text-3xl leading-snug mb-6">
             A multi-faceted architecture and creative design firm founded in 2025
           </h1>
-          <div className="text-[#726F6B] font-blurlight text-base md:text-lg leading-relaxed space-y-4">
+          <div className="text-[#726F6B] font-blurlight text-base md:text-lg leading-relaxed space-y-4 pl-6 md:pl-10">
             <p>
               The greatest moment in human history was not when man walked the Moon, but when <span className="text-[#D4A26C] font-medium">God</span> walked the Earth.
             </p>
