@@ -30,12 +30,22 @@ export default function News() {
     <main className="relative min-h-screen bg-[#fff3df] text-[#a08e80] font-blurlight overflow-hidden">
         
 
-      <NewsLabel
-        bottom={labelStyles.bottom}
-        right={labelStyles.right}
-        scale={labelStyles.scale}
-        fontSize={labelStyles.fontSize}
-      />
+      <div
+        className="absolute"
+        style={{
+          left: 'var(--barcode-left, 0)',
+          bottom: 'var(--barcode-bottom-offset, 80px)',
+          transform: 'translateY(3vh)',
+        }}
+      >
+        <NewsLabel
+          bottom=""
+          left="left-0"
+          scale={labelStyles.scale}
+          fontSize={labelStyles.fontSize}
+          transformOrigin="top left"
+        />
+      </div>
 
       {/* Interactive Fingie SVG - Right side, lower position */}
       <div className="absolute right-[4vw] top-[55%] transform -translate-y-1/2 z-[1002] max-h-[80vh] overflow-visible">
