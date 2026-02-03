@@ -168,9 +168,8 @@ const MultipleImagesUpload = ({ onUpload, currentImages = [], uploadEndpoint }: 
     setDragOverIndex(null);
   };
 
-  const handleFileChange = async (event: React.ChangeEvent<HTMLInputElement>, index: number) => {
-    const file = event.target.files?.[0];
-    if (!file) return;
+  const applyFileToSlot = async (file: File, index: number) => {
+    if (!file.type.startsWith("image/")) return;
 
     if (uploadEndpoint) {
       setUploadingSlot(index);
@@ -199,7 +198,6 @@ const MultipleImagesUpload = ({ onUpload, currentImages = [], uploadEndpoint }: 
       } finally {
         setUploadingSlot(null);
       }
-      event.target.value = "";
       return;
     }
 
@@ -214,7 +212,31 @@ const MultipleImagesUpload = ({ onUpload, currentImages = [], uploadEndpoint }: 
       next[index] = file;
       return next;
     });
+  };
+
+  const handleFileChange = async (event: React.ChangeEvent<HTMLInputElement>, index: number) => {
+    const file = event.target.files?.[0];
+    if (!file) return;
+    await applyFileToSlot(file, index);
     event.target.value = "";
+  };
+
+  const handleDrop = (e: React.DragEvent<HTMLDivElement>, slotIndex: number) => {
+    e.preventDefault();
+    const fromIndex = dragFromIndex;
+    clearDragState();
+    if (fromIndex !== null) {
+      handleSwap(fromIndex, slotIndex);
+      return;
+    }
+    const droppedFiles = e.dataTransfer.files;
+    if (droppedFiles?.length > 0) {
+      const file = droppedFiles[0];
+      if (file.type.startsWith("image/")) {
+        applyFileToSlot(file, slotIndex);
+      }
+    }
+    e.dataTransfer.clearData();
   };
 
   const handleUpload = async () => {
@@ -255,7 +277,7 @@ const MultipleImagesUpload = ({ onUpload, currentImages = [], uploadEndpoint }: 
   return (
     <div className="mt-4">
       <p className="text-[#FFF3DF]/80 text-xs mb-2 font-minecraft">
-        Drag an image onto another slot to swap their positions. Click Update below to save.
+        Drag an image onto another slot to swap positions. You can also drag and drop photos from your computer onto a slot to add or replace. Click Update below to save.
       </p>
       <div className="relative h-64 w-full rounded-md border border-gray-300">
         <div className="grid h-full grid-cols-3 grid-rows-5 gap-1">
@@ -274,15 +296,12 @@ const MultipleImagesUpload = ({ onUpload, currentImages = [], uploadEndpoint }: 
               onDragEnter={() => setDragOverIndex(slotIndex)}
               onDragOver={(e) => {
                 e.preventDefault();
-                e.dataTransfer.dropEffect = "move";
+                e.dataTransfer.dropEffect = e.dataTransfer.types.includes("Files") ? "copy" : "move";
               }}
               onDragLeave={(e) => {
                 if (!e.currentTarget.contains(e.relatedTarget as Node)) setDragOverIndex(null);
               }}
-              onDrop={(e) => {
-                e.preventDefault();
-                if (dragFromIndex !== null) handleSwap(dragFromIndex, slotIndex);
-              }}
+              onDrop={(e) => handleDrop(e, slotIndex)}
               className={`relative h-full w-full overflow-hidden rounded-md border-2 bg-transparent cursor-grab active:cursor-grabbing transition-colors ${
                 isDropTarget
                   ? "border-[#FFF3DF] bg-[#FFF3DF]/20 ring-2 ring-[#FFF3DF]"
