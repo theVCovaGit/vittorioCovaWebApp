@@ -36,7 +36,7 @@ export default function Contact() {
         className="absolute"
         style={{
           left: 'var(--barcode-left, 0)',
-          bottom: 'calc(var(--barcode-bottom-offset, 80px) - 4rem)',
+          bottom: 'calc(var(--barcode-bottom-offset, 80px) - 1rem)',
         }}
       >
         <ContactLabel
