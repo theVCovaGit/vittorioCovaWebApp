@@ -12,8 +12,8 @@ import AboutMobile from "@/components/aboutMobile";
 const labelStyles = {
     bottom: "bottom-[8vh] sm:bottom-[10vh] md:bottom-[40vh]",
     right: "right-[2vw] sm:right-[3vw] md:right-[6.9vw]",
-    scale: "scale-[0.5] sm:scale-[0.7] md:scale-[0.7]",
-    fontSize: "text-[64px] sm:text-[84px] md:text-[117.9px]",
+    scale: "scale-[0.5] sm:scale-[0.7] md:scale-[0.55]",
+    fontSize: "text-[64px] sm:text-[84px] md:text-[90px]",
   };
   
   

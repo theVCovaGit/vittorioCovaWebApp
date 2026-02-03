@@ -12,8 +12,8 @@ import InteractiveMosaics from "@/components/interactiveMosaics";
 const labelStyles = {
     bottom: "bottom-[8vh] sm:bottom-[10vh] md:bottom-[27vh]",
     right: "right-[8vw] sm:right-[12vw] md:right-[17.18vw]",
-    scale: "scale-[0.5] sm:scale-[0.7] md:scale-[0.7]",
-    fontSize: "text-[64px] sm:text-[84px] md:text-[117.9px]",
+    scale: "scale-[0.5] sm:scale-[0.7] md:scale-[0.55]",
+    fontSize: "text-[64px] sm:text-[84px] md:text-[90px]",
   };
   
   
