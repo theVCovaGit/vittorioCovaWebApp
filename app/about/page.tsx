@@ -1,6 +1,7 @@
 "use client";
 
 import React from "react";
+import Link from "next/link";
 import { useIsMobile } from "@/hooks/useMediaQuery";
 import AboutLabel from "@/components/aboutLabel";
 import InteractiveFingie from "@/components/interactiveFingie";
@@ -46,7 +47,7 @@ export default function About() {
         />
       </div>
 
-      {/* Fingerprint: aligned with footer "O" horizontally, 9rem above barcode, smaller, desktop only */}
+      {/* Fingerprint: click goes to /admin; aligned with footer "O", 12rem above, desktop only */}
       <div
         className="fixed z-[1002] overflow-visible hidden md:block origin-center"
         style={{
@@ -55,7 +56,9 @@ export default function About() {
           transform: "translate(-50%, -50%) scale(0.85)",
         }}
       >
-        <InteractiveFingie />
+        <Link href="/admin" className="block cursor-pointer" aria-label="Go to admin">
+          <InteractiveFingie />
+        </Link>
       </div>
 
       {/* Text content: left-aligned, responsive inset and spacing (desktop only) */}
