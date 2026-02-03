@@ -51,8 +51,8 @@ export default function About() {
         <InteractiveFingie />
       </div>
 
-      {/* Text content: left-aligned, 2rem from left (desktop only) */}
-      <div className="absolute left-8 top-[10rem] right-0 bottom-32 md:left-8">
+      {/* Text content: left-aligned, 3rem from left (desktop only) */}
+      <div className="absolute left-20 top-[8rem] right-0 bottom-32 md:left-20">
         <div className="max-w-[42rem] text-left">
           <h1 className="text-[#726F6B] font-blurlight font-medium text-2xl md:text-3xl leading-snug mb-6">
             A multi-faceted architecture and creative design firm founded in 2025
