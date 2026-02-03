@@ -9,6 +9,7 @@ const BARCODE_PATH =
 /** Fixed footer for /art and /film: transparent bg, barcode + CONTACT/ABOUT/NEWS in #847263, hero dimensions. */
 export default function CreativeSectionFooter() {
   const barcodeRef = useRef<HTMLDivElement>(null);
+  const aboutORef = useRef<HTMLSpanElement | null>(null);
 
   useEffect(() => {
     const el = barcodeRef.current;
@@ -27,6 +28,28 @@ export default function CreativeSectionFooter() {
       window.removeEventListener("resize", update);
       document.documentElement.style.removeProperty("--barcode-left");
       document.documentElement.style.removeProperty("--barcode-bottom-offset");
+    };
+  }, []);
+
+  useEffect(() => {
+    const el = aboutORef.current;
+    if (!el) return;
+    const update = () => {
+      const rect = el.getBoundingClientRect();
+      const x = rect.left + rect.width / 2;
+      const y = rect.top + rect.height / 2;
+      document.documentElement.style.setProperty("--about-o-center-x", `${x}px`);
+      document.documentElement.style.setProperty("--about-o-center-y", `${y}px`);
+    };
+    update();
+    const ro = new ResizeObserver(update);
+    ro.observe(el);
+    window.addEventListener("resize", update);
+    return () => {
+      ro.disconnect();
+      window.removeEventListener("resize", update);
+      document.documentElement.style.removeProperty("--about-o-center-x");
+      document.documentElement.style.removeProperty("--about-o-center-y");
     };
   }, []);
 
@@ -57,7 +80,7 @@ export default function CreativeSectionFooter() {
           </Link>
           <span> / </span>
           <Link href="/about" className="text-[#847263] no-underline hover:text-white cursor-pointer">
-            ABOUT
+            AB<span ref={aboutORef}>O</span>UT
           </Link>
           <span> / </span>
           <Link href="/news" className="text-[#847263] no-underline hover:text-white cursor-pointer">

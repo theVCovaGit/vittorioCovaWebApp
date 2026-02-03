@@ -46,8 +46,15 @@ export default function About() {
         />
       </div>
 
-      {/* Interactive Fingie SVG - Right side, lower position */}
-      <div className="absolute right-[4vw] top-[60%] transform -translate-y-1/2 z-[1002] max-h-[80vh] overflow-visible">
+      {/* Fingerprint: aligned with footer "O" horizontally, 9rem above barcode, smaller, desktop only */}
+      <div
+        className="fixed z-[1002] overflow-visible hidden md:block origin-center"
+        style={{
+          left: "var(--about-o-center-x, 50%)",
+          top: "calc(var(--about-o-center-y, 50%) - 9rem)",
+          transform: "translate(-50%, -50%) scale(0.5)",
+        }}
+      >
         <InteractiveFingie />
       </div>
 
