@@ -24,6 +24,8 @@ interface ArchitectureProject {
 
 const GRID_COLUMNS = 13;
 const GRID_ROWS = 7;
+const GRID_SPREAD_X = 1.25;
+const GRID_SPREAD_Y = 1.3;
 
 const SCROLL_GRID_BOUNDS = {
   top: "13%",
@@ -56,8 +58,10 @@ const getAbsolutePlacement = (position?: number) => {
   const column = (safeIndex % GRID_COLUMNS) + 1;
   const row = Math.floor(safeIndex / GRID_COLUMNS) + 1;
 
-  const leftPercent = ((column - 0.5) / GRID_COLUMNS) * 100;
-  const topPercent = ((row - 0.5) / GRID_ROWS) * 100;
+  const leftBase = ((column - 0.5) / GRID_COLUMNS) * 100;
+  const topBase = ((row - 0.5) / GRID_ROWS) * 100;
+  const leftPercent = clamp(50 + (leftBase - 50) * GRID_SPREAD_X, 0, 100);
+  const topPercent = clamp(50 + (topBase - 50) * GRID_SPREAD_Y, 0, 100);
 
   return {
     left: `${leftPercent}%`,
