@@ -75,8 +75,8 @@
 }
 @media (min-width: 768px) {
   .art-expanded-below-header {
-    top: 5rem;
-    height: calc(100vh - 5rem);
+    top: 4.5rem;
+    height: calc(100vh - 4.5rem);
   }
 }
 
