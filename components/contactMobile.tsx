@@ -48,7 +48,7 @@ export default function ContactMobile() {
       <div
         className="fixed z-[1010] pointer-events-none flex justify-center"
         style={{
-          left: "min(calc(var(--barcode-right, 100vw) + 3.2rem), calc(100vw - 4.3rem))",
+          left: "min(calc(var(--barcode-right, 100vw) + 2.4rem), calc(100vw - 5.1rem))",
           bottom: "var(--barcode-bottom-offset, 80px)",
           width: "80px",
           transform: "translateY(calc(-100% - 14rem))",
