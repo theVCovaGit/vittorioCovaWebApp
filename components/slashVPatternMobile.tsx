@@ -72,22 +72,6 @@ export default function SlashVPatternMobile() {
       }
       pattern.push(vRow);
     }
-
-    // Add one more /\ row and one more V row (mobile-only request)
-    let extraSlashRow = "";
-    for (let i = 0; i < slashCount; i++) {
-      extraSlashRow += "/\\";
-      if (charSpacing > 0 && i < slashCount - 1) extraSlashRow += " ".repeat(charSpacing);
-    }
-    pattern.push(extraSlashRow);
-
-    let extraVRow = "";
-    for (let i = 0; i < vCount; i++) {
-      extraVRow += "V";
-      if (charSpacing > 0 && i < vCount - 1) extraVRow += " ".repeat(charSpacing);
-    }
-    pattern.push(extraVRow);
-
     setPatternRows(pattern);
   }, []);
 
