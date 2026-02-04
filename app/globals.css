@@ -145,9 +145,25 @@ body {
   /* When adaptive cursor is active: hide native cursor everywhere so only custom cursor shows */
   html[data-custom-cursor],
   html[data-custom-cursor] body,
+  html[data-custom-cursor] main,
   html[data-custom-cursor] *,
   html[data-custom-cursor] *::before,
   html[data-custom-cursor] *::after {
+    cursor: none !important;
+  }
+  /* Force override any cursor utility or inline style when custom cursor is active */
+  html[data-custom-cursor] .cursor-pointer,
+  html[data-custom-cursor] .cursor-default,
+  html[data-custom-cursor] .cursor-auto,
+  html[data-custom-cursor] .cursor-move,
+  html[data-custom-cursor] .cursor-grab,
+  html[data-custom-cursor] .cursor-grabbing,
+  html[data-custom-cursor] .cursor-text,
+  html[data-custom-cursor] .cursor-wait,
+  html[data-custom-cursor] .cursor-help,
+  html[data-custom-cursor] .cursor-not-allowed,
+  html[data-custom-cursor] .cursor-none,
+  html[data-custom-cursor] [style*="cursor"] {
     cursor: none !important;
   }
 }
