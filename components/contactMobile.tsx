@@ -32,7 +32,7 @@ export default function ContactMobile() {
       {/* Contact Label - Right side, rotated - aligned with barcode bottom - always to the right of barcode */}
       <div style={{ 
         position: 'fixed', 
-        left: 'calc(var(--barcode-right, 100vw) + 3.5rem)',
+        left: 'calc(var(--barcode-right, 100vw) + 4.5rem)',
         bottom: 'var(--barcode-bottom-offset, 80px)',
         zIndex: 40
       }}>
