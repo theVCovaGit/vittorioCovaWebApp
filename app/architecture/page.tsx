@@ -119,6 +119,33 @@ function ArchitectureDesktop() {
     }
   }, [hoveredProjectId]);
 
+  /** Click: open the project whose icon center is closest to the pointer, only if within threshold (icon-defined area). */
+  const handleGridClick = useCallback((clientX: number, clientY: number) => {
+    let closestId: number | null = null;
+    let closestDistance = Number.POSITIVE_INFINITY;
+    let closestThreshold = 0;
+    const thresholdRatio = 0.45; // open only if click is within this fraction of icon size from center
+
+    for (const [idKey, element] of Object.entries(projectRefs.current)) {
+      if (!element?.isConnected) continue;
+      const rect = element.getBoundingClientRect();
+      const centerX = rect.left + rect.width / 2;
+      const centerY = rect.top + rect.height / 2;
+      const dx = clientX - centerX;
+      const dy = clientY - centerY;
+      const distance = Math.hypot(dx, dy);
+      if (distance < closestDistance) {
+        closestDistance = distance;
+        closestId = Number(idKey);
+        closestThreshold = Math.min(rect.width, rect.height) * thresholdRatio;
+      }
+    }
+    if (closestId !== null && closestDistance <= closestThreshold) {
+      setSelectedProjectId(closestId);
+      window.dispatchEvent(new CustomEvent("architecture-expanded-open"));
+    }
+  }, []);
+
   // Lock document scroll when expanded view is closed; remove lock when open (custom events keep deps array stable)
   useEffect(() => {
     const html = document.documentElement;
@@ -296,7 +323,7 @@ function ArchitectureDesktop() {
                 return (
                   <div
                     key={project.id}
-                    className="pointer-events-auto absolute flex items-center justify-center"
+                    className="pointer-events-none absolute flex items-center justify-center"
                     style={{
                       left,
                       top,
@@ -306,15 +333,12 @@ function ArchitectureDesktop() {
                     {(project.icon || project.iconSecondary) && (
                         <button
                         type="button"
-                        className="group relative bg-transparent p-0 border-0"
+                        className="group relative bg-transparent p-0 border-0 pointer-events-none"
                         style={{ width: ICON_SIZE }}
                         ref={(element) => {
                           projectRefs.current[project.id] = element;
                         }}
-                        onClick={() => {
-                          setSelectedProjectId(project.id);
-                          window.dispatchEvent(new CustomEvent("architecture-expanded-open"));
-                        }}
+                        aria-label={`Open ${project.title}`}
                       >
                         <img
                           src={project.icon || project.iconSecondary}
@@ -326,6 +350,12 @@ function ArchitectureDesktop() {
                   </div>
                 );
               })}
+              {/* Single overlay: click opens the project whose icon center is closest (within threshold) */}
+              <div
+                className="absolute inset-0 z-10 cursor-pointer"
+                aria-hidden
+                onClick={(e) => handleGridClick(e.clientX, e.clientY)}
+              />
             </div>
           </div>
 

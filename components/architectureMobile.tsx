@@ -92,23 +92,31 @@ export default function ArchitectureMobile() {
     }
   }, [projects.length]);
 
+  /** Tap: open the project whose icon center is closest to the tap, only if within threshold (icon-defined area). */
   const handleGridTap = (clientX: number, clientY: number) => {
     const refs = projectRefs.current;
-    const containing: { id: number; dist: number }[] = [];
+    let closestId: number | null = null;
+    let closestDistance = Number.POSITIVE_INFINITY;
+    let closestThreshold = 0;
+    const thresholdRatio = 0.45;
+
     for (const id of Object.keys(refs)) {
       const el = refs[Number(id)];
       if (!el?.isConnected) continue;
       const rect = el.getBoundingClientRect();
-      if (clientX >= rect.left && clientX <= rect.right && clientY >= rect.top && clientY <= rect.bottom) {
-        const cx = rect.left + rect.width / 2;
-        const cy = rect.top + rect.height / 2;
-        containing.push({ id: Number(id), dist: (clientX - cx) ** 2 + (clientY - cy) ** 2 });
+      const cx = rect.left + rect.width / 2;
+      const cy = rect.top + rect.height / 2;
+      const dist = Math.hypot(clientX - cx, clientY - cy);
+      if (dist < closestDistance) {
+        closestDistance = dist;
+        closestId = Number(id);
+        closestThreshold = Math.min(rect.width, rect.height) * thresholdRatio;
       }
     }
-    if (containing.length === 0) return;
-    const best = containing.length === 1 ? containing[0] : containing.reduce((a, b) => (a.dist <= b.dist ? a : b));
-    setSelectedProjectId(best.id);
-    window.dispatchEvent(new CustomEvent("architecture-expanded-open"));
+    if (closestId !== null && closestDistance <= closestThreshold) {
+      setSelectedProjectId(closestId);
+      window.dispatchEvent(new CustomEvent("architecture-expanded-open"));
+    }
   };
 
   const currentPageProjects = projects
