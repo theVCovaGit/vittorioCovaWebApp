@@ -141,7 +141,8 @@ export default function FooterMobile() {
         backgroundColor: footerBg,
       }}
     >
-      <div className="flex flex-col items-center justify-center gap-1.5 scale-[0.95]">
+      {/* When viewport 600–768px (e.g. iPad showing mobile): wider barcode via .ipad-mobile-barcode-scale in globals.css */}
+      <div className="flex flex-col items-center justify-center gap-1.5 scale-[0.95] ipad-mobile-barcode-scale">
         {/* Barcode - width matches links (C of CONTACT to S of NEWS) */}
         <div ref={barcodeRef} className="mb-0">
           <svg
