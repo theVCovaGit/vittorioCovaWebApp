@@ -117,9 +117,9 @@ export default function NewsMobile() {
             {items.map((item) => (
               <div
                 key={item.id}
-                className="flex flex-col items-center justify-center w-full relative z-10 text-center shrink-0 py-4 px-2"
+                className="flex flex-col items-center justify-start w-full relative z-10 text-center shrink-0 py-4 px-2"
                 style={{
-                  height: "calc((100vh - var(--mobile-header-height) - 21vh - 3rem) / 4)",
+                  minHeight: "calc((100vh - var(--mobile-header-height) - 21vh - 3rem) / 4)",
                 }}
               >
                 <div className="text-[#a08e80] font-blurlight text-sm font-semibold mb-1 w-full text-center">
@@ -129,7 +129,7 @@ export default function NewsMobile() {
                   {item.title}
                 </div>
                 {item.description && (
-                  <div className="text-[#a08e80] font-blurlight text-xs font-normal leading-relaxed w-full mx-auto text-center line-clamp-4">
+                  <div className="text-[#a08e80] font-blurlight text-xs font-normal leading-relaxed w-full mx-auto text-center">
                     {item.description}
                   </div>
                 )}
