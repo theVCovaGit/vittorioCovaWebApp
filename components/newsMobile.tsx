@@ -75,10 +75,10 @@ export default function NewsMobile() {
       <div
         className="fixed z-[1010] pointer-events-none flex justify-center ipad-mini-icon-gap ipad-mini-icon-news"
         style={{
-          left: "calc(var(--barcode-right, 100vw) - 2px - 0.5rem)",
+          left: "calc(var(--barcode-right, 100vw) - 2px)",
           bottom: "var(--barcode-bottom-offset, 80px)",
           width: "80px",
-          transform: "translateY(calc(-100% - 11rem))",
+          transform: "translateY(calc(-100% - 6rem))",
         }}
       >
         <img

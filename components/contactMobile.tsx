@@ -50,10 +50,10 @@ export default function ContactMobile() {
       <div
         className="fixed z-[1010] pointer-events-none flex justify-center ipad-mini-icon-gap ipad-mini-icon-contact"
         style={{
-          left: "calc(var(--barcode-right, 100vw) - 2px - 0.5rem)",
+          left: "calc(var(--barcode-right, 100vw) - 2px)",
           bottom: "var(--barcode-bottom-offset, 80px)",
           width: "80px",
-          transform: "translateY(calc(-100% - 19rem))",
+          transform: "translateY(calc(-100% - 14rem))",
         }}
       >
         <img
