@@ -30,13 +30,15 @@ export default function AboutMobile() {
 
   return (
     <div className="relative h-screen overflow-hidden bg-[#fff3df] text-[#a08e80] font-blurlight">
-      {/* About Label - Right side, rotated - aligned with barcode bottom */}
-      <div style={{ 
-        position: 'fixed', 
-        left: 'calc(var(--barcode-right, 100vw) + 4.2rem)',
-        bottom: 'var(--barcode-bottom-offset, 80px)',
-        zIndex: 40
-      }}>
+      {/* About Label - Right side, rotated - aligned with barcode bottom; iPad Mini gap via .ipad-mini-label-gap */}
+      <div
+        className="ipad-mini-label-gap"
+        style={{
+          position: 'fixed',
+          left: 'calc(var(--barcode-right, 100vw) + 4.2rem)',
+          bottom: 'var(--barcode-bottom-offset, 80px)',
+          zIndex: 40
+        }}>
         <AboutLabel
           bottom="bottom-0"
           right="left-0"
@@ -45,9 +47,9 @@ export default function AboutMobile() {
         />
       </div>
 
-      {/* Fingerprint - right above the "t"; click navigates to /admin */}
+      {/* Fingerprint - right above the "t"; iPad Mini moves with label via .ipad-mini-icon-gap */}
       <div
-        className="fixed z-[1010] pointer-events-none flex justify-center"
+        className="fixed z-[1010] pointer-events-none flex justify-center ipad-mini-icon-gap"
         style={{
           left: "calc(var(--barcode-right, 100vw) - 2px)",
           bottom: "var(--barcode-bottom-offset, 80px)",

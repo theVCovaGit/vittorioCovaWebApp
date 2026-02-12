@@ -29,13 +29,15 @@ export default function ContactMobile() {
 
   return (
     <div className="relative h-screen overflow-hidden bg-[#fff3df] text-[#a08e80] font-blurlight px-3 py-4 pb-20 pt-20">
-      {/* Contact Label - Right side, rotated - aligned with barcode bottom - always to the right of barcode */}
-      <div style={{ 
-        position: 'fixed', 
-        left: 'calc(var(--barcode-right, 100vw) + 4.2rem)',
-        bottom: 'var(--barcode-bottom-offset, 80px)',
-        zIndex: 40
-      }}>
+      {/* Contact Label - Right side, rotated - aligned with barcode bottom; iPad Mini gap via .ipad-mini-label-gap */}
+      <div
+        className="ipad-mini-label-gap"
+        style={{
+          position: 'fixed',
+          left: 'calc(var(--barcode-right, 100vw) + 4.2rem)',
+          bottom: 'var(--barcode-bottom-offset, 80px)',
+          zIndex: 40
+        }}>
         <ContactLabel
           bottom="bottom-0"
           right="left-0"
@@ -44,9 +46,9 @@ export default function ContactMobile() {
         />
       </div>
 
-      {/* Hand - right above the "t" of CONTACT, same treatment as fingerprint on About; 9rem above, same size as fingie */}
+      {/* Hand - right above the "t" of CONTACT; iPad Mini moves with label via .ipad-mini-icon-gap */}
       <div
-        className="fixed z-[1010] pointer-events-none flex justify-center"
+        className="fixed z-[1010] pointer-events-none flex justify-center ipad-mini-icon-gap"
         style={{
           left: "calc(var(--barcode-right, 100vw) - 2px)",
           bottom: "var(--barcode-bottom-offset, 80px)",

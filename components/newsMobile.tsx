@@ -53,8 +53,9 @@ export default function NewsMobile() {
 
   return (
     <div className="relative h-screen overflow-hidden bg-[#fff3df] text-[#a08e80] font-blurlight px-3 py-4 pb-20 pt-20">
-      {/* News Label - Right side, rotated - aligned with barcode bottom */}
+      {/* News Label - Right side, rotated - aligned with barcode bottom; iPad Mini gap via .ipad-mini-label-gap */}
       <div
+        className="ipad-mini-label-gap"
         style={{
           position: "fixed",
           left: "calc(var(--barcode-right, 100vw) + 4.2rem)",
@@ -70,9 +71,9 @@ export default function NewsMobile() {
         />
       </div>
 
-      {/* Monoliths - right above NEWS label, same treatment as fingerprint on About / hand on Contact */}
+      {/* Monoliths - right above NEWS label; iPad Mini moves with label via .ipad-mini-icon-gap */}
       <div
-        className="fixed z-[1010] pointer-events-none flex justify-center"
+        className="fixed z-[1010] pointer-events-none flex justify-center ipad-mini-icon-gap"
         style={{
           left: "calc(var(--barcode-right, 100vw) - 2px)",
           bottom: "var(--barcode-bottom-offset, 80px)",
