@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import { useIsMobile } from "@/hooks/useMediaQuery";
+import { useShowMobileLayout } from "@/hooks/useMediaQuery";
 import NewsLabel from "@/components/newsLabel";
 import NewsMobile from "@/components/newsMobile";
 import InteractiveMosaics from "@/components/interactiveMosaics";
@@ -22,7 +22,7 @@ const labelStyles = {
 };
 
 export default function News() {
-  const isMobile = useIsMobile();
+  const showMobileLayout = useShowMobileLayout();
   const [items, setItems] = useState<NewsItem[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -43,8 +43,7 @@ export default function News() {
     fetchNews();
   }, []);
 
-  // Mobile version
-  if (isMobile) {
+  if (showMobileLayout) {
     return <NewsMobile />;
   }
 

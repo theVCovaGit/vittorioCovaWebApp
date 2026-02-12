@@ -2,7 +2,7 @@
 
 import React from "react";
 import Link from "next/link";
-import { useIsMobile } from "@/hooks/useMediaQuery";
+import { useShowMobileLayout } from "@/hooks/useMediaQuery";
 import AboutLabel from "@/components/aboutLabel";
 import InteractiveFingie from "@/components/interactiveFingie";
 import AboutMobile from "@/components/aboutMobile";
@@ -19,10 +19,9 @@ const labelStyles = {
   
   
 export default function About() {
-  const isMobile = useIsMobile();
+  const showMobileLayout = useShowMobileLayout();
 
-  // Mobile version
-  if (isMobile) {
+  if (showMobileLayout) {
     return <AboutMobile />;
   }
 

@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import { useIsMobile } from "@/hooks/useMediaQuery";
+import { useShowMobileLayout } from "@/hooks/useMediaQuery";
 import ContactLabel from "@/components/contactLabel";
 import InteractiveHand from "@/components/interactiveHand";
 import InteractiveMorse from "@/components/interactiveMorse";
@@ -20,10 +20,9 @@ const labelStyles = {
   
   
 export default function Contact() {
-  const isMobile = useIsMobile();
+  const showMobileLayout = useShowMobileLayout();
 
-  // Mobile version
-  if (isMobile) {
+  if (showMobileLayout) {
     return <ContactMobile />;
   }
 

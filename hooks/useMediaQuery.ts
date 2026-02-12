@@ -46,3 +46,8 @@ export function useIsDesktop(): boolean {
   return useMediaQuery('(min-width: 1025px)');
 }
 
+/** True when viewport ≤1024px: show mobile layout (header, footer, about/contact/news). Used so all iPads get the same look as iPad Mini. */
+export function useShowMobileLayout(): boolean {
+  return useMediaQuery('(max-width: 1024px)');
+}
+
