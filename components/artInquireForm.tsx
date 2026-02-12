@@ -20,14 +20,40 @@ export default function ArtInquireForm({ project, onClose }: ArtInquireFormProps
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
   const [comments, setComments] = useState("");
+  const [status, setStatus] = useState<"idle" | "sending" | "success" | "error">("idle");
+  const [errorMessage, setErrorMessage] = useState("");
 
   const displayTitle = project.title?.trim() || "";
   const thumbnail = project.icon || project.images?.[0];
   const artworkImage = project.images?.[0] || project.icon;
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // TODO: send inquiry (e.g. API)
+    setStatus("sending");
+    setErrorMessage("");
+    try {
+      const res = await fetch("/api/art/inquiry", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          name,
+          email,
+          phone: phone || undefined,
+          comments: comments || undefined,
+          artpiece: displayTitle || undefined,
+        }),
+      });
+      const data = await res.json().catch(() => ({}));
+      if (!res.ok) {
+        setStatus("error");
+        setErrorMessage(data.error ?? "Something went wrong. Please try again.");
+        return;
+      }
+      setStatus("success");
+    } catch {
+      setStatus("error");
+      setErrorMessage("Failed to send. Please try again.");
+    }
   };
 
   return (
@@ -133,12 +159,26 @@ export default function ArtInquireForm({ project, onClose }: ArtInquireFormProps
               />
             </div>
           </div>
+          {(status === "success" || status === "error") && (
+            <div
+              className={`w-full flex-shrink-0 mb-2 px-2 py-2 rounded-sm text-sm font-electrolize ${
+                status === "success"
+                  ? "bg-[#4A413C]/10 text-[#4A413C]"
+                  : "bg-red-100 text-red-800"
+              }`}
+            >
+              {status === "success"
+                ? "Thanks! Your inquiry was sent. We’ll be in touch soon."
+                : errorMessage}
+            </div>
+          )}
           <div className="w-full flex-shrink-0 mt-3 md:mt-6 flex justify-center md:justify-start">
             <button
               type="submit"
-              className="bg-[#524b44] hover:bg-[#48423c] text-[#FFF3DF] font-electrolize font-bold uppercase tracking-wider py-2 md:py-2.5 px-6 md:px-8 rounded-sm transition-colors text-xs md:text-sm"
+              disabled={status === "sending"}
+              className="bg-[#524b44] hover:bg-[#48423c] disabled:opacity-60 disabled:cursor-not-allowed text-[#FFF3DF] font-electrolize font-bold uppercase tracking-wider py-2 md:py-2.5 px-6 md:px-8 rounded-sm transition-colors text-xs md:text-sm"
             >
-              SUBMIT
+              {status === "sending" ? "Sending…" : "SUBMIT"}
             </button>
           </div>
         </form>

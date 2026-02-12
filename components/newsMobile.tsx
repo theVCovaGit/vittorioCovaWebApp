@@ -108,15 +108,17 @@ export default function NewsMobile() {
         )}
         {!loading && !error && items.length > 0 && (
           <div
-            className="flex flex-col items-center w-full max-w-lg mx-auto text-center overflow-y-auto min-h-0 flex-1 pb-4"
-            style={{ WebkitOverflowScrolling: "touch" }}
+            className="flex flex-col items-center w-full mx-auto text-center overflow-y-auto min-h-0 flex-1 pb-4"
+            style={{
+              WebkitOverflowScrolling: "touch",
+              maxWidth: "calc(var(--barcode-right, 100vw) - var(--barcode-left, 0px))",
+            }}
           >
             {items.map((item) => (
               <div
                 key={item.id}
                 className="flex flex-col items-center justify-center w-full relative z-10 text-center shrink-0 py-4 px-2"
                 style={{
-                  // Each item = exactly 1/4 of viewport so only 4 visible; 5th and below require scroll
                   height: "calc((100vh - var(--mobile-header-height) - 21vh - 3rem) / 4)",
                 }}
               >
@@ -127,7 +129,7 @@ export default function NewsMobile() {
                   {item.title}
                 </div>
                 {item.description && (
-                  <div className="text-[#a08e80] font-blurlight text-xs font-normal leading-relaxed max-w-md mx-auto text-center line-clamp-4">
+                  <div className="text-[#a08e80] font-blurlight text-xs font-normal leading-relaxed w-full mx-auto text-center line-clamp-4">
                     {item.description}
                   </div>
                 )}
