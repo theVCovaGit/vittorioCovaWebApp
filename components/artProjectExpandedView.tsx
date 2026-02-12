@@ -197,7 +197,7 @@ export default function ArtProjectExpandedView({
 
   return (
     <div 
-      className="fixed bg-[#FFF3DF] z-50 art-expanded-below-header"
+      className="fixed bg-[#FFF3DF] z-[10000] art-expanded-below-header art-expanded-no-zoom"
       onClick={handleClose}
     >
       {/* Mobile: stacked — image full width (flush under header), text bottom, no scroll */}
@@ -205,7 +205,7 @@ export default function ArtProjectExpandedView({
         className="md:hidden flex flex-col w-full h-full min-h-0 overflow-hidden"
         onClick={(e) => e.stopPropagation()}
       >
-        <div className="flex-shrink-0 w-full min-w-full h-[44vh] min-h-[255px] bg-[#e8e0d5] relative overflow-hidden">
+        <div className="flex-shrink-0 w-full min-w-full art-expanded-image-block bg-[#e8e0d5] relative overflow-hidden">
           {currentImage ? (
             <>
               <img

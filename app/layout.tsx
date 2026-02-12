@@ -35,14 +35,14 @@ export default function RootLayout({
         <TransitionProvider>
           <IconDisplayProvider>
             <CartProvider>
+              <HeaderWrapper />
               <IntroWrapper>
                 <CartDrawer />
-                <HeaderWrapper />
                 <main className="flex-1 flex flex-col overflow-y-auto">
                   {children}
                 </main>
-                <FooterWrapper />
               </IntroWrapper>
+              <FooterWrapper />
             </CartProvider>
           </IconDisplayProvider>
         </TransitionProvider>

@@ -40,9 +40,10 @@ export default function HeaderMobile() {
 
   return (
     <header
-      className="fixed top-0 left-0 right-0 w-full z-50 bg-[#554943] pl-[2.125rem] pr-6 pb-0 flex justify-between items-end touch-none"
+      className="fixed left-0 right-0 w-full z-[10002] bg-[#554943] pl-[2.125rem] pr-6 pb-0 flex justify-between items-end touch-none mobile-header-fixed"
       style={{
         touchAction: "none",
+        top: 0,
         height: "var(--mobile-header-height)",
         minHeight: "var(--mobile-header-height)",
       }}
