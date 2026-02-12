@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { useIsMobile } from "@/hooks/useMediaQuery";
+import { useShowMobileLayout } from "@/hooks/useMediaQuery";
 // import SponsoredByLifeAnimation from "./sponsoredByLifeAnimation";
 import LoadingSpinner from "./loadingSpinner";
 
@@ -31,7 +31,7 @@ export default function ArchitectureProjectExpandedView({
   const [project, setProject] = useState<ArchitectureProject | null>(null);
   const [loading, setLoading] = useState(true);
   const [loadedImages, setLoadedImages] = useState<Set<number>>(new Set());
-  const isMobile = useIsMobile();
+  const isMobile = useShowMobileLayout();
   const hasShownContentRef = useRef(false);
   const onCloseRef = useRef(onClose);
   onCloseRef.current = onClose;

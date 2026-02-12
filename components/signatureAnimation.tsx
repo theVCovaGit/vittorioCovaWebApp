@@ -1,7 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { useIsMobile } from "@/hooks/useMediaQuery";
+import { useShowMobileLayout } from "@/hooks/useMediaQuery";
 import SignatureComponent1 from "./signatureComponent1";
 import SignatureComponent2 from "./signatureComponent2";
 import SignatureComponent3 from "./signatureComponent3";
@@ -38,7 +38,7 @@ const viewBoxes = [
 ];
 
 export default function SignatureAnimation() {
-  const isMobile = useIsMobile();
+  const isMobile = useShowMobileLayout();
   
   // Scale factor for mobile - scale entire signature uniformly
   const mobileScale = isMobile ? 0.571 : 1; // 400/700 ≈ 0.571

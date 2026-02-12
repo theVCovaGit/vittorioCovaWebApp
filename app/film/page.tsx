@@ -162,7 +162,7 @@ export default function Film() {
 
   useEffect(() => {
     const updateIsMobile = () => {
-      setIsMobile(window.innerWidth <= 768);
+      setIsMobile(window.innerWidth <= 1024);
     };
 
     updateIsMobile();

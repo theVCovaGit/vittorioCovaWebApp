@@ -3,7 +3,7 @@
 import { useCallback, useState, useEffect, useLayoutEffect } from "react";
 import { motion } from "framer-motion";
 import SignatureAnimation from "./signatureAnimation";
-import { useIsMobile } from "@/hooks/useMediaQuery";
+import { useShowMobileLayout } from "@/hooks/useMediaQuery";
 
 const CURSOR_LIGHT = "#fff3df";
 
@@ -61,7 +61,7 @@ export default function IntroWrapper({ children }: { children: React.ReactNode }
   const [cursorPos, setCursorPos] = useState({ x: 0, y: 0 });
   const [cursorColor, setCursorColor] = useState(CURSOR_LIGHT);
   const [cursorVisible, setCursorVisible] = useState(false);
-  const isMobile = useIsMobile();
+  const isMobile = useShowMobileLayout();
 
   const updateCursor = useCallback((clientX: number, clientY: number) => {
     setCursorVisible(true);

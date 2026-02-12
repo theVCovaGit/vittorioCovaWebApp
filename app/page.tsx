@@ -1,12 +1,12 @@
 "use client";
 
-import { useIsMobile } from "@/hooks/useMediaQuery";
+import { useShowMobileLayout } from "@/hooks/useMediaQuery";
 import HeroMobile from "@/components/heroMobile";
 import { useEffect } from "react";
 import SlashVPattern from "@/components/slashVPattern";
 
 export default function Hero() {
-  const isMobile = useIsMobile();
+  const showMobileLayout = useShowMobileLayout();
 
   // Disable all scrolling (horizontal + vertical) on main page
   useEffect(() => {
@@ -26,8 +26,7 @@ export default function Hero() {
     };
   }, []);
 
-  // Mobile version
-  if (isMobile) {
+  if (showMobileLayout) {
     return <HeroMobile />;
   }
 
