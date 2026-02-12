@@ -1,13 +1,21 @@
 import { NextRequest, NextResponse } from "next/server";
 import { Resend } from "resend";
 
-const resend = new Resend(process.env.RESEND);
-
 const TO_EMAIL = "studio@vittoriocova.com";
 const FROM_EMAIL = process.env.RESEND_FROM ?? "Art Inquiries <onboarding@resend.dev>";
 
 export async function POST(req: NextRequest) {
   try {
+    const apiKey = process.env.RESEND;
+    if (!apiKey) {
+      console.error("Art inquiry: RESEND API key is not set");
+      return NextResponse.json(
+        { error: "Email service is not configured" },
+        { status: 503 }
+      );
+    }
+    const resend = new Resend(apiKey);
+
     const body = await req.json();
     const { name, email, phone, comments, artpiece } = body;
 
