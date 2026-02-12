@@ -47,14 +47,14 @@ export default function AboutMobile() {
         />
       </div>
 
-      {/* Fingerprint - right above the "t"; iPad Mini moves with label via .ipad-mini-icon-gap */}
+      {/* Fingerprint - right above the "t"; iPad Mini: .ipad-mini-icon-gap + higher/bigger via .ipad-mini-icon-about */}
       <div
-        className="fixed z-[1010] pointer-events-none flex justify-center ipad-mini-icon-gap"
+        className="fixed z-[1010] pointer-events-none flex justify-center ipad-mini-icon-gap ipad-mini-icon-about"
         style={{
-          left: "calc(var(--barcode-right, 100vw) - 2px)",
+          left: "calc(var(--barcode-right, 100vw) - 2px - 0.5rem)",
           bottom: "var(--barcode-bottom-offset, 80px)",
           width: "80px",
-          transform: "translateY(calc(-100% - 9rem))",
+          transform: "translateY(calc(-100% - 14rem))",
         }}
       >
         <Link

@@ -71,14 +71,14 @@ export default function NewsMobile() {
         />
       </div>
 
-      {/* Monoliths - right above NEWS label; iPad Mini moves with label via .ipad-mini-icon-gap */}
+      {/* Monoliths - right above NEWS label; iPad Mini: .ipad-mini-icon-gap + higher/bigger via .ipad-mini-icon-news */}
       <div
-        className="fixed z-[1010] pointer-events-none flex justify-center ipad-mini-icon-gap"
+        className="fixed z-[1010] pointer-events-none flex justify-center ipad-mini-icon-gap ipad-mini-icon-news"
         style={{
-          left: "calc(var(--barcode-right, 100vw) - 2px)",
+          left: "calc(var(--barcode-right, 100vw) - 2px - 0.5rem)",
           bottom: "var(--barcode-bottom-offset, 80px)",
           width: "80px",
-          transform: "translateY(calc(-100% - 6rem))",
+          transform: "translateY(calc(-100% - 11rem))",
         }}
       >
         <img

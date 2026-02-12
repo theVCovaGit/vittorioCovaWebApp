@@ -120,7 +120,7 @@
   }
 }
 
-/* iPad Mini (768px): bigger gap between barcode and label; label and icon above move right by same amount */
+/* iPad Mini (768px): bigger gap between barcode and label; label and icon above move right by same amount; icon higher and a bit bigger */
 @media (min-width: 760px) and (max-width: 768px) {
   :root {
     --ipad-mini-label-extra: 4.3rem; /* extra beyond base 4.2rem => total 8.5rem; icon uses same shift */
@@ -129,7 +129,19 @@
     left: calc(var(--barcode-right, 100vw) + 4.2rem + var(--ipad-mini-label-extra)) !important;
   }
   .ipad-mini-icon-gap {
-    left: calc(var(--barcode-right, 100vw) - 2px + var(--ipad-mini-label-extra)) !important;
+    left: calc(var(--barcode-right, 100vw) - 2px + var(--ipad-mini-label-extra) - 0.5rem) !important;
+  }
+  .ipad-mini-icon-news {
+    transform: translateY(calc(-100% - 12rem)) !important;
+  }
+  .ipad-mini-icon-about {
+    transform: translateY(calc(-100% - 15rem)) !important;
+  }
+  .ipad-mini-icon-contact {
+    transform: translateY(calc(-100% - 20rem)) !important;
+  }
+  .ipad-mini-icon-gap img {
+    width: min(52px, 14vw) !important;
   }
 }
 
