@@ -2,6 +2,8 @@
 
 **Rule:** I shall not affect mobile or desktop implementations—they're already perfect. **Only iPad.**
 
+**Where to put iPad-only CSS:** All tablet-band (768–1024px) overrides live in **`app/ipad.css`**. That file is imported after `globals.css` in `app/layout.tsx`. Add or edit iPad styles there so mobile and desktop stay untouched and iPad tweaks stay in one place.
+
 When improving layout, breakpoints, or components for tablet/iPad:
 
 - **Do not** change mobile-specific code, media queries, or components.

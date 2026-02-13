@@ -141,64 +141,7 @@
   }
 }
 
-/* iPad only (769px–1024px): much wider barcode + text in desktop footer; does not affect mobile or desktop */
-@media (min-width: 769px) and (max-width: 1024px) {
-  .ipad-barcode-scale {
-    transform: scale(1.42);
-    transform-origin: bottom right;
-  }
-  .ipad-barcode-wider {
-    max-width: 540px !important;
-  }
-  .ipad-barcode-text {
-    font-size: 34px !important;
-  }
-}
-
-/* When mobile footer is shown (600–1024): wider barcode + text so all iPads match iPad Mini */
-@media (min-width: 600px) and (max-width: 1024px) {
-  .ipad-mobile-barcode-scale {
-    transform: scale(1.3);
-    transform-origin: center center;
-  }
-}
-
-/* All iPads (768px–1024px): same look as iPad Mini – bigger gap, icon position/height/size */
-@media (min-width: 768px) and (max-width: 1024px) {
-  :root {
-    --ipad-mini-label-extra: 4.3rem; /* extra beyond base 4.2rem => total 8.5rem; icon uses same shift */
-  }
-  .ipad-mini-label-gap {
-    left: calc(var(--barcode-right, 100vw) + 4.2rem + var(--ipad-mini-label-extra)) !important;
-  }
-  .ipad-mini-icon-gap {
-    left: calc(var(--barcode-right, 100vw) - 2px + var(--ipad-mini-label-extra) - 0.5rem) !important;
-  }
-  .ipad-mini-icon-news {
-    transform: translateY(calc(-100% - 12rem)) !important;
-  }
-  .ipad-mini-icon-about {
-    transform: translateY(calc(-100% - 15rem)) !important;
-  }
-  .ipad-mini-icon-contact {
-    transform: translateY(calc(-100% - 20rem)) !important;
-  }
-  .ipad-mini-icon-gap img {
-    width: min(52px, 14vw) !important;
-  }
-}
-
-/* iPad Pro (900px–1024px): hero content bigger and lower; barcode bigger and a tad higher */
-@media (min-width: 900px) and (max-width: 1024px) {
-  .ipad-pro-hero-content {
-    transform: scale(1.3) translateY(7%);
-    transform-origin: top center;
-  }
-  .ipad-mobile-barcode-scale {
-    transform: scale(1.45) translateY(-14px) !important;
-    transform-origin: center center;
-  }
-}
+/* iPad/tablet band styles live in app/ipad.css (768–1024px only; no impact on mobile or desktop) */
 
 @media (prefers-color-scheme: dark) {
   :root {

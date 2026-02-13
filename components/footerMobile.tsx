@@ -132,7 +132,7 @@ export default function FooterMobile() {
 
   return (
     <footer
-      className="fixed bottom-0 left-0 z-50 w-full px-4 font-blurlight touch-none flex flex-col items-center justify-center"
+      className="fixed bottom-0 left-0 z-50 w-full px-4 font-blurlight touch-none flex flex-col items-center justify-center footer-mobile"
       style={{
         touchAction: "none",
         height: "var(--mobile-header-height)",
