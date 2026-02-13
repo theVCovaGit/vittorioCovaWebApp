@@ -54,7 +54,8 @@ export default function ArtProjectExpandedView({
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [showInquireForm, setShowInquireForm] = useState(false);
   const desktopImageRef = useRef<HTMLImageElement | null>(null);
-  const [imageRect, setImageRect] = useState<{ right: number } | null>(null);
+  const desktopWrapperRef = useRef<HTMLDivElement | null>(null);
+  const [imageRect, setImageRect] = useState<{ right: number; topOffset: number } | null>(null);
 
   useEffect(() => {
     const prev = document.body.style.overflow;
@@ -64,22 +65,27 @@ export default function ArtProjectExpandedView({
     };
   }, []);
 
-  // Desktop only: measure image so text gap stays proportional to image width (responsive for any dimensions)
+  // Desktop/iPad: measure image for text gap and for title alignment to image top (image stays centered)
   const measureImage = useCallback(() => {
     const img = desktopImageRef.current;
-    if (!img || !img.complete) return;
+    const wrapper = desktopWrapperRef.current;
+    if (!img || !img.complete || !wrapper) return;
     const rect = img.getBoundingClientRect();
+    const wrapperRect = wrapper.getBoundingClientRect();
     if (rect.width > 0 && rect.height > 0) {
-      setImageRect({ right: rect.right });
+      const topOffset = Math.max(0, rect.top - wrapperRect.top);
+      setImageRect({ right: rect.right, topOffset });
     }
   }, []);
 
   useEffect(() => {
     const img = desktopImageRef.current;
-    if (!img) return;
+    const wrapper = desktopWrapperRef.current;
+    if (!img || !wrapper) return;
     measureImage();
     const ro = new ResizeObserver(measureImage);
     ro.observe(img);
+    ro.observe(wrapper);
     window.addEventListener("resize", measureImage);
     return () => {
       ro.disconnect();
@@ -265,8 +271,9 @@ export default function ArtProjectExpandedView({
         </div>
       </div>
 
-      {/* Desktop: left image, right details (original layout) */}
+      {/* Desktop + iPad: image stays centered; title aligned to image top via measured topOffset */}
       <div 
+        ref={desktopWrapperRef}
         className="hidden md:block relative w-full h-full overflow-hidden"
         onClick={(e) => e.stopPropagation()}
       >
@@ -300,8 +307,11 @@ export default function ArtProjectExpandedView({
         </div>
         <div className="absolute left-0 right-0 top-0 bottom-0 bg-[#FFF3DF] overflow-hidden">
           <div
-            className="h-full pl-8 md:pl-12 pr-8 md:pr-12 pt-28 md:pt-40 pb-8 md:pb-12 flex flex-col items-start"
-            style={{ marginLeft: imageRect != null ? `calc(${imageRect.right}px + 3rem)` : "calc(var(--vittorio-v-left, 3rem) + 3rem)" }}
+            className="h-full pl-8 md:pl-12 pr-8 md:pr-12 pb-8 md:pb-12 flex flex-col items-start art-expanded-title-align"
+            style={{
+              marginLeft: imageRect != null ? `calc(${imageRect.right}px + 3rem)` : "calc(var(--vittorio-v-left, 3rem) + 3rem)",
+              paddingTop: imageRect != null ? `${imageRect.topOffset}px` : "7rem",
+            }}
           >
             <h1 className="text-[#4A413C] font-blurlight font-bold text-xl md:text-2xl uppercase tracking-wider leading-tight">{project.title}</h1>
             <div className="leading-tight mt-1">
