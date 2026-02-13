@@ -27,7 +27,7 @@ export default function HeroMobile() {
             max-width: 75vw;
           }
         }
-        /* Content zone ends above footer; no scroll; same size, just moved higher */
+        /* Content zone ends above footer; no scroll */
         .hero-pattern-zone {
           top: 0;
           left: 0;
