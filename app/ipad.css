@@ -40,6 +40,8 @@
     height: auto !important;
     padding-top: 0.75rem !important;
     padding-bottom: max(env(safe-area-inset-bottom, 0px), 1rem) !important;
+    /* Above hero/intro stacking context so footer overlays slash pattern and barcode/text stay visible */
+    z-index: 100 !important;
   }
 }
 
