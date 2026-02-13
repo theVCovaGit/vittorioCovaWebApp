@@ -26,10 +26,13 @@
   }
 }
 
-/* iPad (768–1024): barcode + text must stay above bottom of screen with a responsive margin */
+/* iPad (768–1024): keep footer at bottom: 0 so hero/pattern stay in place; grow footer height so barcode+text fit and aren’t cut */
 @media (min-width: 768px) and (max-width: 1024px) {
   .footer-mobile {
-    bottom: clamp(1rem, 3vw, 2.5rem) !important;
+    min-height: clamp(6rem, 18vh, 8rem) !important;
+    height: auto !important;
+    padding-top: 0.75rem !important;
+    padding-bottom: max(env(safe-area-inset-bottom, 0px), 1rem) !important;
   }
 }
 
