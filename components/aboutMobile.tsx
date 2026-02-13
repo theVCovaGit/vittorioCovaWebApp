@@ -87,9 +87,9 @@ export default function AboutMobile() {
           <p>founded in 2025</p>
         </div>
 
-        {/* Philosophical Thoughts Section */}
+        {/* Philosophical Thoughts Section; iPad: bigger via .about-mobile-content-text in ipad.css */}
         <div className="mb-4 pl-4">
-          <div className="space-y-2 text-[0.55rem] leading-relaxed font-blurlight">
+          <div className="space-y-2 text-[0.55rem] leading-relaxed font-blurlight about-mobile-content-text">
             <p>
               The greatest moment in human history was not when man walked the Moon, but when <span className="text-[#fec776] font-bold">God</span> walked the Earth.
             </p>

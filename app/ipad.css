@@ -11,6 +11,14 @@
   }
 }
 
+/* iPad only: about page – content text (philosophical statements) quite bigger */
+@media (min-width: 768px) and (max-width: 1024px) {
+  .about-mobile-content-text {
+    font-size: 1.25rem !important;
+    line-height: 1.55;
+  }
+}
+
 /* Desktop footer when shown on iPad (769px–1024px): much wider barcode + text */
 @media (min-width: 769px) and (max-width: 1024px) {
   .ipad-barcode-scale {
