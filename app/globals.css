@@ -169,8 +169,8 @@ body {
   overflow-x: hidden; /* Prevent horizontal scrolling issues */
 }
 
-/* Mobile only: on hero page, intro content above footer so slash pattern overlays footer (not cut) */
-@media (max-width: 768px) {
+/* iPad only (768–1024px): on hero page, intro content above footer so slash pattern overlays footer (not cut). iPhone unchanged. */
+@media (min-width: 768px) and (max-width: 1024px) {
   .intro-content.hero-page {
     position: relative;
     z-index: 60;
