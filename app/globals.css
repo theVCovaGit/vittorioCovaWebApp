@@ -169,12 +169,10 @@ body {
   overflow-x: hidden; /* Prevent horizontal scrolling issues */
 }
 
-/* iPad only (768–1024px): on hero page, intro content above footer so slash pattern overlays footer (not cut). iPhone unchanged. */
-@media (min-width: 768px) and (max-width: 1024px) {
-  .intro-content.hero-page {
-    position: relative;
-    z-index: 60;
-  }
+/* Hero page: footer on top with transparent background so slash pattern (which extends behind it) shows through */
+.footer-hero {
+  background-color: transparent !important;
+  z-index: 60;
 }
 
 /* Custom cursor – desktop only (no custom cursor on mobile/touch) */

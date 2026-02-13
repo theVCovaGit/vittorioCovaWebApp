@@ -27,12 +27,12 @@ export default function HeroMobile() {
             max-width: 75vw;
           }
         }
-        /* Content zone ends above footer; no scroll */
+        /* Pattern zone extends to bottom so pattern draws behind transparent footer and shows through */
         .hero-pattern-zone {
           top: 0;
           left: 0;
           right: 0;
-          bottom: max(12rem, 26vh);
+          bottom: 0;
           overflow: hidden;
         }
       `}} />

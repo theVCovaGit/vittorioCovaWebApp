@@ -132,13 +132,13 @@ export default function FooterMobile() {
 
   return (
     <footer
-      className="fixed bottom-0 left-0 z-50 w-full px-4 font-blurlight touch-none flex flex-col items-center justify-center footer-mobile"
+      className={`fixed bottom-0 left-0 z-50 w-full px-4 font-blurlight touch-none flex flex-col items-center justify-center footer-mobile${isHeroPage ? " footer-hero" : ""}`}
       style={{
         touchAction: "none",
         height: "var(--mobile-header-height)",
         minHeight: "var(--mobile-header-height)",
         paddingBottom: "env(safe-area-inset-bottom, 0px)",
-        backgroundColor: footerBg,
+        backgroundColor: isHeroPage ? "transparent" : footerBg,
       }}
     >
       {/* When viewport 600–768px (e.g. iPad showing mobile): wider barcode via .ipad-mobile-barcode-scale in globals.css */}
