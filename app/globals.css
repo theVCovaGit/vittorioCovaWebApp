@@ -169,10 +169,18 @@ body {
   overflow-x: hidden; /* Prevent horizontal scrolling issues */
 }
 
-/* Hero page: footer on top with transparent background so slash pattern (which extends behind it) shows through */
+/* Hero page: footer on top with transparent background so slash pattern (which extends behind it) shows through (all viewports) */
 .footer-hero {
   background-color: transparent !important;
   z-index: 60;
+}
+
+/* Cellphone: same as above so pattern shows through transparent footer on hero */
+@media (max-width: 767px) {
+  .footer-hero {
+    background-color: transparent !important;
+    z-index: 60 !important;
+  }
 }
 
 /* Custom cursor – desktop only (no custom cursor on mobile/touch) */
