@@ -8,20 +8,12 @@ import SlashVPattern from "@/components/slashVPattern";
 export default function Hero() {
   const showMobileLayout = useShowMobileLayout();
 
-  // Disable all scrolling (horizontal + vertical) on main page
+  // Prevent main from scrolling; do NOT set overflow hidden on html/body or the root clips the slash pattern at the viewport
   useEffect(() => {
     const main = document.querySelector("main");
-    const prevBody = document.body.style.overflow;
-    const prevHtml = document.documentElement.style.overflow;
     const prevMain = main ? main.style.overflow : "";
-
-    document.body.style.overflow = "hidden";
-    document.documentElement.style.overflow = "hidden";
     if (main) main.style.overflow = "hidden";
-
     return () => {
-      document.body.style.overflow = prevBody;
-      document.documentElement.style.overflow = prevHtml;
       if (main) main.style.overflow = prevMain;
     };
   }, []);

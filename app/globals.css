@@ -169,6 +169,14 @@ body {
   overflow-x: hidden; /* Prevent horizontal scrolling issues */
 }
 
+/* Mobile only: on hero page, intro content above footer so slash pattern overlays footer (not cut) */
+@media (max-width: 768px) {
+  .intro-content.hero-page {
+    position: relative;
+    z-index: 60;
+  }
+}
+
 /* Custom cursor – desktop only (no custom cursor on mobile/touch) */
 @media (min-width: 769px) {
   /* Static cursor image when adaptive cursor is NOT active; use none as fallback so we never show default arrow */

@@ -1,6 +1,7 @@
 "use client";
 
 import { useCallback, useState, useEffect, useLayoutEffect } from "react";
+import { usePathname } from "next/navigation";
 import { motion } from "framer-motion";
 import SignatureAnimation from "./signatureAnimation";
 import { useShowMobileLayout } from "@/hooks/useMediaQuery";
@@ -56,12 +57,14 @@ function getBackgroundAt(x: number, y: number): { r: number; g: number; b: numbe
 }
 
 export default function IntroWrapper({ children }: { children: React.ReactNode }) {
+  const pathname = usePathname();
   const [showIntro, setShowIntro] = useState(true);
   const [mounted, setMounted] = useState(false);
   const [cursorPos, setCursorPos] = useState({ x: 0, y: 0 });
   const [cursorColor, setCursorColor] = useState(CURSOR_LIGHT);
   const [cursorVisible, setCursorVisible] = useState(false);
   const isMobile = useShowMobileLayout();
+  const isHeroPage = pathname === "/";
 
   const updateCursor = useCallback((clientX: number, clientY: number) => {
     setCursorVisible(true);
@@ -130,6 +133,7 @@ export default function IntroWrapper({ children }: { children: React.ReactNode }
         </div>
       )}
       <motion.div
+        className={isHeroPage ? "intro-content hero-page" : "intro-content"}
         initial={{ opacity: 0 }}
         animate={{ opacity: showIntro ? 0 : 1 }}
         transition={{ duration: 0.5, delay: showIntro ? 0 : 0.3 }}
