@@ -80,14 +80,14 @@ export default function AboutMobile() {
           maxHeight: 'calc(100vh - var(--mobile-header-height) - 26vh)'
         }}
       >
-        {/* Description */}
-        <div className="text-[0.9rem] mb-4 leading-relaxed font-blurlight">
+        {/* Description – iPad: a bit bigger than rest via .about-mobile-heading-text */}
+        <div className="text-[0.9rem] mb-4 leading-relaxed font-blurlight about-mobile-heading-text">
           <p>A multi-faceted architecture and</p>
           <p>creative design firm</p>
           <p>founded in 2025</p>
         </div>
 
-        {/* Philosophical Thoughts Section; iPad: bigger via .about-mobile-content-text in ipad.css */}
+        {/* Philosophical Thoughts Section */}
         <div className="mb-4 pl-4">
           <div className="space-y-2 text-[0.55rem] leading-relaxed font-blurlight about-mobile-content-text">
             <p>

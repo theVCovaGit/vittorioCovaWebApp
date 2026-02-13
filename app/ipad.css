@@ -11,11 +11,14 @@
   }
 }
 
-/* iPad only: about page – content text (philosophical statements) quite bigger */
+/* iPad only: about page – all text bigger, intro a bit bigger than the rest */
 @media (min-width: 768px) and (max-width: 1024px) {
+  .about-mobile-heading-text {
+    font-size: 1.6rem !important;
+  }
   .about-mobile-content-text {
-    font-size: 1.25rem !important;
-    line-height: 1.55;
+    font-size: 1.35rem !important;
+    line-height: 1.5;
   }
 }
 
