@@ -80,6 +80,22 @@
     height: calc(100dvh - var(--mobile-header-height));
   }
 }
+/* Mobile layout (≤1024px): leave room for footer (barcode + links); image takes most space, beige strip short */
+@media (max-width: 1024px) {
+  .art-expanded-below-header {
+    height: calc(100vh - 2 * var(--mobile-header-height));
+  }
+  @supports (height: 100dvh) {
+    .art-expanded-below-header {
+      height: calc(100dvh - 2 * var(--mobile-header-height));
+    }
+  }
+  .art-expanded-below-header .art-expanded-image-block {
+    height: auto !important;
+    min-height: 0 !important;
+    flex: 1 1 0% !important;
+  }
+}
 @media (min-width: 768px) {
   .art-expanded-below-header {
     top: 4.5rem;

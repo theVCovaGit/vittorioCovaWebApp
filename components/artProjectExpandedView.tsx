@@ -205,7 +205,7 @@ export default function ArtProjectExpandedView({
         className="md:hidden flex flex-col w-full h-full min-h-0 overflow-hidden"
         onClick={(e) => e.stopPropagation()}
       >
-        <div className="flex-shrink-0 w-full min-w-full art-expanded-image-block bg-[#e8e0d5] relative overflow-hidden">
+        <div className="w-full min-w-full min-h-0 art-expanded-image-block bg-[#e8e0d5] relative overflow-hidden">
           {currentImage ? (
             <>
               <img
@@ -241,7 +241,7 @@ export default function ArtProjectExpandedView({
             <div className="absolute inset-0 flex items-center justify-center text-[#4A413C]/60 font-blurlight text-sm">No image available</div>
           )}
         </div>
-        <div className="flex-1 min-h-0 overflow-hidden bg-[#FFF3DF] px-6 pt-4 pb-6">
+        <div className="flex-shrink-0 overflow-hidden bg-[#FFF3DF] px-6 pt-4 pb-6">
           <div className="flex flex-wrap items-start justify-between gap-3 mb-0">
             <div className="min-w-0 flex-1">
               <h1 className="text-[#4A413C] font-blurlight font-bold text-lg uppercase tracking-wider leading-tight">{project.title}</h1>
