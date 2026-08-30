@@ -3,12 +3,16 @@
 import React, { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { useSectionSettings } from "@/hooks/useSectionSettings";
 
 export default function FooterMobile() {
   const pathname = usePathname();
+  const { settings } = useSectionSettings();
+  const hideNews = settings.news.hidden;
   const isFooterPage = ["/", "/about", "/contact", "/news"].includes(pathname);
   const barcodeRef = useRef<HTMLDivElement>(null);
   const contactRef = useRef<HTMLAnchorElement>(null);
+  const aboutRef = useRef<HTMLAnchorElement>(null);
   const newsRef = useRef<HTMLAnchorElement>(null);
   const [cToSWidth, setCToSWidth] = useState<number | null>(null);
   const [isArchitectureExpanded, setIsArchitectureExpanded] = useState(false);
@@ -89,40 +93,43 @@ export default function FooterMobile() {
     };
   }, []);
 
-  // On mobile: measure from beginning of C (CONTACT) to end of S (NEWS) using Range API for exact glyph bounds
+  // On mobile: measure from beginning of C (CONTACT) to the last glyph of the row
+  // (S of NEWS, or T of ABOUT when News is deactivated) using Range API for exact glyph bounds
   useEffect(() => {
     const measure = () => {
       const contact = contactRef.current;
-      const news = newsRef.current;
-      if (!contact || !news) return;
+      // Last link in the row defines the right edge
+      const last = hideNews ? aboutRef.current : newsRef.current;
+      if (!contact || !last) return;
       const cText = contact.firstChild;
-      const nText = news.firstChild;
-      if (!cText || !nText || cText.nodeType !== Node.TEXT_NODE || nText.nodeType !== Node.TEXT_NODE) return;
-      if ((cText.textContent?.length ?? 0) < 1 || (nText.textContent?.length ?? 0) < 4) return;
+      const lastText = last.firstChild;
+      if (!cText || !lastText || cText.nodeType !== Node.TEXT_NODE || lastText.nodeType !== Node.TEXT_NODE) return;
+      const lastLength = lastText.textContent?.length ?? 0;
+      if ((cText.textContent?.length ?? 0) < 1 || lastLength < 4) return;
       const range = document.createRange();
       range.setStart(cText, 0);
       range.setEnd(cText, 1);
       const cLeft = range.getBoundingClientRect().left;
-      range.setStart(nText, 3);
-      range.setEnd(nText, 4);
-      const sRight = range.getBoundingClientRect().right;
-      const offset = 5; // extra pixels on each side, still aligned to C/S flags
-      const width = (sRight - cLeft) + 2 * offset;
+      range.setStart(lastText, lastLength - 1);
+      range.setEnd(lastText, lastLength);
+      const lastRight = range.getBoundingClientRect().right;
+      const offset = 5; // extra pixels on each side, still aligned to the outer glyph flags
+      const width = (lastRight - cLeft) + 2 * offset;
       if (width > 0) setCToSWidth(width);
     };
     measure();
     requestAnimationFrame(measure);
     const contact = contactRef.current;
-    const news = newsRef.current;
-    if (contact && news) {
+    const last = hideNews ? aboutRef.current : newsRef.current;
+    if (contact && last) {
       const ro = new ResizeObserver(measure);
       ro.observe(contact);
-      ro.observe(news);
+      ro.observe(last);
       return () => ro.disconnect();
     }
     const t = setTimeout(measure, 150);
     return () => clearTimeout(t);
-  }, []);
+  }, [hideNews]);
 
   const isArchitecturePage = pathname === "/architecture";
   const isArtPage = pathname === "/art";
@@ -170,21 +177,26 @@ export default function FooterMobile() {
           </Link>
           <span>/</span>
           <Link
+            ref={aboutRef}
             href="/about"
             className="cursor-pointer no-underline transition-colors duration-200"
             style={{ color: footerTextColor }}
           >
             ABOUT
           </Link>
-          <span>/</span>
-          <Link
-            ref={newsRef}
-            href="/news"
-            className="cursor-pointer no-underline transition-colors duration-200"
-            style={{ color: footerTextColor }}
-          >
-            NEWS
-          </Link>
+          {!hideNews && (
+            <>
+              <span>/</span>
+              <Link
+                ref={newsRef}
+                href="/news"
+                className="cursor-pointer no-underline transition-colors duration-200"
+                style={{ color: footerTextColor }}
+              >
+                NEWS
+              </Link>
+            </>
+          )}
         </div>
       </div>
     </footer>

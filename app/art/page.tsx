@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import ArtDesktopGallery from "@/components/artDesktopGallery";
 import ArtMobile from "@/components/artMobile";
+import SectionPausedOverlay from "@/components/sectionPausedOverlay";
 
 export default function Art() {
   const [isMobile, setIsMobile] = useState(false);
@@ -25,9 +26,10 @@ export default function Art() {
     };
   }, []);
 
-  if (!hasMounted) {
-    return <ArtDesktopGallery />;
-  }
-
-  return isMobile ? <ArtMobile /> : <ArtDesktopGallery />;
+  return (
+    <>
+      {!hasMounted || !isMobile ? <ArtDesktopGallery /> : <ArtMobile />}
+      <SectionPausedOverlay section="art" />
+    </>
+  );
 }

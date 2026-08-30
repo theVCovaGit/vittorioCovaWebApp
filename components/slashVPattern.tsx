@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
+import { useSectionSettings } from "@/hooks/useSectionSettings";
 
 const PATTERN_FONT = { fontFamily: "Blur Light, sans-serif", fontSize: "32px", letterSpacing: "-2.4px" };
 const V_FLAG_COUNT = 17; // 17 V's → 18th character (C of CONTACT aligned with 18th V of second‑last row)
@@ -11,6 +12,13 @@ const BARCODE_PATH = "M5.14062 41.6719H0.328125V0.296875H5.14062V41.6719ZM9.8489
 export default function SlashVPattern() {
   const [patternRows, setPatternRows] = useState<string[]>([]);
   const [mounted, setMounted] = useState(false);
+  const { settings, loaded: settingsLoaded } = useSectionSettings();
+
+  // Deactivated sections keep their row, but as plain V's – the pattern stays intact
+  const hideArchitecture = settings.architecture.hidden;
+  const hideFilm = settings.film.hidden;
+  const hideArt = settings.art.hidden;
+  const hideNews = settings.news.hidden;
 
   // Pattern: /\ x 28, then V x 34, repeated 8 times = 16 rows
   const cycles = 8; // Number of times to repeat the pattern
@@ -21,7 +29,14 @@ export default function SlashVPattern() {
 
   useEffect(() => {
     setMounted(true);
-    
+  }, []);
+
+  useEffect(() => {
+    // Wait for the section switches so a deactivated link never flashes in
+    if (!settingsLoaded) {
+      return;
+    }
+
     // Generate pattern only on client side
     const generatePattern = () => {
       const pattern: string[] = [];
@@ -40,7 +55,7 @@ export default function SlashVPattern() {
         
         // Row 2: V row - special cases for first V row (cycle 0), 8th row (cycle 3), and 12th row (cycle 5)
         let vRow = "";
-        if (cycle === 0) {
+        if (cycle === 0 && !hideArchitecture) {
           // First V row (row 2): 13 V's + ARCHITECTURE . + 9 V's
           for (let i = 0; i < 13; i++) {
             vRow += "V";
@@ -55,7 +70,7 @@ export default function SlashVPattern() {
               vRow += " ".repeat(charSpacing);
             }
           }
-        } else if (cycle === 3) {
+        } else if (cycle === 3 && !hideFilm) {
           // 8th row (cycle 3, second row): 26 V's + FILM . + 4 V's
           for (let i = 0; i < 26; i++) {
             vRow += "V";
@@ -70,7 +85,7 @@ export default function SlashVPattern() {
               vRow += " ".repeat(charSpacing);
             }
           }
-        } else if (cycle === 5) {
+        } else if (cycle === 5 && !hideArt) {
           // 12th row (cycle 5, second row): 6 V's + ART . + 24 V's
           for (let i = 0; i < 6; i++) {
             vRow += "V";
@@ -111,7 +126,7 @@ export default function SlashVPattern() {
     };
 
     setPatternRows(generatePattern());
-  }, []);
+  }, [settingsLoaded, hideArchitecture, hideFilm, hideArt]);
 
   if (!mounted || patternRows.length === 0) {
     return null;
@@ -166,8 +181,12 @@ export default function SlashVPattern() {
                     <Link href="/contact" className="text-[#fec776] no-underline hover:text-[#fff3df] active:text-[#fff3df] cursor-pointer relative z-[100000]">CONTACT</Link>
                     <span> / </span>
                     <Link href="/about" className="text-[#fec776] no-underline hover:text-[#fff3df] active:text-[#fff3df] cursor-pointer relative z-[100000]">ABOUT</Link>
-                    <span> / </span>
-                    <Link href="/news" className="text-[#fec776] no-underline hover:text-[#fff3df] active:text-[#fff3df] cursor-pointer relative z-[100000]">NEWS</Link>
+                    {!hideNews && (
+                      <>
+                        <span> / </span>
+                        <Link href="/news" className="text-[#fec776] no-underline hover:text-[#fff3df] active:text-[#fff3df] cursor-pointer relative z-[100000]">NEWS</Link>
+                      </>
+                    )}
                   </span>
                 </span>
               </div>

@@ -6,6 +6,7 @@ import Link from "next/link";
 import FilmMobile from "@/components/filmMobile";
 import CreativeSectionFooter from "@/components/creativeSectionFooter";
 import LoadingSpinner from "@/components/loadingSpinner";
+import SectionPausedOverlay from "@/components/sectionPausedOverlay";
 
 interface FilmProject {
   id: number;
@@ -173,9 +174,10 @@ export default function Film() {
     };
   }, []);
 
-  if (!hasMounted) {
-    return <FilmDesktop />;
-  }
-
-  return isMobile ? <FilmMobile /> : <FilmDesktop />;
+  return (
+    <>
+      {!hasMounted || !isMobile ? <FilmDesktop /> : <FilmMobile />}
+      <SectionPausedOverlay section="film" />
+    </>
+  );
 }

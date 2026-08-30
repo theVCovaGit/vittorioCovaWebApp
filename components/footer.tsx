@@ -4,9 +4,12 @@ import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import CreativeSectionFooter from "./creativeSectionFooter";
+import { useSectionSettings } from "@/hooks/useSectionSettings";
 
 export default function Footer() {
   const pathname = usePathname();
+  const { settings } = useSectionSettings();
+  const hideNews = settings.news.hidden;
   const isFooterPage = ["/about", "/contact", "/news"].includes(pathname);
   const isArchitecturePage = pathname === "/architecture";
   const isArtPage = pathname === "/art";
@@ -113,8 +116,12 @@ export default function Footer() {
               <Link href="/contact" className="text-[#fec776] no-underline hover:text-[#fec776] cursor-pointer transition-colors duration-200">CONTACT</Link>
               <span> / </span>
               <Link href="/about" className="text-[#fec776] no-underline hover:text-[#fec776] cursor-pointer transition-colors duration-200">ABOUT</Link>
-              <span> / </span>
-              <Link href="/news" className="text-[#fec776] no-underline hover:text-[#fec776] cursor-pointer transition-colors duration-200">NEWS</Link>
+              {!hideNews && (
+                <>
+                  <span> / </span>
+                  <Link href="/news" className="text-[#fec776] no-underline hover:text-[#fec776] cursor-pointer transition-colors duration-200">NEWS</Link>
+                </>
+              )}
             </span>
           </div>
         </div>
@@ -144,8 +151,12 @@ export default function Footer() {
               <Link href="/contact" className="cursor-pointer text-[#fec776] no-underline hover:text-[#fec776] transition-colors duration-200">CONTACT</Link>
               <span className="text-[#fec776]">/</span>
               <Link href="/about" className="cursor-pointer text-[#fec776] no-underline hover:text-[#fec776] transition-colors duration-200">ABOUT</Link>
-              <span className="text-[#fec776]">/</span>
-              <Link href="/news" className="cursor-pointer text-[#fec776] no-underline hover:text-[#fec776] transition-colors duration-200">NEWS</Link>
+              {!hideNews && (
+                <>
+                  <span className="text-[#fec776]">/</span>
+                  <Link href="/news" className="cursor-pointer text-[#fec776] no-underline hover:text-[#fec776] transition-colors duration-200">NEWS</Link>
+                </>
+              )}
             </div>
           </div>
         </div>

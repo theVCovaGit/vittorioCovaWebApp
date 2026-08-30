@@ -183,6 +183,26 @@ export async function ensureTableExists(tableName: string, retries = 2): Promise
           `;
           break;
 
+        case 'section_settings':
+          await sql`
+            CREATE TABLE IF NOT EXISTS section_settings (
+              section VARCHAR(50) PRIMARY KEY,
+              hidden BOOLEAN DEFAULT false,
+              paused BOOLEAN DEFAULT false,
+              updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+            )
+          `;
+          // Seed one row per section (no-op if the row already exists)
+          await sql`
+            INSERT INTO section_settings (section, hidden, paused)
+            VALUES ('architecture', false, false),
+                   ('art', false, false),
+                   ('film', false, false),
+                   ('news', false, false)
+            ON CONFLICT (section) DO NOTHING
+          `;
+          break;
+
         case 'blog_articles':
           await sql`
             CREATE TABLE IF NOT EXISTS blog_articles (

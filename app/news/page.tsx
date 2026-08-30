@@ -5,6 +5,7 @@ import { useShowMobileLayout } from "@/hooks/useMediaQuery";
 import NewsLabel from "@/components/newsLabel";
 import NewsMobile from "@/components/newsMobile";
 import InteractiveMosaics from "@/components/interactiveMosaics";
+import SectionPausedOverlay from "@/components/sectionPausedOverlay";
 
 type NewsItem = {
   id: number;
@@ -44,11 +45,17 @@ export default function News() {
   }, []);
 
   if (showMobileLayout) {
-    return <NewsMobile />;
+    return (
+      <>
+        <NewsMobile />
+        <SectionPausedOverlay section="news" />
+      </>
+    );
   }
 
   // Desktop version
   return (
+    <>
     <main className="relative min-h-screen bg-[#fff3df] text-[#a08e80] font-blurlight overflow-hidden">
       <div
         className="absolute"
@@ -116,5 +123,7 @@ export default function News() {
         </div>
       </div>
     </main>
+    <SectionPausedOverlay section="news" />
+    </>
   );
 }

@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
+import { useSectionSettings } from "@/hooks/useSectionSettings";
 
 // Mobile: wavy /\ and V pattern with ARCHITECTURE, FILM, ART embedded
 // Row 4: after 7th V -> "ARCHITECTURE ." -> 4 V's
@@ -10,6 +11,12 @@ import Link from "next/link";
 export default function SlashVPatternMobile() {
   const [patternRows, setPatternRows] = useState<string[]>([]);
   const [mounted, setMounted] = useState(false);
+  const { settings, loaded: settingsLoaded } = useSectionSettings();
+
+  // Deactivated sections keep their row, but as plain V's – the pattern stays intact
+  const hideArchitecture = settings.architecture.hidden;
+  const hideFilm = settings.film.hidden;
+  const hideArt = settings.art.hidden;
 
   const cycles = 12; // 12 cycles = 24 rows total (12 /\ + 12 V)
   const slashCount = 24;
@@ -18,6 +25,12 @@ export default function SlashVPatternMobile() {
 
   useEffect(() => {
     setMounted(true);
+  }, []);
+
+  useEffect(() => {
+    // Wait for the section switches so a deactivated link never flashes in
+    if (!settingsLoaded) return;
+
     const pattern: string[] = [];
     for (let cycle = 0; cycle < cycles; cycle++) {
       // Slash row
@@ -30,7 +43,7 @@ export default function SlashVPatternMobile() {
       
       // V row with special cases for rows 4, 10, and 18
       let vRow = "";
-      if (cycle === 1) {
+      if (cycle === 1 && !hideArchitecture) {
         // Row 4: 9 V's + ARCHITECTURE . + 7 V's
         for (let i = 0; i < 9; i++) {
           vRow += "V";
@@ -41,7 +54,7 @@ export default function SlashVPatternMobile() {
           vRow += "V";
           if (charSpacing > 0 && i < 8) vRow += " ".repeat(charSpacing);
         }
-      } else if (cycle === 4) {
+      } else if (cycle === 4 && !hideFilm) {
         // Row 10: 20 V's + FILM . + 4 V's
         for (let i = 0; i < 20; i++) {
           vRow += "V";
@@ -52,7 +65,7 @@ export default function SlashVPatternMobile() {
           vRow += "V";
           if (charSpacing > 0 && i < 5) vRow += " ".repeat(charSpacing);
         }
-      } else if (cycle === 8) {
+      } else if (cycle === 8 && !hideArt) {
         // Row 18: 6 V's + ART . + 18 V's
         for (let i = 0; i < 6; i++) {
           vRow += "V";
@@ -73,7 +86,7 @@ export default function SlashVPatternMobile() {
       pattern.push(vRow);
     }
     setPatternRows(pattern);
-  }, []);
+  }, [settingsLoaded, hideArchitecture, hideFilm, hideArt]);
 
   if (!mounted || patternRows.length === 0) return null;
 

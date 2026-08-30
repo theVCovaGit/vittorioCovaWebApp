@@ -6,6 +6,7 @@ import { usePathname } from "next/navigation";
 import ArchitectureMobile from "@/components/architectureMobile";
 import ArchitectureProjectExpandedView from "@/components/architectureProjectExpandedView";
 import LoadingSpinner from "@/components/loadingSpinner";
+import SectionPausedOverlay from "@/components/sectionPausedOverlay";
 
 interface ArchitectureProject {
   id: number;
@@ -500,9 +501,10 @@ export default function Architecture() {
     };
   }, []);
 
-  if (!hasMounted) {
-    return <ArchitectureDesktop />;
-  }
-
-  return isMobile ? <ArchitectureMobile /> : <ArchitectureDesktop />;
+  return (
+    <>
+      {!hasMounted || !isMobile ? <ArchitectureDesktop /> : <ArchitectureMobile />}
+      <SectionPausedOverlay section="architecture" />
+    </>
+  );
 }
