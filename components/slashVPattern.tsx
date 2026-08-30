@@ -3,6 +3,7 @@
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import { useSectionSettings } from "@/hooks/useSectionSettings";
+import { useSession } from "@/hooks/useSession";
 
 const PATTERN_FONT = { fontFamily: "Blur Light, sans-serif", fontSize: "32px", letterSpacing: "-2.4px" };
 const V_FLAG_COUNT = 17; // 17 V's → 18th character (C of CONTACT aligned with 18th V of second‑last row)
@@ -13,12 +14,21 @@ export default function SlashVPattern() {
   const [patternRows, setPatternRows] = useState<string[]>([]);
   const [mounted, setMounted] = useState(false);
   const { settings, loaded: settingsLoaded } = useSectionSettings();
+  const { isStaff, loaded: sessionLoaded } = useSession();
 
-  // Deactivated sections keep their row, but as plain V's – the pattern stays intact
-  const hideArchitecture = settings.architecture.hidden;
-  const hideFilm = settings.film.hidden;
-  const hideArt = settings.art.hidden;
-  const hideNews = settings.news.hidden;
+  // Deactivated sections keep their row, but as plain V's – the pattern stays intact.
+  // Signed-in users still see the link, greyed out and still clickable.
+  const hideArchitecture = settings.architecture.hidden && !isStaff;
+  const hideFilm = settings.film.hidden && !isStaff;
+  const hideArt = settings.art.hidden && !isStaff;
+  const hideNews = settings.news.hidden && !isStaff;
+
+  const dimArchitecture = settings.architecture.hidden;
+  const dimFilm = settings.film.hidden;
+  const dimArt = settings.art.hidden;
+  const dimNews = settings.news.hidden;
+
+  const DIMMED_LINK = "rgba(0, 0, 0, 0.35)";
 
   // Pattern: /\ x 28, then V x 34, repeated 8 times = 16 rows
   const cycles = 8; // Number of times to repeat the pattern
@@ -32,8 +42,8 @@ export default function SlashVPattern() {
   }, []);
 
   useEffect(() => {
-    // Wait for the section switches so a deactivated link never flashes in
-    if (!settingsLoaded) {
+    // Wait for the switches and the session so a deactivated link never flashes in
+    if (!settingsLoaded || !sessionLoaded) {
       return;
     }
 
@@ -126,7 +136,7 @@ export default function SlashVPattern() {
     };
 
     setPatternRows(generatePattern());
-  }, [settingsLoaded, hideArchitecture, hideFilm, hideArt]);
+  }, [settingsLoaded, sessionLoaded, hideArchitecture, hideFilm, hideArt]);
 
   if (!mounted || patternRows.length === 0) {
     return null;
@@ -184,7 +194,7 @@ export default function SlashVPattern() {
                     {!hideNews && (
                       <>
                         <span> / </span>
-                        <Link href="/news" className="text-[#fec776] no-underline hover:text-[#fff3df] active:text-[#fff3df] cursor-pointer relative z-[100000]">NEWS</Link>
+                        <Link href="/news" style={{ color: dimNews ? "rgba(254, 199, 118, 0.4)" : undefined }} className="text-[#fec776] no-underline hover:text-[#fff3df] active:text-[#fff3df] cursor-pointer relative z-[100000]">NEWS</Link>
                       </>
                     )}
                   </span>
@@ -202,14 +212,14 @@ export default function SlashVPattern() {
                 <Link 
                   href="/architecture"
                   style={{ 
-                    color: "#000000",
+                    color: dimArchitecture ? DIMMED_LINK : "#000000",
                     textDecoration: "none",
                     position: "relative",
                     zIndex: 2000,
                   }}
                   className="architecture-link hover:!text-[#fff3df] active:!text-[#fff3df] transition-colors cursor-pointer"
                   onMouseEnter={(e) => e.currentTarget.style.color = "#fff3df"}
-                  onMouseLeave={(e) => e.currentTarget.style.color = "#000000"}
+                  onMouseLeave={(e) => e.currentTarget.style.color = dimArchitecture ? DIMMED_LINK : "#000000"}
                 >
                   ARCHITECTURE .
                 </Link>
@@ -226,7 +236,7 @@ export default function SlashVPattern() {
                 <Link 
                   href="/film"
                   style={{ 
-                    color: "#000000",
+                    color: dimFilm ? DIMMED_LINK : "#000000",
                     textDecoration: "none",
                   }}
                   className="hover:!text-[#fff3df] active:!text-[#fff3df] transition-colors cursor-pointer"
@@ -246,7 +256,7 @@ export default function SlashVPattern() {
                 <Link 
                   href="/art"
                   style={{ 
-                    color: "#000000",
+                    color: dimArt ? DIMMED_LINK : "#000000",
                     textDecoration: "none",
                   }}
                   className="hover:!text-[#fff3df] active:!text-[#fff3df] transition-colors cursor-pointer"

@@ -4,11 +4,15 @@ import React, { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useSectionSettings } from "@/hooks/useSectionSettings";
+import { useSession } from "@/hooks/useSession";
 
 export default function FooterMobile() {
   const pathname = usePathname();
   const { settings } = useSectionSettings();
-  const hideNews = settings.news.hidden;
+  const { isStaff } = useSession();
+  // Signed-in users keep the link, greyed out and still clickable
+  const dimNews = settings.news.hidden;
+  const hideNews = dimNews && !isStaff;
   const isFooterPage = ["/", "/about", "/contact", "/news"].includes(pathname);
   const barcodeRef = useRef<HTMLDivElement>(null);
   const contactRef = useRef<HTMLAnchorElement>(null);
@@ -191,7 +195,7 @@ export default function FooterMobile() {
                 ref={newsRef}
                 href="/news"
                 className="cursor-pointer no-underline transition-colors duration-200"
-                style={{ color: footerTextColor }}
+                style={{ color: footerTextColor, opacity: dimNews ? 0.4 : 1 }}
               >
                 NEWS
               </Link>

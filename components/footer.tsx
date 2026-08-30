@@ -5,11 +5,16 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import CreativeSectionFooter from "./creativeSectionFooter";
 import { useSectionSettings } from "@/hooks/useSectionSettings";
+import { useSession } from "@/hooks/useSession";
 
 export default function Footer() {
   const pathname = usePathname();
   const { settings } = useSectionSettings();
-  const hideNews = settings.news.hidden;
+  const { isStaff } = useSession();
+  // Signed-in users keep the link, greyed out and still clickable
+  const dimNews = settings.news.hidden;
+  const hideNews = dimNews && !isStaff;
+  const dimmedNews = "rgba(254, 199, 118, 0.4)";
   const isFooterPage = ["/about", "/contact", "/news"].includes(pathname);
   const isArchitecturePage = pathname === "/architecture";
   const isArtPage = pathname === "/art";
@@ -119,7 +124,7 @@ export default function Footer() {
               {!hideNews && (
                 <>
                   <span> / </span>
-                  <Link href="/news" className="text-[#fec776] no-underline hover:text-[#fec776] cursor-pointer transition-colors duration-200">NEWS</Link>
+                  <Link href="/news" style={{ color: dimNews ? dimmedNews : undefined }} className="text-[#fec776] no-underline hover:text-[#fec776] cursor-pointer transition-colors duration-200">NEWS</Link>
                 </>
               )}
             </span>
@@ -154,7 +159,7 @@ export default function Footer() {
               {!hideNews && (
                 <>
                   <span className="text-[#fec776]">/</span>
-                  <Link href="/news" className="cursor-pointer text-[#fec776] no-underline hover:text-[#fec776] transition-colors duration-200">NEWS</Link>
+                  <Link href="/news" style={{ color: dimNews ? dimmedNews : undefined }} className="cursor-pointer text-[#fec776] no-underline hover:text-[#fec776] transition-colors duration-200">NEWS</Link>
                 </>
               )}
             </div>

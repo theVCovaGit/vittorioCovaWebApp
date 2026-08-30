@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { sql, ensureTableExists } from "@/lib/db";
 import { SECTION_KEYS, SectionKey, SectionSetting, isSectionKey } from "@/lib/sections";
+import { SESSION_COOKIE, readSessionToken } from "@/lib/auth";
 
 export const dynamic = "force-dynamic";
 
@@ -44,9 +45,13 @@ export async function GET() {
   }
 }
 
-// PUT: Update the hidden and/or paused flag of a single section
+// PUT: Update the hidden and/or paused flag of a single section (signed-in users only)
 export async function PUT(req: NextRequest) {
   try {
+    if (!readSessionToken(req.cookies.get(SESSION_COOKIE)?.value)) {
+      return NextResponse.json({ error: "Not signed in" }, { status: 401 });
+    }
+
     const body = await req.json();
     const { section, hidden, paused } = body;
 

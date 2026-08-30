@@ -183,6 +183,17 @@ export async function ensureTableExists(tableName: string, retries = 2): Promise
           `;
           break;
 
+        case 'site_users':
+          await sql`
+            CREATE TABLE IF NOT EXISTS site_users (
+              username VARCHAR(50) PRIMARY KEY,
+              salt VARCHAR(64) NOT NULL,
+              password_hash VARCHAR(256) NOT NULL,
+              created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+            )
+          `;
+          break;
+
         case 'section_settings':
           await sql`
             CREATE TABLE IF NOT EXISTS section_settings (

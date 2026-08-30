@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import { useSectionSettings } from "@/hooks/useSectionSettings";
+import { useSession } from "@/hooks/useSession";
 
 // Mobile: wavy /\ and V pattern with ARCHITECTURE, FILM, ART embedded
 // Row 4: after 7th V -> "ARCHITECTURE ." -> 4 V's
@@ -12,11 +13,19 @@ export default function SlashVPatternMobile() {
   const [patternRows, setPatternRows] = useState<string[]>([]);
   const [mounted, setMounted] = useState(false);
   const { settings, loaded: settingsLoaded } = useSectionSettings();
+  const { isStaff, loaded: sessionLoaded } = useSession();
 
-  // Deactivated sections keep their row, but as plain V's – the pattern stays intact
-  const hideArchitecture = settings.architecture.hidden;
-  const hideFilm = settings.film.hidden;
-  const hideArt = settings.art.hidden;
+  // Deactivated sections keep their row, but as plain V's – the pattern stays intact.
+  // Signed-in users still see the link, greyed out and still clickable.
+  const hideArchitecture = settings.architecture.hidden && !isStaff;
+  const hideFilm = settings.film.hidden && !isStaff;
+  const hideArt = settings.art.hidden && !isStaff;
+
+  const dimArchitecture = settings.architecture.hidden;
+  const dimFilm = settings.film.hidden;
+  const dimArt = settings.art.hidden;
+
+  const DIMMED_LINK = "rgba(0, 0, 0, 0.35)";
 
   const cycles = 12; // 12 cycles = 24 rows total (12 /\ + 12 V)
   const slashCount = 24;
@@ -28,8 +37,8 @@ export default function SlashVPatternMobile() {
   }, []);
 
   useEffect(() => {
-    // Wait for the section switches so a deactivated link never flashes in
-    if (!settingsLoaded) return;
+    // Wait for the switches and the session so a deactivated link never flashes in
+    if (!settingsLoaded || !sessionLoaded) return;
 
     const pattern: string[] = [];
     for (let cycle = 0; cycle < cycles; cycle++) {
@@ -86,7 +95,7 @@ export default function SlashVPatternMobile() {
       pattern.push(vRow);
     }
     setPatternRows(pattern);
-  }, [settingsLoaded, hideArchitecture, hideFilm, hideArt]);
+  }, [settingsLoaded, sessionLoaded, hideArchitecture, hideFilm, hideArt]);
 
   if (!mounted || patternRows.length === 0) return null;
 
@@ -119,7 +128,7 @@ export default function SlashVPatternMobile() {
                 <Link 
                   href="/architecture"
                   style={{ 
-                    color: "#000000",
+                    color: dimArchitecture ? DIMMED_LINK : "#000000",
                     textDecoration: "none",
                     position: "relative",
                     zIndex: 2000,
@@ -141,7 +150,7 @@ export default function SlashVPatternMobile() {
                 <Link 
                   href="/film"
                   style={{ 
-                    color: "#000000",
+                    color: dimFilm ? DIMMED_LINK : "#000000",
                     textDecoration: "none",
                   }}
                   className="hover:!text-[#fff3df] active:!text-[#fff3df] transition-colors cursor-pointer"
@@ -161,7 +170,7 @@ export default function SlashVPatternMobile() {
                 <Link 
                   href="/art"
                   style={{ 
-                    color: "#000000",
+                    color: dimArt ? DIMMED_LINK : "#000000",
                     textDecoration: "none",
                   }}
                   className="hover:!text-[#fff3df] active:!text-[#fff3df] transition-colors cursor-pointer"

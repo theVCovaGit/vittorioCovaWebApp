@@ -9,6 +9,7 @@ import NewsContentPanel from "@/components/newsContentPanel";
 import SectionSwitches from "@/components/sectionSwitches";
 import { SectionKey, SectionSetting, defaultSectionSettings, isSectionKey } from "@/lib/sections";
 import { SECTION_SETTINGS_UPDATED_EVENT } from "@/hooks/useSectionSettings";
+import { SESSION_CHANGED_EVENT, useSession } from "@/hooks/useSession";
 
 /** Sections without a content panel yet – the button is a placeholder for now */
 type PanelKey = SectionKey | "about" | "contact" | "cursor";
@@ -37,8 +38,11 @@ const GROUPS: { title: string; items: { key: PanelKey; label: string; dot: strin
 ];
 
 const AdminPage = () => {
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const { user, loaded: sessionLoaded } = useSession();
+  const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [loginError, setLoginError] = useState<string | null>(null);
+  const [signingIn, setSigningIn] = useState(false);
   const [activePanel, setActivePanel] = useState<PanelKey | null>(null);
   const [sectionSettings, setSectionSettings] = useState<Record<SectionKey, SectionSetting>>(
     defaultSectionSettings
@@ -46,7 +50,7 @@ const AdminPage = () => {
   const [settingsLoaded, setSettingsLoaded] = useState(false);
   const [savingSection, setSavingSection] = useState<SectionKey | null>(null);
 
-  const hardcodedPassword = "123";
+  const isAuthenticated = user !== null;
 
   // Dispatch events when panels expand/collapse for footer visibility
   useEffect(() => {
@@ -122,11 +126,42 @@ const AdminPage = () => {
     [sectionSettings]
   );
 
-  const handleLogin = () => {
-    if (password === hardcodedPassword) {
-      setIsAuthenticated(true);
-    } else {
-      alert("Incorrect password");
+  const handleLogin = async () => {
+    if (signingIn) return;
+    setSigningIn(true);
+    setLoginError(null);
+
+    try {
+      const res = await fetch("/api/auth/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ username, password }),
+      });
+
+      if (!res.ok) {
+        const err = await res.json().catch(() => ({}));
+        setLoginError(err?.error || "Could not sign in");
+        return;
+      }
+
+      setPassword("");
+      // Refreshes useSession here and anywhere else on the page
+      window.dispatchEvent(new CustomEvent(SESSION_CHANGED_EVENT));
+    } catch (err) {
+      console.error("❌ Error signing in:", err);
+      setLoginError("Could not sign in");
+    } finally {
+      setSigningIn(false);
+    }
+  };
+
+  const handleLogout = async () => {
+    try {
+      await fetch("/api/auth/session", { method: "DELETE" });
+      setActivePanel(null);
+      window.dispatchEvent(new CustomEvent(SESSION_CHANGED_EVENT));
+    } catch (err) {
+      console.error("❌ Error signing out:", err);
     }
   };
 
@@ -136,17 +171,32 @@ const AdminPage = () => {
         <div className="w-96 p-6 bg-transparent text-white">
           <h1 className="text-2xl font-blurlight mb-4 text-center"></h1>
           <input
+            type="text"
+            autoComplete="username"
+            value={username}
+            onChange={(e) => setUsername(e.target.value)}
+            onKeyDown={(e) => e.key === "Enter" && handleLogin()}
+            className="bg-transparent font-blurlight text-black w-full p-2 mb-4 border border-gray-600 rounded-md"
+            placeholder="Enter user"
+          />
+          <input
             type="password"
+            autoComplete="current-password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
+            onKeyDown={(e) => e.key === "Enter" && handleLogin()}
             className="bg-transparent font-blurlight text-black w-full p-2 mb-4 border border-gray-600 rounded-md"
             placeholder="Enter password"
           />
+          {loginError && (
+            <p className="font-blurlight text-sm text-black mb-3 text-center">{loginError}</p>
+          )}
           <button
             onClick={handleLogin}
+            disabled={signingIn || !sessionLoaded}
             className="w-full font-blurlight bg-transparent text-white py-2 px-4 rounded-md"
           >
-            Login
+            {signingIn ? "Signing in…" : "Login"}
           </button>
         </div>
       </div>
@@ -165,7 +215,17 @@ const AdminPage = () => {
 
   return (
     <div className="min-h-screen bg-[#554943] text-[#19333F] px-6 md:px-12 lg:px-24 mt-[6rem] sm:mt-[6.5rem] md:mt-[7rem] pb-28 sm:pb-32">
-      <h1 className="font-blurlight text-black text-2xl font-bold">Welcome back Vittorio</h1>
+      <div className="flex items-baseline justify-between gap-4">
+        <h1 className="font-blurlight text-black text-2xl font-bold">
+          Welcome back {user ? user.charAt(0).toUpperCase() + user.slice(1) : ""}
+        </h1>
+        <button
+          onClick={handleLogout}
+          className="font-blurlight text-sm text-black/70 hover:text-black underline"
+        >
+          Log out
+        </button>
+      </div>
 
       {GROUPS.map(({ title, items }) => (
         <div key={title} className="mt-8 first:mt-4">
