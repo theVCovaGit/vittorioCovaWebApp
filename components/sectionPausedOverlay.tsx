@@ -70,7 +70,7 @@ export default function SectionPausedOverlay({ section }: { section: SectionKey 
       className="fixed inset-0 flex items-center justify-center"
       style={{
         zIndex: 2147483001,
-        backgroundColor: "rgba(120, 118, 114, 0.35)",
+        backgroundColor: "rgba(120, 118, 114, 0.72)",
       }}
       aria-live="polite"
     >

@@ -18,6 +18,7 @@ export default function FooterMobile() {
   const contactRef = useRef<HTMLAnchorElement>(null);
   const aboutRef = useRef<HTMLAnchorElement>(null);
   const newsRef = useRef<HTMLAnchorElement>(null);
+  const adminRef = useRef<HTMLAnchorElement>(null);
   const [cToSWidth, setCToSWidth] = useState<number | null>(null);
   const [isArchitectureExpanded, setIsArchitectureExpanded] = useState(false);
 
@@ -103,7 +104,7 @@ export default function FooterMobile() {
     const measure = () => {
       const contact = contactRef.current;
       // Last link in the row defines the right edge
-      const last = hideNews ? aboutRef.current : newsRef.current;
+      const last = isStaff ? adminRef.current : hideNews ? aboutRef.current : newsRef.current;
       if (!contact || !last) return;
       const cText = contact.firstChild;
       const lastText = last.firstChild;
@@ -124,7 +125,7 @@ export default function FooterMobile() {
     measure();
     requestAnimationFrame(measure);
     const contact = contactRef.current;
-    const last = hideNews ? aboutRef.current : newsRef.current;
+    const last = isStaff ? adminRef.current : hideNews ? aboutRef.current : newsRef.current;
     if (contact && last) {
       const ro = new ResizeObserver(measure);
       ro.observe(contact);
@@ -133,7 +134,7 @@ export default function FooterMobile() {
     }
     const t = setTimeout(measure, 150);
     return () => clearTimeout(t);
-  }, [hideNews]);
+  }, [hideNews, isStaff]);
 
   const isArchitecturePage = pathname === "/architecture";
   const isArtPage = pathname === "/art";
@@ -170,7 +171,15 @@ export default function FooterMobile() {
         </div>
 
         {/* Links - measured to size barcode (beginning of C to end of S) */}
-        <div className="flex items-center justify-center text-xl font-medium leading-none gap-2" style={{ color: footerTextColor }}>
+        <div
+          className="flex items-center justify-center text-xl font-medium leading-none gap-2 whitespace-nowrap"
+          style={{
+            color: footerTextColor,
+            // The extra ADMIN link shrinks the type so the row keeps its width
+            fontSize: isStaff ? "0.7em" : undefined,
+            letterSpacing: isStaff ? "-1.7px" : undefined,
+          }}
+        >
           <Link
             ref={contactRef}
             href="/contact"
@@ -198,6 +207,19 @@ export default function FooterMobile() {
                 style={{ color: footerTextColor, opacity: dimNews ? 0.4 : 1 }}
               >
                 NEWS
+              </Link>
+            </>
+          )}
+          {isStaff && (
+            <>
+              <span>/</span>
+              <Link
+                ref={adminRef}
+                href="/admin"
+                className="cursor-pointer no-underline transition-colors duration-200"
+                style={{ color: footerTextColor }}
+              >
+                ADMIN
               </Link>
             </>
           )}

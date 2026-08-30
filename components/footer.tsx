@@ -117,7 +117,16 @@ export default function Footer() {
             </svg>
           </div>
           <div style={{ width: 367, textAlign: "center", marginTop: 0 }} className="pointer-events-auto">
-            <span style={{ color: "#fec776" }}>
+            <span
+              style={{
+                color: "#fec776",
+                display: "inline-block",
+                whiteSpace: "nowrap",
+                // The extra ADMIN link shrinks the type so the row keeps its width
+                fontSize: isStaff ? "0.7em" : undefined,
+                letterSpacing: isStaff ? "-1.7px" : undefined,
+              }}
+            >
               <Link href="/contact" className="text-[#fec776] no-underline hover:text-[#fec776] cursor-pointer transition-colors duration-200">CONTACT</Link>
               <span> / </span>
               <Link href="/about" className="text-[#fec776] no-underline hover:text-[#fec776] cursor-pointer transition-colors duration-200">ABOUT</Link>
@@ -125,6 +134,12 @@ export default function Footer() {
                 <>
                   <span> / </span>
                   <Link href="/news" style={{ color: dimNews ? dimmedNews : undefined }} className="text-[#fec776] no-underline hover:text-[#fec776] cursor-pointer transition-colors duration-200">NEWS</Link>
+                </>
+              )}
+              {isStaff && (
+                <>
+                  <span> / </span>
+                  <Link href="/admin" className="text-[#fec776] no-underline hover:text-[#fec776] cursor-pointer transition-colors duration-200">ADMIN</Link>
                 </>
               )}
             </span>
@@ -152,7 +167,10 @@ export default function Footer() {
             fill="#a08e80"
             />
             </svg>
-            <div className="flex items-center justify-center text-[#fec776] text-[5.5vw] sm:text-[4.5vw] md:text-[26px] ipad-barcode-text font-medium leading-none gap-2 mt-2">
+            <div
+              className="flex items-center justify-center text-[#fec776] text-[5.5vw] sm:text-[4.5vw] md:text-[26px] ipad-barcode-text font-medium leading-none gap-2 mt-2 whitespace-nowrap"
+              style={{ fontSize: isStaff ? "0.7em" : undefined }}
+            >
               <Link href="/contact" className="cursor-pointer text-[#fec776] no-underline hover:text-[#fec776] transition-colors duration-200">CONTACT</Link>
               <span className="text-[#fec776]">/</span>
               <Link href="/about" className="cursor-pointer text-[#fec776] no-underline hover:text-[#fec776] transition-colors duration-200">ABOUT</Link>
@@ -160,6 +178,12 @@ export default function Footer() {
                 <>
                   <span className="text-[#fec776]">/</span>
                   <Link href="/news" style={{ color: dimNews ? dimmedNews : undefined }} className="cursor-pointer text-[#fec776] no-underline hover:text-[#fec776] transition-colors duration-200">NEWS</Link>
+                </>
+              )}
+              {isStaff && (
+                <>
+                  <span className="text-[#fec776]">/</span>
+                  <Link href="/admin" className="cursor-pointer text-[#fec776] no-underline hover:text-[#fec776] transition-colors duration-200">ADMIN</Link>
                 </>
               )}
             </div>

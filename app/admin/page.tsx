@@ -61,6 +61,24 @@ const AdminPage = () => {
     }
   }, [activePanel]);
 
+  // Nothing open: everything fits on one screen, so no scrolling at all
+  useEffect(() => {
+    if (activePanel !== null) return;
+
+    const html = document.documentElement;
+    const body = document.body;
+    const previousHtmlOverflow = html.style.overflow;
+    const previousBodyOverflow = body.style.overflow;
+
+    html.style.setProperty("overflow", "hidden", "important");
+    body.style.setProperty("overflow", "hidden", "important");
+
+    return () => {
+      html.style.overflow = previousHtmlOverflow;
+      body.style.overflow = previousBodyOverflow;
+    };
+  }, [activePanel]);
+
   // Load the section switches once logged in
   useEffect(() => {
     if (!isAuthenticated) return;
@@ -214,14 +232,14 @@ const AdminPage = () => {
   );
 
   return (
-    <div className="min-h-screen bg-[#554943] text-[#19333F] px-6 md:px-12 lg:px-24 mt-[6rem] sm:mt-[6.5rem] md:mt-[7rem] pb-28 sm:pb-32">
+    <div className={`min-h-[calc(100vh-6rem)] sm:min-h-[calc(100vh-6.5rem)] md:min-h-[calc(100vh-7rem)] bg-[#554943] text-[#19333F] px-6 md:px-12 lg:px-24 mt-[6rem] sm:mt-[6.5rem] md:mt-[7rem] ${activePanel === null ? "pb-8" : "pb-28 sm:pb-32"}`}>
       <div className="flex items-baseline justify-between gap-4">
         <h1 className="font-blurlight text-black text-2xl font-bold">
           Welcome back {user ? user.charAt(0).toUpperCase() + user.slice(1) : ""}
         </h1>
         <button
           onClick={handleLogout}
-          className="font-blurlight text-sm text-black/70 hover:text-black underline"
+          className="font-blurlight text-sm text-black/70 hover:text-black underline bg-transparent p-0"
         >
           Log out
         </button>

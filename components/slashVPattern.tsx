@@ -28,7 +28,7 @@ export default function SlashVPattern() {
   const dimArt = settings.art.hidden;
   const dimNews = settings.news.hidden;
 
-  const DIMMED_LINK = "rgba(0, 0, 0, 0.35)";
+  const DIMMED_LINK = "#cfc7bf"; // clearly greyed out, still readable
 
   // Pattern: /\ x 28, then V x 34, repeated 8 times = 16 rows
   const cycles = 8; // Number of times to repeat the pattern
@@ -187,7 +187,16 @@ export default function SlashVPattern() {
               <div key="footer-links" style={rowStyle} className="pointer-events-auto">
                 <span style={{ color: "transparent" }}>{ "V".repeat(V_FLAG_COUNT) }</span>
                 <span style={{ display: "inline-block", width: 367, textAlign: "center" }}>
-                  <span style={{ color: "#fec776" }}>
+                  <span
+                    style={{
+                      color: "#fec776",
+                      display: "inline-block",
+                      whiteSpace: "nowrap",
+                      // The extra ADMIN link shrinks the type so the row keeps its width
+                      fontSize: isStaff ? "0.7em" : undefined,
+                      letterSpacing: isStaff ? "-1.7px" : undefined,
+                    }}
+                  >
                     <Link href="/contact" className="text-[#fec776] no-underline hover:text-[#fff3df] active:text-[#fff3df] cursor-pointer relative z-[100000]">CONTACT</Link>
                     <span> / </span>
                     <Link href="/about" className="text-[#fec776] no-underline hover:text-[#fff3df] active:text-[#fff3df] cursor-pointer relative z-[100000]">ABOUT</Link>
@@ -195,6 +204,12 @@ export default function SlashVPattern() {
                       <>
                         <span> / </span>
                         <Link href="/news" style={{ color: dimNews ? "rgba(254, 199, 118, 0.4)" : undefined }} className="text-[#fec776] no-underline hover:text-[#fff3df] active:text-[#fff3df] cursor-pointer relative z-[100000]">NEWS</Link>
+                      </>
+                    )}
+                    {isStaff && (
+                      <>
+                        <span> / </span>
+                        <Link href="/admin" className="text-[#fec776] no-underline hover:text-[#fff3df] active:text-[#fff3df] cursor-pointer relative z-[100000]">ADMIN</Link>
                       </>
                     )}
                   </span>

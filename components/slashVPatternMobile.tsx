@@ -25,7 +25,7 @@ export default function SlashVPatternMobile() {
   const dimFilm = settings.film.hidden;
   const dimArt = settings.art.hidden;
 
-  const DIMMED_LINK = "rgba(0, 0, 0, 0.35)";
+  const DIMMED_LINK = "#cfc7bf"; // clearly greyed out, still readable
 
   const cycles = 12; // 12 cycles = 24 rows total (12 /\ + 12 V)
   const slashCount = 24;

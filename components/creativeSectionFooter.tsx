@@ -83,7 +83,16 @@ export default function CreativeSectionFooter() {
           style={{ width: 367, textAlign: "center", marginTop: 0 }}
           className="pointer-events-auto"
         >
-          <span style={{ color: "#847263" }}>
+          <span
+            style={{
+              color: "#847263",
+              display: "inline-block",
+              whiteSpace: "nowrap",
+              // The extra ADMIN link shrinks the type so the row keeps its width
+              fontSize: isStaff ? "0.7em" : undefined,
+              letterSpacing: isStaff ? "-1.7px" : undefined,
+            }}
+          >
             <Link href="/contact" className="text-[#847263] no-underline hover:text-white cursor-pointer">
               CONTACT
             </Link>
@@ -100,6 +109,14 @@ export default function CreativeSectionFooter() {
                   className="text-[#847263] no-underline hover:text-white cursor-pointer"
                 >
                   NEWS
+                </Link>
+              </>
+            )}
+            {isStaff && (
+              <>
+                <span> / </span>
+                <Link href="/admin" className="text-[#847263] no-underline hover:text-white cursor-pointer">
+                  ADMIN
                 </Link>
               </>
             )}
