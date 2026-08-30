@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, ReactNode } from "react";
 import IconUpload from "@/components/iconUpload";
 import FilmProjectPosition from "@/components/filmProjectPosition";
 
@@ -17,7 +17,13 @@ interface FilmProject {
   page?: number;
 }
 
-export default function FilmContentPanel({ isActive }: { isActive: boolean }) {
+export default function FilmContentPanel({
+  isActive,
+  headerSlot,
+}: {
+  isActive: boolean;
+  headerSlot?: ReactNode;
+}) {
   const [title, setTitle] = useState("");
   const [icon, setIcon] = useState<string>("");
   const [year, setYear] = useState("");
@@ -167,6 +173,7 @@ export default function FilmContentPanel({ isActive }: { isActive: boolean }) {
       <h2 className="text-[#FFF3DF] text-xl font-microextend font-bold">
         {editingId ? "Edit project" : "Add new film project"}
       </h2>
+      {headerSlot && <div className="mt-3">{headerSlot}</div>}
       <div className="bg-[#554943] p-4 mt-4 text-black">
         {/* Inputs – order: year, title, registration, synapsis, length */}
         <label className="block font-minecraft text-sm text-[#FFF3DF] mb-1">Year</label>

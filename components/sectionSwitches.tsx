@@ -40,7 +40,7 @@ export default function SectionSwitches({
         >
           <span className={knobClass(!hidden)} />
         </Switch>
-        <span className="font-blurlight text-sm text-black">
+        <span className="text-sm text-[#FFF3DF] font-minecraft">
           {hidden ? "Deactivated" : "Active"}
         </span>
       </div>
@@ -54,7 +54,7 @@ export default function SectionSwitches({
         >
           <span className={knobClass(paused)} />
         </Switch>
-        <span className="font-blurlight text-sm text-black">
+        <span className="text-sm text-[#FFF3DF] font-minecraft">
           {paused ? "Paused" : "Not paused"}
         </span>
       </div>

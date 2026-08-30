@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, ReactNode } from "react";
 
 interface NewsItem {
   id: number;
@@ -10,7 +10,13 @@ interface NewsItem {
   sortOrder?: number;
 }
 
-export default function NewsContentPanel({ isActive }: { isActive: boolean }) {
+export default function NewsContentPanel({
+  isActive,
+  headerSlot,
+}: {
+  isActive: boolean;
+  headerSlot?: ReactNode;
+}) {
   const [date, setDate] = useState("");
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
@@ -128,6 +134,7 @@ export default function NewsContentPanel({ isActive }: { isActive: boolean }) {
       <h2 className="text-[#FFF3DF] text-xl font-microextend font-bold">
         {editingId ? "Edit news item" : "Add news item"}
       </h2>
+      {headerSlot && <div className="mt-3">{headerSlot}</div>}
       <div className="bg-[#554943] p-4 mt-4 text-black">
         <label className="block font-minecraft text-sm text-[#FFF3DF] mb-1">Date</label>
         <input

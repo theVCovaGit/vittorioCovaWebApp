@@ -10,17 +10,36 @@ import SectionSwitches from "@/components/sectionSwitches";
 import { SectionKey, SectionSetting, defaultSectionSettings, isSectionKey } from "@/lib/sections";
 import { SECTION_SETTINGS_UPDATED_EVENT } from "@/hooks/useSectionSettings";
 
-const SECTIONS: { key: SectionKey; label: string; dot: string }[] = [
-  { key: "architecture", label: "Architecture", dot: "#fff5e0" },
-  { key: "art", label: "Art", dot: "#895a59" },
-  { key: "film", label: "Film", dot: "#2d2f38" },
-  { key: "news", label: "News", dot: "#4a7c59" },
+/** Sections without a content panel yet – the button is a placeholder for now */
+type PanelKey = SectionKey | "about" | "contact" | "cursor";
+
+const GROUPS: { title: string; items: { key: PanelKey; label: string; dot: string }[] }[] = [
+  {
+    title: "Main",
+    items: [
+      { key: "architecture", label: "Architecture", dot: "#fff5e0" },
+      { key: "art", label: "Art", dot: "#895a59" },
+      { key: "film", label: "Film", dot: "#2d2f38" },
+    ],
+  },
+  {
+    title: "Footer",
+    items: [
+      { key: "news", label: "News", dot: "#4a7c59" },
+      { key: "about", label: "About", dot: "#fec776" },
+      { key: "contact", label: "Contact", dot: "#a08e80" },
+    ],
+  },
+  {
+    title: "Misc",
+    items: [{ key: "cursor", label: "Cursor", dot: "#847263" }],
+  },
 ];
 
 const AdminPage = () => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [password, setPassword] = useState("");
-  const [activePanel, setActivePanel] = useState<"architecture" | "art" | "film" | "news" | null>(null);
+  const [activePanel, setActivePanel] = useState<PanelKey | null>(null);
   const [sectionSettings, setSectionSettings] = useState<Record<SectionKey, SectionSetting>>(
     defaultSectionSettings
   );
@@ -134,51 +153,66 @@ const AdminPage = () => {
     );
   }
 
+  const switchesFor = (section: SectionKey) => (
+    <SectionSwitches
+      section={section}
+      hidden={sectionSettings[section].hidden}
+      paused={sectionSettings[section].paused}
+      disabled={!settingsLoaded || savingSection !== null}
+      onChange={updateSection}
+    />
+  );
+
   return (
-    <div className="min-h-screen bg-[#554943] text-[#19333F] px-6 md:px-12 lg:px-24 mt-[10rem] sm:mt-[12rem] md:mt-[14rem] pb-28 sm:pb-32">
+    <div className="min-h-screen bg-[#554943] text-[#19333F] px-6 md:px-12 lg:px-24 mt-[6rem] sm:mt-[6.5rem] md:mt-[7rem] pb-28 sm:pb-32">
       <h1 className="font-blurlight text-black text-2xl font-bold">Welcome back Vittorio</h1>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mt-4 items-start">
-        {SECTIONS.map(({ key, label, dot }) => {
-          const setting = sectionSettings[key];
-          // Deactivated or paused sections read as dimmed, but stay editable
-          const isDimmed = setting.hidden || setting.paused;
+      {GROUPS.map(({ title, items }) => (
+        <div key={title} className="mt-8 first:mt-4">
+          <h2 className="font-blurlight text-black text-lg font-bold mb-3">{title}</h2>
 
-          return (
-            <div key={key} className="flex flex-col gap-3">
-              <button
-                onClick={() => setActivePanel(activePanel === key ? null : key)}
-                className={`font-blurlight bg-[#554943] border-2 py-3 px-6 rounded-md flex items-center gap-2 w-full transition-opacity ${
-                  isDimmed ? "border-black/40 text-black/40 opacity-50" : "border-black text-black"
-                }`}
-              >
-                <div
-                  className="w-3 h-3 rounded-full"
-                  style={{ backgroundColor: dot, opacity: isDimmed ? 0.4 : 1 }}
-                ></div>
-                {label}
-              </button>
-              {/* Switches only for the section whose config is open */}
-              {activePanel === key && (
-                <SectionSwitches
-                  section={key}
-                  hidden={setting.hidden}
-                  paused={setting.paused}
-                  disabled={!settingsLoaded || savingSection !== null}
-                  onChange={updateSection}
-                />
-              )}
-            </div>
-          );
-        })}
-      </div>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 items-start">
+            {items.map(({ key, label, dot }) => {
+              const setting = isSectionKey(key) ? sectionSettings[key] : null;
+              // Deactivated or paused sections read as dimmed, but stay editable
+              const isDimmed = setting ? setting.hidden || setting.paused : false;
 
-      {/* Content Panels */}
-      <ArchitectureContentPanel isActive={activePanel === "architecture"} />
+              return (
+                <div key={key} className="flex flex-col gap-3">
+                  <button
+                    onClick={() => setActivePanel(activePanel === key ? null : key)}
+                    className={`font-blurlight bg-[#554943] border-2 py-3 px-6 rounded-md flex items-center gap-2 w-full transition-opacity ${
+                      isDimmed ? "border-black/40 text-black/40 opacity-50" : "border-black text-black"
+                    }`}
+                  >
+                    <div
+                      className="w-3 h-3 rounded-full"
+                      style={{ backgroundColor: dot, opacity: isDimmed ? 0.4 : 1 }}
+                    ></div>
+                    {label}
+                  </button>
+                  {/* No content panel built for this one yet */}
+                  {activePanel === key && !setting && (
+                    <p className="font-blurlight text-sm text-black/70 pl-1">
+                      Configuration coming soon.
+                    </p>
+                  )}
+                </div>
+              );
+            })}
+          </div>
+        </div>
+      ))}
+
+      {/* Content Panels – each opens with its section switches under the heading */}
+      <ArchitectureContentPanel
+        isActive={activePanel === "architecture"}
+        headerSlot={switchesFor("architecture")}
+      />
       {/* <ProductDesignContentPanel isActive={activePanel === "productdesign"} /> */}
-      <ArtContentPanel isActive={activePanel === "art"} />
-      <FilmContentPanel isActive={activePanel === "film"} />
-      <NewsContentPanel isActive={activePanel === "news"} />
+      <ArtContentPanel isActive={activePanel === "art"} headerSlot={switchesFor("art")} />
+      <FilmContentPanel isActive={activePanel === "film"} headerSlot={switchesFor("film")} />
+      <NewsContentPanel isActive={activePanel === "news"} headerSlot={switchesFor("news")} />
     </div>
   );
 };

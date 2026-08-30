@@ -1,5 +1,5 @@
 "use client";
-import { useEffect, useState } from "react";
+import { useEffect, useState, ReactNode } from "react";
 import { InformationCircleIcon } from "@heroicons/react/24/outline";
 import { Switch } from "@headlessui/react";
 import { MultipleImagesUpload } from "@/components/imageUpload";
@@ -27,7 +27,13 @@ interface ArtProject {
   price?: string;
 }
 
-export default function ArtContentPanel({ isActive }: { isActive: boolean }) {
+export default function ArtContentPanel({
+  isActive,
+  headerSlot,
+}: {
+  isActive: boolean;
+  headerSlot?: ReactNode;
+}) {
   const [title, setTitle] = useState("");
   const [discipline, setDiscipline] = useState("");
   const [collection, setCollection] = useState("");
@@ -259,6 +265,7 @@ export default function ArtContentPanel({ isActive }: { isActive: boolean }) {
       <h2 className="text-[#FFF3DF] text-xl font-microextend font-bold">
         {editingId ? "Edit project" : "Add new art project"}
       </h2>
+      {headerSlot && <div className="mt-3">{headerSlot}</div>}
       <div className="bg-[#554943] p-4 mt-4 text-black">
         <label className="block mb-1 font-minecraft text-sm text-[#FFF3DF]">Collection</label>
         <div className="relative mb-2">

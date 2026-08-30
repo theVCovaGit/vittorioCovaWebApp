@@ -1,5 +1,5 @@
 "use client";
-import { useEffect, useState } from "react";
+import { useEffect, useState, ReactNode } from "react";
 import { InformationCircleIcon } from "@heroicons/react/24/outline";
 import { MultipleImagesUpload } from "@/components/imageUpload";
 import IconUpload from "@/components/iconUpload";
@@ -20,7 +20,13 @@ interface ArchitectureProject {
 }
 
 
-export default function ArchitectureContentPanel({ isActive }: { isActive: boolean }) {
+export default function ArchitectureContentPanel({
+  isActive,
+  headerSlot,
+}: {
+  isActive: boolean;
+  headerSlot?: ReactNode;
+}) {
   const [title, setTitle] = useState("");
   const [country, setCountry] = useState("");
   const [city, setCity] = useState("");
@@ -203,6 +209,7 @@ export default function ArchitectureContentPanel({ isActive }: { isActive: boole
       <h2 className="text-[#FFF3DF] text-xl font-microextend font-bold">
         {editingId ? "Edit project" : "Add new architecture project"}
       </h2>
+      {headerSlot && <div className="mt-3">{headerSlot}</div>}
       <div className="bg-[#554943] p-4 mt-4 text-black">
         <label className="block mb-1 font-minecraft text-sm text-[#FFF3DF]">Title</label>
         <input
