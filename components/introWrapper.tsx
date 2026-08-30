@@ -5,6 +5,7 @@ import { usePathname } from "next/navigation";
 import { motion } from "framer-motion";
 import SignatureAnimation from "./signatureAnimation";
 import { useShowMobileLayout } from "@/hooks/useMediaQuery";
+import { INTRO_FINISHED_EVENT } from "@/hooks/useIntroFinished";
 
 const CURSOR_LIGHT = "#fff3df";
 
@@ -82,6 +83,13 @@ export default function IntroWrapper({ children }: { children: React.ReactNode }
     const timer = setTimeout(() => setShowIntro(false), 3400);
     return () => clearTimeout(timer);
   }, [showIntro, mounted]);
+
+  // Let overlays (e.g. the paused "coming soon" screen) wait for the signature
+  useEffect(() => {
+    if (mounted && !showIntro) {
+      window.dispatchEvent(new CustomEvent(INTRO_FINISHED_EVENT));
+    }
+  }, [mounted, showIntro]);
 
   /* Set attribute immediately (before paint) to prevent native cursor flash */
   useLayoutEffect(() => {
