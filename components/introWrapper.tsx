@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useState, useEffect, useLayoutEffect } from "react";
+import { useCallback, useState, useEffect, useLayoutEffect, useRef } from "react";
 import { usePathname } from "next/navigation";
 import { motion } from "framer-motion";
 import SignatureAnimation from "./signatureAnimation";
@@ -28,26 +28,89 @@ function parseColorToRgb(cssColor: string): { r: number; g: number; b: number } 
   return null;
 }
 
-function luminance(r: number, g: number, b: number): number {
-  const [rs, gs, bs] = [r, g, b].map((c) => {
-    const s = c / 255;
-    return s <= 0.03928 ? s / 12.92 : Math.pow((s + 0.055) / 1.055, 2.4);
-  });
-  return 0.2126 * rs + 0.7152 * gs + 0.0722 * bs;
+function rgbToHsl(r: number, g: number, b: number): { h: number; s: number; l: number } {
+  const rn = r / 255, gn = g / 255, bn = b / 255;
+  const max = Math.max(rn, gn, bn), min = Math.min(rn, gn, bn);
+  const l = (max + min) / 2;
+  const d = max - min;
+
+  if (d === 0) return { h: 0, s: 0, l };
+
+  const s = l > 0.5 ? d / (2 - max - min) : d / (max + min);
+  let h: number;
+  if (max === rn) h = ((gn - bn) / d) % 6;
+  else if (max === gn) h = (bn - rn) / d + 2;
+  else h = (rn - gn) / d + 4;
+
+  return { h: (h * 60 + 360) % 360, s, l };
 }
 
-function spectrumCursorColor(r: number, g: number, b: number): string {
-  const L = luminance(r, g, b);
-  const darkL = luminance(85, 73, 67);
-  const lightL = luminance(255, 243, 223);
-  const t = Math.max(0, Math.min(1, (L - darkL) / (lightL - darkL)));
-  const r1 = 255, g1 = 243, b1 = 223, r2 = 85, g2 = 73, b2 = 67;
-  return `rgb(${Math.round(r1 * (1 - t) + r2 * t)},${Math.round(g1 * (1 - t) + g2 * t)},${Math.round(b1 * (1 - t) + b2 * t)})`;
+function hslToRgb(h: number, s: number, l: number): { r: number; g: number; b: number } {
+  const c = (1 - Math.abs(2 * l - 1)) * s;
+  const x = c * (1 - Math.abs(((h / 60) % 2) - 1));
+  const m = l - c / 2;
+
+  let rp = 0, gp = 0, bp = 0;
+  if (h < 60) [rp, gp, bp] = [c, x, 0];
+  else if (h < 120) [rp, gp, bp] = [x, c, 0];
+  else if (h < 180) [rp, gp, bp] = [0, c, x];
+  else if (h < 240) [rp, gp, bp] = [0, x, c];
+  else if (h < 300) [rp, gp, bp] = [x, 0, c];
+  else [rp, gp, bp] = [c, 0, x];
+
+  return {
+    r: Math.round((rp + m) * 255),
+    g: Math.round((gp + m) * 255),
+    b: Math.round((bp + m) * 255),
+  };
 }
 
-function getBackgroundAt(x: number, y: number): { r: number; g: number; b: number } | null {
+/** The exact opposite of what is under the cursor: hue turned 180°, lightness flipped. */
+function oppositeColor(r: number, g: number, b: number): string {
+  const { h, s, l } = rgbToHsl(r, g, b);
+  const oppositeHue = (h + 180) % 360;
+  let oppositeL = 1 - l;
+
+  // Mid-tones flip onto themselves (a 50% grey stays a 50% grey) – push them apart
+  if (Math.abs(oppositeL - l) < 0.2) {
+    oppositeL = l < 0.5 ? Math.min(1, l + 0.35) : Math.max(0, l - 0.35);
+  }
+
+  const { r: nr, g: ng, b: nb } = hslToRgb(oppositeHue, s, oppositeL);
+  return `rgb(${nr},${ng},${nb})`;
+}
+
+/** True when (x, y) falls inside one of the element's own text lines. */
+function pointIsOverText(el: Element, x: number, y: number): boolean {
+  for (const node of Array.from(el.childNodes)) {
+    if (node.nodeType !== Node.TEXT_NODE || !node.textContent?.trim()) continue;
+
+    const range = document.createRange();
+    range.selectNodeContents(node);
+    for (const rect of Array.from(range.getClientRects())) {
+      if (x >= rect.left && x <= rect.right && y >= rect.top && y <= rect.bottom) {
+        return true;
+      }
+    }
+  }
+  return false;
+}
+
+/**
+ * What the cursor is sitting on: the text colour when it is over a word,
+ * otherwise the first painted background behind it.
+ */
+function getColorAt(x: number, y: number): { r: number; g: number; b: number } | null {
   if (typeof document === "undefined") return null;
-  let el: Element | null = document.elementFromPoint(x, y);
+
+  const target = document.elementFromPoint(x, y);
+
+  if (target instanceof HTMLElement && pointIsOverText(target, x, y)) {
+    const rgb = parseColorToRgb(getComputedStyle(target).color);
+    if (rgb) return rgb;
+  }
+
+  let el: Element | null = target;
   for (let i = 0; i < 20 && el; i++) {
     const bg = el instanceof HTMLElement ? getComputedStyle(el).backgroundColor : null;
     const rgb = bg ? parseColorToRgb(bg) : null;
@@ -67,11 +130,32 @@ export default function IntroWrapper({ children }: { children: React.ReactNode }
   const isMobile = useShowMobileLayout();
   const isHeroPage = pathname === "/";
 
+  const sampleTimers = useRef<number[]>([]);
+
   const updateCursor = useCallback((clientX: number, clientY: number) => {
     setCursorVisible(true);
     setCursorPos({ x: clientX, y: clientY });
-    const rgb = getBackgroundAt(clientX, clientY);
-    if (rgb) setCursorColor(spectrumCursorColor(rgb.r, rgb.g, rgb.b));
+
+    const sample = () => {
+      const rgb = getColorAt(clientX, clientY);
+      if (rgb) setCursorColor(oppositeColor(rgb.r, rgb.g, rgb.b));
+    };
+
+    // Hover colours land after this event and then fade in over a transition,
+    // so sample again once the element under the cursor has settled
+    sampleTimers.current.forEach(clearTimeout);
+    sampleTimers.current = [];
+    sample();
+    requestAnimationFrame(sample);
+    sampleTimers.current.push(
+      window.setTimeout(sample, 120),
+      window.setTimeout(sample, 300)
+    );
+  }, []);
+
+  useEffect(() => {
+    const timers = sampleTimers;
+    return () => timers.current.forEach(clearTimeout);
   }, []);
 
   useEffect(() => {
