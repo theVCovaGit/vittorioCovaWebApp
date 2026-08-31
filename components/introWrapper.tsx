@@ -6,6 +6,7 @@ import { motion } from "framer-motion";
 import SignatureAnimation from "./signatureAnimation";
 import { useShowMobileLayout } from "@/hooks/useMediaQuery";
 import { INTRO_FINISHED_EVENT } from "@/hooks/useIntroFinished";
+import { useCustomCursor } from "@/hooks/useCustomCursor";
 
 const CURSOR_LIGHT = "#fff3df";
 
@@ -172,6 +173,7 @@ export default function IntroWrapper({ children }: { children: React.ReactNode }
   const [cursorPos, setCursorPos] = useState({ x: 0, y: 0 });
   const [cursorColor, setCursorColor] = useState(CURSOR_LIGHT);
   const [cursorVisible, setCursorVisible] = useState(false);
+  const customCursorSvg = useCustomCursor();
   const isMobile = useShowMobileLayout();
   const isHeroPage = pathname === "/";
 
@@ -266,9 +268,18 @@ export default function IntroWrapper({ children }: { children: React.ReactNode }
           }}
           aria-hidden
         >
-          <svg viewBox="0 0 14 28" className="w-full h-full" style={{ color: cursorColor }}>
-            <text x="0" y="21.65" fill="currentColor" fontFamily="Blur Light, Blur, sans-serif" fontSize="27" letterSpacing="-0.08em">+</text>
-          </svg>
+          {customCursorSvg ? (
+            /* Uploaded in the admin – stretched into the same box and recoloured */
+            <div
+              className="w-full h-full"
+              style={{ color: cursorColor }}
+              dangerouslySetInnerHTML={{ __html: customCursorSvg }}
+            />
+          ) : (
+            <svg viewBox="0 0 14 28" className="w-full h-full" style={{ color: cursorColor }}>
+              <text x="0" y="21.65" fill="currentColor" fontFamily="Blur Light, Blur, sans-serif" fontSize="27" letterSpacing="-0.08em">+</text>
+            </svg>
+          )}
         </div>
       )}
       <motion.div

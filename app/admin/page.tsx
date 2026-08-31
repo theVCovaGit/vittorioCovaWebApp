@@ -6,6 +6,7 @@ import ArchitectureContentPanel from "@/components/architectureContentPanel";
 import ArtContentPanel from "@/components/artContentPanel";
 import FilmContentPanel from "@/components/filmContentPanel";
 import NewsContentPanel from "@/components/newsContentPanel";
+import CursorContentPanel from "@/components/cursorContentPanel";
 import SectionSwitches from "@/components/sectionSwitches";
 import { SectionKey, SectionSetting, defaultSectionSettings, isSectionKey } from "@/lib/sections";
 import { SECTION_SETTINGS_UPDATED_EVENT } from "@/hooks/useSectionSettings";
@@ -270,7 +271,7 @@ const AdminPage = () => {
                     {label}
                   </button>
                   {/* No content panel built for this one yet */}
-                  {activePanel === key && !setting && (
+                  {activePanel === key && !setting && key !== "cursor" && (
                     <p className="font-blurlight text-sm text-black/70 pl-1">
                       Configuration coming soon.
                     </p>
@@ -291,6 +292,7 @@ const AdminPage = () => {
       <ArtContentPanel isActive={activePanel === "art"} headerSlot={switchesFor("art")} />
       <FilmContentPanel isActive={activePanel === "film"} headerSlot={switchesFor("film")} />
       <NewsContentPanel isActive={activePanel === "news"} headerSlot={switchesFor("news")} />
+      <CursorContentPanel isActive={activePanel === "cursor"} />
     </div>
   );
 };
