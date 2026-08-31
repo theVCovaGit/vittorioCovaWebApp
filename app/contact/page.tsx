@@ -98,7 +98,7 @@ export default function Contact() {
         </div>
 
         {/* Copyright */}
-        <div className="mt-2 text-sm text-center font-microextend">
+        <div className="mt-2 text-[10px] text-center font-microextend">
           {content.copyright.map((line, index) => (
             <React.Fragment key={index}>
               {index > 0 && <br />}
