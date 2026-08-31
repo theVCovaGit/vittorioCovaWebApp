@@ -83,7 +83,7 @@ export default function News() {
         style={{ pointerEvents: "none" }}
       >
         <div
-          className="flex flex-col items-center space-y-5 max-w-lg px-4 overflow-y-auto min-h-0 w-full"
+          className="flex flex-col items-center space-y-5 max-w-xs px-4 overflow-y-auto min-h-0 w-full"
           style={{
             maxHeight: "calc(4 * 8rem + 3 * 1.25rem)",
             pointerEvents: "auto",
