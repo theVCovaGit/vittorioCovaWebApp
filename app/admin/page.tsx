@@ -6,6 +6,8 @@ import ArchitectureContentPanel from "@/components/architectureContentPanel";
 import ArtContentPanel from "@/components/artContentPanel";
 import FilmContentPanel from "@/components/filmContentPanel";
 import NewsContentPanel from "@/components/newsContentPanel";
+import AboutContentPanel from "@/components/aboutContentPanel";
+import ContactContentPanel from "@/components/contactContentPanel";
 import CursorContentPanel from "@/components/cursorContentPanel";
 import SectionSwitches from "@/components/sectionSwitches";
 import { SectionKey, SectionSetting, defaultSectionSettings, isSectionKey } from "@/lib/sections";
@@ -270,12 +272,6 @@ const AdminPage = () => {
                     ></div>
                     {label}
                   </button>
-                  {/* No content panel built for this one yet */}
-                  {activePanel === key && !setting && key !== "cursor" && (
-                    <p className="font-blurlight text-sm text-black/70 pl-1">
-                      Configuration coming soon.
-                    </p>
-                  )}
                 </div>
               );
             })}
@@ -292,6 +288,8 @@ const AdminPage = () => {
       <ArtContentPanel isActive={activePanel === "art"} headerSlot={switchesFor("art")} />
       <FilmContentPanel isActive={activePanel === "film"} headerSlot={switchesFor("film")} />
       <NewsContentPanel isActive={activePanel === "news"} headerSlot={switchesFor("news")} />
+      <AboutContentPanel isActive={activePanel === "about"} />
+      <ContactContentPanel isActive={activePanel === "contact"} />
       <CursorContentPanel isActive={activePanel === "cursor"} />
     </div>
   );

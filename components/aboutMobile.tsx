@@ -3,8 +3,12 @@
 import React, { useEffect } from "react";
 import Link from "next/link";
 import AboutLabel from "@/components/aboutLabel";
+import AboutBody from "@/components/aboutBody";
+import { useAboutContent } from "@/hooks/usePageContent";
 
 export default function AboutMobile() {
+  const content = useAboutContent();
+
   // Disable scrolling on mobile about page
   useEffect(() => {
     // Store original values
@@ -82,41 +86,15 @@ export default function AboutMobile() {
       >
         {/* Description – iPad: a bit bigger than rest via .about-mobile-heading-text */}
         <div className="text-[0.9rem] mb-4 leading-relaxed font-blurlight about-mobile-heading-text">
-          <p>A multi-faceted architecture and</p>
-          <p>creative design firm</p>
-          <p>founded in 2025</p>
+          {content.heading.split("\n").map((line, index) => (
+            <p key={index}>{line}</p>
+          ))}
         </div>
 
         {/* Philosophical Thoughts Section */}
         <div className="mb-4 pl-4">
           <div className="space-y-2 text-[0.55rem] leading-relaxed font-blurlight about-mobile-content-text">
-            <p>
-              The greatest moment in human history was not when man walked the Moon, but when <span className="text-[#fec776] font-bold">God</span> walked the Earth.
-            </p>
-            <p>
-              Tell yourself that pain is a reminder that you live, discomfort is <span className="text-[#fec776] font-bold">Growth</span>.
-            </p>
-            <p>
-              If you have no <span className="text-[#fec776] font-bold">Ideas</span>, there is no vision. If you have many ideas, there is still no vision.
-            </p>
-            <p>
-              Genuine <span className="text-[#fec776] font-bold">Passion</span> births success.
-            </p>
-            <p>
-              <span className="text-[#fec776] font-bold">Silence</span> is a beautiful thing.
-            </p>
-            <p>
-              <span className="text-[#fec776] font-bold">Nature</span> is Mother, it will serve as a sanctuary, offering both mental clarity and a wellspring of inspiration.
-            </p>
-            <p>
-              Let <span className="text-[#fec776] font-bold">Gratitude</span> nourish your dreams.
-            </p>
-            <p>
-              <span className="text-[#fec776] font-bold">Live</span> the world, don&apos;t let it live you.
-            </p>
-            <p>
-              Always be the <span className="text-[#fec776] font-bold">Smile</span> that someone may need.
-            </p>
+            <AboutBody body={content.body} highlightClassName="text-[#fec776] font-bold" />
           </div>
         </div>
       </div>
