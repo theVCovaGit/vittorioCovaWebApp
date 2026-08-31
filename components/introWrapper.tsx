@@ -80,37 +80,82 @@ function oppositeColor(r: number, g: number, b: number): string {
   return `rgb(${nr},${ng},${nb})`;
 }
 
-/** True when (x, y) falls inside one of the element's own text lines. */
-function pointIsOverText(el: Element, x: number, y: number): boolean {
-  for (const node of Array.from(el.childNodes)) {
-    if (node.nodeType !== Node.TEXT_NODE || !node.textContent?.trim()) continue;
+/** Grace, in px, around a glyph – the cursor flips just as it touches a letter. */
+const TEXT_HIT_TOLERANCE = 1;
+/** Half the cap height as a share of the font size (a line box is much taller). */
+const GLYPH_HALF_BAND = 0.35;
 
-    const range = document.createRange();
-    range.selectNodeContents(node);
-    for (const rect of Array.from(range.getClientRects())) {
-      if (x >= rect.left && x <= rect.right && y >= rect.top && y <= rect.bottom) {
-        return true;
-      }
-    }
+interface CaretHit {
+  node: Node;
+  offset: number;
+}
+
+function caretAtPoint(x: number, y: number): CaretHit | null {
+  const doc = document as Document & {
+    caretRangeFromPoint?: (x: number, y: number) => Range | null;
+    caretPositionFromPoint?: (x: number, y: number) => { offsetNode: Node; offset: number } | null;
+  };
+
+  if (typeof doc.caretRangeFromPoint === "function") {
+    const range = doc.caretRangeFromPoint(x, y);
+    if (range) return { node: range.startContainer, offset: range.startOffset };
   }
-  return false;
+  if (typeof doc.caretPositionFromPoint === "function") {
+    const position = doc.caretPositionFromPoint(x, y);
+    if (position) return { node: position.offsetNode, offset: position.offset };
+  }
+  return null;
 }
 
 /**
- * What the cursor is sitting on: the text colour when it is over a word,
+ * The colour of the letter the cursor is actually touching – measured per
+ * character, and only across the glyph band rather than the whole line box.
+ */
+function textColorAtPoint(x: number, y: number): { r: number; g: number; b: number } | null {
+  const hit = caretAtPoint(x, y);
+  if (!hit || hit.node.nodeType !== Node.TEXT_NODE) return null;
+
+  const text = hit.node.textContent ?? "";
+  const el = hit.node.parentElement;
+  if (!el) return null;
+
+  const fontSize = parseFloat(getComputedStyle(el).fontSize) || 16;
+  const halfBand = fontSize * GLYPH_HALF_BAND + TEXT_HIT_TOLERANCE;
+  const range = document.createRange();
+
+  // The caret sits between two characters – test the one on either side
+  for (const [start, end] of [
+    [hit.offset, hit.offset + 1],
+    [hit.offset - 1, hit.offset],
+  ]) {
+    if (start < 0 || end > text.length) continue;
+    if (!text.slice(start, end).trim()) continue; // whitespace has no ink
+
+    range.setStart(hit.node, start);
+    range.setEnd(hit.node, end);
+    const rect = range.getBoundingClientRect();
+    if (!rect.width || !rect.height) continue;
+
+    const centerY = rect.top + rect.height / 2;
+    const insideX = x >= rect.left - TEXT_HIT_TOLERANCE && x <= rect.right + TEXT_HIT_TOLERANCE;
+    const insideY = y >= centerY - halfBand && y <= centerY + halfBand;
+
+    if (insideX && insideY) return parseColorToRgb(getComputedStyle(el).color);
+  }
+  return null;
+}
+
+/**
+ * What the cursor is sitting on: the colour of the letter it touches,
  * otherwise the first painted background behind it.
  */
 function getColorAt(x: number, y: number): { r: number; g: number; b: number } | null {
   if (typeof document === "undefined") return null;
 
-  const target = document.elementFromPoint(x, y);
+  const onText = textColorAtPoint(x, y);
+  if (onText) return onText;
 
-  if (target instanceof HTMLElement && pointIsOverText(target, x, y)) {
-    const rgb = parseColorToRgb(getComputedStyle(target).color);
-    if (rgb) return rgb;
-  }
-
-  let el: Element | null = target;
+  let el: Element | null = document.elementFromPoint(x, y);
   for (let i = 0; i < 20 && el; i++) {
     const bg = el instanceof HTMLElement ? getComputedStyle(el).backgroundColor : null;
     const rgb = bg ? parseColorToRgb(bg) : null;
@@ -208,8 +253,10 @@ export default function IntroWrapper({ children }: { children: React.ReactNode }
       )}
       {!isMobile && cursorVisible && (
         <div
-          className="pointer-events-none fixed z-[999999] will-change-transform"
+          className="pointer-events-none fixed will-change-transform"
           style={{
+            // Above every overlay (e.g. the paused "coming soon" screen)
+            zIndex: 2147483647,
             left: cursorPos.x + 4,
             top: cursorPos.y + 4,
             width: 28,
