@@ -4,6 +4,7 @@ import { useShowMobileLayout } from "@/hooks/useMediaQuery";
 import HeroMobile from "@/components/heroMobile";
 import { useEffect } from "react";
 import SlashVPattern from "@/components/slashVPattern";
+import CactusBackdrop from "@/components/cactusBackdrop";
 
 export default function Hero() {
   const showMobileLayout = useShowMobileLayout();
@@ -33,6 +34,8 @@ export default function Hero() {
   // Desktop version
   return (
     <div className="min-h-screen bg-[#554943] relative overflow-hidden">
+      {/* Backdrop first: it and SlashVPattern are both z-0, so source order keeps it behind */}
+      <CactusBackdrop />
       <SlashVPattern />
     </div>
   );

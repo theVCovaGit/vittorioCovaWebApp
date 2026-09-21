@@ -7,7 +7,7 @@ const stripTag = (svg: string, tag: string) =>
   svg.replace(new RegExp(`<${tag}[\\s\\S]*?<\\/${tag}>`, "gi"), "");
 
 /** Colour values are swapped for currentColor so the cursor keeps inverting; `none` is kept. */
-const useCurrentColor = (svg: string) =>
+const toCurrentColor = (svg: string) =>
   svg
     .replace(/(fill|stroke)\s*=\s*"(?!none")[^"]*"/gi, '$1="currentColor"')
     .replace(/(fill|stroke)\s*=\s*'(?!none')[^']*'/gi, "$1='currentColor'")
@@ -40,7 +40,7 @@ export function normalizeCursorSvg(raw: string): string | null {
   svg = svg.replace(/\son[a-z]+\s*=\s*'[^']*'/gi, "");
   svg = svg.replace(/javascript:/gi, "");
 
-  svg = useCurrentColor(svg);
+  svg = toCurrentColor(svg);
 
   // Let the 28 x 28 cursor box drive the size; keep the viewBox for the shape
   svg = svg.replace(/^<svg([^>]*)>/i, (_match, attrs: string) => {
