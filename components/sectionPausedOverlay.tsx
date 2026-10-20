@@ -84,7 +84,8 @@ export default function SectionPausedOverlay({ section }: { section: SectionKey 
       className="fixed inset-0 flex flex-col items-center justify-center"
       style={{
         zIndex: 2147483001,
-        backgroundColor: "rgba(120, 118, 114, 0.72)",
+        // Fully opaque: none of the paused section shows through
+        backgroundColor: "rgb(120, 118, 114)",
       }}
       aria-live="polite"
     >
@@ -93,7 +94,7 @@ export default function SectionPausedOverlay({ section }: { section: SectionKey 
         style={{
           color: "#fff5e0",
           fontFamily: '"Blur Light", sans-serif',
-          fontSize: "clamp(2.5rem, 11vw, 9rem)",
+          fontSize: "clamp(1.75rem, 7vw, 5.5rem)",
           letterSpacing: "-0.05em",
           lineHeight: 1,
         }}
