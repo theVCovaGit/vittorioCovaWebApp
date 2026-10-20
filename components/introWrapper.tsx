@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useState, useEffect, useLayoutEffect, useRef } from "react";
+import { useCallback, useState, useEffect, useLayoutEffect } from "react";
 import { usePathname } from "next/navigation";
 import { motion } from "framer-motion";
 import SignatureAnimation from "./signatureAnimation";
@@ -10,109 +10,58 @@ import { useCustomCursor } from "@/hooks/useCustomCursor";
 
 const CURSOR_LIGHT = "#fff3df";
 
-function parseColorToRgb(cssColor: string): { r: number; g: number; b: number } | null {
-  if (!cssColor || cssColor === "transparent" || cssColor === "rgba(0, 0, 0, 0)") return null;
-  const el = typeof document !== "undefined" ? document.createElement("div") : null;
-  if (!el) return null;
-  el.style.color = cssColor;
-  el.style.display = "none";
-  document.body.appendChild(el);
-  const computed = getComputedStyle(el).color;
-  document.body.removeChild(el);
-  const m = computed.match(/rgba?\((\d+),\s*(\d+),\s*(\d+)/);
-  if (m) return { r: +m[1], g: +m[2], b: +m[3] };
-  const hex = computed.match(/#([0-9a-fA-F]{6})/);
-  if (hex) {
-    const h = hex[1];
-    return { r: parseInt(h.slice(0, 2), 16), g: parseInt(h.slice(2, 4), 16), b: parseInt(h.slice(4, 6), 16) };
-  }
-  return null;
+type Rgba = { r: number; g: number; b: number; a: number };
+
+/** Computed styles always come back as rgb()/rgba(), so parse them directly. */
+function parseComputedColor(value: string): Rgba | null {
+  if (!value || value === "transparent" || value === "none") return null;
+  const m = value.match(
+    /rgba?\(\s*([\d.]+)[,\s]+([\d.]+)[,\s]+([\d.]+)(?:\s*[,/]\s*([\d.]+))?/i
+  );
+  if (!m) return null;
+  return { r: +m[1], g: +m[2], b: +m[3], a: m[4] === undefined ? 1 : +m[4] };
 }
 
-function rgbToHsl(r: number, g: number, b: number): { h: number; s: number; l: number } {
-  const rn = r / 255, gn = g / 255, bn = b / 255;
-  const max = Math.max(rn, gn, bn), min = Math.min(rn, gn, bn);
-  const l = (max + min) / 2;
-  const d = max - min;
-
-  if (d === 0) return { h: 0, s: 0, l };
-
-  const s = l > 0.5 ? d / (2 - max - min) : d / (max + min);
-  let h: number;
-  if (max === rn) h = ((gn - bn) / d) % 6;
-  else if (max === gn) h = (bn - rn) / d + 2;
-  else h = (rn - gn) / d + 4;
-
-  return { h: (h * 60 + 360) % 360, s, l };
+function luminance(r: number, g: number, b: number): number {
+  const [rs, gs, bs] = [r, g, b].map((c) => {
+    const s = c / 255;
+    return s <= 0.03928 ? s / 12.92 : Math.pow((s + 0.055) / 1.055, 2.4);
+  });
+  return 0.2126 * rs + 0.7152 * gs + 0.0722 * bs;
 }
 
-function hslToRgb(h: number, s: number, l: number): { r: number; g: number; b: number } {
-  const c = (1 - Math.abs(2 * l - 1)) * s;
-  const x = c * (1 - Math.abs(((h / 60) % 2) - 1));
-  const m = l - c / 2;
-
-  let rp = 0, gp = 0, bp = 0;
-  if (h < 60) [rp, gp, bp] = [c, x, 0];
-  else if (h < 120) [rp, gp, bp] = [x, c, 0];
-  else if (h < 180) [rp, gp, bp] = [0, c, x];
-  else if (h < 240) [rp, gp, bp] = [0, x, c];
-  else if (h < 300) [rp, gp, bp] = [x, 0, c];
-  else [rp, gp, bp] = [c, 0, x];
-
-  return {
-    r: Math.round((rp + m) * 255),
-    g: Math.round((gp + m) * 255),
-    b: Math.round((bp + m) * 255),
-  };
+function spectrumCursorColor(r: number, g: number, b: number): string {
+  const L = luminance(r, g, b);
+  const darkL = luminance(85, 73, 67);
+  const lightL = luminance(255, 243, 223);
+  const t = Math.max(0, Math.min(1, (L - darkL) / (lightL - darkL)));
+  const r1 = 255, g1 = 243, b1 = 223, r2 = 85, g2 = 73, b2 = 67;
+  return `rgb(${Math.round(r1 * (1 - t) + r2 * t)},${Math.round(g1 * (1 - t) + g2 * t)},${Math.round(b1 * (1 - t) + b2 * t)})`;
 }
 
-/** The exact opposite of what is under the cursor: hue turned 180°, lightness flipped. */
-function oppositeColor(r: number, g: number, b: number): string {
-  const { h, s, l } = rgbToHsl(r, g, b);
-  const oppositeHue = (h + 180) % 360;
-  let oppositeL = 1 - l;
-
-  // Mid-tones flip onto themselves (a 50% grey stays a 50% grey) – push them apart
-  if (Math.abs(oppositeL - l) < 0.2) {
-    oppositeL = l < 0.5 ? Math.min(1, l + 0.35) : Math.max(0, l - 0.35);
-  }
-
-  const { r: nr, g: ng, b: nb } = hslToRgb(oppositeHue, s, oppositeL);
-  return `rgb(${nr},${ng},${nb})`;
-}
-
-/** Grace, in px, around a glyph – the cursor flips just as it touches a letter. */
+/** Grace, in px, around a glyph so the cursor flips as it touches a letter. */
 const TEXT_HIT_TOLERANCE = 1;
-/** Half the cap height as a share of the font size (a line box is much taller). */
+/** Half the cap height as a share of the font size (a line box is far taller). */
 const GLYPH_HALF_BAND = 0.35;
 
-interface CaretHit {
-  node: Node;
-  offset: number;
-}
-
-function caretAtPoint(x: number, y: number): CaretHit | null {
+function caretAtPoint(x: number, y: number): { node: Node; offset: number } | null {
   const doc = document as Document & {
     caretRangeFromPoint?: (x: number, y: number) => Range | null;
     caretPositionFromPoint?: (x: number, y: number) => { offsetNode: Node; offset: number } | null;
   };
-
   if (typeof doc.caretRangeFromPoint === "function") {
     const range = doc.caretRangeFromPoint(x, y);
     if (range) return { node: range.startContainer, offset: range.startOffset };
   }
   if (typeof doc.caretPositionFromPoint === "function") {
-    const position = doc.caretPositionFromPoint(x, y);
-    if (position) return { node: position.offsetNode, offset: position.offset };
+    const pos = doc.caretPositionFromPoint(x, y);
+    if (pos) return { node: pos.offsetNode, offset: pos.offset };
   }
   return null;
 }
 
-/**
- * The colour of the letter the cursor is actually touching – measured per
- * character, and only across the glyph band rather than the whole line box.
- */
-function textColorAtPoint(x: number, y: number): { r: number; g: number; b: number } | null {
+/** The colour of the glyph the cursor is actually touching, measured per character. */
+function textColorAt(x: number, y: number): Rgba | null {
   const hit = caretAtPoint(x, y);
   if (!hit || hit.node.nodeType !== Node.TEXT_NODE) return null;
 
@@ -124,7 +73,7 @@ function textColorAtPoint(x: number, y: number): { r: number; g: number; b: numb
   const halfBand = fontSize * GLYPH_HALF_BAND + TEXT_HIT_TOLERANCE;
   const range = document.createRange();
 
-  // The caret sits between two characters – test the one on either side
+  // The caret sits between two characters - test the one on either side
   for (const [start, end] of [
     [hit.offset, hit.offset + 1],
     [hit.offset - 1, hit.offset],
@@ -137,33 +86,48 @@ function textColorAtPoint(x: number, y: number): { r: number; g: number; b: numb
     const rect = range.getBoundingClientRect();
     if (!rect.width || !rect.height) continue;
 
-    const centerY = rect.top + rect.height / 2;
+    const midY = rect.top + rect.height / 2;
     const insideX = x >= rect.left - TEXT_HIT_TOLERANCE && x <= rect.right + TEXT_HIT_TOLERANCE;
-    const insideY = y >= centerY - halfBand && y <= centerY + halfBand;
-
-    if (insideX && insideY) return parseColorToRgb(getComputedStyle(el).color);
+    const insideY = y >= midY - halfBand && y <= midY + halfBand;
+    if (insideX && insideY) return parseComputedColor(getComputedStyle(el).color);
   }
   return null;
 }
 
+/** The painted fill of an SVG shape (barcode, icons) under the cursor. */
+function svgFillAt(x: number, y: number): Rgba | null {
+  const el = document.elementFromPoint(x, y);
+  if (!(el instanceof SVGGraphicsElement) || el instanceof SVGSVGElement) return null;
+  return parseComputedColor(getComputedStyle(el).fill);
+}
+
 /**
- * What the cursor is sitting on: the colour of the letter it touches,
- * otherwise the first painted background behind it.
+ * Backgrounds composited front-to-back, so translucent layers (the paused veil,
+ * tinted panels) count for what they actually contribute rather than being
+ * treated as opaque or skipped.
  */
-function getColorAt(x: number, y: number): { r: number; g: number; b: number } | null {
-  if (typeof document === "undefined") return null;
-
-  const onText = textColorAtPoint(x, y);
-  if (onText) return onText;
-
+function backgroundAt(x: number, y: number): Rgba | null {
   let el: Element | null = document.elementFromPoint(x, y);
-  for (let i = 0; i < 20 && el; i++) {
-    const bg = el instanceof HTMLElement ? getComputedStyle(el).backgroundColor : null;
-    const rgb = bg ? parseColorToRgb(bg) : null;
-    if (rgb) return rgb;
+  let r = 0, g = 0, b = 0, a = 0;
+
+  for (let i = 0; i < 30 && el && a < 0.999; i++) {
+    const c = parseComputedColor(getComputedStyle(el).backgroundColor);
+    if (c && c.a > 0) {
+      const w = c.a * (1 - a);
+      r += c.r * w;
+      g += c.g * w;
+      b += c.b * w;
+      a += w;
+    }
     el = el.parentElement;
   }
-  return null;
+  return a > 0 ? { r: r / a, g: g / a, b: b / a, a } : null;
+}
+
+/** Whatever is visually under the cursor, nearest-to-the-eye first. */
+function visualColorAt(x: number, y: number): Rgba | null {
+  if (typeof document === "undefined") return null;
+  return svgFillAt(x, y) ?? textColorAt(x, y) ?? backgroundAt(x, y);
 }
 
 export default function IntroWrapper({ children }: { children: React.ReactNode }) {
@@ -177,32 +141,16 @@ export default function IntroWrapper({ children }: { children: React.ReactNode }
   const isMobile = useShowMobileLayout();
   const isHeroPage = pathname === "/";
 
-  const sampleTimers = useRef<number[]>([]);
-
   const updateCursor = useCallback((clientX: number, clientY: number) => {
     setCursorVisible(true);
     setCursorPos({ x: clientX, y: clientY });
-
     const sample = () => {
-      const rgb = getColorAt(clientX, clientY);
-      if (rgb) setCursorColor(oppositeColor(rgb.r, rgb.g, rgb.b));
+      const rgb = visualColorAt(clientX, clientY);
+      if (rgb) setCursorColor(spectrumCursorColor(rgb.r, rgb.g, rgb.b));
     };
-
-    // Hover colours land after this event and then fade in over a transition,
-    // so sample again once the element under the cursor has settled
-    sampleTimers.current.forEach(clearTimeout);
-    sampleTimers.current = [];
+    // Hover colours land after this event, so take a second look once settled
     sample();
     requestAnimationFrame(sample);
-    sampleTimers.current.push(
-      window.setTimeout(sample, 120),
-      window.setTimeout(sample, 300)
-    );
-  }, []);
-
-  useEffect(() => {
-    const timers = sampleTimers;
-    return () => timers.current.forEach(clearTimeout);
   }, []);
 
   useEffect(() => {
