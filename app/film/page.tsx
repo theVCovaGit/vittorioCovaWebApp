@@ -6,6 +6,7 @@ import Link from "next/link";
 import FilmMobile from "@/components/filmMobile";
 import CreativeSectionFooter from "@/components/creativeSectionFooter";
 import LoadingSpinner from "@/components/loadingSpinner";
+import { preloadImages } from "@/lib/preloadImages";
 import SectionPausedOverlay from "@/components/sectionPausedOverlay";
 
 interface FilmProject {
@@ -34,7 +35,10 @@ function FilmDesktop() {
           throw new Error(`Unexpected status ${response.status}`);
         }
         const data = await response.json();
-        setProjects(Array.isArray(data.projects) ? data.projects : []);
+        const list: FilmProject[] = Array.isArray(data.projects) ? data.projects : [];
+        // Hold the spinner until every icon is decoded, so nothing paints half-drawn
+        await preloadImages(list.map((p) => p.icon));
+        setProjects(list);
       } catch (error) {
         console.error("Error fetching film projects:", error);
       } finally {

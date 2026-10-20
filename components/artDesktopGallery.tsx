@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import ArtProjectExpandedView from "./artProjectExpandedView";
 import CreativeSectionFooter from "./creativeSectionFooter";
 import LoadingSpinner from "./loadingSpinner";
+import { preloadImages } from "@/lib/preloadImages";
 
 interface ArtProject {
   id: number;
@@ -78,7 +79,10 @@ export default function ArtDesktopGallery() {
         const res = await fetch("/api/art");
         if (!res.ok) return;
         const data = await res.json();
-        if (!cancelled && data.projects) setProjects(data.projects);
+        const list: ArtProject[] = data.projects || [];
+        // Hold the spinner until every thumbnail is decoded, so nothing paints half-drawn
+        await preloadImages(list.map((p) => p.icon || p.images?.[0]));
+        if (!cancelled) setProjects(list);
       } catch (e) {
         console.error("Error fetching art:", e);
       } finally {

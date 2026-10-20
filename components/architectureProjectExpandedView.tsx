@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import { useShowMobileLayout } from "@/hooks/useMediaQuery";
 // import SponsoredByLifeAnimation from "./sponsoredByLifeAnimation";
 import LoadingSpinner from "./loadingSpinner";
+import { preloadImages } from "@/lib/preloadImages";
 
 interface ArchitectureProject {
   id: number;
@@ -37,43 +38,6 @@ export default function ArchitectureProjectExpandedView({
   onCloseRef.current = onClose;
 
   // Helper function to preload images
-  const preloadImages = (imageUrls: string[]): Promise<void> => {
-    return Promise.all(
-      imageUrls.map((url) => {
-        return new Promise<void>((resolve) => {
-          const img = new Image();
-          
-          // Set timeout to avoid infinite waiting
-          const timeout = setTimeout(() => {
-            console.warn(`Image preload timeout: ${url}`);
-            resolve(); // Resolve anyway to not block, but log the issue
-          }, 90000); // 90 second timeout
-          
-          img.onload = () => {
-            clearTimeout(timeout);
-            // Verify image is actually loaded by checking dimensions
-            if (img.complete && (img.naturalWidth > 0 || img.naturalHeight > 0)) {
-              resolve();
-            } else {
-              // If image doesn't have dimensions, wait a bit more
-              setTimeout(() => resolve(), 100);
-            }
-          };
-          
-          img.onerror = () => {
-            clearTimeout(timeout);
-            console.error(`Failed to load image: ${url}`);
-            resolve(); // Still resolve to not block, but log error
-          };
-          
-          img.src = url;
-        });
-      })
-    ).then(() => {
-      // Add a small delay to ensure images are in browser cache
-      return new Promise(resolve => setTimeout(resolve, 100));
-    });
-  };
 
   // Fetch project data and preload all images – only when projectId changes (not when onClose changes, so scroll doesn’t re-trigger)
   useEffect(() => {

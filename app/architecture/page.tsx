@@ -7,6 +7,7 @@ import ArchitectureMobile from "@/components/architectureMobile";
 import ArchitectureProjectExpandedView from "@/components/architectureProjectExpandedView";
 import LoadingSpinner from "@/components/loadingSpinner";
 import SectionPausedOverlay from "@/components/sectionPausedOverlay";
+import { preloadImages } from "@/lib/preloadImages";
 
 interface ArchitectureProject {
   id: number;
@@ -222,7 +223,10 @@ function ArchitectureDesktop() {
       try {
         const response = await fetch('/api/architecture');
         const data = await response.json();
-        setProjects(data.projects || []);
+        const list: ArchitectureProject[] = data.projects || [];
+        // Hold the spinner until every icon is decoded, so nothing paints half-drawn
+        await preloadImages(list.flatMap((p) => [p.icon, p.iconSecondary]));
+        setProjects(list);
       } catch (error) {
         console.error('Error fetching projects:', error);
       } finally {

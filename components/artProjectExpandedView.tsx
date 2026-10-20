@@ -4,6 +4,7 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 // import SponsoredByLifeAnimation from "./sponsoredByLifeAnimation";
 import LoadingSpinner from "./loadingSpinner";
+import { preloadImages } from "@/lib/preloadImages";
 import ArtInquireForm from "./artInquireForm";
 
 interface ArtProject {
@@ -95,39 +96,6 @@ export default function ArtProjectExpandedView({
   }, [currentImageIndex, project?.images?.length, measureImage]);
 
   // Helper function to preload images
-  const preloadImages = (imageUrls: string[]): Promise<void> => {
-    return Promise.all(
-      imageUrls.map((url) => {
-        return new Promise<void>((resolve) => {
-          const img = new Image();
-          
-          const timeout = setTimeout(() => {
-            console.warn(`Image preload timeout: ${url}`);
-            resolve();
-          }, 90000);
-          
-          img.onload = () => {
-            clearTimeout(timeout);
-            if (img.complete && (img.naturalWidth > 0 || img.naturalHeight > 0)) {
-              resolve();
-            } else {
-              setTimeout(() => resolve(), 100);
-            }
-          };
-          
-          img.onerror = () => {
-            clearTimeout(timeout);
-            console.error(`Failed to load image: ${url}`);
-            resolve();
-          };
-          
-          img.src = url;
-        });
-      })
-    ).then(() => {
-      return new Promise(resolve => setTimeout(resolve, 100));
-    });
-  };
 
   // Fetch project data and preload all images before showing
   useEffect(() => {
