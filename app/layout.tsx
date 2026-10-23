@@ -9,6 +9,7 @@ import { IconDisplayProvider } from "@/context/IconDisplayContext";
 import { TransitionProvider } from "@/context/TransitionContext";
 import CartDrawer from "@/components/cartDrawer";
 import IntroWrapper from "@/components/introWrapper";
+import SignOutButton from "@/components/signOutButton";
 
 
 
@@ -37,6 +38,7 @@ export default function RootLayout({
           <IconDisplayProvider>
             <CartProvider>
               <HeaderWrapper />
+              <SignOutButton />
               <IntroWrapper>
                 <CartDrawer />
                 <main className="flex-1 flex flex-col overflow-y-auto">

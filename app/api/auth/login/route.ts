@@ -1,10 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import {
-  SESSION_COOKIE,
-  SESSION_MAX_AGE,
-  createSessionToken,
-  verifyCredentials,
-} from "@/lib/auth";
+import { SESSION_COOKIE, createSessionToken, verifyCredentials } from "@/lib/auth";
 
 export const dynamic = "force-dynamic";
 
@@ -28,7 +23,7 @@ export async function POST(req: NextRequest) {
       sameSite: "lax",
       secure: process.env.NODE_ENV === "production",
       path: "/",
-      maxAge: SESSION_MAX_AGE,
+      // No maxAge: a session cookie, so nothing is persisted to disk
     });
 
     return response;

@@ -13,6 +13,7 @@ import SectionSwitches from "@/components/sectionSwitches";
 import { SectionKey, SectionSetting, defaultSectionSettings, isSectionKey } from "@/lib/sections";
 import { SECTION_SETTINGS_UPDATED_EVENT } from "@/hooks/useSectionSettings";
 import { SESSION_CHANGED_EVENT, useSession } from "@/hooks/useSession";
+import { markTabSession } from "@/lib/tabSession";
 
 /** Sections without a content panel yet – the button is a placeholder for now */
 type PanelKey = SectionKey | "about" | "contact" | "cursor";
@@ -166,6 +167,7 @@ const AdminPage = () => {
       }
 
       setPassword("");
+      markTabSession();
       // Refreshes useSession here and anywhere else on the page
       window.dispatchEvent(new CustomEvent(SESSION_CHANGED_EVENT));
     } catch (err) {
@@ -176,15 +178,6 @@ const AdminPage = () => {
     }
   };
 
-  const handleLogout = async () => {
-    try {
-      await fetch("/api/auth/session", { method: "DELETE" });
-      setActivePanel(null);
-      window.dispatchEvent(new CustomEvent(SESSION_CHANGED_EVENT));
-    } catch (err) {
-      console.error("❌ Error signing out:", err);
-    }
-  };
 
   if (!isAuthenticated) {
     return (
@@ -236,17 +229,9 @@ const AdminPage = () => {
 
   return (
     <div className={`min-h-[calc(100vh-6rem)] sm:min-h-[calc(100vh-6.5rem)] md:min-h-[calc(100vh-7rem)] bg-[#554943] text-[#19333F] px-6 md:px-12 lg:px-24 mt-[6rem] sm:mt-[6.5rem] md:mt-[7rem] ${activePanel === null ? "pb-8" : "pb-28 sm:pb-32"}`}>
-      <div className="flex items-baseline justify-between gap-4">
-        <h1 className="font-blurlight text-black text-2xl font-bold">
-          Welcome back {user ? user.charAt(0).toUpperCase() + user.slice(1) : ""}
-        </h1>
-        <button
-          onClick={handleLogout}
-          className="font-blurlight text-sm text-black/70 hover:text-black underline bg-transparent p-0"
-        >
-          Log out
-        </button>
-      </div>
+      <h1 className="font-blurlight text-black text-2xl font-bold">
+        Welcome back {user ? user.charAt(0).toUpperCase() + user.slice(1) : ""}
+      </h1>
 
       {GROUPS.map(({ title, items }) => (
         <div key={title} className="mt-8 first:mt-4">

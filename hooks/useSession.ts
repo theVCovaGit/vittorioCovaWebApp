@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { hasTabSession } from "@/lib/tabSession";
 
 export const SESSION_CHANGED_EVENT = "site-session-changed";
 
@@ -19,7 +20,16 @@ export function useSession() {
       try {
         const res = await fetch("/api/auth/session", { cache: "no-store" });
         const data = await res.json();
-        if (!cancelled) setUser(typeof data?.user === "string" ? data.user : null);
+        const signedIn = typeof data?.user === "string" ? data.user : null;
+
+        // A reopened tab has no marker, so the sign-in does not carry over
+        if (signedIn && !hasTabSession()) {
+          await fetch("/api/auth/session", { method: "DELETE" });
+          if (!cancelled) setUser(null);
+          return;
+        }
+
+        if (!cancelled) setUser(signedIn);
       } catch (error) {
         console.error("❌ Error fetching session:", error);
       } finally {

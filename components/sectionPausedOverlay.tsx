@@ -62,7 +62,7 @@ export default function SectionPausedOverlay({ section }: { section: SectionKey 
   if (isStaff) {
     return createPortal(
       <div
-        className="fixed top-4 right-6 pointer-events-none font-blurlight"
+        className="fixed top-[4.25rem] right-6 pointer-events-none font-blurlight"
         style={{
           zIndex: 2147483001,
           backgroundColor: "rgba(85, 73, 67, 0.9)",
